@@ -262,10 +262,11 @@ class PodcastScraper:
                 # Update Manifest only if we actually did something or want to preserve
                 async with self.manifest_lock:
                     self.manifest = self._load_manifest()
+                    existing = self.manifest["episodes"].get(entry_id, {})
                     self.manifest["episodes"][entry_id] = {
                         "title": title,
-                        "has_description": bool(description_text) if fetch_desc else entry.get('has_description', False),
-                        "has_transcript": bool(transcript_text) if fetch_trans else entry.get('has_transcript', False),
+                        "has_description": bool(description_text) if fetch_desc else existing.get('has_description', False),
+                        "has_transcript": bool(transcript_text) if fetch_trans else existing.get('has_transcript', False),
                         "last_updated": datetime.now().isoformat()
                     }
                     self._save_manifest()
@@ -342,16 +343,28 @@ class PodcastScraper:
                 await page.goto(config.SPOTIFY_URL, wait_until="networkidle", timeout=60000)
                 await page.wait_for_timeout(3000)
                 
-                # Scroll to load more episodes
-                for _ in range(3):
+                # Scroll until no new content loads (dynamic for any number of episodes)
+                last_height = 0
+                while True:
+                    current_height = await page.evaluate("document.body.scrollHeight")
+                    if current_height == last_height:
+                        break
+                    last_height = current_height
                     await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-                    await page.wait_for_timeout(1000)
+                    await page.wait_for_timeout(1500)
                 
                 # Extract all episode URLs in DOM order (newest first on Spotify)
+                # Skip the intro episode "מה יש פה בעצם" which is only on Spotify
                 spotify_urls = await page.evaluate("""() => {
                     const links = Array.from(document.querySelectorAll('a[href*="/episode/"]'));
                     const seen = new Set();
+                    const skipTitles = ['מה יש פה בעצם'];
+                    
                     return links
+                        .filter(a => {
+                            const text = a.innerText || '';
+                            return !skipTitles.some(skip => text.includes(skip));
+                        })
                         .map(a => a.href)
                         .filter(href => {
                             if (seen.has(href)) return false;
