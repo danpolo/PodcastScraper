@@ -307,27 +307,42 @@ class PodcastScraper:
         logger.info("Starting Podcast Scraper...")
         config.OUTPUT_DIR.mkdir(exist_ok=True)
 
-
-
-        try:
-            req = urllib.request.Request(
-                config.RSS_URL,
-                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
-            )
-            with urllib.request.urlopen(req) as response:
-                if response.status != 200:
-                    logger.error(f"RSS Feed failed (Status {response.status})")
-                    return
-                content = response.read()
-                feed = feedparser.parse(content)
-        except Exception as e:
-            logger.error(f"Failed to fetch RSS feed: {e}")
-            return
-
-        logger.info(f"Found {len(feed.entries)} entries.")
-
         async with async_playwright() as p:
+            # 0. Fetch RSS using Playwright (more likely to bypass 403)
             browser = await p.chromium.launch(headless=True)
+            
+            # Use a separate context for the RSS fetch to ensure clean headers
+            rss_context = await browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            )
+            rss_page = await rss_context.new_page()
+            
+            try:
+                logger.info(f"Fetching RSS feed from {config.RSS_URL}...")
+                response = await rss_page.goto(config.RSS_URL)
+                
+                if not response or response.status != 200:
+                    status = response.status if response else "No Response"
+                    logger.error(f"RSS Feed failed (Status {status})")
+                    await browser.close()
+                    return
+                
+                content = await response.text()
+                feed = feedparser.parse(content)
+                await rss_context.close()
+            except Exception as e:
+                logger.error(f"Failed to fetch RSS feed via Playwright: {e}")
+                await browser.close()
+                return
+
+            if not feed.entries:
+                logger.warning("No entries found in RSS feed.")
+                await browser.close()
+                return
+
+            logger.info(f"Found {len(feed.entries)} entries.")
+
+            # 1. Process Episodes
             tasks = [self.process_episode(entry, browser) for entry in feed.entries]
             await asyncio.gather(*tasks)
             await browser.close()
