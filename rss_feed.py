@@ -1,3 +1,4 @@
+import urllib.request
 import asyncio
 import feedparser
 import re
@@ -308,9 +309,19 @@ class PodcastScraper:
 
 
 
-        feed = feedparser.parse(config.RSS_URL)
-        if feed.status != 200:
-            logger.error(f"RSS Feed failed (Status {feed.status})")
+        try:
+            req = urllib.request.Request(
+                config.RSS_URL,
+                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+            )
+            with urllib.request.urlopen(req) as response:
+                if response.status != 200:
+                    logger.error(f"RSS Feed failed (Status {response.status})")
+                    return
+                content = response.read()
+                feed = feedparser.parse(content)
+        except Exception as e:
+            logger.error(f"Failed to fetch RSS feed: {e}")
             return
 
         logger.info(f"Found {len(feed.entries)} entries.")
