@@ -3,7 +3,30 @@
 **Published Date:** 11 days ago
 
 ## Description
-איך הופכים חברת שירותים שקיימת 13 שנה לחברת פינטק אמיתית בלי לדעת לכתוב קוד? בפרק הזה אירחתי את דייוויד בלסם, יזם ואיש מוצר שבנה את Melio ועכשיו את Adesco - חברה שמנהלת המרות מט"ח לעסקאות נדל"ן. דייוויד לקח עסק משפחתי שעבד עם אימיילים ואקסלים, ותוך שלושה חודשים הפך אותו למוצר פינטק מלא עם ארכיטקטורה, API ו-frontend. דיברנו על: איך לעשות ולידציה מהירה עם lovable לפני שבונים את המוצר האמיתי למה "screenshot is your best friend" ואיך להשתמש בזה נכון המעבר מ-lovable ל-cursor - ולמה צריך שותף טכנולוגי בשלב הזה איך PM יכול לכתוב 90% מה-frontend בלי רקע בתכנות החשיבה של "architects and builders" — ולמה העולם הולך לשם לינק למדריך של דוויד הלינקדאין של דייוויד: https://www.linkedin.com/in/davidbalsam/ הלינקדאין של גלית: https://www.linkedin.com/in/galitgalperin/
+איך הופכים חברת שירותים שקיימת 13 שנה לחברת פינטק אמיתית בלי לדעת לכתוב קוד?
+
+בפרק הזה אירחתי את דייוויד בלסם, יזם ואיש מוצר שבנה את Melio ועכשיו את Adesco - חברה שמנהלת המרות מט"ח לעסקאות נדל"ן.
+
+דייוויד לקח עסק משפחתי שעבד עם אימיילים ואקסלים, ותוך שלושה חודשים הפך אותו למוצר פינטק מלא עם ארכיטקטורה, API ו-frontend.
+
+דיברנו על:
+
+איך לעשות ולידציה מהירה עם lovable לפני שבונים את המוצר האמיתי
+למה "screenshot is your best friend" ואיך להשתמש בזה נכון
+המעבר מ-lovable ל-cursor - ולמה צריך שותף טכנולוגי בשלב הזה
+איך PM יכול לכתוב 90% מה-frontend בלי רקע בתכנות
+החשיבה של "architects and builders" — ולמה העולם הולך לשם
+
+לינק למדריך של דוויד
+
+הלינקדאין של דייוויד: https://www.linkedin.com/in/davidbalsam/
+
+הלינקדאין של גלית: https://www.linkedin.com/in/galitgalperin/
+
+## Links
+- [למדריך](https://docs.google.com/document/d/1ZOKtV8P_E5exdpTvSBwwGlwhdR95qu-L4Ar-HtPEk7c/edit?usp=sharing)
+- [https://www.linkedin.com/in/davidbalsam/](https://www.linkedin.com/in/davidbalsam/)
+- [https://www.linkedin.com/in/galitgalperin/](https://www.linkedin.com/in/galitgalperin/)
 
 ## Transcript
 ‏A טקרס עם גלית גלפרי שיחות עם אנשים

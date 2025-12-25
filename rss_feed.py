@@ -38,6 +38,7 @@ logger = logging.getLogger(__name__)
 class PodcastScraper:
     def __init__(self):
         self.semaphore = asyncio.Semaphore(config.CONCURRENCY_LIMIT)
+        self.manifest_lock = asyncio.Lock()
         self.manifest = self._load_manifest()
 
     def _load_manifest(self) -> dict:
@@ -61,9 +62,21 @@ class PodcastScraper:
     def _clean_description_text(self, raw_text: str) -> str:
         if not raw_text:
             return ""
-        # Remove common "Apple Podcasts" or "Substack" footer noise if any
-        # For now, just a clean strip and normalization
-        return " ".join(raw_text.split())
+        # Remove Spotify expansion markers
+        text = re.sub(r'Show less|ראה פחות', '', raw_text, flags=re.IGNORECASE)
+        # Preserve basic structure but clean up excessive empty lines
+        lines = [line.strip() for line in text.split('\n')]
+        # Filter out empty lines while keeping a single blank line between content
+        cleaned_lines = []
+        last_empty = False
+        for line in lines:
+            if line:
+                cleaned_lines.append(line)
+                last_empty = False
+            elif not last_empty:
+                cleaned_lines.append("")
+                last_empty = True
+        return "\n".join(cleaned_lines).strip()
 
     def _clean_transcript(self, raw_text: str) -> str:
         pattern = rf"{re.escape(config.TRANSCRIPT_START_MARKER)}(.*?){re.escape(config.TRANSCRIPT_END_MARKER)}"
@@ -142,22 +155,20 @@ class PodcastScraper:
                     except Exception as e:
                         logger.warning(f"Failed to read existing file for '{title}': {e}")
 
-                # 1. Fetch Description from Apple Podcasts
+                # 1. Fetch Description from Spotify
                 if fetch_desc:
                     try:
-                        logger.info(f"Fetching description from Apple Podcasts for '{title}'")
-                        await page.goto(config.APPLE_PODCASTS_URL, wait_until="networkidle", timeout=60000)
+                        logger.info(f"Fetching description from Spotify for '{title}'")
+                        await page.goto(config.SPOTIFY_URL, wait_until="networkidle", timeout=60000)
                         
-                        # Wait for some episodes to appear and scroll a bit
+                        # Wait for episodes to load and scroll
                         await page.wait_for_timeout(3000)
-                        await page.evaluate("window.scrollTo(0, 2000)")
-                        await page.wait_for_timeout(2000)
+                        await page.evaluate("window.scrollTo(0, 1000)")
+                        await page.wait_for_timeout(1000)
 
-                        # Fuzzy Matching Logic via JS
+                        # Fuzzy Matching Logic via JS for Spotify
                         matching_link_data = await page.evaluate(f"""(targetTitle) => {{
                             const normBasic = (s) => {{
-                                // Keep Hebrew (0590-05FF), Latin letters, numbers, spaces
-                                // Remove only punctuation and non-letter/non-Hebrew chars
                                 return s.toLowerCase()
                                         .replace(/[^\u0590-\u05FFa-z0-9\s]/g, ' ')
                                         .replace(/\s+/g, ' ')
@@ -167,29 +178,20 @@ class PodcastScraper:
                             const target = normBasic(targetTitle);
                             const targetWords = target.split(' ').filter(w => w.length > 1);
                             
-                            const links = Array.from(document.querySelectorAll('a[href*="/podcast/"], a.link-action'));
+                            // Spotify episode links
+                            const links = Array.from(document.querySelectorAll('a[href*="/episode/"]'));
                             
                             let results = [];
                             
                             for (const link of links) {{
-                                if (!link.href.includes('?i=') || !link.href.includes('apple.com')) continue;
-                                
-                                // Try to get just the title, not the full card text
-                                let rawText = '';
-                                const h3 = link.querySelector('h3');
-                                if (h3) {{
-                                    rawText = h3.innerText;
-                                }} else {{
-                                    const span = link.querySelector('span');
-                                    rawText = span ? span.innerText : (link.innerText || link.getAttribute('aria-label') || "");
-                                }}
-                                
+                                const rawText = link.innerText || "";
                                 const text = normBasic(rawText);
                                 if (!text || text.length < 5) continue;
                                 
                                 const linkWords = text.split(' ').filter(w => w.length > 1);
                                 if (linkWords.length === 0) continue;
 
+                                // Word matching with substring tolerance
                                 let matchCount = 0;
                                 for (const tw of targetWords) {{
                                     for (const lw of linkWords) {{
@@ -200,7 +202,7 @@ class PodcastScraper:
                                     }}
                                 }}
                                 
-                                // Fallback: Character set overlap (Jaccard-like)
+                                // Fallback: Character set overlap
                                 const targetChars = new Set(target.replace(/ /g, '').split(''));
                                 const linkChars = new Set(text.replace(/ /g, '').split(''));
                                 const intersection = [...targetChars].filter(c => linkChars.has(c)).length;
@@ -213,7 +215,6 @@ class PodcastScraper:
                                 results.push({{ href: link.href, text, score: score }});
                             }}
                             
-                            // Sort by score descending
                             results.sort((a, b) => b.score - a.score);
                             return results[0] || null;
                         }}""", title)
@@ -222,54 +223,73 @@ class PodcastScraper:
 
                         if matching_link_selector:
                             logger.info(f"Found fuzzy match for '{title}' -> {matching_link_selector} (Score: {matching_link_data['score']})")
-                            # Navigate to the specific episode page
                             await page.goto(matching_link_selector, wait_until="networkidle", timeout=60000)
                             await page.wait_for_timeout(2000)
                             
-                            # Extract description (notes)
-                            selectors = [
-                                '.product-hero-desc__section', 
-                                '.description', 
-                                '.episodes-list--description',
-                                '.episode-description',
-                                '.product-description',
-                                '.paragraph-wrapper',
-                                'div[class*="description"]',
-                                '.notes'
-                            ]
-                            desc_container = None
-                            for sel in selectors:
-                                loc = page.locator(sel).first
-                                if await loc.count() > 0:
-                                    desc_container = loc
-                                    break
+                            # Extract everything from Spotify via JS for maximum reliability
+                            js_script = """(selector) => {
+                                // 1. Try to find and click "Show more"
+                                const expandButtons = Array.from(document.querySelectorAll('button, span')).filter(el => 
+                                    el.innerText && (el.innerText.includes('Show more') || el.innerText.includes('ראה עוד') || el.innerText.includes('See more'))
+                                );
+                                expandButtons.forEach(btn => btn.click());
+                                
+                                return new Promise(resolve => {
+                                    setTimeout(() => {
+                                        // 2. Try to find host container by selector
+                                        let container = document.querySelector(selector);
+                                        
+                                        // 3. Fallback: Find by header and semantic location
+                                        if (!container || container.innerText.length < 50) {
+                                            const h2s = Array.from(document.querySelectorAll('h2, span, p')).filter(el => 
+                                                el.innerText && (el.innerText.includes('Episode Description') || el.innerText.includes('תיאור הפרק'))
+                                            );
+                                            if (h2s.length > 0) {
+                                                let h = h2s[0];
+                                                let sibling = h.nextElementSibling;
+                                                while (sibling) {
+                                                    if (['DIV', 'P', 'SPAN'].includes(sibling.tagName) && 
+                                                        sibling.innerText.length > 50 && 
+                                                        !sibling.innerText.includes('heap.load')) {
+                                                        container = sibling;
+                                                        break;
+                                                    }
+                                                    sibling = sibling.nextElementSibling;
+                                                }
+                                            }
+                                        }
+                                        
+                                        if (!container) return resolve(null);
+                                        
+                                        const text = container.innerText;
+                                        const links = Array.from(container.querySelectorAll('a'))
+                                            .filter(a => a.href && !a.href.includes('spotify.com') && !a.href.startsWith('mailto:'))
+                                            .map(a => `- [${a.innerText.trim() || a.innerText}](${a.href})`);
+                                            
+                                        resolve({ text, links: links.join('\\n') });
+                                    }, 1500);
+                                });
+                            }"""
+                            spotify_data = await page.evaluate(js_script, config.SPOTIFY_DESC_SELECTOR)
 
-                            if desc_container:
-                                raw_desc = await desc_container.inner_text()
-                                description_text = self._clean_description_text(raw_desc)
+                            if spotify_data:
+                                description_text = self._clean_description_text(spotify_data['text'])
+                                links_text = spotify_data['links']
                                 
-                                # Extract Links
-                                links = desc_container.locator("a")
-                                link_count = await links.count()
-                                link_list = []
-                                for i in range(link_count):
-                                    l = links.nth(i)
-                                    href = await l.get_attribute("href")
-                                    text = await l.inner_text()
-                                    if href and not href.startswith("mailto:") and "apple.com" not in href:
-                                        link_list.append(f"- [{text.strip()}]({href})")
+                                if not links_text:
+                                    # Fallback: regex for plain text URLs
+                                    urls = re.findall(r'https?://[^\s)\]]+', spotify_data['text'])
+                                    final_urls = sorted(list(set(u for u in urls if "spotify.com" not in u)))
+                                    links_text = "\n".join([f"- {u}" for u in final_urls])
                                 
-                                if link_list:
-                                    links_text = "\n".join(link_list)
-                                
-                                logger.info(f"Successfully extracted description/links for '{title}'")
+                                logger.info(f"Successfully extracted description and links from Spotify for '{title}'")
                             else:
-                                logger.warning(f"Description container not found on episode page for '{title}'")
+                                logger.warning(f"Failed to extract Spotify data for '{title}'")
                         else:
                             best_score = matching_link_data['score'] if matching_link_data else 0
-                            logger.warning(f"No good fuzzy match for '{title}' (Best score: {best_score})")
+                            logger.warning(f"No good fuzzy match on Spotify for '{title}' (Best score: {best_score})")
                     except Exception as e:
-                        logger.warning(f"Apple Podcasts fetch failed for '{title}': {e}")
+                        logger.error(f"Error fetching description from Spotify for '{title}': {e}")
 
                 # 2. Fetch Transcript from YouTube
                 if fetch_trans:
@@ -303,15 +323,16 @@ class PodcastScraper:
                     file_path.write_text(content, encoding="utf-8")
                 
                 # Update Manifest only if we actually did something or want to preserve
-                # We update the manifest for THIS entry_id (YouTube ID)
-                self.manifest["episodes"][entry_id] = {
-                    "title": title,
-                    "clean_title": clean_title,
-                    "has_description": bool(description_text) if fetch_desc else entry.get('has_description', False),
-                    "has_transcript": bool(transcript_text) if fetch_trans else entry.get('has_transcript', False),
-                    "last_updated": datetime.now().isoformat()
-                }
-                self._save_manifest()
+                async with self.manifest_lock:
+                    self.manifest = self._load_manifest()
+                    self.manifest["episodes"][entry_id] = {
+                        "title": title,
+                        "clean_title": clean_title,
+                        "has_description": bool(description_text) if fetch_desc else entry.get('has_description', False),
+                        "has_transcript": bool(transcript_text) if fetch_trans else entry.get('has_transcript', False),
+                        "last_updated": datetime.now().isoformat()
+                    }
+                    self._save_manifest()
                 logger.info(f"Successfully saved '{title}'")
 
             except Exception as e:
