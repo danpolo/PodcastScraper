@@ -10,8 +10,8 @@
     "h0Fo4gbRsfw": {
       "title": "איך AI עוזר במעבר מסרוויס לחברת מוצר - עם דוויד בלסם Adesco",
       "has_description": true,
-      "has_transcript": false,
-      "last_updated": "2025-12-25T23:24:07.612715"
+      "has_transcript": true,
+      "last_updated": "2025-12-25T23:58:01.291248"
     },
     "WP-7YT2hOrg": {
       "title": "שיווק אייג'נטי: איך לנהל צוות של סוכני AI - עם אמיר שניידר",
@@ -23,14 +23,14 @@
     "zta5ZCy1vUI": {
       "title": "איך להפוך כל תהליך עסקי לאג׳יינט? עם רועי זלטא  מ PWC ישראל",
       "has_description": true,
-      "has_transcript": false,
-      "last_updated": "2025-12-25T23:24:07.689115"
+      "has_transcript": true,
+      "last_updated": "2025-12-25T23:58:01.336471"
     },
     "rzu0l4FvyrA": {
       "title": "איך להפוך AI לשותף אמיתי בעבודה - עם עמיחי אבן חן ממאנדיי",
       "has_description": true,
-      "has_transcript": false,
-      "last_updated": "2025-12-25T23:24:15.353964"
+      "has_transcript": true,
+      "last_updated": "2025-12-25T23:58:01.375818"
     },
     "24e476c5-aaae-4818-ac11-3b1bca860f29": {
       "title": "מה יש פה בעצם",
@@ -48,16 +48,15 @@
     },
     "b8d-g3VT9aE": {
       "title": "כשעיצוב פוגש קוד עם חן ןייצמן",
-      "clean_title": "כשעיצוב פוגש קוד עם חן ןייצמן",
       "has_description": true,
-      "has_transcript": true,
-      "last_updated": "2025-12-26T00:24:26.085031"
+      "has_transcript": false,
+      "last_updated": "2025-12-25T23:58:08.957232"
     },
     "0y6hTLYJAEU": {
       "title": "איך להכין את ארגון הפיתוח שלך ל AI, עם אוהד פרוש מגונג",
       "has_description": true,
-      "has_transcript": false,
-      "last_updated": "2025-12-25T23:24:07.745689"
+      "has_transcript": true,
+      "last_updated": "2025-12-25T23:58:01.414295"
     }
   }
 }
