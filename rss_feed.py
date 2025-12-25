@@ -308,42 +308,46 @@ class PodcastScraper:
         config.OUTPUT_DIR.mkdir(exist_ok=True)
 
         async with async_playwright() as p:
-            # 0. Fetch RSS using Playwright (more likely to bypass 403)
+            # 0. Discover Episodes via Web (bypass 403 RSS)
             browser = await p.chromium.launch(headless=True)
             
-            # Use a separate context for the RSS fetch to ensure clean headers
-            rss_context = await browser.new_context(
+            context = await browser.new_context(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             )
-            rss_page = await rss_context.new_page()
+            page = await context.new_page()
             
             try:
-                logger.info(f"Fetching RSS feed from {config.RSS_URL}...")
-                response = await rss_page.goto(config.RSS_URL)
+                logger.info(f"Navigating to {config.PODCAST_PAGE_URL} for discovery...")
+                await page.goto(config.PODCAST_PAGE_URL, wait_until="networkidle")
                 
-                if not response or response.status != 200:
-                    status = response.status if response else "No Response"
-                    logger.error(f"RSS Feed failed (Status {status})")
+                # Extract episodes from window._preloads
+                episodes_data = await page.evaluate("() => window._preloads.newPostsForPubPodcast")
+                
+                if not episodes_data:
+                    logger.error("No episode data found in window._preloads")
                     await browser.close()
                     return
                 
-                content = await response.text()
-                feed = feedparser.parse(content)
-                await rss_context.close()
+                # Convert list of dicts to dot-accessible objects (mock entry for existing logic)
+                class Entry:
+                    def __init__(self, d):
+                        self.id = str(d.get('id', d.get('title')))
+                        self.title = d.get('title')
+                        self.link = d.get('canonical_url')
+                        self.published = d.get('post_date')
+                    def get(self, key, default=None):
+                        return getattr(self, key, default)
+
+                entries = [Entry(e) for e in episodes_data]
+                logger.info(f"Found {len(entries)} entries via web discovery.")
+                await context.close()
             except Exception as e:
-                logger.error(f"Failed to fetch RSS feed via Playwright: {e}")
+                logger.error(f"Failed to discover episodes via web: {e}")
                 await browser.close()
                 return
-
-            if not feed.entries:
-                logger.warning("No entries found in RSS feed.")
-                await browser.close()
-                return
-
-            logger.info(f"Found {len(feed.entries)} entries.")
 
             # 1. Process Episodes
-            tasks = [self.process_episode(entry, browser) for entry in feed.entries]
+            tasks = [self.process_episode(entry, browser) for entry in entries]
             await asyncio.gather(*tasks)
             await browser.close()
 

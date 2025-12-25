@@ -2,6 +2,7 @@ from pathlib import Path
 
 # --- General Settings ---
 RSS_URL = 'https://api.substack.com/feed/podcast/6537946.rss'
+PODCAST_PAGE_URL = 'https://aithinkers.substack.com/podcast'
 STORAGE_STATE_PATH = "auth.json"
 OUTPUT_DIR = Path("AI Thinkers podcast data")
 MANIFEST_PATH = OUTPUT_DIR / "manifest.json"
