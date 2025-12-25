@@ -1,32 +1,31 @@
-# איך להכניס AI לתוך תהליכי החשיבה של צוותי CS - Appsflyer עם זיו פלד
+# איך להכניס AI לתוך תהליכי החשיבה של צוותי CS  - Appsflyer עם זיו פלד
+
+**Published Date:** 2 weeks ago
 
 ## Description
-בשיחה עם זיו פלד, CCO ב-AppsFlyer, חזרנו למקום שבו AI פוגש מקצוע שהוא כולו אנושיות.
+דיברתי עם זיו פלד, CCO ב-AppsFlyer, על איך AI משנה את העבודה של צוותי CS ו-Support, ואיך הוא בונה לעצמו ולאנשים שלו סט כלים שחושב איתם.
 
-זיו קורא ל-CSM “קוסמים” — לא בגלל הטכנולוגיה, אלא בגלל היכולת להפוך שיחה מבולגנת לצעד ברור קדימה.
+🎙️ מה בפרק?
 
-מה שמרתק הוא איך הוא משתמש ב-AI כדי להעצים את הקסם הזה, לא להחליף אותו.
+למה הוא רואה CSMים כ"קוסמים" – ואיך AI יכול להעצים את הקסם הזה במקום להחליף אותו
+איך הוא משתמש ב-AI כדי לבנות פיצ'רים ופתרונות Frontend ללקוחות לפני שהפיתוח נוגע בזה
+ה-workflow שלו סביב פגישות
+Prompting כשריר ניהולי
 
-בפרק תגלו איך AI מאפשר ל-CS להראות ללקוח פיצ’ר לפני שהוא קיים - לא כדי להרשים, אלא כדי לייצר שיחה יותר מדויקת על מה הוא באמת צריך.
+פרק למנהלי Customer Success, Go-To-Market ולכל מי שמנסה לאמץ AI בצורה אחראית – בלי ללכת לאיבוד ברעש.
 
-תבינו איך פגישה אחת יכולה להפוך למפה מלאה של צרכים והזדמנויות, כש-AI יודע לחלץ את מה שלא תמיד נאמר בצורה ישירה.
+הלינקדאין של זיו: https://www.linkedin.com/in/zivpeled/
 
-ומהצד השני, תקבלו גם רגע של כנות: הקונפליקט בין “אני יכול להיות אקספרט בהכל” לבין “אין לי כוח להשקיע בזה עכשיו”, והוא קורה לכולנו.
-
-זו שיחה שמשנה את הצורה שבה מסתכלים על עבודה עם לקוחות.
-
-הלינקדאין של זיו: ⁠https://www.linkedin.com/in/zivpeled/⁠
-
-הלינקדאין של גלית: ⁠https://www.linkedin.com/in/galitgalperin/⁠
+הלינקדאין של גלית: https://www.linkedin.com/in/galitgalperin/
 
 Prompt Maker – Custom GPT לשיפור פרומפטים:
 
-⁠https://chatgpt.com/g/g-hhh4w3eov-prompt-maker⁠
+https://chatgpt.com/g/g-hhh4w3eov-prompt-maker
 
 ## Links
-- [הלינקדאין של זיו: ⁠https://www.linkedin.com/in/zivpeled/⁠](https://www.linkedin.com/in/zivpeled/)
-- [הלינקדאין של גלית: ⁠https://www.linkedin.com/in/galitgalperin/⁠](https://www.linkedin.com/in/galitgalperin/)
-- [⁠https://chatgpt.com/g/g-hhh4w3eov-prompt-maker⁠](https://chatgpt.com/g/g-hhh4w3eov-prompt-maker)
+- [https://www.linkedin.com/in/zivpeled/](https://www.linkedin.com/in/zivpeled/)
+- [https://www.linkedin.com/in/galitgalperin/](https://www.linkedin.com/in/galitgalperin/)
+- [https://chatgpt.com/g/g-hhh4w3eov-prompt-maker](https://chatgpt.com/g/g-hhh4w3eov-prompt-maker)
 
 ## Transcript
 ‏A טקרס עם גלית גלברי שיחות עם אנשים

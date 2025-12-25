@@ -10,6 +10,7 @@ from playwright.async_api import async_playwright, Browser, Playwright, Route
 
 import config
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.proxies import WebshareProxyConfig
 from youtube_transcript_api.formatters import TextFormatter
 
 # --- Entry Helper ---
@@ -100,7 +101,7 @@ class PodcastScraper:
 
 
 
-    async def process_episode(self, entry: EpisodeEntry, browser: Browser):
+    async def process_episode(self, entry: EpisodeEntry, browser: Browser, spotify_url: str = None):
         async with self.semaphore:
             title = entry.title
             clean_title = self._clean_filename(title)
@@ -158,75 +159,14 @@ class PodcastScraper:
                 # 1. Fetch Description from Spotify
                 if fetch_desc:
                     try:
-                        logger.info(f"Fetching description from Spotify for '{title}'")
-                        await page.goto(config.SPOTIFY_URL, wait_until="networkidle", timeout=60000)
-                        
-                        # Wait for episodes to load and scroll
-                        await page.wait_for_timeout(3000)
-                        await page.evaluate("window.scrollTo(0, 1000)")
-                        await page.wait_for_timeout(1000)
-
-                        # Fuzzy Matching Logic via JS for Spotify
-                        matching_link_data = await page.evaluate(f"""(targetTitle) => {{
-                            const normBasic = (s) => {{
-                                return s.toLowerCase()
-                                        .replace(/[^\u0590-\u05FFa-z0-9\s]/g, ' ')
-                                        .replace(/\s+/g, ' ')
-                                        .trim();
-                            }};
-
-                            const target = normBasic(targetTitle);
-                            const targetWords = target.split(' ').filter(w => w.length > 1);
-                            
-                            // Spotify episode links
-                            const links = Array.from(document.querySelectorAll('a[href*="/episode/"]'));
-                            
-                            let results = [];
-                            
-                            for (const link of links) {{
-                                const rawText = link.innerText || "";
-                                const text = normBasic(rawText);
-                                if (!text || text.length < 5) continue;
-                                
-                                const linkWords = text.split(' ').filter(w => w.length > 1);
-                                if (linkWords.length === 0) continue;
-
-                                // Word matching with substring tolerance
-                                let matchCount = 0;
-                                for (const tw of targetWords) {{
-                                    for (const lw of linkWords) {{
-                                        if (tw === lw || tw.includes(lw) || lw.includes(tw)) {{
-                                            matchCount++;
-                                            break;
-                                        }}
-                                    }}
-                                }}
-                                
-                                // Fallback: Character set overlap
-                                const targetChars = new Set(target.replace(/ /g, '').split(''));
-                                const linkChars = new Set(text.replace(/ /g, '').split(''));
-                                const intersection = [...targetChars].filter(c => linkChars.has(c)).length;
-                                const union = new Set([...targetChars, ...linkChars]).size;
-                                const charScore = union > 0 ? intersection / union : 0;
-                                
-                                const wordScore = targetWords.length > 0 ? (matchCount / targetWords.length) : 0;
-                                const score = Math.max(wordScore, charScore * 0.9);
-                                
-                                results.push({{ href: link.href, text, score: score }});
-                            }}
-                            
-                            results.sort((a, b) => b.score - a.score);
-                            return results[0] || null;
-                        }}""", title)
-
-                        matching_link_selector = matching_link_data['href'] if matching_link_data and matching_link_data['score'] > 0.35 else None
-
-                        if matching_link_selector:
-                            logger.info(f"Found fuzzy match for '{title}' -> {matching_link_selector} (Score: {matching_link_data['score']})")
-                            await page.goto(matching_link_selector, wait_until="networkidle", timeout=60000)
+                        if not spotify_url:
+                            logger.warning(f"No Spotify URL provided for '{title}', skipping description fetch")
+                        else:
+                            logger.info(f"Fetching description from Spotify for '{title}'")
+                            await page.goto(spotify_url, wait_until="networkidle", timeout=60000)
                             await page.wait_for_timeout(2000)
                             
-                            # Extract everything from Spotify via JS for maximum reliability
+                            # Extract description via JS
                             js_script = """(selector) => {
                                 // 1. Try to find and click "Show more"
                                 const expandButtons = Array.from(document.querySelectorAll('button, span')).filter(el => 
@@ -285,9 +225,6 @@ class PodcastScraper:
                                 logger.info(f"Successfully extracted description and links from Spotify for '{title}'")
                             else:
                                 logger.warning(f"Failed to extract Spotify data for '{title}'")
-                        else:
-                            best_score = matching_link_data['score'] if matching_link_data else 0
-                            logger.warning(f"No good fuzzy match on Spotify for '{title}' (Best score: {best_score})")
                     except Exception as e:
                         logger.error(f"Error fetching description from Spotify for '{title}': {e}")
 
@@ -296,7 +233,7 @@ class PodcastScraper:
                     video_id = entry.id # We found it via YouTube discovery
                     logger.info(f"Fetching YouTube transcript for '{title}' (ID: {video_id})")
                     try:
-                        transcript_list = YouTubeTranscriptApi().fetch(video_id, languages=['he', 'en', 'iw'])
+                        transcript_list = YouTubeTranscriptApi(proxy_config=WebshareProxyConfig(proxy_username=config.PROXY_USERNAME, proxy_password=config.PROXY_PASSWORD)).fetch(video_id, languages=['he', 'en', 'iw'])
                         formatter = TextFormatter()
                         transcript_text = formatter.format_transcript(transcript_list)
                         logger.info(f"Successfully fetched YouTube transcript for '{title}'")
@@ -327,7 +264,6 @@ class PodcastScraper:
                     self.manifest = self._load_manifest()
                     self.manifest["episodes"][entry_id] = {
                         "title": title,
-                        "clean_title": clean_title,
                         "has_description": bool(description_text) if fetch_desc else entry.get('has_description', False),
                         "has_transcript": bool(transcript_text) if fetch_trans else entry.get('has_transcript', False),
                         "last_updated": datetime.now().isoformat()
@@ -393,14 +329,48 @@ class PodcastScraper:
                     for v in video_data
                 ]
                 logger.info(f"Found {len(entries)} entries via YouTube discovery.")
-                await context.close()
 
             except Exception as e:
                 logger.error(f"Failed to discover episodes via YouTube: {e}")
+                await context.close()
                 return
 
-            # 1. Process Episodes
-            tasks = [self.process_episode(entry, browser) for entry in entries]
+            # 1. Discover Spotify episodes (in order, newest first)
+            spotify_urls = []
+            try:
+                logger.info(f"Discovering Spotify episodes: {config.SPOTIFY_URL}")
+                await page.goto(config.SPOTIFY_URL, wait_until="networkidle", timeout=60000)
+                await page.wait_for_timeout(3000)
+                
+                # Scroll to load more episodes
+                for _ in range(3):
+                    await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                    await page.wait_for_timeout(1000)
+                
+                # Extract all episode URLs in DOM order (newest first on Spotify)
+                spotify_urls = await page.evaluate("""() => {
+                    const links = Array.from(document.querySelectorAll('a[href*="/episode/"]'));
+                    const seen = new Set();
+                    return links
+                        .map(a => a.href)
+                        .filter(href => {
+                            if (seen.has(href)) return false;
+                            seen.add(href);
+                            return true;
+                        });
+                }""")
+                logger.info(f"Found {len(spotify_urls)} Spotify episode URLs")
+                
+            except Exception as e:
+                logger.error(f"Failed to discover Spotify episodes: {e}")
+            
+            await context.close()
+
+            # 2. Process Episodes with index-based matching
+            tasks = []
+            for i, entry in enumerate(entries):
+                spotify_url = spotify_urls[i] if i < len(spotify_urls) else None
+                tasks.append(self.process_episode(entry, browser, spotify_url))
             await asyncio.gather(*tasks)
             await browser.close()
 

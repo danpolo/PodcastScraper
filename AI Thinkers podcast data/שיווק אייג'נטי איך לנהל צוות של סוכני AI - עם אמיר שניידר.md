@@ -22,7 +22,6 @@
 🔗 קישורים:הלינקדאין של אמיר: https://www.linkedin.com/in/amir-shneider/הלינקדאין של גלית: https://www.linkedin.com/in/galitgalperin/
 
 כלים מהפרק:• Toffu AI — toffu.ai• Claude + MCP — claude.ai• Metabase — metabase.com• Granola — granola.so• Shortwave — shortwave.com• Zapier — zapier.com• Webflow — webflow.com
-Show less
 
 ## Links
 - [https://www.linkedin.com/in/amir-shneider/](https://www.linkedin.com/in/amir-shneider/)
