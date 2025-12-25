@@ -1,0 +1,11 @@
+__pycache__/
+.idea/
+.vscode/
+scraper.log
+AI Thinkers podcast data/debug_*.html
+*.pyc
+.env
+auth.json
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db

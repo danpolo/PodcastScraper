@@ -1,0 +1,60 @@
+{
+  "episodes": {
+    "substack:post:180768945": {
+      "title": "איך להכניס AI לתוך תהליכי החשיבה של צוותי CS - Appsflyer עם זיו פלד",
+      "clean_title": "איך להכניס AI לתוך תהליכי החשיבה של צוותי CS - Appsflyer עם זיו פלד",
+      "has_description": true,
+      "has_transcript": true,
+      "last_updated": "2025-12-25T02:29:27.835222"
+    },
+    "substack:post:181567402": {
+      "title": "איך AI עוזר במעבר מסרוויס לחברת מוצר - עם דוויד בלסם Adesco",
+      "clean_title": "איך AI עוזר במעבר מסרוויס לחברת מוצר - עם דוויד בלסם Adesco",
+      "has_description": true,
+      "has_transcript": true,
+      "last_updated": "2025-12-24T19:09:51.437400"
+    },
+    "substack:post:182299149": {
+      "title": "שיווק אייג'נטי: איך לנהל צוות של סוכני AI - עם אמיר שניידר",
+      "clean_title": "שיווק אייג'נטי איך לנהל צוות של סוכני AI - עם אמיר שניידר",
+      "has_description": true,
+      "has_transcript": true,
+      "last_updated": "2025-12-24T19:09:15.495575"
+    },
+    "substack:post:179427589": {
+      "title": "🧠 כשמעצבת נוגעת בקוד",
+      "clean_title": "🧠 כשמעצבת נוגעת בקוד",
+      "has_description": true,
+      "has_transcript": true,
+      "last_updated": "2025-12-24T18:56:14.514216"
+    },
+    "substack:post:178368507": {
+      "title": "איך להפוך כל תהליך עסקי לאג'נט - עם רועי זלטא מ PWC ישראל",
+      "clean_title": "איך להפוך כל תהליך עסקי לאג'נט - עם רועי זלטא מ PWC ישראל",
+      "has_description": true,
+      "has_transcript": true,
+      "last_updated": "2025-12-24T18:56:18.723442"
+    },
+    "substack:post:177743865": {
+      "title": "איך להפוך AI לשותף אמיתי בעבודה - עם עמיחי אבן חן ממאנדיי",
+      "clean_title": "איך להפוך AI לשותף אמיתי בעבודה - עם עמיחי אבן חן ממאנדיי",
+      "has_description": true,
+      "has_transcript": true,
+      "last_updated": "2025-12-24T18:56:24.268465"
+    },
+    "24e476c5-aaae-4818-ac11-3b1bca860f29": {
+      "title": "מה יש פה בעצם",
+      "clean_title": "מה יש פה בעצם",
+      "has_description": true,
+      "has_transcript": false,
+      "last_updated": "2025-12-25T02:29:26.042950"
+    },
+    "9356d71b-cb99-4c60-9140-a4ed0828f9dc": {
+      "title": "להכין את ארגון הפיתוח שלך ל AI, עם אוהד פרוש מגונג",
+      "clean_title": "להכין את ארגון הפיתוח שלך ל AI, עם אוהד פרוש מגונג",
+      "has_description": true,
+      "has_transcript": true,
+      "last_updated": "2025-12-24T19:09:06.931476"
+    }
+  }
+}
