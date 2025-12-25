@@ -2,6 +2,9 @@
 
 **Published Date:** 3 days ago
 
+## Description
+מה קורה כשמנהל שיווק בסטארטאפ מוצא את עצמו לבד, בלי צוות, עם אותם יעדים? הוא בונה לעצמו צוות חדש — מסוכני AI. בפרק הזה אירחתי את אמיר שניידר, מנהל השיווק של Skywatch ו-VOOM, לשיחה פתוחה ומעשית על איך הוא בנה צוות היברידי של סוכני AI לשיווק שעובדים בשבילו 24/7. דיברנו על: איך לדבר עם הדאטה שלך בשפה טבעית במקום לקפוץ בין דשבורדים חיבורי MCP שהופכים את Claude לדאטה אנליסט אישי מעקב מתחרים אוטומטי שמגיע לאינבוקס כל בוקר איך להגיע לאינבוקס אפס למה עקרון 80/20 הוא המפתח לשרוד את ה-FOMO של כלי AI זו לא שיחה על כלים - זו שיחה על איך לחשוב אחרת על מה שאפשר לעשות לבד 🔗 קישורים:הלינקדאין של אמיר: https://www.linkedin.com/in/amir-shneider/הלינקדאין של גלית: https://www.linkedin.com/in/galitgalperin/ כלים מהפרק:• Toffu AI — toffu.ai• Claude + MCP — claude.ai• Metabase — metabase.com• Granola — granola.so• Shortwave — shortwave.com• Zapier — zapier.com• Webflow — webflow.com
+
 ## Transcript
 ‏AR עם גלית גלפרי שיחות עם אנשים שחושבים
 ובונים AI ברוכים וברוכות הבאים לי טינקרס

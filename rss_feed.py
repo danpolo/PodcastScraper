@@ -53,7 +53,17 @@ class PodcastScraper:
         config.MANIFEST_PATH.write_text(json.dumps(self.manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
     def _clean_filename(self, title: str) -> str:
-        return re.sub(r'[\\/*?:\"<>|]', "", title)
+        # Normalize whitespace and remove problematic chars
+        clean = re.sub(r'[\\/*?:\"<>|]', "", title)
+        # Ensure single spaces throughout and strip
+        return " ".join(clean.split()).strip()
+
+    def _clean_description_text(self, raw_text: str) -> str:
+        if not raw_text:
+            return ""
+        # Remove common "Apple Podcasts" or "Substack" footer noise if any
+        # For now, just a clean strip and normalization
+        return " ".join(raw_text.split())
 
     def _clean_transcript(self, raw_text: str) -> str:
         pattern = rf"{re.escape(config.TRANSCRIPT_START_MARKER)}(.*?){re.escape(config.TRANSCRIPT_END_MARKER)}"
@@ -115,48 +125,149 @@ class PodcastScraper:
                 description_text = ""
                 links_text = ""
                 transcript_text = ""
+                
+                # Load existing content if file exists to preserve data not being fetched
+                if file_path.exists():
+                    try:
+                        existing_content = file_path.read_text(encoding="utf-8")
+                        if "## Description" in existing_content:
+                            desc_part = existing_content.split("## Description")[1].split("##")[0].strip()
+                            description_text = desc_part
+                        if "## Links" in existing_content:
+                            links_part = existing_content.split("## Links")[1].split("##")[0].strip()
+                            links_text = links_part
+                        if "## Transcript" in existing_content:
+                            trans_part = existing_content.split("## Transcript")[1].strip()
+                            transcript_text = trans_part
+                    except Exception as e:
+                        logger.warning(f"Failed to read existing file for '{title}': {e}")
 
                 # 1. Fetch Description from Apple Podcasts
                 if fetch_desc:
                     try:
                         logger.info(f"Fetching description from Apple Podcasts for '{title}'")
-                        await page.goto(config.APPLE_PODCASTS_URL, wait_until="networkidle")
+                        await page.goto(config.APPLE_PODCASTS_URL, wait_until="networkidle", timeout=60000)
                         
-                        # Find the episode link by title
-                        # Apple Pods titles might be slightly different, use a fuzzy match if needed
-                        episode_link_selector = f'a:has-text("{title}")'
-                        episode_link = page.locator(episode_link_selector).first
-                        
-                        if await episode_link.is_visible():
-                            await episode_link.click()
-                            await page.wait_for_load_state("networkidle")
+                        # Wait for some episodes to appear and scroll a bit
+                        await page.wait_for_timeout(3000)
+                        await page.evaluate("window.scrollTo(0, 2000)")
+                        await page.wait_for_timeout(2000)
+
+                        # Fuzzy Matching Logic via JS
+                        matching_link_data = await page.evaluate(f"""(targetTitle) => {{
+                            const normBasic = (s) => {{
+                                // Keep Hebrew (0590-05FF), Latin letters, numbers, spaces
+                                // Remove only punctuation and non-letter/non-Hebrew chars
+                                return s.toLowerCase()
+                                        .replace(/[^\u0590-\u05FFa-z0-9\s]/g, ' ')
+                                        .replace(/\s+/g, ' ')
+                                        .trim();
+                            }};
+
+                            const target = normBasic(targetTitle);
+                            const targetWords = target.split(' ').filter(w => w.length > 1);
+                            
+                            const links = Array.from(document.querySelectorAll('a[href*="/podcast/"], a.link-action'));
+                            
+                            let results = [];
+                            
+                            for (const link of links) {{
+                                if (!link.href.includes('?i=') || !link.href.includes('apple.com')) continue;
+                                
+                                // Try to get just the title, not the full card text
+                                let rawText = '';
+                                const h3 = link.querySelector('h3');
+                                if (h3) {{
+                                    rawText = h3.innerText;
+                                }} else {{
+                                    const span = link.querySelector('span');
+                                    rawText = span ? span.innerText : (link.innerText || link.getAttribute('aria-label') || "");
+                                }}
+                                
+                                const text = normBasic(rawText);
+                                if (!text || text.length < 5) continue;
+                                
+                                const linkWords = text.split(' ').filter(w => w.length > 1);
+                                if (linkWords.length === 0) continue;
+
+                                let matchCount = 0;
+                                for (const tw of targetWords) {{
+                                    for (const lw of linkWords) {{
+                                        if (tw === lw || tw.includes(lw) || lw.includes(tw)) {{
+                                            matchCount++;
+                                            break;
+                                        }}
+                                    }}
+                                }}
+                                
+                                // Fallback: Character set overlap (Jaccard-like)
+                                const targetChars = new Set(target.replace(/ /g, '').split(''));
+                                const linkChars = new Set(text.replace(/ /g, '').split(''));
+                                const intersection = [...targetChars].filter(c => linkChars.has(c)).length;
+                                const union = new Set([...targetChars, ...linkChars]).size;
+                                const charScore = union > 0 ? intersection / union : 0;
+                                
+                                const wordScore = targetWords.length > 0 ? (matchCount / targetWords.length) : 0;
+                                const score = Math.max(wordScore, charScore * 0.9);
+                                
+                                results.push({{ href: link.href, text, score: score }});
+                            }}
+                            
+                            // Sort by score descending
+                            results.sort((a, b) => b.score - a.score);
+                            return results[0] || null;
+                        }}""", title)
+
+                        matching_link_selector = matching_link_data['href'] if matching_link_data and matching_link_data['score'] > 0.35 else None
+
+                        if matching_link_selector:
+                            logger.info(f"Found fuzzy match for '{title}' -> {matching_link_selector} (Score: {matching_link_data['score']})")
+                            # Navigate to the specific episode page
+                            await page.goto(matching_link_selector, wait_until="networkidle", timeout=60000)
+                            await page.wait_for_timeout(2000)
                             
                             # Extract description (notes)
-                            # On episode page, description is usually in a specific section
-                            desc_container = page.locator('.product-hero-desc__section').first
-                            if not await desc_container.is_visible():
-                                desc_container = page.locator('.description').first
+                            selectors = [
+                                '.product-hero-desc__section', 
+                                '.description', 
+                                '.episodes-list--description',
+                                '.episode-description',
+                                '.product-description',
+                                '.paragraph-wrapper',
+                                'div[class*="description"]',
+                                '.notes'
+                            ]
+                            desc_container = None
+                            for sel in selectors:
+                                loc = page.locator(sel).first
+                                if await loc.count() > 0:
+                                    desc_container = loc
+                                    break
 
-                            raw_desc = await desc_container.inner_text()
-                            description_text = self._clean_description_text(raw_desc)
-                            
-                            # Extract Links
-                            links = desc_container.locator("a")
-                            link_count = await links.count()
-                            link_list = []
-                            for i in range(link_count):
-                                l = links.nth(i)
-                                href = await l.get_attribute("href")
-                                text = await l.inner_text()
-                                if href and not href.startswith("mailto:"):
-                                    link_list.append(f"- [{text.strip()}]({href})")
-                            
-                            if link_list:
-                                links_text = "\n".join(link_list)
-                            
-                            logger.info(f"Found description/links on Apple Podcasts for '{title}'")
+                            if desc_container:
+                                raw_desc = await desc_container.inner_text()
+                                description_text = self._clean_description_text(raw_desc)
+                                
+                                # Extract Links
+                                links = desc_container.locator("a")
+                                link_count = await links.count()
+                                link_list = []
+                                for i in range(link_count):
+                                    l = links.nth(i)
+                                    href = await l.get_attribute("href")
+                                    text = await l.inner_text()
+                                    if href and not href.startswith("mailto:") and "apple.com" not in href:
+                                        link_list.append(f"- [{text.strip()}]({href})")
+                                
+                                if link_list:
+                                    links_text = "\n".join(link_list)
+                                
+                                logger.info(f"Successfully extracted description/links for '{title}'")
+                            else:
+                                logger.warning(f"Description container not found on episode page for '{title}'")
                         else:
-                            logger.warning(f"Episode link not found on Apple Podcasts for '{title}'")
+                            best_score = matching_link_data['score'] if matching_link_data else 0
+                            logger.warning(f"No good fuzzy match for '{title}' (Best score: {best_score})")
                     except Exception as e:
                         logger.warning(f"Apple Podcasts fetch failed for '{title}': {e}")
 
@@ -174,6 +285,12 @@ class PodcastScraper:
 
                 # 3. Save to Markdown
                 if description_text or transcript_text:
+                    # If we didn't fetch description but it was already in manifest, we should keep it?
+                    # No, process_episode is called with fetch_desc/fetch_trans flags.
+                    # If fetch_desc is False, description_text is "". We should NOT overwrite a good file with missing desc.
+                    
+                    # Better: If we have existing content, read it? No, manifest is source of truth.
+                    
                     content = f"# {title}\n\n"
                     content += f"**Published Date:** {entry.published}\n\n"
                     if description_text:
@@ -185,12 +302,13 @@ class PodcastScraper:
                     
                     file_path.write_text(content, encoding="utf-8")
                 
-                # Update Manifest
+                # Update Manifest only if we actually did something or want to preserve
+                # We update the manifest for THIS entry_id (YouTube ID)
                 self.manifest["episodes"][entry_id] = {
                     "title": title,
                     "clean_title": clean_title,
-                    "has_description": bool(description_text),
-                    "has_transcript": bool(transcript_text),
+                    "has_description": bool(description_text) if fetch_desc else entry.get('has_description', False),
+                    "has_transcript": bool(transcript_text) if fetch_trans else entry.get('has_transcript', False),
                     "last_updated": datetime.now().isoformat()
                 }
                 self._save_manifest()
