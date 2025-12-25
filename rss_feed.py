@@ -77,23 +77,22 @@ class PodcastScraper:
 
 
 
-    async def process_episode(self, entry: dict, browser: Browser):
+    async def process_episode(self, entry: EpisodeEntry, browser: Browser):
         async with self.semaphore:
             title = entry.title
             clean_title = self._clean_filename(title)
             file_path = config.OUTPUT_DIR / f"{clean_title}.md"
             
             # Check manifest for status
-            entry_id = entry.get('id', title)
+            entry_id = entry.id
             status = self.manifest["episodes"].get(entry_id, {})
             
             fetch_desc = not status.get("has_description", False)
             fetch_trans = not status.get("has_transcript", False)
 
-            # Re-check if manual file exists and check if Links: are missing
             if file_path.exists():
                 content = file_path.read_text(encoding="utf-8")
-                if "## Links" not in content:
+                if "## Links" not in content or len(content) < 500:
                     fetch_desc = True
             else:
                 fetch_desc = True
@@ -105,7 +104,6 @@ class PodcastScraper:
 
             logger.info(f"Processing '{title}' (Desc: {fetch_desc}, Trans: {fetch_trans})")
             
-            # Use a realistic User Agent and Viewport to avoid bot detection and ensure correct rendering
             context = await browser.new_context(
                 viewport={"width": 1920, "height": 1080},
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -117,186 +115,75 @@ class PodcastScraper:
                 description_text = ""
                 links_text = ""
                 transcript_text = ""
-                spotify_link = None
 
-                # 1. Fetch from Substack
-                await page.goto(entry.link, wait_until="domcontentloaded")
-                
-                # Human-like scrolling to trigger lazy loading
-                for _ in range(5):
-                    await page.mouse.wheel(0, 500)
-                    await page.wait_for_timeout(500)
-                
-                # Final scroll to bottom just in case
-                await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-                await page.wait_for_timeout(2000) # Wait for content to settle
-                
-                await page.wait_for_selector(config.SUBSTACK_DESC_SELECTOR)
-                desc_element = page.locator(config.SUBSTACK_DESC_SELECTOR).first
-                
-                # Extract Links with Context
-                links = desc_element.locator("a")
-                link_count = await links.count()
-                for i in range(link_count):
-                    link = links.nth(i)
-                    l_href = await link.get_attribute('href')
-                    
-                    if l_href:
-                        # Try to get the full line context (parent paragraph or list item)
-                        l_text = await link.evaluate("el => el.parentElement.innerText")
-                        # Clean up newlines and extra spaces
-                        l_text = " ".join(l_text.split())
-                        
-                        if not l_text: # Fallback if parent is empty
-                            l_text = await link.inner_text()
-
-                        links_text += f"- [{l_text}]({l_href})\n"
-                        
-                        if l_href.startswith("https://open.spotify.com/episode/"):
-                            spotify_link = l_href
-
+                # 1. Fetch Description from Apple Podcasts
                 if fetch_desc:
-                    description_text = await desc_element.inner_text()
-
-                # 2. Fetch Transcript
-                # Priority A: Try Substack (Current Page)
-                if fetch_trans:
                     try:
-                        # Look for the Transcript button on Substack
-                        transcript_btn = page.get_by_role("button", name=config.SUBSTACK_TRANSCRIPT_BTN_TEXT)
-                        if await transcript_btn.is_visible():
-                            logger.info(f"Attempting Substack transcript for '{title}'")
-                            await transcript_btn.click()
+                        logger.info(f"Fetching description from Apple Podcasts for '{title}'")
+                        await page.goto(config.APPLE_PODCASTS_URL, wait_until="networkidle")
+                        
+                        # Find the episode link by title
+                        # Apple Pods titles might be slightly different, use a fuzzy match if needed
+                        episode_link_selector = f'a:has-text("{title}")'
+                        episode_link = page.locator(episode_link_selector).first
+                        
+                        if await episode_link.is_visible():
+                            await episode_link.click()
+                            await page.wait_for_load_state("networkidle")
                             
-                            # Wait for content to load
-                            await page.wait_for_selector(config.SUBSTACK_TRANSCRIPT_SELECTOR, timeout=5000)
-                            trans_element = page.locator(config.SUBSTACK_TRANSCRIPT_SELECTOR).first
+                            # Extract description (notes)
+                            # On episode page, description is usually in a specific section
+                            desc_container = page.locator('.product-hero-desc__section').first
+                            if not await desc_container.is_visible():
+                                desc_container = page.locator('.description').first
+
+                            raw_desc = await desc_container.inner_text()
+                            description_text = self._clean_description_text(raw_desc)
                             
-                            raw_substack_text = await trans_element.inner_text()
-                            if raw_substack_text and len(raw_substack_text) > 100:
-                                transcript_text = raw_substack_text.strip()
-                                logger.info(f"Found transcript on Substack for '{title}' (Length: {len(transcript_text)})")
-                            else:
-                                logger.warning(f"Substack transcript found but empty or too short for '{title}'")
-
-                    except Exception as e:
-                        logger.debug(f"Substack transcript fetch failed for '{title}': {e}")
-
-                # Priority B: Fallback to YouTube
-                if fetch_trans and not transcript_text:
-                    youtube_url = None
-                    video_id = None
-                    try:
-                        # Strategy 1: Substack Custom Component (Data Attrs)
-                        # Check for div with data-component-name="Youtube2ToDOM" and extract videoId from data-attrs
-                        yt_component = page.locator('div[data-component-name="Youtube2ToDOM"]').first
-                        if await yt_component.count() > 0:
-                             data_attrs = await yt_component.get_attribute("data-attrs")
-                             if data_attrs:
-                                 try:
-                                     attrs = json.loads(data_attrs)
-                                     video_id = attrs.get("videoId")
-                                     if video_id:
-                                         logger.info(f"Found YouTube ID {video_id} in Substack component")
-                                 except Exception as json_err:
-                                     logger.warning(f"Failed to parse Youtube2ToDOM attrs: {json_err}")
-
-                        # Strategy 2: Iframe (Classic & Nocookie)
-                        if not video_id:
-                            iframe = page.locator('iframe[src*="youtube"]').first
-                            if await iframe.count() > 0:
-                                src = await iframe.get_attribute("src")
-                                youtube_url = src
+                            # Extract Links
+                            links = desc_container.locator("a")
+                            link_count = await links.count()
+                            link_list = []
+                            for i in range(link_count):
+                                l = links.nth(i)
+                                href = await l.get_attribute("href")
+                                text = await l.inner_text()
+                                if href and not href.startswith("mailto:"):
+                                    link_list.append(f"- [{text.strip()}]({href})")
                             
-                        # Strategy 3: Direct Links
-                        if not video_id and not youtube_url:
-                            yt_link = page.locator('a[href*="youtube.com/watch"], a[href*="youtu.be"]').first
-                            if await yt_link.count() > 0:
-                                youtube_url = await yt_link.get_attribute("href")
-
-                        # Extract ID from URL if we found a URL but no ID yet
-                        if not video_id and youtube_url:
-                            if "embed/" in youtube_url:
-                                video_id = youtube_url.split("embed/")[-1].split("?")[0]
-                            elif "v=" in youtube_url:
-                                video_id = youtube_url.split("v=")[-1].split("&")[0]
-                            elif "youtu.be/" in youtube_url:
-                                video_id = youtube_url.split("youtu.be/")[-1].split("?")[0]
-
-                        # Strategy 4: window._preloads JSON (Robust Fallback)
-                        if not video_id:
-                            try:
-                                preloads = await page.evaluate("() => window._preloads")
-                                if preloads:
-                                    post = preloads.get('post', {})
-                                    # Check cover_image for YouTube ID
-                                    cover_image = post.get('cover_image', '') or ''
-                                    if 'youtube' in cover_image:
-                                         # URL typically like: .../youtube/w_728,c_limit/VIDEO_ID
-                                         parts = cover_image.split('/')
-                                         if parts:
-                                             candidate = parts[-1]
-                                             if len(candidate) == 11:
-                                                 video_id = candidate
-                                                 logger.info(f"Found YouTube ID {video_id} in _preloads cover_image")
-                                    
-                                    # Check body_html for iframes
-                                    if not video_id:
-                                        body_html = post.get('body_html', '')
-                                        if body_html:
-                                            match = re.search(r'embed/([a-zA-Z0-9_-]{11})', body_html)
-                                            if match:
-                                                video_id = match.group(1)
-                                                logger.info(f"Found YouTube ID {video_id} in _preloads body_html")
-
-                            except Exception as e:
-                                logger.debug(f"JSON extraction failed: {e}")
-
-                        # Fetch Transcript if we have an ID
-                        if video_id:
-                            logger.info(f"Fetching YouTube transcript for video {video_id} ('{title}')")
-                            try:
-                                # Fix: Instantiate API and use fetch() for this specific version/env
-                                api = YouTubeTranscriptApi()
-                                transcript_list = api.fetch(video_id, languages=['he', 'en', 'iw'])
-                                formatter = TextFormatter()
-                                transcript_text = formatter.format_transcript(transcript_list)
-                                logger.info(f"Successfully fetched YouTube transcript for '{title}'")
-                            except Exception as yt_err:
-                                logger.warning(f"YouTube transcript fetch failed for {video_id}: {yt_err}")
+                            if link_list:
+                                links_text = "\n".join(link_list)
+                            
+                            logger.info(f"Found description/links on Apple Podcasts for '{title}'")
                         else:
-                            logger.info(f"No YouTube link/ID found for '{title}'")
-                            # DEBUG: Save HTML to inspect why we missed it
-                            try:
-                                debug_html = await page.content()
-                                debug_path = config.OUTPUT_DIR / f"debug_{entry_id[:10]}.html"
-                                debug_path.write_text(debug_html, encoding="utf-8")
-                                logger.info(f"Saved debug HTML to {debug_path}")
-                            except Exception as e:
-                                logger.warning(f"Failed to save debug HTML: {e}")
-
+                            logger.warning(f"Episode link not found on Apple Podcasts for '{title}'")
                     except Exception as e:
-                        logger.warning(f"Error during YouTube fallback for '{title}': {e}")
+                        logger.warning(f"Apple Podcasts fetch failed for '{title}': {e}")
 
-                # 3. Assemble Markdown
-                md_content = f"# {title}\n\n"
-                
-                if file_path.exists():
-                    existing_content = file_path.read_text(encoding="utf-8")
-                    if not fetch_desc:
-                        match = re.search(r"## Description\n(.*?)\n##", existing_content, re.DOTALL)
-                        description_text = match.group(1).strip() if match else "Description missing."
-                    if not fetch_trans:
-                         match = re.search(r"## Transcript\n(.*)", existing_content, re.DOTALL)
-                         transcript_text = match.group(1).strip() if match else ""
+                # 2. Fetch Transcript from YouTube
+                if fetch_trans:
+                    video_id = entry.id # We found it via YouTube discovery
+                    logger.info(f"Fetching YouTube transcript for '{title}' (ID: {video_id})")
+                    try:
+                        transcript_list = YouTubeTranscriptApi().fetch(video_id, languages=['he', 'en', 'iw'])
+                        formatter = TextFormatter()
+                        transcript_text = formatter.format_transcript(transcript_list)
+                        logger.info(f"Successfully fetched YouTube transcript for '{title}'")
+                    except Exception as e:
+                        logger.warning(f"YouTube transcript failed for '{title}': {e}")
 
-                md_content += f"## Description\n{description_text}\n\n"
-                if links_text:
-                    md_content += f"## Links\n{links_text}\n"
-                if transcript_text:
-                    md_content += f"## Transcript\n{transcript_text}\n"
-
-                file_path.write_text(md_content, encoding="utf-8")
+                # 3. Save to Markdown
+                if description_text or transcript_text:
+                    content = f"# {title}\n\n"
+                    content += f"**Published Date:** {entry.published}\n\n"
+                    if description_text:
+                        content += f"## Description\n{description_text}\n\n"
+                    if links_text:
+                        content += f"## Links\n{links_text}\n\n"
+                    if transcript_text:
+                        content += f"## Transcript\n{transcript_text}\n"
+                    
+                    file_path.write_text(content, encoding="utf-8")
                 
                 # Update Manifest
                 self.manifest["episodes"][entry_id] = {
@@ -319,6 +206,7 @@ class PodcastScraper:
         config.OUTPUT_DIR.mkdir(exist_ok=True)
 
         async with async_playwright() as p:
+            # 0. Discover Episodes via YouTube (Bypass Substack 403)
             browser = await p.chromium.launch(headless=True)
             context = await browser.new_context(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -327,60 +215,52 @@ class PodcastScraper:
             
             entries = []
             try:
-                logger.info(f"Fetching archive from {config.ARCHIVE_API_URL} for discovery...")
+                logger.info(f"Discovering episodes via YouTube: {config.YOUTUBE_CHANNEL_VIDEOS_URL}")
+                await page.goto(config.YOUTUBE_CHANNEL_VIDEOS_URL, wait_until="networkidle")
                 
-                # Navigate to the API URL directly
-                # Playwright handles headers and potential Cloudflare challenges
-                response = await page.goto(config.ARCHIVE_API_URL, wait_until="networkidle", timeout=60000)
+                # Extract ytInitialData
+                video_data = await page.evaluate("""() => {
+                    const data = window.ytInitialData;
+                    const tabs = data.contents.twoColumnBrowseResultsRenderer.tabs;
+                    const videosTab = tabs.find(tab => tab.tabRenderer && tab.tabRenderer.title === 'Videos');
+                    if (!videosTab) return [];
+                    
+                    const contents = videosTab.tabRenderer.content.richGridRenderer.contents;
+                    return contents
+                        .filter(item => item.richItemRenderer && item.richItemRenderer.content.videoRenderer)
+                        .map(item => {
+                            const v = item.richItemRenderer.content.videoRenderer;
+                            return {
+                                id: v.videoId,
+                                title: v.title.runs[0].text,
+                                published: v.publishedTimeText ? v.publishedTimeText.simpleText : 'Unknown'
+                            };
+                        });
+                }""")
                 
-                if not response or response.status != 200:
-                    status = response.status if response else "No Response"
-                    logger.error(f"API discovery failed (Status {status})")
-                    # Fallback to screenshot debugging if blocked
-                    debug_path = config.OUTPUT_DIR / "discovery_failure_debug.html"
-                    await page.screenshot(path=str(config.OUTPUT_DIR / "discovery_failure.png"))
-                    html_content = await page.content()
-                    debug_path.write_text(html_content, encoding="utf-8")
+                if not video_data:
+                    logger.error("No video data found in YouTube's ytInitialData")
+                    # Fallback screenshot
+                    await page.screenshot(path=str(config.OUTPUT_DIR / "youtube_discovery_failure.png"))
                     return
 
-                # Parse JSON from the page body
-                body_text = await page.evaluate("() => document.body.innerText")
-                try:
-                    data = json.loads(body_text)
-                except Exception as json_err:
-                    logger.error(f"Failed to parse API JSON: {json_err}")
-                    return
-
-                # Filter and map to EpisodeEntry
-                # The data is a list of post objects
-                discovery_success = False
-                if isinstance(data, list):
-                    podcast_posts = [p for p in data if p.get('type') == 'podcast']
-                    if podcast_posts:
-                        entries = [
-                            EpisodeEntry(
-                                id_val=str(e.get('id', e.get('title'))),
-                                title=e.get('title'),
-                                link=e.get('canonical_url'),
-                                published=e.get('post_date')
-                            )
-                            for e in podcast_posts
-                        ]
-                        logger.info(f"Found {len(entries)} entries via Archive API.")
-                        discovery_success = True
-
-                if not discovery_success:
-                    logger.error("No podcast episodes found in API response.")
-                    return
-
-            except Exception as e:
-                logger.error(f"Error during discovery: {e}")
-                return
-            finally:
+                entries = [
+                    EpisodeEntry(
+                        id_val=v['id'],
+                        title=v['title'],
+                        link=f"https://www.youtube.com/watch?v={v['id']}",
+                        published=v['published']
+                    )
+                    for v in video_data
+                ]
+                logger.info(f"Found {len(entries)} entries via YouTube discovery.")
                 await context.close()
 
+            except Exception as e:
+                logger.error(f"Failed to discover episodes via YouTube: {e}")
+                return
+
             # 1. Process Episodes
-            # Use the same browser but fresh contexts in process_episode
             tasks = [self.process_episode(entry, browser) for entry in entries]
             await asyncio.gather(*tasks)
             await browser.close()
