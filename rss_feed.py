@@ -1,4 +1,3 @@
-import urllib.request
 import asyncio
 import feedparser
 import re
@@ -6,11 +5,23 @@ import logging
 import json
 from datetime import datetime
 from pathlib import Path
+from typing import List, Optional
 from playwright.async_api import async_playwright, Browser, Playwright, Route
 
 import config
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
+
+# --- Entry Helper ---
+class EpisodeEntry:
+    def __init__(self, id_val: str, title: str, link: str, published: str):
+        self.id = id_val
+        self.title = title
+        self.link = link
+        self.published = published
+
+    def get(self, key, default=None):
+        return getattr(self, key, default)
 
 # --- Logging Configuration ---
 logging.basicConfig(
@@ -308,45 +319,94 @@ class PodcastScraper:
         config.OUTPUT_DIR.mkdir(exist_ok=True)
 
         async with async_playwright() as p:
-            # 0. Discover Episodes via Web (bypass 403 RSS)
             browser = await p.chromium.launch(headless=True)
-            
             context = await browser.new_context(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             )
             page = await context.new_page()
             
+            entries = []
             try:
                 logger.info(f"Navigating to {config.PODCAST_PAGE_URL} for discovery...")
-                await page.goto(config.PODCAST_PAGE_URL, wait_until="networkidle")
+                await page.goto(config.PODCAST_PAGE_URL, wait_until="networkidle", timeout=60000)
                 
-                # Extract episodes from window._preloads
-                episodes_data = await page.evaluate("() => window._preloads.newPostsForPubPodcast")
-                
-                if not episodes_data:
-                    logger.error("No episode data found in window._preloads")
+                # Wait for _preloads or specific content to appear
+                # Substack can be slow to initialize window._preloads
+                discovery_success = False
+                for attempt in range(3):
+                    logger.info(f"Discovery attempt {attempt + 1}...")
+                    
+                    # Try Method 1: window._preloads.newPostsForPubPodcast
+                    episodes_data = await page.evaluate("() => window._preloads ? window._preloads.newPostsForPubPodcast : null")
+                    
+                    if episodes_data:
+                        entries = [
+                            EpisodeEntry(
+                                id_val=str(e.get('id', e.get('title'))),
+                                title=e.get('title'),
+                                link=e.get('canonical_url'),
+                                published=e.get('post_date')
+                            )
+                            for e in episodes_data
+                        ]
+                        logger.info(f"Found {len(entries)} entries via window._preloads.")
+                        discovery_success = True
+                        break
+                    
+                    # Try Method 2: DOM Scraping Fallback
+                    logger.info("window._preloads missing or empty, trying DOM fallback...")
+                    # Selection based on the article structure found in research
+                    # Each episode is in a div[role="article"] or has a specific title class
+                    articles = page.locator('div[role="article"]')
+                    count = await articles.count()
+                    
+                    if count > 0:
+                        for i in range(count):
+                            article = articles.nth(i)
+                            link_el = article.locator('a[href*="/p/"]').first
+                            title_el = article.locator('h3').first or link_el
+                            
+                            if await link_el.count() > 0:
+                                url = await link_el.get_attribute('href')
+                                title = await title_el.inner_text()
+                                # Published date is usually in a <time> or similar
+                                time_el = article.locator('time').first
+                                date_str = await time_el.get_attribute('datetime') if await time_el.count() > 0 else datetime.now().isoformat()
+                                
+                                entries.append(EpisodeEntry(
+                                    id_val=url.split('/')[-1],
+                                    title=title.strip(),
+                                    link=url if url.startswith('http') else f"https://aithinkers.substack.com{url}",
+                                    published=date_str
+                                ))
+                        
+                        if entries:
+                            logger.info(f"Found {len(entries)} entries via DOM fallback.")
+                            discovery_success = True
+                            break
+
+                    await page.wait_for_timeout(2000) # Wait before retry
+
+                if not discovery_success:
+                    logger.error("Failed to discover episodes via both JSON preloads and DOM.")
+                    # DEBUG: Save HTML to see what Substack served
+                    debug_path = config.OUTPUT_DIR / "discovery_failure_debug.html"
+                    await page.screenshot(path=str(config.OUTPUT_DIR / "discovery_failure.png"))
+                    html_content = await page.content()
+                    debug_path.write_text(html_content, encoding="utf-8")
+                    logger.info(f"Saved debug screenshot and HTML for investigation.")
                     await browser.close()
                     return
-                
-                # Convert list of dicts to dot-accessible objects (mock entry for existing logic)
-                class Entry:
-                    def __init__(self, d):
-                        self.id = str(d.get('id', d.get('title')))
-                        self.title = d.get('title')
-                        self.link = d.get('canonical_url')
-                        self.published = d.get('post_date')
-                    def get(self, key, default=None):
-                        return getattr(self, key, default)
 
-                entries = [Entry(e) for e in episodes_data]
-                logger.info(f"Found {len(entries)} entries via web discovery.")
-                await context.close()
             except Exception as e:
-                logger.error(f"Failed to discover episodes via web: {e}")
+                logger.error(f"Error during discovery: {e}")
                 await browser.close()
                 return
+            finally:
+                await context.close()
 
             # 1. Process Episodes
+            # Use the same browser but fresh contexts in process_episode
             tasks = [self.process_episode(entry, browser) for entry in entries]
             await asyncio.gather(*tasks)
             await browser.close()
