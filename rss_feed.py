@@ -327,19 +327,36 @@ class PodcastScraper:
             
             entries = []
             try:
-                logger.info(f"Navigating to {config.PODCAST_PAGE_URL} for discovery...")
-                await page.goto(config.PODCAST_PAGE_URL, wait_until="networkidle", timeout=60000)
+                logger.info(f"Fetching archive from {config.ARCHIVE_API_URL} for discovery...")
                 
-                # Wait for _preloads or specific content to appear
-                # Substack can be slow to initialize window._preloads
+                # Navigate to the API URL directly
+                # Playwright handles headers and potential Cloudflare challenges
+                response = await page.goto(config.ARCHIVE_API_URL, wait_until="networkidle", timeout=60000)
+                
+                if not response or response.status != 200:
+                    status = response.status if response else "No Response"
+                    logger.error(f"API discovery failed (Status {status})")
+                    # Fallback to screenshot debugging if blocked
+                    debug_path = config.OUTPUT_DIR / "discovery_failure_debug.html"
+                    await page.screenshot(path=str(config.OUTPUT_DIR / "discovery_failure.png"))
+                    html_content = await page.content()
+                    debug_path.write_text(html_content, encoding="utf-8")
+                    return
+
+                # Parse JSON from the page body
+                body_text = await page.evaluate("() => document.body.innerText")
+                try:
+                    data = json.loads(body_text)
+                except Exception as json_err:
+                    logger.error(f"Failed to parse API JSON: {json_err}")
+                    return
+
+                # Filter and map to EpisodeEntry
+                # The data is a list of post objects
                 discovery_success = False
-                for attempt in range(3):
-                    logger.info(f"Discovery attempt {attempt + 1}...")
-                    
-                    # Try Method 1: window._preloads.newPostsForPubPodcast
-                    episodes_data = await page.evaluate("() => window._preloads ? window._preloads.newPostsForPubPodcast : null")
-                    
-                    if episodes_data:
+                if isinstance(data, list):
+                    podcast_posts = [p for p in data if p.get('type') == 'podcast']
+                    if podcast_posts:
                         entries = [
                             EpisodeEntry(
                                 id_val=str(e.get('id', e.get('title'))),
@@ -347,60 +364,17 @@ class PodcastScraper:
                                 link=e.get('canonical_url'),
                                 published=e.get('post_date')
                             )
-                            for e in episodes_data
+                            for e in podcast_posts
                         ]
-                        logger.info(f"Found {len(entries)} entries via window._preloads.")
+                        logger.info(f"Found {len(entries)} entries via Archive API.")
                         discovery_success = True
-                        break
-                    
-                    # Try Method 2: DOM Scraping Fallback
-                    logger.info("window._preloads missing or empty, trying DOM fallback...")
-                    # Selection based on the article structure found in research
-                    # Each episode is in a div[role="article"] or has a specific title class
-                    articles = page.locator('div[role="article"]')
-                    count = await articles.count()
-                    
-                    if count > 0:
-                        for i in range(count):
-                            article = articles.nth(i)
-                            link_el = article.locator('a[href*="/p/"]').first
-                            title_el = article.locator('h3').first or link_el
-                            
-                            if await link_el.count() > 0:
-                                url = await link_el.get_attribute('href')
-                                title = await title_el.inner_text()
-                                # Published date is usually in a <time> or similar
-                                time_el = article.locator('time').first
-                                date_str = await time_el.get_attribute('datetime') if await time_el.count() > 0 else datetime.now().isoformat()
-                                
-                                entries.append(EpisodeEntry(
-                                    id_val=url.split('/')[-1],
-                                    title=title.strip(),
-                                    link=url if url.startswith('http') else f"https://aithinkers.substack.com{url}",
-                                    published=date_str
-                                ))
-                        
-                        if entries:
-                            logger.info(f"Found {len(entries)} entries via DOM fallback.")
-                            discovery_success = True
-                            break
-
-                    await page.wait_for_timeout(2000) # Wait before retry
 
                 if not discovery_success:
-                    logger.error("Failed to discover episodes via both JSON preloads and DOM.")
-                    # DEBUG: Save HTML to see what Substack served
-                    debug_path = config.OUTPUT_DIR / "discovery_failure_debug.html"
-                    await page.screenshot(path=str(config.OUTPUT_DIR / "discovery_failure.png"))
-                    html_content = await page.content()
-                    debug_path.write_text(html_content, encoding="utf-8")
-                    logger.info(f"Saved debug screenshot and HTML for investigation.")
-                    await browser.close()
+                    logger.error("No podcast episodes found in API response.")
                     return
 
             except Exception as e:
                 logger.error(f"Error during discovery: {e}")
-                await browser.close()
                 return
             finally:
                 await context.close()

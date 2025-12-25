@@ -31,6 +31,16 @@ jobs:
       - name: Run Scraper
         run: python rss_feed.py
 
+      - name: Upload Debug Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: discovery-debug
+          path: |
+            AI Thinkers podcast data/*.png
+            AI Thinkers podcast data/*.html
+            scraper.log
+
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
