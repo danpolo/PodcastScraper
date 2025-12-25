@@ -7,7 +7,21 @@
 
 מה בפרק:
 
-… Show more
+איך לבנות GPT Projects שממש מכירים אתכם, איך להפוך רעיון לפרוטוטייפ תוך דקות, ואיך להפוך מאות פידבקים לתובנות שאפשר לפעול לפיהן. העיקרון המנחה: "אם זה קורה יותר מפעמיים - תהפוך את זה לאוטומטי פעם אחת, ושיעבוד לנצח."
+
+הרבה פרקטיקות טובות, ואפילו גיפיטי שיעזור לכם להתכונן לראיון עבודה במאנדיי
+
+הלינקדאין ועוד חומרים טובים של עמיחי https://linktr.ee/amichay
+
+הלינקדאין של גלית
+
+https://www.linkedin.com/in/galitgalperin
+
+להרשמה לניוזלטר לעוד טיפים, פרומפטים וטמפלטים   www.aithinkers.co
+
+## Links
+- [https://linktr.ee/amichay](https://linktr.ee/amichay)
+- [https://www.linkedin.com/in/galitgalperin](https://www.linkedin.com/in/galitgalperin)
 
 ## Transcript
 ‏A טקרס עם גלית גלפרי. שיחות עם אנשים
