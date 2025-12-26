@@ -29,6 +29,9 @@ jobs:
         run: playwright install chromium --with-deps
 
       - name: Run Scraper
+        env:
+          PROXY_USERNAME: ${{ secrets.PROXY_USERNAME }}
+          PROXY_PASSWORD: ${{ secrets.PROXY_PASSWORD }}
         run: python rss_feed.py
 
       - name: Upload Debug Artifacts
