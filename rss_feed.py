@@ -343,15 +343,13 @@ class PodcastScraper:
                 await page.goto(config.SPOTIFY_URL, wait_until="networkidle", timeout=60000)
                 await page.wait_for_timeout(3000)
                 
-                # Scroll until no new content loads (dynamic for any number of episodes)
-                last_height = 0
+                # Click "Load more episodes" button until all episodes are loaded
                 while True:
-                    current_height = await page.evaluate("document.body.scrollHeight")
-                    if current_height == last_height:
+                    load_more = await page.query_selector('button:has-text("Load more episodes")')
+                    if not load_more:
                         break
-                    last_height = current_height
-                    await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-                    await page.wait_for_timeout(1500)
+                    await load_more.click()
+                    await page.wait_for_timeout(2000)
                 
                 # Extract all episode URLs in DOM order (newest first on Spotify)
                 # Skip the intro episode "מה יש פה בעצם" which is only on Spotify
