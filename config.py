@@ -1,4 +1,12 @@
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# --- Environment Variables ---
+PROXY_USERNAME = os.getenv("PROXY_USERNAME")
+PROXY_PASSWORD = os.getenv("PROXY_PASSWORD")
 
 # --- General Settings ---
 YOUTUBE_CHANNEL_VIDEOS_URL = 'https://www.youtube.com/@AITHINKER_S/videos'
