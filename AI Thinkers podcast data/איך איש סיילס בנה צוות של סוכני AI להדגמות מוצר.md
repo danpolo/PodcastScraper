@@ -1,6 +1,6 @@
 # איך איש סיילס בנה צוות של סוכני AI להדגמות מוצר
 
-**Published Date:** 4 days ago
+**Published Date:** 11 days ago
 
 ## Description
 מה קורה כשאיש מכירות מפסיק לחכות לצוות הפיתוח ובונה לעצמו דמואים עם AI?
