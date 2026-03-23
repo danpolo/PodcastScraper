@@ -1,6 +1,6 @@
 # מדידת AI בפיתוח: למה יותר קוד לא שווה יותר תוצאות
 
-**Published Date:** 2 weeks ago
+**Published Date:** 3 weeks ago
 
 ## Description
 רוב הארגונים שמאמצים AI בפיתוח מודדים את הדבר הלא נכון.
