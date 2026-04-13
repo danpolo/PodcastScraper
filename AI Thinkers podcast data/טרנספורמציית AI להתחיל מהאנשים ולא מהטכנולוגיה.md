@@ -1,6 +1,6 @@
 # טרנספורמציית AI: להתחיל מהאנשים ולא מהטכנולוגיה
 
-**Published Date:** 2 months ago
+**Published Date:** 2mo ago
 
 ## Description
 מה קורה כש-AI Champion של חברה מפסיקה לרדוף אחרי כלים ומתחילה לשאול איפה כואב?
