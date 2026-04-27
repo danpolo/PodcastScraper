@@ -1,6 +1,6 @@
 # לאמץ AI בלי לפתוח את הדלת לתוקפים - עם איתמר גולן
 
-**Published Date:** 3mo ago
+**Published Date:** 3 months ago
 
 ## Description
 כמה פעמים העלתם משהו לצ'אט ולא שאלתם לאן הולך המידע?
