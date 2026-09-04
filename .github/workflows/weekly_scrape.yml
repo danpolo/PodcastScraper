@@ -32,6 +32,8 @@ jobs:
         env:
           PROXY_USERNAME: ${{ secrets.PROXY_USERNAME }}
           PROXY_PASSWORD: ${{ secrets.PROXY_PASSWORD }}
+          # Write into the checkout so the commit step below can pick the data up.
+          PODCASTSCRAPER_DATA_DIR: ${{ github.workspace }}
         run: python rss_feed.py
 
       - name: Upload Debug Artifacts

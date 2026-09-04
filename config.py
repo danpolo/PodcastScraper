@@ -2,7 +2,16 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+ENV_FILE = Path(
+    os.getenv(
+        "PODCASTSCRAPER_ENV_FILE",
+        str(Path.home() / ".config/PodcastScraper/.env"),
+    )
+)
+if ENV_FILE.exists():
+    load_dotenv(ENV_FILE)
+else:
+    load_dotenv()
 
 # --- Environment Variables ---
 PROXY_USERNAME = os.getenv("PROXY_USERNAME")
@@ -13,7 +22,12 @@ YOUTUBE_CHANNEL_VIDEOS_URL = 'https://www.youtube.com/@AITHINKER_S/videos'
 APPLE_PODCASTS_URL = 'https://podcasts.apple.com/il/podcast/ai-thinkers/id1848575796'
 SPOTIFY_URL = 'https://open.spotify.com/show/5qXP9dnucaWoHe6VMB56wc'
 STORAGE_STATE_PATH = "auth.json"
-OUTPUT_DIR = Path("AI Thinkers podcast data")
+OUTPUT_DIR = Path(
+    os.getenv(
+        "PODCASTSCRAPER_DATA_DIR",
+        str(Path.home() / ".local/share/PodcastScraper"),
+    )
+) / "AI Thinkers podcast data"
 MANIFEST_PATH = OUTPUT_DIR / "manifest.json"
 CONCURRENCY_LIMIT = 2
 

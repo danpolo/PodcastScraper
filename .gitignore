@@ -2,7 +2,10 @@ __pycache__/
 .idea/
 .vscode/
 scraper.log
-AI Thinkers podcast data/debug_*.html
+# Generated transcripts, manifests, and diagnostics stay local or in workflow artifacts.
+AI Thinkers podcast data/
+# Benchmark working files: ~32 MB of audio per episode, plus raw ASR output.
+langtalks/out/
 *.pyc
 .env
 auth.json

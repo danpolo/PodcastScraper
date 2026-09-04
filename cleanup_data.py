@@ -1,9 +1,10 @@
 import json
 from pathlib import Path
 import re
+import config
 
-DATA_DIR = Path(r"c:/Users/danpo/Documents/Programing/PodcastScraper/AI Thinkers podcast data")
-MANIFEST_PATH = DATA_DIR / "manifest.json"
+DATA_DIR = config.OUTPUT_DIR
+MANIFEST_PATH = config.MANIFEST_PATH
 
 def normalize_title(t):
     if not t: return ""
