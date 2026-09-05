@@ -139,6 +139,19 @@ class PodcastScraper:
         ]
         return "\n".join(lines)
 
+    def _entries_from_rss(self, feed) -> list[EpisodeEntry]:
+        """Convert YouTube RSS entries into the scraper's stable episode shape."""
+        return [
+            EpisodeEntry(
+                id_val=entry.id.split(":")[-1],
+                title=entry.title,
+                link=entry.link,
+                published=entry.published,
+                description=entry.get("summary", ""),
+            )
+            for entry in feed.entries
+        ]
+
     async def _block_resources(self, route: Route):
         if route.request.resource_type in config.BLOCKED_RESOURCE_TYPES:
             await route.abort()
@@ -349,16 +362,7 @@ class PodcastScraper:
                 logger.error("No entries found in YouTube RSS feed")
                 return
 
-            entries = [
-                EpisodeEntry(
-                    id_val=e.id.split(':')[-1],
-                    title=e.title,
-                    link=e.link,
-                    published=e.published,
-                    description=e.get('summary', ''),
-                )
-                for e in feed.entries
-            ]
+            entries = self._entries_from_rss(feed)
             logger.info(f"Found {len(entries)} entries via YouTube RSS feed.")
 
         except Exception as e:
