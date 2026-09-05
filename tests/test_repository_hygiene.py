@@ -13,6 +13,14 @@ class RepositoryHygieneTests(unittest.TestCase):
 
         self.assertIn("AI Thinkers podcast data/", ignored_paths.splitlines())
 
+    def test_workflow_does_not_commit_the_generated_dataset(self):
+        workflow = (
+            REPOSITORY_ROOT / ".github" / "workflows" / "weekly_scrape.yml"
+        ).read_text(encoding="utf-8")
+
+        self.assertNotIn('git add "AI Thinkers podcast data/*"', workflow)
+        self.assertNotIn("contents: write", workflow)
+
 
 if __name__ == "__main__":
     unittest.main()

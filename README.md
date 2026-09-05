@@ -1,6 +1,6 @@
 # PodcastScraper
 
-Scrapes episodes of the Hebrew-language **AI Thinkers** podcast ([@AITHINKER_S](https://www.youtube.com/@AITHINKER_S)) and stores each one as a Markdown file with its description, links, and full transcript. A weekly GitHub Action keeps the data current.
+Scrapes episodes of the Hebrew-language **AI Thinkers** podcast ([@AITHINKER_S](https://www.youtube.com/@AITHINKER_S)) and stores each one as a Markdown file with its description, links, and full transcript. The repository contains the ingestion source; generated episode data stays outside Git.
 
 ## How it works
 
@@ -79,9 +79,7 @@ Progress goes to stdout and to `scraper.log` (gitignored).
 
 ## Automation
 
-`.github/workflows/weekly_scrape.yml` runs the scraper every Monday at 07:00 UTC (and on manual `workflow_dispatch`), then commits any changes under `AI Thinkers podcast data/`. `PROXY_USERNAME` and `PROXY_PASSWORD` come from repository secrets. On failure it uploads `scraper.log` and any debug screenshots/HTML as artifacts.
-
-The workflow sets `PODCASTSCRAPER_DATA_DIR: ${{ github.workspace }}` so the scraper writes into the checkout rather than the runner's home directory — without it the commit step would find nothing to stage.
+`.github/workflows/weekly_scrape.yml` runs unit tests for every push and pull request. It also runs a scheduled/manual ingestion health check every Monday at 07:00 UTC. The health check writes generated data to runner-temporary storage, never commits it, and uses `PROXY_USERNAME` and `PROXY_PASSWORD` only when they are configured as repository secrets. On failure it uploads `scraper.log` and diagnostic screenshots/HTML as artifacts.
 
 ## Maintenance script
 
@@ -104,5 +102,5 @@ rss_feed.py                   the scraper (PodcastScraper class + entrypoint)
 cleanup_data.py               manifest dedupe / orphan-file cleanup
 requirements.txt
 .github/workflows/            weekly_scrape.yml
-AI Thinkers podcast data/     committed episode Markdown + manifest.json
+AI Thinkers podcast data/     local generated episode Markdown + manifest.json (ignored)
 ```
