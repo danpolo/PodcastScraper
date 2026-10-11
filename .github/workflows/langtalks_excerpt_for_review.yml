@@ -1,0 +1,25 @@
+name: Prepare LangTalks 71 audio excerpt for review
+on:
+  push:
+    branches: [dev]
+    paths: [.github/workflows/langtalks_excerpt_for_review.yml]
+permissions:
+  contents: read
+jobs:
+  excerpt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt
+      - run: python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Make excerpt available to download for audio upload/review
+        uses: actions/upload-artifact@v4
+        with:
+          name: LangTalks-71-08m00s-to-13m00s
+          path: langtalks/out/excerpts/*.mp3
+          retention-days: 1
+      - if: always()
+        run: rm -rf langtalks/out
