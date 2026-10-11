@@ -187,3 +187,18 @@ out/              audio, excerpts + transcripts (gitignored)
 ## Groq pilot (not yet evaluated on live audio)
 
 Groq Whisper variants are available under provider names groq_v3 and groq_turbo when GROQ_API_KEY is set. They have different transcript cache identities, use a short per-episode terminology hint, provide segment timestamps and do not provide diarization. Complete the human reference annotations and run live benchmarks before choosing a provider. See PILOT.md for the quality gates and for preserving complementary RSS, YouTube and Spotify discovery.
+
+## Ground-truth review and provisional scoring
+
+The model comparison is not complete until references are reviewed against
+audio. Use `python -m langtalks.bench reference-draft 71` to suggest
+English terms from cached provider transcripts. Candidates are *not* truth
+even if providers agree. Verify spoken terms by listening to the excerpt
+and copy/correct them into `langtalks/reference/<guid>.json`. Mark
+`review_status: "approved"` only after review and `terms_exhaustive: true`
+only when every glossary-relevant spoken term was checked.
+
+`score` may show provisional metrics. `report` gives verified comparison
+numbers only for approved samples and never ranks solely on model guesses.
+For multi-source AI Thinkers coverage findings and reproducing live
+read-only auditing, see `PILOT.md`.
