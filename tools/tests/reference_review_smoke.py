@@ -73,7 +73,7 @@ def run():
         out = json.loads(Path(path).read_text())
         assert out["review_status"] == "approved", out
         assert out["terms_exhaustive"] is True
-        assert set(out["technical_terms"]) == {"NanoClaw", "LangGraph"}
+        assert set(out["technical_terms"]) == {"Nano-Claw", "LangGraph"}
         assert len(out["verified_occurrences"]) == 2
         assert out["concept_mentions"][0]["surface"] == "Nano-Claw"
         assert out["concept_mentions"][0]["canonical"] == "NanoClaw"
