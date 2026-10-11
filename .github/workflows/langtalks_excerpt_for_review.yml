@@ -1,5 +1,6 @@
 name: Prepare LangTalks 71 audio excerpt for review
 on:
+  workflow_dispatch:
   push:
     branches: [dev]
     paths: [.github/workflows/langtalks_excerpt_for_review.yml]
@@ -20,6 +21,6 @@ jobs:
         with:
           name: LangTalks-71-08m00s-to-13m00s
           path: langtalks/out/excerpts/*.mp3
-          retention-days: 1
+          retention-days: 7
       - if: always()
         run: rm -rf langtalks/out
