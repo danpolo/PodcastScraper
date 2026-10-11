@@ -337,7 +337,7 @@ $("resumeLocal").onclick=()=>{
  }catch(e){status("Could not restore browser storage. Import your saved JSON.");}
 };
 $("loadEpisode71").onclick=async()=>{
- const url="https://raw.githubusercontent.com/danpolo/PodcastScraper/dev/langtalks/reference/proposals/74fc0625-0a6b-4ca1-9488-31be7860360d.json";
+ const url="https://raw.githubusercontent.com/danpolo/PodcastScraper/dev/langtalks/reference/proposals/episode71-concepts.editorial.json";
  try{
   const response=await fetch(url);
   if(!response.ok)throw Error("HTTP "+response.status);
@@ -485,6 +485,23 @@ $("exportRef").onclick=()=>{
  status(exhaustive?"Approved term reference exported. Commit to langtalks/reference/."
                   :"Provisional reference exported. Complete listening/remaining checks before approving.");
 };
+// In the offline review kit, the proposal and audio are bundled inline.
+// Restore a resumable session first; never discard a user's in-progress work.
+if(window.__localReviewProposal){
+ try{
+  const original=window.__localReviewProposal;
+  const key="podcast-review:"+(original.episode_guid||"")+":"+(original.window?.start||0);
+  let cached=null;
+  try{cached=localStorage.getItem(key);}catch(e){}
+  loadData(cached?JSON.parse(cached):original);
+  if(window.__kitAudioPath){
+   setAudio(window.__kitAudioPath,"bundled five-minute audio");
+   $("audioMode").value="excerpt";
+  }
+  status(cached?"Restored your existing review. Continue where you left off."
+    :"AI-prepared concept review loaded with bundled audio. Nothing is approved yet.");
+ }catch(e){status("Bundled review failed to initialize: "+e.message);}
+}
 document.addEventListener("keydown",e=>{
  if(["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName))return;
  if(e.key==="ArrowLeft"){audio.currentTime=Math.max(0,audio.currentTime-2);e.preventDefault();}
