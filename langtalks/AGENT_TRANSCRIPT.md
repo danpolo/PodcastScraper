@@ -32,6 +32,12 @@ Create initial editorial concept proposal:
 
     python -m langtalks.concept_review langtalks/reference/proposals/74fc0625-0a6b-4ca1-9488-31be7860360d.json --output episode71-concepts.json
 
+Render transcript from cached local ASR using the main benchmark CLI (completely offline):
+
+    python -m langtalks.bench agent-ready --offline --asr-file episode71.asr.json --proposal episode71-concepts.json --output-dir out/agent-ready
+
+Alternatively render directly from the format module:
+
 Render transcript from cached local ASR:
 
     python -m langtalks.agent_format episode71.asr.json --proposal episode71-concepts.json --output-dir out/agent-ready
