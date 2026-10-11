@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PodcastScraper — Technical term review</title>
+<style>
+:root{color-scheme:dark;--bg:#0d131a;--panel:#17232e;--panel2:#1e2d39;--line:#354655;--muted:#aabcc7;--text:#eff7fb;--accent:#74dfc6;--error:#f4a3a4;--warn:#f7d795}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;color:inherit;border:1px solid var(--line);border-radius:8px;background:var(--panel2);padding:8px 11px}button:hover{border-color:var(--accent)}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:#176d5d;color:white;border-color:#31a78e}button.danger{border-color:#98616b}button.flat{background:transparent}button:disabled{opacity:.4;cursor:not-allowed}
+header{padding:20px max(20px,calc((100vw - 1440px)/2));background:#121c25;border-bottom:1px solid var(--line)}
+header h1{font-size:21px;letter-spacing:-.3px;margin:0 0 4px}header p{margin:0;color:var(--muted);font-size:13px}
+main{max-width:1440px;margin:auto;padding:18px 20px 50px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.cols{display:grid;grid-template-columns:minmax(265px,360px) 1fr;gap:18px;margin-top:16px}
+.panel{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:16px}
+.top-panel{display:grid;gap:12px}
+small,.muted{color:var(--muted)}
+label{font-size:13px;color:var(--muted)}label.upload{display:inline-flex;align-items:center;gap:7px;cursor:pointer;padding:8px 11px;border-radius:8px;border:1px solid var(--line);background:var(--panel2)}
+label.upload:hover{border-color:var(--accent)}.upload input{display:none}
+input[type=text],input[type=search],input[type=url],textarea{background:#0f1923;color:var(--text);border:1px solid var(--line);padding:10px;border-radius:8px;min-width:0}
+input[type=checkbox]{accent-color:var(--accent);width:18px;height:18px;vertical-align:middle}
+input.long{width:100%}textarea{width:100%;min-height:68px;resize:vertical}
+audio{width:100%;height:44px}
+.stat{font-size:13px;color:var(--muted)}.stat strong{color:var(--text)}
+.progress{height:8px;background:#283745;overflow:hidden;border-radius:8px;margin:12px 0}.progress>div{height:100%;width:0;background:var(--accent);transition:width .2s}
+#terms{display:grid;gap:5px;max-height:65vh;overflow:auto;margin-top:12px}
+.term-item{display:flex;justify-content:space-between;gap:10px;text-align:left;padding:10px;border-radius:8px;width:100%;background:transparent;border:1px solid transparent}
+.term-item.selected{border-color:#3cbfa4;background:#15392f}
+.term-name{font-weight:620;overflow-wrap:anywhere}.pill{border-radius:20px;padding:2px 7px;font-size:11px;white-space:nowrap;border:1px solid #617380;color:#e1ecf1}
+.pill.done{border-color:#328970;color:var(--accent)}.pill.todo{border-color:#7f6870;color:var(--warn)}
+.side-info{display:flex;align-items:center;justify-content:space-between}
+h2{font-size:17px;margin:0 0 10px}h3{font-size:14px;margin:0 0 9px}
+.editor-grid{display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:10px}
+.occ{display:grid;grid-template-columns:96px minmax(80px,1fr) 128px;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #2d3b47}
+.occ:last-child{border-bottom:0}.occ label{font-size:13px}.mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.seek{color:var(--accent);background:transparent;font-variant-numeric:tabular-nums}.sources{font-size:12px;color:var(--muted)}
+.occ-state{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.reject{color:var(--error)}.reject[aria-pressed=true]{background:#5b313a}.uncertain{color:var(--warn)}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.instructions{font-size:13px;line-height:1.55;color:var(--muted)}
+.help-note{padding:10px 12px;border-radius:8px;border:1px solid #57513a;background:#342c1c;color:#fde7aa;margin-top:12px;font-size:13px}
+fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12px 0}legend{padding:0 5px}
+#status{font-size:13px;min-height:1.3em;color:var(--accent)}
+@media(max-width:780px){main{padding:12px}.cols{grid-template-columns:1fr}.panel{padding:13px}#terms{max-height:250px}.occ{grid-template-columns:76px 1fr;gap:8px}.occ-state{grid-column:2}.editor-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h1>Technical term review</h1><p>PodcastScraper · Hebrew / English code-switching · Local-first, no API calls</p></header>
+<main>
+<section class="panel top-panel">
+ <div class="row">
+  <label class="upload">Open term proposal JSON<input type="file" id="proposal" accept=".json,application/json"></label>
+  <label class="upload">Open audio MP3 / WAV<input type="file" id="audioFile" accept="audio/*,.mp3,.wav,.m4a,.ogg"></label>
+  <span class="stat" id="episodeTitle">Load a proposal to begin.</span>
+ </div>
+ <div class="row">
+  <input type="url" class="long" id="remoteAudio" placeholder="Or paste a direct podcast MP3 URL (optional)" aria-label="Direct audio URL">
+  <button id="useRemote">Use URL</button>
+ </div>
+ <audio id="player" controls preload="metadata"></audio>
+ <div class="row">
+  <span class="stat mono" id="clock">00:00</span>
+  <span class="stat">Audio file:</span>
+  <select id="audioMode" aria-label="Audio timebase">
+   <option value="auto">Auto-detect full episode / excerpt</option>
+   <option value="excerpt">Excerpt, time starts at reference window</option>
+   <option value="full">Full episode, time starts at zero</option>
+  </select>
+  <button id="back2">↶ 2 sec</button><button id="forward2">2 sec ↷</button>
+  <label><input id="loop" type="checkbox"> Loop around clicked term</label>
+ </div>
+ <div id="status" role="status">No audio or proposal leaves your browser; export the results when ready.</div>
+</section>
+<div class="cols">
+ <aside class="panel">
+  <div class="side-info"><h2>Candidate terms</h2><span class="stat" id="counts">0 / 0 reviewed</span></div>
+  <div class="progress"><div id="bar"></div></div>
+  <input type="search" id="search" class="long" placeholder="Search terms" aria-label="Filter candidate terms">
+  <div class="row" style="margin-top:8px">
+   <button id="showAll">All</button><button id="showPending">Pending only</button>
+  </div>
+  <div id="terms"><p class="instructions">Upload a proposal JSON generated from the LangTalks ASR benchmark, or a previously saved review session.</p></div>
+ </aside>
+ <section class="panel">
+  <div id="empty" class="instructions">Choose a candidate term to review its occurrences. A timestamp plays the relevant audio, so you can verify every appearance rather than guessing from a list.</div>
+  <div id="detail" hidden>
+   <label for="editTerm">Canonical English spelling</label>
+   <div class="editor-grid">
+    <input type="text" id="editTerm" class="long" dir="auto">
+    <button id="applyTerm" class="primary">Update spelling</button>
+   </div>
+   <div class="row">
+    <button id="approveTerm">Confirm all occurrences</button><button id="rejectTerm" class="danger">Reject all</button>
+    <span id="termStat" class="stat"></span>
+   </div>
+   <hr>
+   <h3>Individual appearances</h3>
+   <div class="instructions">Click a time to hear the word. Check a box only if you heard it, or reject a false appearance. Timestamps are ASR estimates, not certified alignment.</div>
+   <div id="occurrences"></div>
+   <div class="row" style="margin-top:12px">
+    <label>Add another occurrence (HH:MM:SS, optional) <input type="text" id="addAt" placeholder="Use player time" style="width:130px"></label>
+    <button id="addOccurrence">+ Add at time</button>
+   </div>
+  </div>
+  <hr>
+  <h3>Missing English term</h3>
+  <div class="row">
+   <input type="text" id="newTerm" placeholder="e.g. Model Context Protocol" style="flex:1" dir="auto">
+   <input type="text" id="newTime" placeholder="HH:MM:SS or player" style="width:166px">
+   <button id="addTerm" class="primary">+ Add term</button>
+  </div>
+  <p class="instructions">The timestamp field is optional: leave it empty to use the current playback time. You can add several appearances of the same term.</p>
+  <hr>
+  <h3>Finish review</h3>
+  <fieldset>
+   <legend>Approval requirements</legend>
+   <label><input type="checkbox" id="listened"> I listened to the complete reference window, checked all proposed occurrences, and looked for missing technical terms.</label>
+  </fieldset>
+  <div class="row">
+   <button id="exportSession">Save review session (resumable JSON)</button>
+   <button class="primary" id="exportRef">Export benchmark reference JSON</button>
+  </div>
+  <div class="help-note">An approved reference requires a complete listening review and a decision on every proposed occurrence. Otherwise the exported reference stays pending and cannot contribute to the verified ranking. Saving a session does not mark anything approved.</div>
+ </section>
+</div>
+</main>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+let state=null,selected=null,pendingOnly=false,objectUrl=null,loopStop=null;
+const audio=$("player");
+function stamp(seconds){
+ const n=Math.max(0,Math.round(Number(seconds)||0));
+ return [Math.floor(n/3600),Math.floor(n/60)%60,n%60]
+ .map((x,i)=>i===0?String(x):String(x).padStart(2,"0"))
+ .filter((x,i,arr)=>i>0||x!=="0").join(":");
+}
+function parseTime(value){
+ const s=String(value||"").trim();
+ if(!s)return null;
+ if(/^\d+(\.\d+)?$/.test(s))return Number(s);
+ if(!/^\d{1,2}:\d\d(?::\d\d)?$/.test(s))return NaN;
+ const p=s.split(":").map(Number);
+ return p.reduce((a,b)=>a*60+b,0);
+}
+function offset(){
+ if(!state)return 0;
+ const mode=$("audioMode").value;
+ if(mode==="full")return 0;
+ if(mode==="excerpt")return Number(state.window.start)||0;
+ const length=Number(state.window.end)-Number(state.window.start);
+ return Number.isFinite(audio.duration)&&length>0&&audio.duration<length+40 ?
+    Number(state.window.start)||0:0;
+}
+function currentAbsolute(){return (Number(audio.currentTime)||0)+offset();}
+function status(msg){$("status").textContent=msg;}
+function seekTo(pos,end){
+ if(!audio.src){status("Choose an audio file or URL first.");return;}
+ const local=Math.max(0,Number(pos)-offset()-1.0);
+ if(Number.isFinite(audio.duration)&&local>audio.duration+3){
+   status("This timestamp is beyond this audio. Switch the audio timebase.");return;
+ }
+ audio.currentTime=local;
+ loopStop=$("loop").checked ? Math.max(0,Number(end)-offset()+1.5):null;
+ audio.play().catch(()=>status("Press play in the audio control to start."));
+}
+function sourceRows(occ){
+ const names=occ.sources|| (occ.source?[occ.source]:[]);
+ return names.join(" · ") || (occ.manual?"Manual addition":"ASR suggestion");
+}
+function normalizeProposal(data){
+ if(data.review_session&&Array.isArray(data.term_groups)){
+   state=data;return;
+ }
+ if(!Array.isArray(data.suggested_terms))throw Error("Expected suggested_terms[] or a saved review session.");
+ state={
+   review_session:true,
+   episode_guid:data.episode_guid||"",
+   episode_title:data.episode_title||"",
+   window:data.window||{start:0,end:300},
+   source_models:data.source_models||data.provider_outputs_considered||[],
+   audio_url:data.audio_url||"",
+   listened:false,
+   term_groups:data.suggested_terms.map((g,i)=>({
+      id:i+1,term:g.term||"",original:g.term||"",
+      sources:g.seen_in||[],
+      occurrences:(g.occurrences||[]).map((o,j)=>({
+        id:j+1,start:Number(o.start),end:Number(o.end),
+        sources:o.sources||(o.source?[o.source]:g.seen_in)||[],
+        matched_text:o.text||"",state:"pending",manual:false
+      }))
+   }))
+ };
+}
+function storageKey(){return "podcast-review:"+state.episode_guid+":"+(state.window.start||0);}
+function saveLocal(){
+ try{localStorage.setItem(storageKey(),JSON.stringify(state));}
+ catch(e){} // Offline file contexts may disallow localStorage; JSON export always works.
+}
+function loadData(data){
+ normalizeProposal(data);selected=state.term_groups[0]?.id||null;
+ $("episodeTitle").textContent=state.episode_title||state.episode_guid;
+ $("listened").checked=Boolean(state.listened);
+ if(state.audio_url){$("remoteAudio").value=state.audio_url;useUrl();}
+ render();saveLocal();
+}
+function decide(group,occ,v){occ.state=v;saveLocal();render();}
+function count(){
+ const oc=state.term_groups.flatMap(g=>g.occurrences);
+ const done=oc.filter(o=>o.state!=="pending").length;
+ $("counts").textContent=done+" / "+oc.length+" reviewed";
+ $("bar").style.width=oc.length?100*done/oc.length+"%":"0%";
+ return {total:oc.length,done};
+}
+function renderTerms(){
+ const termRoot=$("terms");termRoot.replaceChildren();
+ const search=$("search").value.trim().toLowerCase();
+ const list=state.term_groups.filter(g=>{
+  if(search&&!g.term.toLowerCase().includes(search))return false;
+  if(pendingOnly&&g.occurrences.every(o=>o.state!=="pending"))return false;
+  return true;
+ });
+ for(const g of list){
+  const b=document.createElement("button");b.className="term-item"+(selected===g.id?" selected":"");
+  const left=document.createElement("span");left.className="term-name";left.textContent=g.term||"(unnamed)";
+  const right=document.createElement("span");right.className="pill "+(g.occurrences.every(o=>o.state!=="pending")?"done":"todo");
+  const approved=g.occurrences.filter(o=>o.state==="confirmed").length;
+  right.textContent=approved+"/"+g.occurrences.length+" ✓";
+  b.append(left,right);b.onclick=()=>{selected=g.id;render();};termRoot.append(b);
+ }
+ if(!list.length){const p=document.createElement("p");p.className="instructions";p.textContent="No terms match this filter.";termRoot.append(p);}
+}
+function renderDetail(){
+ const group=state.term_groups.find(g=>g.id===selected);
+ $("detail").hidden=!group;$("empty").hidden=Boolean(group);
+ if(!group)return;
+ $("editTerm").value=group.term;
+ $("termStat").textContent=group.occurrences.length+" appearances · "+group.sources.join(", ");
+ const list=$("occurrences");list.replaceChildren();
+ for(const occ of group.occurrences.slice().sort((a,b)=>a.start-b.start)){
+  const row=document.createElement("div");row.className="occ";
+  const jump=document.createElement("button");jump.className="seek";jump.textContent=stamp(occ.start);
+  jump.title="Play around "+stamp(occ.start);jump.onclick=()=>seekTo(occ.start,occ.end);
+  const detail=document.createElement("div");
+  const info=document.createElement("div");info.className="sources";info.textContent=sourceRows(occ);
+  const heard=document.createElement("div");heard.dir="auto";heard.textContent=occ.matched_text||group.term;
+  detail.append(heard,info);
+  const decision=document.createElement("div");decision.className="occ-state";
+  const approveLabel=document.createElement("label");
+  const check=document.createElement("input");check.type="checkbox";check.checked=occ.state==="confirmed";
+  check.title="Confirmed by listening";check.onchange=()=>decide(group,occ,check.checked?"confirmed":"pending");
+  approveLabel.append(check,document.createTextNode(" Heard"));
+  const reject=document.createElement("button");reject.className="flat reject";
+  reject.setAttribute("aria-pressed",String(occ.state==="rejected"));
+  reject.title="Reject as false appearance";
+  reject.textContent=occ.state==="rejected"?"Rejected ✕":"Reject";
+  reject.onclick=()=>decide(group,occ,occ.state==="rejected"?"pending":"rejected");
+  decision.append(approveLabel,reject);row.append(jump,detail,decision);list.append(row);
+ }
+ if(!group.occurrences.length){
+  const p=document.createElement("p");p.className="instructions";p.textContent="No timed appearances yet. Add an occurrence manually or load a timestamped proposal.";list.append(p);
+ }
+}
+function render(){if(!state)return;count();renderTerms();renderDetail();}
+function download(name,data){
+ const blob=new Blob([JSON.stringify(data,null,2)+"\n"],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+function setAudio(src,filename){
+ if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl=null;}
+ audio.src=src;audio.load();status("Audio loaded: "+filename+". It stays in your browser.");
+}
+function useUrl(){const url=$("remoteAudio").value.trim();if(!url){status("Enter a direct audio URL.");return;}setAudio(url,"remote audio URL");}
+function ensure(){if(!state){status("Load a proposal first.");return false;}return true;}
+$("proposal").onchange=async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{loadData(JSON.parse(await file.text()));status("Proposal loaded. Review each appearance against the audio.");}
+ catch(err){status("Could not load JSON: "+err.message);}
+};
+$("audioFile").onchange=e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ objectUrl=URL.createObjectURL(file);audio.src=objectUrl;audio.load();
+ status("Local audio loaded: "+file.name+" (not uploaded).");
+};
+$("useRemote").onclick=useUrl;
+$("back2").onclick=()=>{audio.currentTime=Math.max(0,audio.currentTime-2);};
+$("forward2").onclick=()=>{audio.currentTime=Math.min(audio.duration||Infinity,audio.currentTime+2);};
+audio.ontimeupdate=()=>{
+ $("clock").textContent=stamp(currentAbsolute());
+ if(loopStop!==null&&audio.currentTime>=loopStop){audio.pause();loopStop=null;}
+};
+$("search").oninput=()=>{if(state)renderTerms();};
+$("showAll").onclick=()=>{pendingOnly=false;if(state)renderTerms();};
+$("showPending").onclick=()=>{pendingOnly=true;if(state)renderTerms();};
+$("applyTerm").onclick=()=>{
+ if(!ensure())return;
+ const g=state.term_groups.find(x=>x.id===selected);
+ const value=$("editTerm").value.trim();
+ if(!value){status("The term cannot be empty.");return;}
+ g.term=value;saveLocal();render();status("Canonical spelling updated.");
+};
+$("approveTerm").onclick=()=>{
+ if(!ensure())return;const g=state.term_groups.find(x=>x.id===selected);
+ g.occurrences.forEach(o=>o.state="confirmed");saveLocal();render();
+};
+$("rejectTerm").onclick=()=>{
+ if(!ensure())return;const g=state.term_groups.find(x=>x.id===selected);
+ g.occurrences.forEach(o=>o.state="rejected");saveLocal();render();
+};
+function parseSelectedTime(id){
+ const raw=$(id).value.trim();
+ const n=raw?parseTime(raw):currentAbsolute();
+ if(n===null||!Number.isFinite(n)||n<0){status("Use HH:MM:SS, MM:SS or seconds.");return null;}
+ if(state&&state.window&& (n<Number(state.window.start)-2||n>Number(state.window.end)+2)){
+  status("Timestamp is outside the reference window.");return null;
+ }
+ return n;
+}
+$("addOccurrence").onclick=()=>{
+ if(!ensure())return;const g=state.term_groups.find(x=>x.id===selected);
+ const n=parseSelectedTime("addAt");if(n===null)return;
+ g.occurrences.push({id:Date.now(),start:n,end:n+1,sources:["manual"],matched_text:g.term,state:"confirmed",manual:true});
+ g.occurrences.sort((a,b)=>a.start-b.start);$("addAt").value="";saveLocal();render();
+};
+$("addTerm").onclick=()=>{
+ if(!ensure())return;
+ const text=$("newTerm").value.trim();
+ if(!text){status("Enter the missing term.");return;}
+ const n=parseSelectedTime("newTime");if(n===null)return;
+ let g=state.term_groups.find(x=>x.term.toLowerCase()===text.toLowerCase());
+ if(!g){g={id:Math.max(0,...state.term_groups.map(x=>x.id))+1,term:text,original:"",sources:["manual"],occurrences:[]};state.term_groups.push(g);}
+ g.occurrences.push({id:Date.now(),start:n,end:n+1,sources:["manual"],matched_text:text,state:"confirmed",manual:true});
+ selected=g.id;$("newTime").value="";$("newTerm").value="";saveLocal();render();
+};
+$("listened").onchange=e=>{if(!ensure())return;state.listened=e.target.checked;saveLocal();};
+$("exportSession").onclick=()=>{
+ if(!ensure())return;
+ state.listened=$("listened").checked;
+ download("review-"+(state.episode_guid||"episode")+".json",state);
+ status("Review session saved. Re-import it to resume.");
+};
+$("exportRef").onclick=()=>{
+ if(!ensure())return;
+ const pending=state.term_groups.flatMap(g=>g.occurrences).filter(o=>o.state==="pending").length;
+ const exhaustive=$("listened").checked && pending===0 && state.term_groups.some(g=>g.occurrences.length);
+ const terms=[...new Set(state.term_groups.filter(g=>g.occurrences.some(o=>o.state==="confirmed")).map(g=>g.term))];
+ const confirmed=state.term_groups.flatMap(g=>g.occurrences.filter(o=>o.state==="confirmed").map(o=>({
+     term:g.term,start:o.start,end:o.end,source_models:o.sources
+ })));
+ const reference={
+   episode_guid:state.episode_guid,episode_title:state.episode_title,
+   window:state.window,technical_terms:terms,
+   reference_text:"",speaker_turns:[],
+   review_status:exhaustive?"approved":"pending",
+   terms_exhaustive:exhaustive,
+   verified_occurrences:confirmed,
+   review_notes:"Term-only listening review; Hebrew CER and diarization require separate references.",
+   review_timestamp:new Date().toISOString()
+ };
+ download((state.episode_guid||"reference")+".json",reference);
+ status(exhaustive?"Approved term reference exported. Commit to langtalks/reference/."
+                  :"Provisional reference exported. Complete listening/remaining checks before approving.");
+};
+document.addEventListener("keydown",e=>{
+ if(["INPUT","TEXTAREA","SELECT"].includes(document.activeElement?.tagName))return;
+ if(e.key==="ArrowLeft"){audio.currentTime=Math.max(0,audio.currentTime-2);e.preventDefault();}
+ if(e.key==="ArrowRight"){audio.currentTime=Math.min(audio.duration||Infinity,audio.currentTime+2);e.preventDefault();}
+});
+})();
+</script>
+</body>
+</html>
