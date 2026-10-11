@@ -78,28 +78,41 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
 </section>
 <div class="cols">
  <aside class="panel">
-  <div class="side-info"><h2>Candidate terms</h2><span class="stat" id="counts">0 / 0 reviewed</span></div>
+  <div class="side-info"><h2>Technical concepts</h2><span class="stat" id="counts">0 / 0 reviewed</span></div>
   <div class="progress"><div id="bar"></div></div>
   <input type="search" id="search" class="long" placeholder="Search terms" aria-label="Filter candidate terms">
   <div class="row" style="margin-top:8px">
    <button id="showAll">All</button><button id="showPending">Pending only</button>
+   <button id="mergeSelected">Merge selected</button>
   </div>
+  <p class="instructions">Use the small checkboxes to select multiple phrases for merging. Review each suggested grouping against audio.</p>
+  <div id="missingSuggestions" class="instructions"></div>
   <div id="terms"><p class="instructions">Upload a proposal JSON generated from the LangTalks ASR benchmark, or a previously saved review session.</p></div>
  </aside>
  <section class="panel">
   <div id="empty" class="instructions">Choose a candidate term to review its occurrences. A timestamp plays the relevant audio, so you can verify every appearance rather than guessing from a list.</div>
   <div id="detail" hidden>
-   <label for="editTerm">Canonical English spelling</label>
-   <div class="editor-grid">
-    <input type="text" id="editTerm" class="long" dir="auto">
-    <button id="applyTerm" class="primary">Update spelling</button>
+   <label for="editSurface">Phrase as spoken (surface form)</label>
+   <input type="text" id="editSurface" class="long" dir="auto">
+   <div class="row" style="margin-top:10px">
+    <div style="flex:1;min-width:160px"><label for="editTerm">Canonical concept for search</label>
+    <input type="text" id="editTerm" class="long" dir="auto"></div>
+    <div style="flex:1;min-width:150px"><label for="conceptKind">Concept type</label>
+    <select id="conceptKind" class="long" style="padding:9px;background:#0f1923;color:var(--text);border:1px solid var(--line);border-radius:8px">
+     <option value="product">Product</option><option value="tool">Tool</option><option value="protocol">Protocol</option>
+     <option value="technical_practice">Technical practice</option><option value="technical_concept">Technical concept</option>
+     <option value="descriptive_concept">Descriptive phrase</option><option value="organization">Organization</option><option value="other">Other</option>
+    </select></div>
+    <button id="applyTerm" class="primary">Save concept</button>
    </div>
+   <p id="conceptReason" class="instructions"></p>
+   <button id="splitTerm" class="flat" title="Create tentative separate phrases; their individual timestamps must be checked">Split phrase (recheck times)</button>
    <div class="row">
     <button id="approveTerm">Confirm all occurrences</button><button id="rejectTerm" class="danger">Reject all</button>
     <span id="termStat" class="stat"></span>
    </div>
    <hr>
-   <h3>Individual appearances</h3>
+   <h3>Each occurrence of this concept</h3>
    <div class="instructions">Click a time to hear the word. Check a box only if you heard it, or reject a false appearance. Timestamps are ASR estimates, not certified alignment.</div>
    <div id="occurrences"></div>
    <div class="row" style="margin-top:12px">
@@ -108,7 +121,7 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
    </div>
   </div>
   <hr>
-  <h3>Missing English term</h3>
+  <h3>Missing technical concept / phrase</h3>
   <div class="row">
    <input type="text" id="newTerm" placeholder="e.g. Model Context Protocol" style="flex:1" dir="auto">
    <input type="text" id="newTime" placeholder="HH:MM:SS or player" style="width:166px">
@@ -134,6 +147,7 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
 "use strict";
 const $=id=>document.getElementById(id);
 let state=null,selected=null,pendingOnly=false,objectUrl=null,replayStart=null,replayEnd=null;
+let mergeIds=new Set();
 const audio=$("player");
 function stamp(seconds){
  const n=Math.max(0,Math.round(Number(seconds)||0));
@@ -187,9 +201,12 @@ function normalizeProposal(data){
    window:data.window||{start:0,end:300},
    source_models:data.source_models||data.provider_outputs_considered||[],
    audio_url:data.audio_url||"",
+   suggested_missing:data.assistant_editorial_pass?.missing_from_asr_to_check||[],
    listened:false,
    term_groups:data.suggested_terms.map((g,i)=>({
       id:i+1,term:g.term||"",original:g.term||"",
+      surface:g.surface||g.term||"",canonical:g.canonical||g.term||"",
+      kind:g.kind||"other",editorial_reason:g.editorial_reason||"",
       sources:g.seen_in||[],
       occurrences:(g.occurrences||[]).map((o,j)=>({
         id:j+1,start:Number(o.start),end:Number(o.end),
@@ -207,11 +224,22 @@ function saveLocal(){
  }catch(e){} // Offline file contexts may disallow localStorage; JSON export always works.
 }
 function loadData(data){
- normalizeProposal(data);selected=state.term_groups[0]?.id||null;
+ normalizeProposal(data);mergeIds.clear();selected=state.term_groups[0]?.id||null;
  $("episodeTitle").textContent=state.episode_title||state.episode_guid;
  $("listened").checked=Boolean(state.listened);
  if(state.audio_url){$("remoteAudio").value=state.audio_url;useUrl();}
- render();saveLocal();
+ render();renderMissing();saveLocal();
+}
+function renderMissing(){
+ const root=$("missingSuggestions");root.replaceChildren();
+ const suggestions=state?.suggested_missing||[];
+ if(!suggestions.length)return;
+ const title=document.createElement("p");title.textContent="Possible missing concepts — click to add while listening:";root.append(title);
+ for(const term of suggestions){
+  const b=document.createElement("button");b.className="flat";b.style.margin="2px";
+  b.textContent="+ "+term;b.onclick=()=>{$("newTerm").value=term;$("newTerm").focus();};
+  root.append(b);
+ }
 }
 function decide(group,occ,v){occ.state=v;saveLocal();render();}
 function count(){
@@ -230,12 +258,16 @@ function renderTerms(){
   return true;
  });
  for(const g of list){
-  const b=document.createElement("button");b.className="term-item"+(selected===g.id?" selected":"");
-  const left=document.createElement("span");left.className="term-name";left.textContent=g.term||"(unnamed)";
+  const container=document.createElement("div");container.className="row";container.style.flexWrap="nowrap";
+  const pick=document.createElement("input");pick.type="checkbox";pick.checked=mergeIds.has(g.id);pick.title="Select for concept merge";
+  pick.onchange=()=>{if(pick.checked)mergeIds.add(g.id);else mergeIds.delete(g.id);};
+  const b=document.createElement("button");b.className="term-item"+(selected===g.id?" selected":"");b.style.flex="1";
+  const left=document.createElement("span");left.className="term-name";left.textContent=g.surface||g.term||"(unnamed)";
+  if(g.canonical&&g.canonical!==g.surface){const subtle=document.createElement("div");subtle.className="sources";subtle.textContent="→ "+g.canonical;left.append(subtle);}
   const right=document.createElement("span");right.className="pill "+(g.occurrences.every(o=>o.state!=="pending")?"done":"todo");
   const approved=g.occurrences.filter(o=>o.state==="confirmed").length;
   right.textContent=approved+"/"+g.occurrences.length+" ✓";
-  b.append(left,right);b.onclick=()=>{selected=g.id;render();};termRoot.append(b);
+  b.append(left,right);b.onclick=()=>{selected=g.id;render();};container.append(pick,b);termRoot.append(container);
  }
  if(!list.length){const p=document.createElement("p");p.className="instructions";p.textContent="No terms match this filter.";termRoot.append(p);}
 }
@@ -243,7 +275,10 @@ function renderDetail(){
  const group=state.term_groups.find(g=>g.id===selected);
  $("detail").hidden=!group;$("empty").hidden=Boolean(group);
  if(!group)return;
- $("editTerm").value=group.term;
+ $("editTerm").value=group.canonical||group.term;
+ $("editSurface").value=group.surface||group.term;
+ $("conceptKind").value=group.kind||"other";
+ $("conceptReason").textContent=group.editorial_reason||"Unverified ASR proposal. Check audio before confirming.";
  $("termStat").textContent=group.occurrences.length+" appearances · "+group.sources.join(", ");
  const list=$("occurrences");list.replaceChildren();
  for(const occ of group.occurrences.slice().sort((a,b)=>a.start-b.start)){
@@ -326,8 +361,58 @@ $("applyTerm").onclick=()=>{
  if(!ensure())return;
  const g=state.term_groups.find(x=>x.id===selected);
  const value=$("editTerm").value.trim();
- if(!value){status("The term cannot be empty.");return;}
- g.term=value;saveLocal();render();status("Canonical spelling updated.");
+ const heard=$("editSurface").value.trim();
+ if(!value||!heard){status("Both spoken phrase and canonical concept are required.");return;}
+ g.canonical=value;g.surface=heard;g.term=heard;g.kind=$("conceptKind").value;
+ saveLocal();render();status("Spoken phrase and canonical concept saved separately.");
+};
+$("mergeSelected").onclick=()=>{
+ if(!ensure())return;
+ const chosen=state.term_groups.filter(g=>mergeIds.has(g.id)).sort((a,b)=>{
+  const start=x=>Math.min(...x.occurrences.map(o=>o.start));
+  return start(a)-start(b);
+ });
+ if(chosen.length<2){status("Select at least two phrases using their small checkboxes.");return;}
+ const merged=[];
+ for(const first of chosen[0].occurrences){
+  let cursor=first.end;
+  const items=[first];
+  for(const next of chosen.slice(1)){
+   const candidate=next.occurrences.filter(o=>o.start>=first.start-.2&&o.start<=cursor+2.0)
+       .sort((a,b)=>Math.abs(a.start-cursor)-Math.abs(b.start-cursor))[0];
+   if(!candidate)break;
+   items.push(candidate);cursor=Math.max(cursor,candidate.end);
+  }
+  if(items.length===chosen.length){
+   merged.push({id:Date.now()+merged.length,start:first.start,end:cursor,
+    sources:[...new Set(items.flatMap(o=>o.sources||[]))],
+    matched_text:items.map(o=>o.matched_text).join(" "),state:"pending",manual:false});
+  }
+ }
+ if(!merged.length){status("Selected phrases do not have adjacent timestamps; edit or add the combined phrase manually.");return;}
+ const label=chosen.map(g=>g.surface||g.term).join(" ");
+ const entry={id:Math.max(...state.term_groups.map(g=>g.id))+1,term:label,surface:label,
+  canonical:label,kind:"technical_concept",editorial_reason:"Manually merged from ASR fragments; verify exact wording.",
+  sources:[...new Set(chosen.flatMap(g=>g.sources||[]))],occurrences:merged};
+ state.term_groups=state.term_groups.filter(g=>!mergeIds.has(g.id));state.term_groups.push(entry);
+ mergeIds.clear();selected=entry.id;saveLocal();render();
+ status("Created an unverified combined concept. Confirm the audio and spelling.");
+};
+$("splitTerm").onclick=()=>{
+ if(!ensure())return;
+ const g=state.term_groups.find(x=>x.id===selected);
+ const parts=(g.surface||g.term).split(/\s+/).filter(Boolean);
+ if(parts.length<2){status("This phrase has no whitespace to split.");return;}
+ const newItems=parts.map((word,i)=>({
+  id:Math.max(...state.term_groups.map(x=>x.id))+i+1,term:word,surface:word,canonical:word,
+  kind:"other",editorial_reason:"Split from a longer phrase; each word's estimated timestamp must be checked.",
+  sources:[...(g.sources||[])],
+  occurrences:g.occurrences.map((o,j)=>({...o,id:Date.now()+i*100+j,state:"pending",
+    matched_text:word,alignment:"needs_manual_retiming"}))
+ }));
+ state.term_groups=state.term_groups.filter(x=>x.id!==g.id).concat(newItems);
+ selected=newItems[0].id;saveLocal();render();
+ status("Split into tentative terms; audio timing must be rechecked.");
 };
 $("approveTerm").onclick=()=>{
  if(!ensure())return;const g=state.term_groups.find(x=>x.id===selected);
@@ -358,7 +443,7 @@ $("addTerm").onclick=()=>{
  if(!text){status("Enter the missing term.");return;}
  const n=parseSelectedTime("newTime");if(n===null)return;
  let g=state.term_groups.find(x=>x.term.toLowerCase()===text.toLowerCase());
- if(!g){g={id:Math.max(0,...state.term_groups.map(x=>x.id))+1,term:text,original:"",sources:["manual"],occurrences:[]};state.term_groups.push(g);}
+ if(!g){g={id:Math.max(0,...state.term_groups.map(x=>x.id))+1,term:text,surface:text,canonical:text,kind:"other",original:"",sources:["manual"],occurrences:[]};state.term_groups.push(g);}
  g.occurrences.push({id:Date.now(),start:n,end:n+1,sources:["manual"],matched_text:text,state:"confirmed",manual:true});
  selected=g.id;$("newTime").value="";$("newTerm").value="";saveLocal();render();
 };
@@ -373,9 +458,12 @@ $("exportRef").onclick=()=>{
  if(!ensure())return;
  const pending=state.term_groups.flatMap(g=>g.occurrences).filter(o=>o.state==="pending").length;
  const exhaustive=$("listened").checked && pending===0 && state.term_groups.some(g=>g.occurrences.length);
- const terms=[...new Set(state.term_groups.filter(g=>g.occurrences.some(o=>o.state==="confirmed")).map(g=>g.term))];
- const confirmed=state.term_groups.flatMap(g=>g.occurrences.filter(o=>o.state==="confirmed").map(o=>({
-     term:g.term,start:o.start,end:o.end,source_models:o.sources
+ const groups=state.term_groups.filter(g=>g.occurrences.some(o=>o.state==="confirmed"));
+ const terms=[...new Set(groups.map(g=>g.canonical||g.term))];
+ const confirmed=groups.flatMap(g=>g.occurrences.filter(o=>o.state==="confirmed").map(o=>({
+     term:g.canonical||g.term, surface:g.surface||g.term, canonical:g.canonical||g.term,
+     kind:g.kind||"other",start:o.start,end:o.end,source_models:o.sources,
+     review_status:"verified"
  })));
  const reference={
    episode_guid:state.episode_guid,episode_title:state.episode_title,
@@ -384,6 +472,12 @@ $("exportRef").onclick=()=>{
    review_status:exhaustive?"approved":"pending",
    terms_exhaustive:exhaustive,
    verified_occurrences:confirmed,
+   concept_mentions:confirmed.map((o,i)=>({
+     id:"mention-"+String(i+1).padStart(4,"0"),turn_id:null,
+     start_s:o.start,end_s:o.end,surface:o.surface,canonical:o.canonical,
+     kind:o.kind,concept_id:null,aliases:[],review_status:"verified",
+     provenance:{models:o.source_models,timestamp_alignment:"human_checked_review"}
+   })),
    review_notes:"Term-only listening review; Hebrew CER and diarization require separate references.",
    review_timestamp:new Date().toISOString()
  };
