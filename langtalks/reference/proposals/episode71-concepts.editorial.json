@@ -1001,5 +1001,35 @@
       "occurrences": 1,
       "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
     }
+  ],
+  "editorial_topics": [
+    {
+      "id": "topic-isolation",
+      "title": "Multi-tenant agent isolation and container architecture",
+      "turn_ids": [
+        "turn-0001",
+        "turn-0002"
+      ],
+      "status": "suggested"
+    },
+    {
+      "id": "topic-credentials",
+      "title": "Credential gateway, process separation and human-in-the-loop approvals",
+      "turn_ids": [
+        "turn-0002",
+        "turn-0003"
+      ],
+      "status": "suggested"
+    },
+    {
+      "id": "topic-onecli",
+      "title": "OneCLI authentication, OAuth, third-party integrations and hosting",
+      "turn_ids": [
+        "turn-0003",
+        "turn-0004",
+        "turn-0005"
+      ],
+      "status": "suggested"
+    }
   ]
 }
