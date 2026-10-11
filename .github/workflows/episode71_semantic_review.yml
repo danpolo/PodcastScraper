@@ -24,6 +24,9 @@ jobs:
           print('TIMED_APPEARANCES',sum(len(x['occurrences']) for x in p['suggested_terms']))
           print('EDITORIAL_GROUPS',json.dumps([x['term'] for x in p['suggested_terms']],ensure_ascii=False))
           print('SUPPRESSED_CANDIDATES',len(p['excluded_candidates']))
+          print('SEMANTIC_JSON_START')
+          print(json.dumps(p,ensure_ascii=False,separators=(',',':')))
+          print('SEMANTIC_JSON_END')
           PY
       - uses: actions/upload-artifact@v4
         with:
