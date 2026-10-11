@@ -125,10 +125,13 @@ def from_asr(asr, proposal=None, *, source_urls=None):
         end = start
     turns = _to_turns(asr, start, end)
     guid = str(asr.get("episode_guid") or (proposal or {}).get("episode_guid") or "")
+    urls = dict(source_urls or {})
+    if proposal and proposal.get("audio_url"):
+        urls.setdefault("original_audio", proposal["audio_url"])
     episode = {
         "id": guid,
         "title": asr.get("episode_title") or (proposal or {}).get("episode_title") or "",
-        "languages": ["he", "en"], "source_urls": source_urls or {},
+        "languages": ["he", "en"], "source_urls": urls,
     }
     mentions = []
     for group in (proposal or {}).get("suggested_terms", []):
