@@ -1,0 +1,32 @@
+name: Prepare episode 71 semantic-first review
+on:
+  push:
+    branches: [dev]
+    paths: [.github/workflows/episode71_semantic_review.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Produce assistant-edited but unapproved concept queue
+        run: |
+          python -m langtalks.concept_review langtalks/reference/proposals/74fc0625-0a6b-4ca1-9488-31be7860360d.json --output episode71-semantic-review.json
+          python - <<'PY'
+          import json
+          p=json.load(open('episode71-semantic-review.json'))
+          print('SEMANTIC_GROUPS',len(p['suggested_terms']))
+          print('TIMED_APPEARANCES',sum(len(x['occurrences']) for x in p['suggested_terms']))
+          print('EDITORIAL_GROUPS',json.dumps([x['term'] for x in p['suggested_terms']],ensure_ascii=False))
+          print('SUPPRESSED_CANDIDATES',len(p['excluded_candidates']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: episode71-semantic-reference-review
+          path: episode71-semantic-review.json
+          retention-days: 7
