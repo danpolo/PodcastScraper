@@ -22,3 +22,9 @@ jobs:
       - run: playwright install chromium --with-deps
       - name: Test offline browser reviewer
         run: python tools/tests/reference_review_smoke.py
+      - name: Package the standalone review page for direct download
+        uses: actions/upload-artifact@v4
+        with:
+          name: podcast-term-reviewer-html
+          path: tools/reference-review.html
+          retention-days: 7
