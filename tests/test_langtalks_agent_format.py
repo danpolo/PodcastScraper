@@ -83,6 +83,15 @@ class AgentTranscriptTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "nonexistent turn"):
             validate(doc)
 
+    def test_editorial_topics_are_suggested_and_grounded_in_turn_ids(self):
+        self.proposal["editorial_topics"] = [{
+            "id": "topic-auth", "title": "Credential management",
+            "turn_ids": ["turn-0001"], "status": "verified",
+        }]
+        result = from_asr(self.asr, self.proposal)
+        self.assertEqual(result["topics"][0]["status"], "suggested")
+        self.assertIn("Credential management", render_markdown(result))
+
     def test_proposed_topic_cannot_claim_verified_status(self):
         doc = from_asr(self.asr)
         doc["topics"].append({"title": "Credential management",
