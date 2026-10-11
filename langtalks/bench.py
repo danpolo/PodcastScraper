@@ -223,6 +223,23 @@ def _score_one(episode_guid: str, episode=None):
     return reference, rows
 
 
+def cmd_reference_draft(args):
+    """Suggest terms from cached transcripts; a listening review is required."""
+    from .reference_draft import write_draft
+
+    episodes = fetch_episodes()
+    for episode in _resolve(args.episodes, episodes):
+        ref_path = REFERENCE_DIR / f"{episode.guid}.json"
+        if not ref_path.exists():
+            print(f"Reference scaffold missing: {ref_path}. Run 'reference' first.")
+            continue
+        output, draft = write_draft(
+            episode.guid, REFERENCE_DIR, TRANSCRIPT_DIR, ROOT / "out" / "reference_drafts"
+        )
+        print(f"{output}: {len(draft['suggested_terms'])} unverified terms "
+              f"from {len(draft['provider_outputs_considered'])} provider outputs")
+
+
 def cmd_score(args):
     episodes = fetch_episodes()
     for episode in _resolve(args.episodes, episodes):
@@ -233,6 +250,8 @@ def cmd_score(args):
                   f" — see langtalks/README.md for the format.")
             continue
         print(f"\n=== {episode.title}")
+        if reference.get("review_status") != "approved":
+            print("  PROVISIONAL: no human listening approval recorded.")
         if not rows:
             print(f"  No transcripts yet — run: "
                   f"python -m langtalks.bench transcribe {episode.number or episode.guid[:8]}")
@@ -260,7 +279,11 @@ def cmd_report(args):
         guid = reference_path.stem
         _, rows = _score_one(guid, episodes.get(guid))
         for row in rows:
-            entry = totals.setdefault(row["provider"], {"overall": [], "recall": []})
+            entry = totals.setdefault(row["provider"], {
+                "overall": [], "recall": [], "reviewed": 0,
+            })
+            if score_mod.load_reference(reference_path).get("review_status") == "approved":
+                entry["reviewed"] += 1
             if row["overall"] is not None:
                 entry["overall"].append(row["overall"])
             if row["components"]["term_recall"] is not None:
@@ -272,13 +295,14 @@ def cmd_report(args):
         )
 
     mean = lambda values: sum(values) / len(values) if values else None
-    print(f"{'provider':<14}{'windows':>9}{'term recall':>14}{'overall':>10}")
+    print(f"{'provider':<14}{'windows':>9}{'approved':>10}"
+          f"{'term recall':>14}{'overall':>10}")
     ranked = sorted(
         totals.items(), key=lambda kv: mean(kv[1]["recall"]) or 0, reverse=True
     )
     for name, entry in ranked:
         recall, overall = mean(entry["recall"]), mean(entry["overall"])
-        print(f"{name:<14}{len(entry['overall']):>9}"
+        print(f"{name:<14}{len(entry['overall']):>9}{entry['reviewed']:>10}"
               f"{'n/a' if recall is None else f'{recall:>13.3f}'}"
               f"{'n/a' if overall is None else f'{overall:>10.3f}'}")
 
@@ -319,6 +343,11 @@ def main(argv=None):
     p.add_argument("--end", type=float, default=780.0)
     p.add_argument("--force", action="store_true")
     p.set_defaults(func=cmd_reference)
+
+    p = sub.add_parser("reference-draft",
+                       help="propose terms from ASR; MUST verify by listening")
+    p.add_argument("episodes", nargs="+")
+    p.set_defaults(func=cmd_reference_draft)
 
     p = sub.add_parser("score", help="score transcripts against references")
     p.add_argument("episodes", nargs="+")
