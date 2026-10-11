@@ -56,6 +56,16 @@ class ConceptReviewTests(unittest.TestCase):
         self.assertNotIn("code review",
                          [g["term"] for g in draft["suggested_terms"]])
 
+    def test_unrelated_episode_does_not_promote_cli_to_onecli(self):
+        draft = build({"episode_guid": "some-other-episode",
+                       "suggested_terms": [item("cli", 10, 11),
+                                           item("Auth", 12, 13)]})
+        labels = {g["canonical"] for g in draft["suggested_terms"]}
+        self.assertIn("CLI", labels)
+        self.assertIn("authentication", labels)
+        self.assertNotIn("OneCLI", labels)
+        self.assertNotIn("OAuth", labels)
+
     def test_no_auto_approval(self):
         draft = build({"suggested_terms": [item("NanoClaw", 500, 501)]})
         self.assertNotEqual(draft["review_status"], "approved")
