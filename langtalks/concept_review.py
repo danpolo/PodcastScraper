@@ -35,6 +35,8 @@ COMPOUNDS = [
     ("standalone", "standalone", "technical_concept",
      [("stand",), ("alone",)], 1.0),
 ]
+EPISODE_71_GUID = "74fc0625-0a6b-4ca1-9488-31be7860360d"
+
 # Deliberately keep a short queue: basic English function words and isolated
 # adjectives are not independently meaningful concepts for retrieval.
 SINGLES = {
@@ -153,6 +155,17 @@ def build(initial):
         if name not in SINGLES:
             continue
         canonical, kind = SINGLES[name]
+        # Do not generalize one episode's named-product context to every
+        # podcast: CLI is not necessarily OneCLI and auth is not always OAuth.
+        if source.get("episode_guid") != EPISODE_71_GUID:
+            if name == "cli":
+                canonical, kind = "CLI", "tool"
+            elif name == "auth":
+                canonical, kind = "authentication", "technical_concept"
+            elif name == "calendar":
+                canonical, kind = "calendar", "technical_concept"
+            elif name == "drive":
+                canonical, kind = "drive", "technical_concept"
         occurrences = [
             o for o in group.get("occurrences", [])
             if (_norm(group["term"]), round(float(o["start"]), 1)) not in consumed
