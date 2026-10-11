@@ -1,0 +1,95 @@
+name: One-time timestamped LangTalks review proposal
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/timed_reference_pilot.yml
+
+permissions:
+  contents: read
+
+jobs:
+  local-timing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install local ASR
+        run: |
+          pip install -r requirements.txt
+          pip install faster-whisper
+      - name: Fetch LangTalks five-minute excerpt
+        run: python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Extract term timestamps from two offline models
+        env:
+          HF_HUB_DISABLE_TELEMETRY: "1"
+        run: |
+          python - <<'PY'
+          import gc, json
+          from pathlib import Path
+          from faster_whisper import WhisperModel
+          from langtalks.feed import fetch_episodes
+          from langtalks import glossary
+          from langtalks.reference_draft import write_draft
+
+          episode = next(e for e in fetch_episodes() if e.number == 71)
+          audio = Path("langtalks/out/excerpts") / (episode.guid + ".mp3")
+          transcript_dir = Path("langtalks/out/transcripts")
+          transcript_dir.mkdir(parents=True, exist_ok=True)
+          words_count = {}
+          for name, model_id in [
+              ("local_whisper_turbo", "large-v3-turbo"),
+              ("local_ivrit_turbo", "ivrit-ai/whisper-large-v3-turbo-ct2"),
+          ]:
+              model = WhisperModel(model_id, device="cpu",
+                                   compute_type="int8", cpu_threads=4)
+              segments, _ = model.transcribe(
+                  str(audio), language="he", beam_size=5,
+                  initial_prompt=glossary.context_prompt(
+                      episode, glossary.build(episode))[:600],
+                  word_timestamps=True, vad_filter=True,
+              )
+              segments = list(segments)
+              tokens = []
+              for segment in segments:
+                  for word in segment.words or []:
+                      tokens.append({
+                          "text": word.word,
+                          "start": round(word.start + 480, 2),
+                          "end": round(word.end + 480, 2),
+                          "speaker": None,
+                          "confidence": word.probability,
+                      })
+              words_count[name] = len(tokens)
+              payload = {
+                  "provider": name,
+                  "episode_guid": episode.guid,
+                  "source": "excerpt", "time_offset": 480,
+                  "text": "".join(seg.text for seg in segments),
+                  "tokens": tokens,
+              }
+              (transcript_dir / (episode.guid + "." + name + ".json")).write_text(
+                  json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+              del model
+              gc.collect()
+
+          file, draft = write_draft(
+              episode.guid, Path("langtalks/reference"), transcript_dir,
+              Path("langtalks/out/reference_drafts"))
+          draft["source_models"] = list(words_count)
+          draft["audio_url"] = episode.audio_url
+          print("TOKEN_COUNTS", json.dumps(words_count))
+          print("CANDIDATE_COUNT", len(draft["suggested_terms"]))
+          print("TIMED_OCCURRENCES", sum(len(t["occurrences"])
+                for t in draft["suggested_terms"]))
+          print("DRAFT_JSON_START")
+          print(json.dumps(draft, ensure_ascii=False, separators=(",", ":")))
+          print("DRAFT_JSON_END")
+          PY
+      - if: always()
+        name: Remove cached podcast audio and transcripts
+        run: rm -rf langtalks/out
