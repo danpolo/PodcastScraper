@@ -56,6 +56,7 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
   <label class="upload">Open term proposal JSON<input type="file" id="proposal" accept=".json,application/json"></label>
   <button id="resumeLocal" title="Restore a saved local session, if this browser allows it">Resume local draft</button>
   <label class="upload">Open audio MP3 / WAV<input type="file" id="audioFile" accept="audio/*,.mp3,.wav,.m4a,.ogg"></label>
+  <label class="upload">Load ASR transcript for context<input type="file" id="asrTranscriptFile" accept=".json,application/json"></label>
   <span class="stat" id="episodeTitle">Load a proposal to begin.</span>
  </div>
  <div class="row">
@@ -115,6 +116,8 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
    <h3>Each occurrence of this concept</h3>
    <div class="instructions">Click a time to hear the word. Check a box only if you heard it, or reject a false appearance. Timestamps are ASR estimates, not certified alignment.</div>
    <div id="occurrences"></div>
+   <h3 style="margin-top:12px">Nearby transcript text — unverified ASR</h3>
+   <p class="instructions" id="nearbyTranscript" dir="auto">Load a timestamped agent transcript JSON for surrounding context.</p>
    <div class="row" style="margin-top:12px">
     <label>Add another occurrence (HH:MM:SS, optional) <input type="text" id="addAt" placeholder="Use player time" style="width:130px"></label>
     <button id="addOccurrence">+ Add at time</button>
@@ -148,6 +151,7 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
 const $=id=>document.getElementById(id);
 let state=null,selected=null,pendingOnly=false,objectUrl=null,replayStart=null,replayEnd=null;
 let mergeIds=new Set();
+let transcriptDraft=null;
 const audio=$("player");
 function stamp(seconds){
  const n=Math.max(0,Math.round(Number(seconds)||0));
@@ -271,6 +275,22 @@ function renderTerms(){
  }
  if(!list.length){const p=document.createElement("p");p.className="instructions";p.textContent="No terms match this filter.";termRoot.append(p);}
 }
+function renderTranscriptContext(group){
+ const root=$("nearbyTranscript");
+ if(!transcriptDraft?.turns?.length){
+  root.textContent="No transcript draft loaded. Import the JSON or open the bundled kit.";return;
+ }
+ const starts=group.occurrences.map(x=>x.start);
+ const at=starts.length?starts[0]:Number(state?.window?.start||0);
+ const turn=transcriptDraft.turns.find(t=>t.start_s-.5<=at&&t.end_s+.5>=at);
+ root.replaceChildren();
+ if(!turn){root.textContent="No aligned speech turn for this estimated timestamp.";return;}
+ const header=document.createElement("div");header.textContent=
+   stamp(turn.start_s)+" — "+stamp(turn.end_s)+" · "+(turn.speaker_id||"speaker unknown");
+ header.className="sources";root.append(header);
+ const block=document.createElement("p");block.textContent=turn.text;
+ block.style.whiteSpace="pre-wrap";block.style.color="var(--text)";root.append(block);
+}
 function renderDetail(){
  const group=state.term_groups.find(g=>g.id===selected);
  $("detail").hidden=!group;$("empty").hidden=Boolean(group);
@@ -280,6 +300,7 @@ function renderDetail(){
  $("conceptKind").value=group.kind||"other";
  $("conceptReason").textContent=group.editorial_reason||"Unverified ASR proposal. Check audio before confirming.";
  $("termStat").textContent=group.occurrences.length+" appearances · "+group.sources.join(", ");
+ renderTranscriptContext(group);
  const list=$("occurrences");list.replaceChildren();
  for(const occ of group.occurrences.slice().sort((a,b)=>a.start-b.start)){
   const row=document.createElement("div");row.className="occ";
@@ -321,6 +342,15 @@ $("proposal").onchange=async e=>{
  const file=e.target.files?.[0];if(!file)return;
  try{loadData(JSON.parse(await file.text()));status("Proposal loaded. Review each appearance against the audio.");}
  catch(err){status("Could not load JSON: "+err.message);}
+};
+$("asrTranscriptFile").onchange=async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+  const data=JSON.parse(await file.text());
+  if(!Array.isArray(data.turns))throw Error("Missing transcript turns");
+  transcriptDraft=data;if(state)renderDetail();
+  status("Loaded unverified transcript context. It does not establish correctness.");
+ }catch(err){status("Could not load transcript JSON: "+err.message);}
 };
 $("audioFile").onchange=e=>{
  const file=e.target.files?.[0];if(!file)return;
@@ -494,6 +524,9 @@ if(window.__localReviewProposal){
   let cached=null;
   try{cached=localStorage.getItem(key);}catch(e){}
   loadData(cached?JSON.parse(cached):original);
+  if(window.__localAgentTranscript?.turns){
+   transcriptDraft=window.__localAgentTranscript;renderDetail();
+  }
   if(window.__kitAudioPath){
    setAudio(window.__kitAudioPath,"bundled five-minute audio");
    $("audioMode").value="excerpt";
