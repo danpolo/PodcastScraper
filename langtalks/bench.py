@@ -180,6 +180,9 @@ def cmd_reference(args):
                 "to also score Hebrew accuracy and script fidelity."
             ),
             "technical_terms": [],
+            # These are user-controlled labels, never inferred from ASR votes.
+            "review_status": "pending",
+            "terms_exhaustive": False,
             "reference_text": "",
             "speaker_turns": [],
         }
