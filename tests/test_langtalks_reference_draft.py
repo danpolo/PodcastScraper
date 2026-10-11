@@ -33,6 +33,59 @@ class ReferenceDraftTests(unittest.TestCase):
             self.assertNotIn("technical_terms", result)
             self.assertNotIn("review_status", result)
 
+    def test_occurrences_merge_across_models_with_word_times(self):
+        guid = "timed"
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            ref = {"window": {"start": 480, "end": 780}}
+            for source, delta in (("groq_v3", 0), ("local_ivrit_turbo", .4)):
+                payload = {
+                    "provider": source, "source": "excerpt",
+                    "text": " בMCP ו NanoClaw וגם MCP",
+                    "tokens": [
+                        {"text": "בMCP", "start": 491+delta, "end": 492+delta},
+                        {"text": " ו ", "start": 492+delta, "end": 493+delta},
+                        {"text": " NanoClaw", "start": 493+delta, "end": 495+delta},
+                        {"text": " וגם ", "start": 495+delta, "end": 497+delta},
+                        {"text": " MCP", "start": 530+delta, "end": 531+delta},
+                    ],
+                }
+                (root / f"{guid}.{source}.json").write_text(
+                    json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            draft = propose(guid, root, ref)
+            mcp = next(t for t in draft["suggested_terms"]
+                       if t["term"].casefold() == "mcp")
+            self.assertEqual(len(mcp["occurrences"]), 2)
+            self.assertEqual(mcp["occurrences"][0]["sources"],
+                             ["groq_v3", "local_ivrit_turbo"])
+            self.assertAlmostEqual(mcp["occurrences"][0]["start"], 491)
+            self.assertAlmostEqual(mcp["occurrences"][1]["start"], 530)
+            nano = next(t for t in draft["suggested_terms"]
+                        if t["term"].casefold() == "nanoclaw")
+            self.assertEqual(len(nano["occurrences"]), 1)
+
+    def test_multiword_term_timestamp_and_hyphen_variant(self):
+        guid = "multiword"
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            payload = {
+                "provider": "local", "source": "excerpt",
+                "text": "Nano-Claw code review",
+                "tokens": [
+                    {"text": "Nano-Claw", "start": 510, "end": 512},
+                    {"text": " code", "start": 513, "end": 514},
+                    {"text": " review", "start": 514, "end": 515},
+                ],
+            }
+            (root / f"{guid}.local.json").write_text(json.dumps(payload),
+                                                       encoding="utf-8")
+            draft = propose(guid, root, {"window": {"start": 480, "end": 780}})
+            phrase = next(t for t in draft["suggested_terms"]
+                          if t["term"].lower() == "code review")
+            self.assertEqual(phrase["occurrences"][0]["start"], 513)
+            self.assertEqual(phrase["occurrences"][0]["end"], 515)
+            self.assertTrue(draft["timestamps_are_estimates"])
+
     def test_writing_draft_preserves_original_reference(self):
         guid = "sample"
         with tempfile.TemporaryDirectory() as folder:
