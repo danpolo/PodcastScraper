@@ -41,6 +41,17 @@ def run():
         assert page.locator(".occ").count() == 1
         assert "8:14" in page.locator(".seek").first.inner_text()
 
+        asr_context = {
+            "schema_version": "1.0", "turns": [{
+                "id": "turn-0001", "start_s": 480, "end_s": 510,
+                "speaker_id": None, "text": "בפרק הזה אנחנו משתמשים ב-NanoClaw",
+            }],
+        }
+        page.locator("#asrTranscriptFile").set_input_files({
+            "name": "transcript.json", "mimeType": "application/json",
+            "buffer": json.dumps(asr_context, ensure_ascii=False).encode(),
+        })
+        assert "NanoClaw" in page.locator("#nearbyTranscript").inner_text()
         page.locator("#editSurface").fill("Nano-Claw")
         page.locator("#editTerm").fill("NanoClaw")
         page.locator("#conceptKind").select_option("product")
