@@ -1,0 +1,77 @@
+name: Generate episode 71 agent-ready transcript draft
+on:
+  push:
+    branches: [dev]
+    paths: [.github/workflows/episode71_agent_draft.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install free local Hebrew ASR
+        run: |
+          pip install -r requirements.txt
+          pip install faster-whisper
+      - name: Fetch excerpt from the podcast feed
+        run: python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Transcribe mixed Hebrew and English with local ivrit.ai Whisper
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from faster_whisper import WhisperModel
+          from langtalks.feed import fetch_episodes
+          from langtalks.glossary import build, context_prompt
+          episode = next(e for e in fetch_episodes() if e.number == 71)
+          model = WhisperModel('ivrit-ai/whisper-large-v3-turbo-ct2',
+                               device='cpu', compute_type='int8', cpu_threads=4)
+          audio = Path('langtalks/out/excerpts') / (episode.guid + '.mp3')
+          segments, info = model.transcribe(
+              str(audio), language='he', beam_size=5,
+              initial_prompt=context_prompt(episode,build(episode))[:600],
+              word_timestamps=True, vad_filter=True,
+          )
+          segments=list(segments)
+          words=[{'text':w.word,'start':round(w.start+480,2),
+                  'end':round(w.end+480,2),'speaker':None}
+                 for seg in segments for w in (seg.words or [])]
+          payload={
+            'provider':'local_ivrit_turbo','source':'excerpt',
+            'episode_guid':episode.guid,'episode_title':episode.title,
+            'time_offset':480,'text':''.join(seg.text for seg in segments),
+            'tokens':words,
+          }
+          out=Path('langtalks/out/agent-ready')
+          out.mkdir(parents=True,exist_ok=True)
+          (out/'episode71.asr.json').write_text(
+              json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8')
+          print('ASR_WORDS',len(words),'ASR_CHARS',len(payload['text']))
+          PY
+      - name: Build timestamped faithful JSON + agent-readable Markdown
+        run: |
+          python -m langtalks.agent_format             langtalks/out/agent-ready/episode71.asr.json             --proposal langtalks/reference/proposals/episode71-concepts.editorial.json             --output-dir langtalks/out/agent-ready
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=next(Path('langtalks/out/agent-ready').glob('*.transcript.json'))
+          d=json.loads(p.read_text())
+          print('TURNS',len(d['turns']))
+          print('CONCEPT_MENTIONS',len(d['concept_mentions']))
+          print('VERIFIED',sum(m['review_status']=='verified' for m in d['concept_mentions']))
+          print('HEBREW_ASR_PREVIEW',d['turns'][0]['text'][:500])
+          PY
+      - name: Preserve unverified draft (not source audio)
+        uses: actions/upload-artifact@v4
+        with:
+          name: episode71-agent-ready-draft
+          path: langtalks/out/agent-ready/*
+          retention-days: 7
+      - name: Remove locally downloaded audio
+        if: always()
+        run: rm -rf langtalks/out/audio langtalks/out/excerpts
