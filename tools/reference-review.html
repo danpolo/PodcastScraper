@@ -72,7 +72,7 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
    <option value="full">Full episode, time starts at zero</option>
   </select>
   <button id="back2">↶ 2 sec</button><button id="forward2">2 sec ↷</button>
-  <label><input id="loop" type="checkbox"> Loop around clicked term</label>
+  <label><input id="loop" type="checkbox"> Repeat clicked snippet</label>
  </div>
  <div id="status" role="status">No audio or proposal leaves your browser; export the results when ready.</div>
 </section>
@@ -133,7 +133,7 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
 (function(){
 "use strict";
 const $=id=>document.getElementById(id);
-let state=null,selected=null,pendingOnly=false,objectUrl=null,loopStop=null;
+let state=null,selected=null,pendingOnly=false,objectUrl=null,replayStart=null,replayEnd=null;
 const audio=$("player");
 function stamp(seconds){
  const n=Math.max(0,Math.round(Number(seconds)||0));
@@ -167,7 +167,8 @@ function seekTo(pos,end){
    status("This timestamp is beyond this audio. Switch the audio timebase.");return;
  }
  audio.currentTime=local;
- loopStop=$("loop").checked ? Math.max(0,Number(end)-offset()+1.5):null;
+ replayStart=local;
+ replayEnd=Math.max(local+1,Number(end)-offset()+1.5);
  audio.play().catch(()=>status("Press play in the audio control to start."));
 }
 function sourceRows(occ){
@@ -309,11 +310,14 @@ $("loadEpisode71").onclick=async()=>{
   status("LangTalks #71 loaded. Listen and review; model suggestions are not verified.");
  }catch(e){status("Online proposal could not load ("+e.message+"). Download the proposal JSON and select it manually.");}
 };
-$("back2").onclick=()=>{audio.currentTime=Math.max(0,audio.currentTime-2);};
-$("forward2").onclick=()=>{audio.currentTime=Math.min(audio.duration||Infinity,audio.currentTime+2);};
+$("back2").onclick=()=>{replayEnd=null;audio.currentTime=Math.max(0,audio.currentTime-2);};
+$("forward2").onclick=()=>{replayEnd=null;audio.currentTime=Math.min(audio.duration||Infinity,audio.currentTime+2);};
 audio.ontimeupdate=()=>{
  $("clock").textContent=stamp(currentAbsolute());
- if(loopStop!==null&&audio.currentTime>=loopStop){audio.pause();loopStop=null;}
+ if(replayEnd!==null&&audio.currentTime>=replayEnd){
+  if($("loop").checked){audio.currentTime=replayStart;}
+  else{audio.pause();replayStart=null;replayEnd=null;}
+ }
 };
 $("search").oninput=()=>{if(state)renderTerms();};
 $("showAll").onclick=()=>{pendingOnly=false;if(state)renderTerms();};
