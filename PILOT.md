@@ -47,9 +47,9 @@ does not rewrite transcription output, and conservatively limits length.
 Example after keys and references are available:
 
     python -m langtalks.bench excerpt 71 --start 480 --end 780
-    python -m langtalks.bench transcribe 71 --provider groq_v3
-    python -m langtalks.bench transcribe 71 --provider groq_turbo
-    python -m langtalks.bench transcribe 71 --provider soniox
+    python -m langtalks.bench transcribe 71 --provider groq_v3 --allow-cloud-api
+    python -m langtalks.bench transcribe 71 --provider groq_turbo --allow-cloud-api
+    python -m langtalks.bench transcribe 71 --provider soniox --allow-cloud-api
     python -m langtalks.bench score 71
     python -m langtalks.bench report
 
@@ -103,3 +103,27 @@ the exact 480-780s window and edit the real file under langtalks/reference/:
 Unit tests run on every dev push. No API keys are written to the repository.
 A separate one-time GitHub Actions CPU Whisper experiment consumes no paid
 provider quota; its transcript/audio are not published as public artifacts.
+
+## Spending approval safeguard (2026-10-11)
+
+Any `langtalks.bench transcribe` call to remote ASR is blocked by default,
+including Groq accounts advertised as free, because API keys may be associated
+with paid billing. `--allow-cloud-api` is an explicit opt-in; do not pass it
+on behalf of the user without prior spending approval. All live work in this
+pilot so far used only standard free GitHub-hosted runners on a public repo
+and local open-source model inference, with no paid-provider keys or calls.
+
+## Review UX
+
+Open `tools/reference-review.html` in a browser. Click **Open LangTalks #71**
+(online), or load the proposal JSON manually. Load the audio excerpt from
+GitHub Actions, or try the public original MP3 URL. Review **each timestamped
+occurrence** with its audio snippet; check Heard, reject false mentions, edit
+canonical spelling, and add missing words at a playback position. Export a
+resumable session JSON while unfinished. Only mark a complete listening review
+when every occurrence and missing term was checked; an approved export can
+replace its reference file in `langtalks/reference/`.
+
+Native ChatGPT audio uploads can provide another independent draft from an
+attached MP3, but the user must provide the audio attachment. ChatGPT's
+transcription is NOT automatically a human-approved ground truth reference.
