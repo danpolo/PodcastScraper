@@ -1,0 +1,51 @@
+name: One-time discovery coverage pilot
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/discovery_audit_pilot.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: playwright install chromium --with-deps
+      - name: Fetch three sources and produce JSON
+        run: python discovery_audit.py --output discovery-audit-result.json
+      - name: Print useful summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("discovery-audit-result.json")
+          if not p.exists():
+              print("No result produced")
+          else:
+              d = json.loads(p.read_text())
+              print("COUNTS", json.dumps(d["source_counts"], ensure_ascii=False))
+              print("ERRORS", json.dumps(d["source_errors"], ensure_ascii=False))
+              print("GROUPS", d["union_count_conservative"])
+              print("LINKED", d["linked_groups"])
+              for source, records in d["unmatched_by_source"].items():
+                  print("UNMATCHED", source, json.dumps(records[:30], ensure_ascii=False))
+              print("AMBIGUOUS", json.dumps(d["ambiguous"][:30], ensure_ascii=False))
+          PY
+      - name: Preserve full audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: discovery-audit
+          path: discovery-audit-result.json
+          if-no-files-found: warn
