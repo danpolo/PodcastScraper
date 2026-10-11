@@ -1,0 +1,82 @@
+name: One-time LangTalks free ASR pilot
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/langtalks_local_asr_pilot.yml
+
+permissions:
+  contents: read
+
+jobs:
+  local-transcription:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install CPU transcription engine
+        run: |
+          pip install -r requirements.txt
+          pip install faster-whisper
+      - name: Fetch short audio excerpt from LangTalks
+        run: python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Transcribe without provider credits or API keys
+        env:
+          HF_HUB_DISABLE_TELEMETRY: "1"
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from faster_whisper import WhisperModel
+          from langtalks.feed import fetch_episodes
+          from langtalks import glossary
+          episode = next(e for e in fetch_episodes() if e.number == 71)
+          audio = Path("langtalks/out/excerpts") / (episode.guid + ".mp3")
+          model = WhisperModel("large-v3-turbo", device="cpu",
+                               compute_type="int8", cpu_threads=4)
+          terms = glossary.build(episode)
+          segments, info = model.transcribe(
+              str(audio), language="he", beam_size=5,
+              initial_prompt=glossary.context_prompt(episode, terms)[:600],
+              vad_filter=True)
+          segments = list(segments)
+          text = "".join(s.text for s in segments)
+          tokens = [
+              {"text": s.text, "start": s.start + 480, "end": s.end + 480,
+               "speaker": None, "confidence": None}
+              for s in segments
+          ]
+          data = {"provider": "local_whisper_turbo", "text": text,
+                  "tokens": tokens, "source": "excerpt", "time_offset": 480,
+                  "episode_guid": episode.guid}
+          out = Path("langtalks/out/transcripts")
+          out.mkdir(parents=True, exist_ok=True)
+          (out / f"{episode.guid}.local_whisper_turbo.json").write_text(
+              json.dumps(data, ensure_ascii=False), encoding="utf-8")
+          print("Audio seconds:", sum(s.end - s.start for s in segments))
+          print("Transcribed characters:", len(text))
+          print("Segments:", len(tokens))
+          print("Model:", "large-v3-turbo", "detected:", info.language)
+          PY
+      - name: Generate terminology proposals only (no transcript exposure)
+        run: |
+          python -m langtalks.bench reference-draft 71
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths = list(Path("langtalks/out/reference_drafts").glob("*.json"))
+          for p in paths:
+              d = json.loads(p.read_text())
+              print("EPISODE", d["episode_title"])
+              print("SOURCE_MODELS", d["provider_outputs_considered"])
+              print("UNVERIFIED_CANDIDATES", json.dumps(
+                  [x["term"] for x in d["suggested_terms"]], ensure_ascii=False))
+              print("CANDIDATE_COUNT", len(d["suggested_terms"]))
+          PY
+      - name: Remove local audio and transcripts
+        if: always()
+        run: rm -rf langtalks/out
