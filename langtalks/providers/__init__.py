@@ -32,6 +32,10 @@ def get_provider(name: str) -> Provider:
         from .openai_asr import OpenAIProvider
 
         return OpenAIProvider()
+    if name in ("groq_v3", "groq_turbo"):
+        from .groq import GroqProvider, GroqTurboProvider
+
+        return GroqProvider() if name == "groq_v3" else GroqTurboProvider()
     if name == "ivrit":
         from .ivrit import IvritProvider
 
@@ -39,7 +43,7 @@ def get_provider(name: str) -> Provider:
     raise ValueError(f"Unknown provider: {name}")
 
 
-PROVIDER_NAMES = ("soniox", "elevenlabs", "openai", "ivrit")
+PROVIDER_NAMES = ("soniox", "elevenlabs", "openai", "ivrit", "groq_v3", "groq_turbo")
 
 
 def available() -> list:
