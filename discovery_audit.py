@@ -145,16 +145,44 @@ async def _spotify():
                     return true;
                   });
             }""")
+            # Fetch episode-specific notes independently from the index.
+            # This is only an audit: never mutate the ingestion manifest.
+            for row in rows:
+                row["description_chars"] = None
+                row["links"] = []
+                try:
+                    await page.goto(row["href"], wait_until="domcontentloaded",
+                                    timeout=25000)
+                    await page.wait_for_timeout(450)
+                    result = await page.evaluate("""selector => {
+                        const button = [...document.querySelectorAll('button')]
+                          .find(b => /Show more|ראה עוד|See more/i.test(b.innerText));
+                        if (button) button.click();
+                        const el = document.querySelector(selector);
+                        if (!el) return null;
+                        return {
+                          text: (el.innerText || '').trim(),
+                          links: [...el.querySelectorAll('a[href]')]
+                            .map(a => a.href)
+                            .filter(h => !h.includes('spotify.com'))
+                        };
+                    }""", config.SPOTIFY_DESC_SELECTOR)
+                    if result:
+                        row["description_chars"] = len(result.get("text") or "")
+                        row["links"] = sorted(set(result.get("links") or []))
+                except Exception as exc:
+                    row["detail_error"] = str(exc)[:200]
         finally:
             await browser.close()
     return [{
         "id": row["href"].rstrip("/").split("/")[-1],
         "title": row["text"],
         "published": "",
-        "description_chars": None,
-        "links": [],
+        "description_chars": row.get("description_chars"),
+        "links": row.get("links", []),
         "url": row["href"],
         "audio_url": "",
+        **({"detail_error": row["detail_error"]} if "detail_error" in row else {}),
     } for row in rows]
 
 
@@ -184,6 +212,33 @@ def build_report(sources, errors=None):
         "source_errors": errors,
         "union_count_conservative": len(groups),
         "linked_groups": sum(len(group["entries"]) > 1 for group in groups),
+        "field_coverage": {
+            source: {
+                "with_description": sum(
+                    isinstance(ep.get("description_chars"), int)
+                    and ep["description_chars"] > 0 for ep in sources.get(source, [])),
+                "with_outbound_links": sum(
+                    bool(ep.get("links")) for ep in sources.get(source, [])),
+                "unique_outbound_links": len({
+                    url for ep in sources.get(source, [])
+                    for url in ep.get("links", [])
+                }),
+            } for source in ("rss", "youtube", "spotify")
+        },
+        "matched_description_comparison": [
+            {
+                "titles": {row["source"]: row["title"] for row in group["entries"]},
+                "description_lengths": {
+                    row["source"]: row.get("description_chars")
+                    for row in group["entries"]
+                },
+                "link_counts": {
+                    row["source"]: len(row.get("links", []))
+                    for row in group["entries"]
+                },
+            }
+            for group in groups if len(group["entries"]) > 1
+        ],
         "unmatched_by_source": {
             source: [{"id": row["id"], "title": row.get("title", "")}
                      for group in groups if len(group["entries"]) == 1
