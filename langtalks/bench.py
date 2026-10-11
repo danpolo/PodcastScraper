@@ -78,6 +78,15 @@ def cmd_glossary(args):
 
 
 def cmd_transcribe(args):
+    # Every currently configured provider is a remote service. Even a free
+    # tier may become chargeable when billing settings or quotas change.
+    # Require deliberate opt-in to avoid unexpectedly spending money.
+    if not getattr(args, "allow_cloud_api", False):
+        raise SystemExit(
+            "Cloud transcription may incur provider charges. No requests sent. "
+            "Check pricing and obtain spending approval before re-running "
+            "with --allow-cloud-api."
+        )
     episodes = fetch_episodes()
     TRANSCRIPT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -357,6 +366,8 @@ def main(argv=None):
     p.add_argument("--full", action="store_true",
                    help="transcribe the whole episode instead of the excerpt")
     p.add_argument("--force", action="store_true")
+    p.add_argument("--allow-cloud-api", action="store_true",
+                   help="explicitly permit possibly billable provider requests")
     p.set_defaults(func=cmd_transcribe)
 
     p = sub.add_parser("reference", help="scaffold a reference annotation file")
