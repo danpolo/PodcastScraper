@@ -55,3 +55,51 @@ Example after keys and references are available:
 
 This branch is a **benchmark pilot**, not an ingestion migration. It preserves
 all three discovery sources and does not touch Hive.
+
+## Live coverage evidence — 2026-10-11
+
+The one-time GitHub Actions run successfully fetched all three sources.
+Results: podcast RSS 19 entries; recent YouTube Atom 15 entries; Spotify
+index 19 entries; conservative title-only grouping 31, of which 19
+have multiple sources. Twelve YouTube entries did not match on titles,
+mostly Shorts/excerpts. This is NOT 31 confirmed distinct episodes;
+different titles may describe the same recording.
+
+A second live run checked metadata extraction. RSS returned descriptions
+for all 19 entries and 40 distinct outbound URLs; YouTube Atom returned
+descriptions for all 15 entries and 13 distinct outbound URLs. Spotify
+index extraction succeeded, but episode-page description selectors returned
+no usable descriptions from the GitHub-hosted runner. This is an extraction
+gap, NOT evidence that Spotify has no better links or notes.
+
+The operational scraper continues to use the three sources. The coverage
+report is read-only. To reproduce:
+
+    python discovery_audit.py --output discovery-coverage.json
+
+Never assume an unmatched Youtube short is a missing podcast episode.
+RSS feeds may omit older episodes; YouTube Atom is a recent-video window.
+Cross-check against the local historical manifest before migration.
+
+## Reference-review workflow
+
+After running audio transcription on several providers, generate candidate
+terms without pretending an ASR-generated list is truth:
+
+    python -m langtalks.bench reference-draft 71
+
+Review the suggestions under langtalks/out/reference_drafts/. Listen to
+the exact 480-780s window and edit the real file under langtalks/reference/:
+- Add or correct ALL spoken technical terms in Latin script.
+- Set review_status to "approved" only after hearing the audio.
+- Set terms_exhaustive to true ONLY if all glossary-relevant spoken terms
+  were checked; otherwise false and term precision remains n/a.
+- Optionally add reference_text to measure Hebrew accuracy.
+- The report ranks only providers with approved reference samples.
+  Unapproved transcripts are diagnostic, never a verified leaderboard.
+
+## Tests and safety
+
+Unit tests run on every dev push. No API keys are written to the repository.
+A separate one-time GitHub Actions CPU Whisper experiment consumes no paid
+provider quota; its transcript/audio are not published as public artifacts.
