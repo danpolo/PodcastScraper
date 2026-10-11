@@ -1,0 +1,12 @@
+{
+  "episode_guid": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+  "episode_title": "71 - Claw Architectures | Gavriel Cohen (NanoClaw)",
+  "window": {
+    "start": 480.0,
+    "end": 780.0
+  },
+  "_howto": "Listen to the window and fill in technical_terms with every English term you hear, in its canonical Latin spelling. That list alone is enough to score term recall and glossary hallucination. reference_text and speaker_turns are optional; supply reference_text to also score Hebrew accuracy and script fidelity.",
+  "technical_terms": [],
+  "reference_text": "",
+  "speaker_turns": []
+}
