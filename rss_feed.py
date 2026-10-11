@@ -10,6 +10,7 @@ from typing import Optional
 from playwright.async_api import async_playwright, Browser, Route
 
 import config
+from episode_match import match_spotify_entries
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import WebshareProxyConfig
 from youtube_transcript_api.formatters import TextFormatter
@@ -391,7 +392,7 @@ class PodcastScraper:
             raise  # Never report a successful scheduled ingestion on failure.
 
         # Try Spotify discovery; fall back gracefully if blocked or unavailable
-        spotify_urls = []
+        spotify_entries = []
         pw = None
         browser = None
         try:
@@ -412,32 +413,56 @@ class PodcastScraper:
                         break
                     await btn.click()
                     await page.wait_for_timeout(2000)
-                spotify_urls = await page.evaluate("""() => {
+                spotify_entries = await page.evaluate("""() => {
                     const links = Array.from(document.querySelectorAll('a[href*="/episode/"]'));
                     const seen = new Set();
-                    return links
-                        .filter(a => { const t = a.innerText || ''; return !['מה יש פה בעצם'].some(s => t.includes(s)); })
-                        .map(a => a.href)
-                        .filter(href => { if (seen.has(href)) return false; seen.add(href); return true; });
+                    return links.map(a => {
+                        const url = a.href.split('?')[0];
+                        const title = (a.innerText || a.getAttribute('aria-label') ||
+                            a.getAttribute('title') || '').trim();
+                        return {url, id:url.split('/').pop(), title};
+                    }).filter(e => {
+                        if (!e.url.startsWith('https://open.spotify.com/episode/')) return false;
+                        if (seen.has(e.url)) return false;
+                        seen.add(e.url);
+                        return !e.title.includes('מה יש פה בעצם');
+                    });
                 }""")
-                logger.info(f"Found {len(spotify_urls)} Spotify episode URLs")
+                logger.info(f"Found {len(spotify_entries)} Spotify episode URLs/titles")
             except Exception as e:
                 logger.warning(f"Spotify unavailable ({type(e).__name__}), using YouTube RSS descriptions")
             await ctx.close()
         except Exception as e:
             logger.warning(f"Browser launch failed ({e}), using YouTube RSS descriptions")
 
-        # Build tasks: shorts skip Spotify; full episodes get indexed Spotify URL if available
-        spotify_idx = 0
-        tasks = []
-        for entry in entries:
-            if '#substack #shorts' in entry.title.lower():
-                tasks.append(self.process_episode(entry, browser=browser))
-            else:
-                surl = spotify_urls[spotify_idx] if spotify_idx < len(spotify_urls) else None
-                if surl:
-                    spotify_idx += 1
-                tasks.append(self.process_episode(entry, browser=browser, spotify_url=surl))
+        # Preserve all source evidence, but never assume cross-platform list
+        # order equals identity. A wrong Spotify URL is worse than a missing
+        # upgrade because it silently corrupts show notes for future agents.
+        full_entries = [
+            entry for entry in entries if '#substack #shorts' not in entry.title.lower()
+        ]
+        spotify_by_youtube_id, match_diagnostics = match_spotify_entries(
+            full_entries, spotify_entries
+        )
+        logger.info(
+            "Spotify/YT identity match: %d/%d full YouTube episodes, %d Spotify; "
+            "%d ambiguous; %d unmatched YT",
+            match_diagnostics["matched"], len(full_entries), len(spotify_entries),
+            len(match_diagnostics["ambiguous_youtube"]),
+            len(match_diagnostics["unmatched_youtube"]),
+        )
+        for ambiguous in match_diagnostics["ambiguous_youtube"]:
+            logger.warning(
+                "Spotify match skipped (ambiguous) for %s: %r vs %r",
+                ambiguous["id"], ambiguous["title"], ambiguous["spotify_candidate"]
+            )
+        tasks = [
+            self.process_episode(
+                entry, browser=browser,
+                spotify_url=spotify_by_youtube_id.get(entry.id)
+            )
+            for entry in entries
+        ]
 
         await asyncio.gather(*tasks)
 
