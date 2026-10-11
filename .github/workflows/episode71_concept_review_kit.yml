@@ -1,0 +1,60 @@
+name: Package episode 71 offline concept review kit
+on:
+  push:
+    branches: [dev]
+    paths: [.github/workflows/episode71_concept_review_kit.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  kit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt
+      - name: Fetch the same five-minute source audio
+        run: python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Assemble single-open offline kit
+        run: |
+          python - <<'PY'
+          import json, shutil
+          from pathlib import Path
+          root=Path('review-kit')
+          root.mkdir(exist_ok=True)
+          path=Path('langtalks/reference/proposals/episode71-concepts.editorial.json')
+          draft=json.loads(path.read_text(encoding='utf-8'))
+          html=Path('tools/reference-review.html').read_text(encoding='utf-8')
+          marker='<script>\n(function(){'
+          if marker not in html:
+              raise SystemExit('Expected reviewer entrypoint not found')
+          safe=json.dumps(draft,ensure_ascii=False).replace('</','<\\/')
+          boot=('<script>window.__localReviewProposal='+safe+';'
+                'window.__kitAudioPath="audio.mp3";</script>\n')
+          html=html.replace(marker,boot+marker,1)
+          (root/'Reviewer.html').write_text(html,encoding='utf-8')
+          (root/'episode71-concept-proposal.json').write_text(
+              json.dumps(draft,ensure_ascii=False,indent=2),encoding='utf-8')
+          excerpt=next(Path('langtalks/out/excerpts').glob('*.mp3'))
+          shutil.copy2(excerpt,root/'audio.mp3')
+          (root/'README.txt').write_text(
+              '1. Open Reviewer.html in Chrome/Edge. Audio and editorial proposal load automatically.\n'
+              '2. Inspect uncertain technical concepts, listen at each timestamp, verify / reject.\n'
+              '3. Keep spoken phrase distinct from searchable canonical concept.\n'
+              '4. Add missed words at current playback time. Merge/split where needed.\n'
+              '5. Save session JSON periodically; only export approved reference after full listening review.\n'
+              'The AI pre-review is NOT human verified. No paid API is needed.\n',
+              encoding='utf-8')
+          print('KIT_GROUPS',len(draft['suggested_terms']))
+          print('KIT_AUDIO_BYTES',(root/'audio.mp3').stat().st_size)
+          PY
+      - name: Upload ready-to-open kit
+        uses: actions/upload-artifact@v4
+        with:
+          name: Episode71-Agent-Concept-Review-Kit
+          path: review-kit/
+          retention-days: 7
+      - if: always()
+        run: rm -rf langtalks/out review-kit
