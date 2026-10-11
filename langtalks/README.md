@@ -202,3 +202,9 @@ only when every glossary-relevant spoken term was checked.
 numbers only for approved samples and never ranks solely on model guesses.
 For multi-source AI Thinkers coverage findings and reproducing live
 read-only auditing, see `PILOT.md`.
+
+## Faithful Hebrewized technical speech
+
+Keep Hebrewized English loanwords in Hebrew (e.g. `יוזרים`, `אייג'נטים`, `קונטיינרים`, `דיבגתי`). English search aliases may be annotated separately, but **must not rewrite the speaker's words** or cause common Hebrew loanwords to be counted as missing English terms. See `HEBREW_ENGLISH_POLICY.md` for the transcription/review rules and `AGENT_TRANSCRIPT.md` for the JSON + Markdown agent-ready format.
+
+Cloud transcription commands **require explicit `--allow-cloud-api`** and must not be invoked without spending approval, even for providers that advertise free tiers. Offline cached-ASR conversion uses `python -m langtalks.bench agent-ready --offline --asr-file <path> --output-dir <path>` and makes no provider calls.
