@@ -41,7 +41,9 @@ def run():
         assert page.locator(".occ").count() == 1
         assert "8:14" in page.locator(".seek").first.inner_text()
 
+        page.locator("#editSurface").fill("Nano-Claw")
         page.locator("#editTerm").fill("NanoClaw")
+        page.locator("#conceptKind").select_option("product")
         page.locator("#applyTerm").click()
         assert page.locator("#terms").get_by_text("NanoClaw").count() > 0
         page.locator(".occ input[type=checkbox]").check()
@@ -62,6 +64,9 @@ def run():
         assert out["terms_exhaustive"] is True
         assert set(out["technical_terms"]) == {"NanoClaw", "LangGraph"}
         assert len(out["verified_occurrences"]) == 2
+        assert out["concept_mentions"][0]["surface"] == "Nano-Claw"
+        assert out["concept_mentions"][0]["canonical"] == "NanoClaw"
+        assert out["concept_mentions"][0]["kind"] == "product"
 
         page.locator("#listened").uncheck()
         with page.expect_download() as download_info:
@@ -74,6 +79,29 @@ def run():
         session = json.loads(Path(download_info.value.path()).read_text())
         assert session["review_session"]
         assert session["term_groups"][0]["occurrences"][0]["state"] == "confirmed"
+        # Split and merge remain manual and do not silently approve a phrase.
+        page.reload()
+        compound = {
+            "episode_guid": "compound-test", "window": {"start": 480, "end": 780},
+            "suggested_terms": [
+                {"term": "code", "occurrences": [{"start": 489.4, "end": 489.58,
+                    "text": "code", "sources": ["model-a"]}]},
+                {"term": "review", "occurrences": [{"start": 489.58, "end": 489.86,
+                    "text": "review", "sources": ["model-b"]}]},
+            ],
+        }
+        page.locator("#proposal").set_input_files({
+            "name": "compound.json", "mimeType": "application/json",
+            "buffer": json.dumps(compound).encode(),
+        })
+        page.locator("#terms input[type=checkbox]").nth(0).check()
+        page.locator("#terms input[type=checkbox]").nth(1).check()
+        page.locator("#mergeSelected").click()
+        assert page.locator("#editSurface").input_value() == "code review"
+        assert page.locator("#counts").inner_text() == "0 / 1 reviewed"
+        page.locator("#splitTerm").click()
+        assert page.locator("#terms .term-item").count() == 2
+        assert page.locator("#counts").inner_text() == "0 / 2 reviewed"
         browser.close()
     print("UI_SMOKE_TEST: PASSED (terms, timestamps, approval, export, save)")
 
