@@ -52,7 +52,9 @@ fieldset{border:1px solid var(--line);padding:12px;border-radius:10px;margin:12p
 <main>
 <section class="panel top-panel">
  <div class="row">
+  <button id="loadEpisode71" class="primary">Open LangTalks #71</button>
   <label class="upload">Open term proposal JSON<input type="file" id="proposal" accept=".json,application/json"></label>
+  <button id="resumeLocal" title="Restore a saved local session, if this browser allows it">Resume local draft</button>
   <label class="upload">Open audio MP3 / WAV<input type="file" id="audioFile" accept="audio/*,.mp3,.wav,.m4a,.ogg"></label>
   <span class="stat" id="episodeTitle">Load a proposal to begin.</span>
  </div>
@@ -198,8 +200,10 @@ function normalizeProposal(data){
 }
 function storageKey(){return "podcast-review:"+state.episode_guid+":"+(state.window.start||0);}
 function saveLocal(){
- try{localStorage.setItem(storageKey(),JSON.stringify(state));}
- catch(e){} // Offline file contexts may disallow localStorage; JSON export always works.
+ try{
+  localStorage.setItem(storageKey(),JSON.stringify(state));
+  localStorage.setItem("podcast-review:last",JSON.stringify(state));
+ }catch(e){} // Offline file contexts may disallow localStorage; JSON export always works.
 }
 function loadData(data){
  normalizeProposal(data);selected=state.term_groups[0]?.id||null;
@@ -288,6 +292,23 @@ $("audioFile").onchange=e=>{
  status("Local audio loaded: "+file.name+" (not uploaded).");
 };
 $("useRemote").onclick=useUrl;
+audio.onerror=()=>status("Could not stream this audio URL; choose an MP3 from your computer.");
+$("resumeLocal").onclick=()=>{
+ try{
+  const data=localStorage.getItem("podcast-review:last");
+  if(!data){status("No locally saved session. Open the proposal or saved JSON.");return;}
+  loadData(JSON.parse(data));status("Locally saved session restored.");
+ }catch(e){status("Could not restore browser storage. Import your saved JSON.");}
+};
+$("loadEpisode71").onclick=async()=>{
+ const url="https://raw.githubusercontent.com/danpolo/PodcastScraper/dev/langtalks/reference/proposals/74fc0625-0a6b-4ca1-9488-31be7860360d.json";
+ try{
+  const response=await fetch(url);
+  if(!response.ok)throw Error("HTTP "+response.status);
+  loadData(await response.json());
+  status("LangTalks #71 loaded. Listen and review; model suggestions are not verified.");
+ }catch(e){status("Online proposal could not load ("+e.message+"). Download the proposal JSON and select it manually.");}
+};
 $("back2").onclick=()=>{audio.currentTime=Math.max(0,audio.currentTime-2);};
 $("forward2").onclick=()=>{audio.currentTime=Math.min(audio.duration||Infinity,audio.currentTime+2);};
 audio.ontimeupdate=()=>{
