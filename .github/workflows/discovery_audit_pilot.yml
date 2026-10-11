@@ -5,6 +5,7 @@ on:
     branches: [dev]
     paths:
       - .github/workflows/discovery_audit_pilot.yml
+      - discovery_audit.py
   workflow_dispatch:
 
 permissions:
@@ -37,6 +38,8 @@ jobs:
               print("COUNTS", json.dumps(d["source_counts"], ensure_ascii=False))
               print("ERRORS", json.dumps(d["source_errors"], ensure_ascii=False))
               print("GROUPS", d["union_count_conservative"])
+              print("FIELD_COVERAGE", json.dumps(d.get("field_coverage"), ensure_ascii=False))
+              print("DESCRIPTION_COMPARISONS", json.dumps(d.get("matched_description_comparison", [])[:20], ensure_ascii=False))
               print("LINKED", d["linked_groups"])
               for source, records in d["unmatched_by_source"].items():
                   print("UNMATCHED", source, json.dumps(records[:30], ensure_ascii=False))
