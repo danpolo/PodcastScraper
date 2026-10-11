@@ -85,7 +85,7 @@ def cmd_transcribe(args):
     if not names:
         raise SystemExit(
             "No providers configured. Set SONIOX_API_KEY, ELEVENLABS_API_KEY, "
-            "OPENAI_API_KEY, or RUNPOD_API_KEY + RUNPOD_ENDPOINT_ID for ivrit.ai "
+            "OPENAI_API_KEY, GROQ_API_KEY, or RUNPOD_API_KEY + RUNPOD_ENDPOINT_ID for ivrit.ai "
             "(see langtalks/README.md)."
         )
     logger.info("Providers: %s", ", ".join(names))
