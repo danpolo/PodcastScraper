@@ -183,3 +183,7 @@ bench.py          CLI
 reference/        your annotations, one JSON per benchmarked window
 out/              audio, excerpts + transcripts (gitignored)
 ```
+
+## Groq pilot (not yet evaluated on live audio)
+
+Groq Whisper variants are available under provider names groq_v3 and groq_turbo when GROQ_API_KEY is set. They have different transcript cache identities, use a short per-episode terminology hint, provide segment timestamps and do not provide diarization. Complete the human reference annotations and run live benchmarks before choosing a provider. See PILOT.md for the quality gates and for preserving complementary RSS, YouTube and Spotify discovery.
