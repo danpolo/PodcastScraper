@@ -4,6 +4,8 @@ import re
 import logging
 import urllib.request
 import json
+import os
+import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -49,10 +51,19 @@ class PodcastScraper:
         if config.MANIFEST_PATH.exists():
             try:
                 manifest = json.loads(config.MANIFEST_PATH.read_text(encoding="utf-8"))
+                if (not isinstance(manifest, dict) or
+                        not isinstance(manifest.get("episodes"), dict)):
+                    raise ValueError("Manifest must contain an episodes object")
                 self._backfill_description_source(manifest)
                 return manifest
             except Exception as e:
-                logger.error(f"Failed to load manifest: {e}")
+                # Continuing with an empty manifest here can overwrite the
+                # only copy of previously scraped episodes on the next save.
+                logger.error("Manifest could not be loaded safely: %s", e)
+                raise RuntimeError(
+                    f"Existing manifest is invalid; refusing to overwrite "
+                    f"{config.MANIFEST_PATH}"
+                ) from e
         return {"episodes": {}}
 
     def _backfill_description_source(self, manifest: dict):
@@ -95,8 +106,26 @@ class PodcastScraper:
             self._save_manifest_raw(manifest)
 
     def _save_manifest_raw(self, manifest: dict):
-        config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-        config.MANIFEST_PATH.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+        if (not isinstance(manifest, dict) or
+                not isinstance(manifest.get("episodes"), dict)):
+            raise ValueError("Refusing to save malformed manifest")
+        path = config.MANIFEST_PATH
+        path.parent.mkdir(parents=True, exist_ok=True)
+        encoded = json.dumps(manifest, indent=2, ensure_ascii=False)
+        # Complete and sync a temporary file before replacing the manifest.
+        # A crash or disk error must not truncate its previous contents.
+        fd, temporary = tempfile.mkstemp(
+            prefix=".manifest-", suffix=".tmp", dir=str(path.parent)
+        )
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as out:
+                out.write(encoded)
+                out.flush()
+                os.fsync(out.fileno())
+            os.replace(temporary, path)
+        finally:
+            if os.path.exists(temporary):
+                os.unlink(temporary)
 
     def _save_manifest(self):
         self._save_manifest_raw(self.manifest)
