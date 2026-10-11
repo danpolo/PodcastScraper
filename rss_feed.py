@@ -348,26 +348,47 @@ class PodcastScraper:
 
             channel_match = re.search(r'"externalId":"(UC[^"]+)"', html)
             if not channel_match:
-                logger.error("Could not extract channel ID from YouTube handle page")
-                return
+                raise RuntimeError("Could not extract channel ID from YouTube handle page")
 
             channel_id = channel_match.group(1)
             logger.info(f"Resolved channel ID: {channel_id}")
 
             rss_url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
             logger.info(f"Fetching YouTube RSS feed: {rss_url}")
-            feed = feedparser.parse(rss_url)
-
-            if not feed.entries:
-                logger.error("No entries found in YouTube RSS feed")
-                return
+            # Request explicitly so we can detect HTTP errors, inspect status,
+            # and avoid feedparser silently turning blocked requests into [].
+            feed_request = urllib.request.Request(
+                rss_url, headers={"User-Agent": "Mozilla/5.0 PodcastScraper/1.0"}
+            )
+            last_error = None
+            for attempt in range(3):
+                try:
+                    with urllib.request.urlopen(feed_request, timeout=30) as resp:
+                        if resp.status != 200:
+                            raise RuntimeError(f"YouTube RSS HTTP {resp.status}")
+                        feed = feedparser.parse(resp.read())
+                    if not feed.entries:
+                        raise RuntimeError(
+                            "YouTube RSS returned no entries "
+                            f"(bozo={feed.get('bozo', False)}, "
+                            f"error={feed.get('bozo_exception', None)})"
+                        )
+                    break
+                except Exception as exc:
+                    last_error = exc
+                    if attempt == 2:
+                        raise
+                    logger.warning(
+                        "YouTube RSS failed on attempt %d/3: %s", attempt + 1, exc
+                    )
+                    await asyncio.sleep(2 ** attempt)
 
             entries = self._entries_from_rss(feed)
             logger.info(f"Found {len(entries)} entries via YouTube RSS feed.")
 
-        except Exception as e:
-            logger.error(f"Failed to discover episodes via YouTube RSS: {e}")
-            return
+        except Exception:
+            logger.exception("Failed to discover episodes via YouTube RSS")
+            raise  # Never report a successful scheduled ingestion on failure.
 
         # Try Spotify discovery; fall back gracefully if blocked or unavailable
         spotify_urls = []
