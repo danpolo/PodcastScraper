@@ -6,9 +6,9 @@ Scrapes episodes of the Hebrew-language **AI Thinkers** podcast ([@AITHINKER_S](
 
 `rss_feed.py` is the whole pipeline:
 
-1. **Discovery** — resolves the YouTube channel ID from the `@AITHINKER_S` handle page, then parses the channel RSS feed (`feeds/videos.xml`). This is the source of truth for the episode list; no browser needed.
+1. **Discovery** — resolves the YouTube channel ID from the `@AITHINKER_S` handle page, then parses the channel RSS feed (`feeds/videos.xml`). This is the currently implemented processing-entry source; the original podcast RSS, YouTube, and Spotify are complementary, and a read-only three-source coverage audit exists. The pipeline must not treat YouTube as complete until proven against the other sources.
 2. **Spotify episode index** — launches headless Chromium (Playwright), opens the [Spotify show page](https://open.spotify.com/show/5qXP9dnucaWoHe6VMB56wc), clicks through *Load more episodes*, and collects episode URLs. If Spotify is blocked or the browser fails to launch, the run continues without it.
-3. **Descriptions** — Spotify is preferred (full show notes, with outbound links extracted). YouTube RSS `summary` is the fallback. Shorts (titles containing `#substack #shorts`) skip Spotify entirely, since they have no Spotify episode page.
+3. **Descriptions** — Spotify is preferred **only when its episode is confidently matched by title**, never by index order (see `episode_match.py`); YouTube RSS `summary` is the fallback for unmatched or unavailable episodes. The original podcast RSS is also inspected by the read-only `discovery_audit.py` but is not yet wired into production ingestion. Shorts (titles containing `#substack #shorts`) skip Spotify entirely, since they have no Spotify episode page.
 4. **Transcripts** — `youtube-transcript-api`, tried direct first and then through a Webshare proxy if the direct call is blocked. Languages: `he`, `en`, `iw`.
 5. **Output** — one `<clean title>.md` per episode plus a `manifest.json` tracking what has already been fetched.
 
@@ -104,3 +104,11 @@ requirements.txt
 .github/workflows/            weekly_scrape.yml
 AI Thinkers podcast data/     local generated episode Markdown + manifest.json (ignored)
 ```
+
+## Coverage and safe episode identity
+
+The three original sources have historically complemented one another, so **none should be discarded** merely because another source has an RSS feed. The read-only `discovery_audit.py` fetches the original podcast RSS, YouTube, and Spotify, records coverage and metadata differences, and flags uncertain title matches. Run `python discovery_audit.py --output discovery-coverage.json` to examine current differences without changing the ingestion manifest.
+
+Spotify episode ordering is unrelated to YouTube's list. The scraper now uses conservative **one-to-one, mutually best title matching** (`episode_match.py`); ambiguous, untitled or unmatched Spotify episodes do **not** get assigned to YouTube episodes. This deliberately prefers incomplete show notes over falsely attributed ones. Production discovery is **still driven by YouTube**; adding original RSS-only episodes safely requires a separate identity-mapping and no-loss validation step. The read-only coverage audit is not evidence that production ingestion covers every RSS episode.
+
+For LangTalks bilingual transcripts, see `langtalks/AGENT_TRANSCRIPT.md` and `langtalks/HEBREW_ENGLISH_POLICY.md`.
