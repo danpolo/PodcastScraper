@@ -489,7 +489,8 @@ $("exportRef").onclick=()=>{
  const pending=state.term_groups.flatMap(g=>g.occurrences).filter(o=>o.state==="pending").length;
  const exhaustive=$("listened").checked && pending===0 && state.term_groups.some(g=>g.occurrences.length);
  const groups=state.term_groups.filter(g=>g.occurrences.some(o=>o.state==="confirmed"));
- const terms=[...new Set(groups.map(g=>g.canonical||g.term))];
+ // Accuracy is scored against what was SPOKEN, not a semantic alias.
+ const terms=[...new Set(groups.map(g=>g.surface||g.term))];
  const confirmed=groups.flatMap(g=>g.occurrences.filter(o=>o.state==="confirmed").map(o=>({
      term:g.canonical||g.term, surface:g.surface||g.term, canonical:g.canonical||g.term,
      kind:g.kind||"other",start:o.start,end:o.end,source_models:o.sources,
