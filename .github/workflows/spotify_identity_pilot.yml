@@ -1,0 +1,49 @@
+name: One-time real Spotify/YouTube identity verification
+on:
+  push:
+    branches: [dev]
+    paths: [.github/workflows/spotify_identity_pilot.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: |
+          pip install -r requirements.txt
+          playwright install chromium --with-deps
+      - name: Fetch all three public sources and audit safe matching
+        run: |
+          python - <<'PY'
+          import asyncio, json
+          from types import SimpleNamespace
+          import discovery_audit
+          from episode_match import match_spotify_entries
+          sources, errors=asyncio.run(discovery_audit.collect())
+          youtube=[
+              SimpleNamespace(id=x["id"],title=x["title"])
+              for x in sources["youtube"]
+              if "#shorts" not in x["title"].casefold()
+          ]
+          spotify=sources["spotify"]
+          matched, diagnostics=match_spotify_entries(youtube,spotify)
+          print("SOURCE_COUNTS",json.dumps({k:len(v) for k,v in sources.items()}))
+          print("SOURCE_ERRORS",json.dumps(errors,ensure_ascii=False))
+          print("YOUTUBE_FULL_CANDIDATES",len(youtube))
+          print("SAFE_SPOTIFY_MATCHES",len(matched))
+          print("AMBIGUOUS_MATCHES",len(diagnostics["ambiguous_youtube"]))
+          print("UNMATCHED_YOUTUBE",len(diagnostics["unmatched_youtube"]))
+          for item in youtube:
+              if item.id in matched:
+                  print("MATCH",json.dumps({"title":item.title,"url":matched[item.id]},ensure_ascii=False))
+          for item in diagnostics["ambiguous_youtube"]:
+              print("AMBIGUOUS",json.dumps(item,ensure_ascii=False))
+          assert len(set(matched.values()))==len(matched), "duplicate Spotify URL"
+          assert all(k in {x.id for x in youtube} for k in matched), "unknown YouTube ID"
+          assert not errors, "source fetch failed; coverage result inconclusive"
+          PY
