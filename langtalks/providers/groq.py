@@ -10,7 +10,7 @@ from .base import Provider, TranscriptResult
 
 URL = "https://api.groq.com/openai/v1/audio/transcriptions"
 # Slightly below Groq's 25 MB free-tier upload limit.
-MAX_UPLOAD_BYTES = 24 * 1024 * 1024
+MAX_UPLOAD_BYTES = 24_000_000
 # Whisper prompt limit is 224 tokens. No tokenizer dependency is introduced;
 # constrain character count conservatively and prioritize episode-specific
 # glossary terms, which are supplied first by glossary.build.
