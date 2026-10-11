@@ -7,133 +7,517 @@
   },
   "draft_only": true,
   "review_status": "pending",
-  "reference_status_note": "Machine-generated candidates are NOT ground truth. Listen to the exact excerpt, remove false terms and add missed terms before approving the reference.",
-  "source": "GitHub Actions local CPU faster-whisper large-v3-turbo, 2026-10-11; zero paid API quota",
+  "review_status_note": "Unverified ASR candidate terms. Model agreement does NOT prove correctness. Listen to the 08:00-13:00 excerpt and verify terms, spellings, omissions and false positives before populating the approved reference.",
+  "source_models": [
+    "local_whisper_turbo",
+    "local_ivrit_turbo"
+  ],
+  "source_details": "Two independent CPU-only GitHub Actions ASR runs on the same five-minute MP3 excerpt, 2026-10-11; no paid API quotas.",
+  "counts": {
+    "unique_candidates": 52,
+    "model_agreement": 17
+  },
   "suggested_terms": [
     {
       "term": "API",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "API",
+        "API"
       ]
     },
     {
       "term": "auth",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "auth",
+        "Auth"
       ]
     },
     {
       "term": "case",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "case",
+        "case"
       ]
     },
     {
       "term": "cases",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "cases",
+        "cases"
+      ]
+    },
+    {
+      "term": "CLI",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "CLI",
+        "Cli"
+      ]
+    },
+    {
+      "term": "Code",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Code",
+        "code"
+      ]
+    },
+    {
+      "term": "code review",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "code review",
+        "code review"
+      ]
+    },
+    {
+      "term": "Gmail",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Gmail",
+        "Gmail"
+      ]
+    },
+    {
+      "term": "human",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "human",
+        "Human"
+      ]
+    },
+    {
+      "term": "loop",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "loop",
+        "Loop"
+      ]
+    },
+    {
+      "term": "NanoClaw",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "NanoClaw",
+        "NanoClaw"
+      ]
+    },
+    {
+      "term": "OpenClaw",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "OpenClaw",
+        "OpenClaw"
+      ]
+    },
+    {
+      "term": "party",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "party",
+        "party"
+      ]
+    },
+    {
+      "term": "Practices",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Practices",
+        "Practices"
+      ]
+    },
+    {
+      "term": "Review",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Review",
+        "review"
+      ]
+    },
+    {
+      "term": "security",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "security",
+        "Security"
+      ]
+    },
+    {
+      "term": "third",
+      "seen_in": [
+        "local_whisper_turbo",
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "third",
+        "third"
+      ]
+    },
+    {
+      "term": "agent",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "agent"
+      ]
+    },
+    {
+      "term": "alone",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "alone"
+      ]
+    },
+    {
+      "term": "approvals",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "approvals"
       ]
     },
     {
       "term": "chain",
       "seen_in": [
         "local_whisper_turbo"
+      ],
+      "spellings": [
+        "chain"
       ]
     },
     {
-      "term": "CLI",
+      "term": "Comp",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Comp"
       ]
     },
     {
-      "term": "Code",
+      "term": "credential",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "credential"
       ]
     },
     {
-      "term": "code review",
+      "term": "credentials",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "credentials"
       ]
     },
     {
-      "term": "Gmail",
+      "term": "directory",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "directory"
+      ]
+    },
+    {
+      "term": "far",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "far"
+      ]
+    },
+    {
+      "term": "file",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "file"
+      ]
+    },
+    {
+      "term": "gateway",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "gateway"
       ]
     },
     {
       "term": "google",
       "seen_in": [
         "local_whisper_turbo"
-      ]
-    },
-    {
-      "term": "human",
-      "seen_in": [
-        "local_whisper_turbo"
+      ],
+      "spellings": [
+        "google"
       ]
     },
     {
       "term": "login",
       "seen_in": [
         "local_whisper_turbo"
+      ],
+      "spellings": [
+        "login"
       ]
     },
     {
-      "term": "loop",
+      "term": "managed",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "managed"
       ]
     },
     {
-      "term": "NanoClaw",
+      "term": "mounted",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "mounted"
       ]
     },
     {
-      "term": "OpenClaw",
+      "term": "Nano-Claw",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Nano-Claw"
       ]
     },
     {
-      "term": "party",
+      "term": "Nanoc",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Nanoc"
       ]
     },
     {
-      "term": "Practices",
+      "term": "network",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "network"
       ]
     },
     {
-      "term": "Review",
+      "term": "orchestation",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "orchestation"
       ]
     },
     {
-      "term": "security",
+      "term": "partnership",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "partnership"
+      ]
+    },
+    {
+      "term": "Pendency",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Pendency"
+      ]
+    },
+    {
+      "term": "preserved",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "preserved"
+      ]
+    },
+    {
+      "term": "process",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "process"
+      ]
+    },
+    {
+      "term": "processes",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "processes"
+      ]
+    },
+    {
+      "term": "Refresh",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Refresh"
+      ]
+    },
+    {
+      "term": "stand",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "stand"
+      ]
+    },
+    {
+      "term": "Sum",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Sum"
       ]
     },
     {
       "term": "supply",
       "seen_in": [
         "local_whisper_turbo"
+      ],
+      "spellings": [
+        "supply"
       ]
     },
     {
-      "term": "third",
+      "term": "Supply-Chain",
       "seen_in": [
-        "local_whisper_turbo"
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Supply-Chain"
+      ]
+    },
+    {
+      "term": "system",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "system"
+      ]
+    },
+    {
+      "term": "third-party",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "third-party"
+      ]
+    },
+    {
+      "term": "Token",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Token"
+      ]
+    },
+    {
+      "term": "tools",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "tools"
+      ]
+    },
+    {
+      "term": "user",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "user"
+      ]
+    },
+    {
+      "term": "Workspace",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "spellings": [
+        "Workspace"
       ]
     }
   ]
