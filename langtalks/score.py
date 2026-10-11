@@ -80,12 +80,24 @@ def _edit_distance(a: str, b: str) -> int:
     return previous[-1]
 
 
+def _has_term(normalized: str, term: str) -> bool:
+    """Match Latin terms at Latin/number boundaries, not substrings.
+
+    Keep adjacency to Hebrew legal: speakers may say בMCP without a space.
+    """
+    name = _normalize(term)
+    if not name:
+        return False
+    return bool(re.search(r"(?<![a-z0-9])" + re.escape(name)
+                          + r"(?![a-z0-9])", normalized))
+
+
 def term_recall(candidate: str, terms: list) -> tuple:
-    """Fraction of the terms that were actually spoken which survived in Latin script."""
+    """Fraction of spoken English terms correctly preserved in Latin script."""
     normalized = _normalize(candidate)
     found, missed = [], []
     for term in terms:
-        (found if _normalize(term) in normalized else missed).append(term)
+        (found if _has_term(normalized, term) else missed).append(term)
     score = len(found) / len(terms) if terms else None
     return score, found, missed
 
@@ -112,7 +124,7 @@ def term_precision(candidate: str, terms: list, glossary: list = None) -> tuple:
     for term in candidates:
         key = _normalize(term)
         # Single short tokens ("CI", "API") match too loosely to judge.
-        if len(key) < 4 or key not in normalized:
+        if len(key) < 4 or not _has_term(normalized, term):
             continue
         emitted.append(term)
         # Spoken if the reference lists it, or lists something containing it.
@@ -197,7 +209,13 @@ def score(candidate_text: str, tokens: list, reference: dict, glossary: list = N
     turns = reference.get("speaker_turns", []) or []
 
     recall, found, missed = term_recall(candidate_text, terms)
-    precision, invented = term_precision(candidate_text, terms, glossary)
+    # Without an exhaustive, listening-verified list, an apparently new
+    # glossary term cannot be classified as a hallucination. Do not award or
+    # penalize precision from partial annotations.
+    if reference.get("review_status") == "approved" and reference.get("terms_exhaustive"):
+        precision, invented = term_precision(candidate_text, terms, glossary)
+    else:
+        precision, invented = None, []
 
     components = {
         "term_recall": recall,
