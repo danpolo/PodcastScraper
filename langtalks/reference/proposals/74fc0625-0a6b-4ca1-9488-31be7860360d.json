@@ -6,203 +6,322 @@
     "end": 780
   },
   "draft_only": true,
-  "review_status": "pending",
-  "review_status_note": "Unverified ASR candidate terms. Model agreement does NOT prove correctness. Listen to the 08:00-13:00 excerpt and verify terms, spellings, omissions and false positives before populating the approved reference.",
-  "source_models": [
-    "local_whisper_turbo",
-    "local_ivrit_turbo"
+  "timestamps_are_estimates": true,
+  "provider_outputs_considered": [
+    "local_ivrit_turbo",
+    "local_whisper_turbo"
   ],
-  "source_details": "Two independent CPU-only GitHub Actions ASR runs on the same five-minute MP3 excerpt, 2026-10-11; no paid API quotas.",
-  "counts": {
-    "unique_candidates": 52,
-    "model_agreement": 17
-  },
   "suggested_terms": [
     {
       "term": "API",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "API",
-        "API"
-      ]
-    },
-    {
-      "term": "auth",
-      "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "auth",
-        "Auth"
-      ]
-    },
-    {
-      "term": "case",
-      "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "case",
-        "case"
+      "occurrences": [
+        {
+          "start": 699.74,
+          "end": 700.18,
+          "text": "API",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
       "term": "cases",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "cases",
-        "cases"
+      "occurrences": [
+        {
+          "start": 517.5,
+          "end": 517.92,
+          "text": "cases",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "CLI",
+      "term": "cli",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "CLI",
-        "Cli"
+      "occurrences": [
+        {
+          "start": 646.66,
+          "end": 647.1,
+          "text": "cli",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 659.34,
+          "end": 659.6,
+          "text": "cli",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 665.24,
+          "end": 665.58,
+          "text": "cli",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 687.9,
+          "end": 689.88,
+          "text": "CLI",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 689.54,
+          "end": 689.84,
+          "text": "cli",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 735.05,
+          "end": 735.99,
+          "text": "CLI",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 772.39,
+          "end": 773.01,
+          "text": "CLI",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "Code",
+      "term": "code",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "Code",
-        "code"
+      "occurrences": [
+        {
+          "start": 489.4,
+          "end": 489.58,
+          "text": "code",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
       "term": "code review",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "code review",
-        "code review"
+      "occurrences": [
+        {
+          "start": 489.4,
+          "end": 489.86,
+          "text": "code review",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
       "term": "Gmail",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "Gmail",
-        "Gmail"
+      "occurrences": [
+        {
+          "start": 759.31,
+          "end": 759.69,
+          "text": "Gmail",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "human",
+      "term": "managed",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "human",
-        "Human"
-      ]
-    },
-    {
-      "term": "loop",
-      "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "loop",
-        "Loop"
+      "occurrences": [
+        {
+          "start": 751.33,
+          "end": 752.29,
+          "text": "managed",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
       "term": "NanoClaw",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "NanoClaw",
-        "NanoClaw"
+      "occurrences": [
+        {
+          "start": 504.46,
+          "end": 504.74,
+          "text": "NanoClaw",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 527.26,
+          "end": 527.8,
+          "text": "NanoClaw",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 714.78,
+          "end": 715.22,
+          "text": "Nano Claw",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
       "term": "OpenClaw",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "OpenClaw",
-        "OpenClaw"
-      ]
-    },
-    {
-      "term": "party",
-      "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "party",
-        "party"
+      "occurrences": [
+        {
+          "start": 507.28,
+          "end": 507.74,
+          "text": "OpenClaw",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
       "term": "Practices",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "Practices",
-        "Practices"
+      "occurrences": [
+        {
+          "start": 491.6,
+          "end": 492.04,
+          "text": "Practices",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "Review",
+      "term": "review",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "Review",
-        "review"
+      "occurrences": [
+        {
+          "start": 489.58,
+          "end": 489.86,
+          "text": "review",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "security",
+      "term": "Security",
       "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
       ],
-      "spellings": [
-        "security",
-        "Security"
-      ]
-    },
-    {
-      "term": "third",
-      "seen_in": [
-        "local_whisper_turbo",
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "third",
-        "third"
+      "occurrences": [
+        {
+          "start": 484.84,
+          "end": 485.28,
+          "text": "Security",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 491,
+          "end": 491.36,
+          "text": "Security",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
@@ -210,8 +329,52 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "agent"
+      "occurrences": [
+        {
+          "start": 518.32,
+          "end": 518.86,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 549.74,
+          "end": 550.38,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 553.02,
+          "end": 553.26,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 558.04,
+          "end": 558.3,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 568.64,
+          "end": 568.86,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -219,8 +382,33 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "alone"
+      "occurrences": [
+        {
+          "start": 716.48,
+          "end": 716.78,
+          "text": "alone",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ]
+    },
+    {
+      "term": "approval",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 635.32,
+          "end": 635.54,
+          "text": "approval",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -228,8 +416,76 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "approvals"
+      "occurrences": [
+        {
+          "start": 633.44,
+          "end": 634.32,
+          "text": "approvals",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ]
+    },
+    {
+      "term": "Auth",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 686.78,
+          "end": 687.02,
+          "text": "Auth",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 763.91,
+          "end": 764.39,
+          "text": "Auth",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ]
+    },
+    {
+      "term": "Calendar",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 759.83,
+          "end": 760.03,
+          "text": "Calendar",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ]
+    },
+    {
+      "term": "case",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 544.46,
+          "end": 544.6,
+          "text": "case",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -237,26 +493,33 @@
       "seen_in": [
         "local_whisper_turbo"
       ],
-      "spellings": [
-        "chain"
+      "occurrences": [
+        {
+          "start": 484.62,
+          "end": 484.78,
+          "text": "chain",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "Comp",
+      "term": "Composio",
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "Comp"
-      ]
-    },
-    {
-      "term": "credential",
-      "seen_in": [
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "credential"
+      "occurrences": [
+        {
+          "start": 682.84,
+          "end": 683.48,
+          "text": "Composio",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -264,8 +527,52 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "credentials"
+      "occurrences": [
+        {
+          "start": 616.06,
+          "end": 616.66,
+          "text": "credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 617.9,
+          "end": 618.42,
+          "text": "credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 631.18,
+          "end": 631.74,
+          "text": "credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 641.56,
+          "end": 641.94,
+          "text": "credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 767.41,
+          "end": 768.09,
+          "text": "Credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -273,8 +580,33 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "directory"
+      "occurrences": [
+        {
+          "start": 578.98,
+          "end": 580.02,
+          "text": "directory",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ]
+    },
+    {
+      "term": "Drive",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 760.03,
+          "end": 760.73,
+          "text": "Drive",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -282,8 +614,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "far"
+      "occurrences": [
+        {
+          "start": 713.88,
+          "end": 714.06,
+          "text": "far",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -291,8 +631,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "file"
+      "occurrences": [
+        {
+          "start": 577.38,
+          "end": 577.68,
+          "text": "file",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -300,35 +648,67 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "gateway"
+      "occurrences": [
+        {
+          "start": 629.54,
+          "end": 629.86,
+          "text": "gateway",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "google",
+      "term": "hosted",
       "seen_in": [
         "local_whisper_turbo"
       ],
-      "spellings": [
-        "google"
+      "occurrences": [
+        {
+          "start": 752.25,
+          "end": 753.01,
+          "text": "hosted",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "login",
-      "seen_in": [
-        "local_whisper_turbo"
-      ],
-      "spellings": [
-        "login"
-      ]
-    },
-    {
-      "term": "managed",
+      "term": "Human",
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "managed"
+      "occurrences": [
+        {
+          "start": 634.72,
+          "end": 634.96,
+          "text": "Human",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ]
+    },
+    {
+      "term": "Loop",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 635.18,
+          "end": 635.32,
+          "text": "Loop",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -336,26 +716,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "mounted"
-      ]
-    },
-    {
-      "term": "Nano-Claw",
-      "seen_in": [
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "Nano-Claw"
-      ]
-    },
-    {
-      "term": "Nanoc",
-      "seen_in": [
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "Nanoc"
+      "occurrences": [
+        {
+          "start": 578.2,
+          "end": 578.98,
+          "text": "mounted",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -363,8 +733,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "network"
+      "occurrences": [
+        {
+          "start": 666.94,
+          "end": 668.46,
+          "text": "network",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -372,17 +750,42 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "orchestation"
+      "occurrences": [
+        {
+          "start": 563.42,
+          "end": 563.96,
+          "text": "orchestation",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
-      "term": "partnership",
+      "term": "party",
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "partnership"
+      "occurrences": [
+        {
+          "start": 647.96,
+          "end": 648.3,
+          "text": "party",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 723.6,
+          "end": 723.86,
+          "text": "party",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -390,17 +793,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "Pendency"
-      ]
-    },
-    {
-      "term": "preserved",
-      "seen_in": [
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "preserved"
+      "occurrences": [
+        {
+          "start": 485.9,
+          "end": 486.26,
+          "text": "Pendency",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -408,17 +810,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "process"
-      ]
-    },
-    {
-      "term": "processes",
-      "seen_in": [
-        "local_ivrit_turbo"
-      ],
-      "spellings": [
-        "processes"
+      "occurrences": [
+        {
+          "start": 560.6,
+          "end": 561.28,
+          "text": "process",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -426,8 +827,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "Refresh"
+      "occurrences": [
+        {
+          "start": 708.98,
+          "end": 709.32,
+          "text": "Refresh",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -435,8 +844,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "stand"
+      "occurrences": [
+        {
+          "start": 716.26,
+          "end": 716.48,
+          "text": "stand",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -444,8 +861,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "Sum"
+      "occurrences": [
+        {
+          "start": 490.68,
+          "end": 491,
+          "text": "Sum",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -453,8 +878,16 @@
       "seen_in": [
         "local_whisper_turbo"
       ],
-      "spellings": [
-        "supply"
+      "occurrences": [
+        {
+          "start": 483.96,
+          "end": 484.62,
+          "text": "supply",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
@@ -462,8 +895,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "Supply-Chain"
+      "occurrences": [
+        {
+          "start": 484,
+          "end": 484.84,
+          "text": "Supply Chain",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -471,8 +912,42 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "system"
+      "occurrences": [
+        {
+          "start": 577.68,
+          "end": 577.92,
+          "text": "system",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ]
+    },
+    {
+      "term": "third",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 647.76,
+          "end": 647.96,
+          "text": "third",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 723.46,
+          "end": 723.6,
+          "text": "third",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -480,8 +955,25 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "third-party"
+      "occurrences": [
+        {
+          "start": 647.76,
+          "end": 648.3,
+          "text": "third party",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 723.46,
+          "end": 723.86,
+          "text": "third party",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -489,8 +981,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "Token"
+      "occurrences": [
+        {
+          "start": 709.32,
+          "end": 709.62,
+          "text": "Token",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -498,8 +998,16 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "tools"
+      "occurrences": [
+        {
+          "start": 723.86,
+          "end": 724.1,
+          "text": "tools",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     },
     {
@@ -507,8 +1015,33 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "user"
+      "occurrences": [
+        {
+          "start": 653.94,
+          "end": 654.58,
+          "text": "user",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ]
+    },
+    {
+      "term": "version",
+      "seen_in": [
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 753.01,
+          "end": 754.19,
+          "text": "version",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        }
       ]
     },
     {
@@ -516,9 +1049,26 @@
       "seen_in": [
         "local_ivrit_turbo"
       ],
-      "spellings": [
-        "Workspace"
+      "occurrences": [
+        {
+          "start": 700.94,
+          "end": 701.36,
+          "text": "Workspace",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
       ]
     }
-  ]
+  ],
+  "review_instructions": "These are unverified candidate words, not ground truth. Listen to the audio and edit the reference file's technical_terms to include all actually spoken English technical terms in Latin script; remove invented names; merge multiword phrases. Set review_status to approved only after listening.",
+  "source_models": [
+    "local_whisper_turbo",
+    "local_ivrit_turbo"
+  ],
+  "audio_url": "https://feeds.async.com/9b2a0d3c-2257-4b2a-bc0d-175660c81c53/71%20-%20Claws%20Architecture.mp3",
+  "reference_review_status": "pending",
+  "disclaimer": "These are provisional model-estimated word timestamps (2 ASR models), not human-verified terms. Confirm each occurrence by listening before exporting an approved reference.",
+  "timestamp_origin": "word_timestamps=True with faster-whisper, excerpt offset 480s, two models; merged if starts differ <1.5s"
 }
