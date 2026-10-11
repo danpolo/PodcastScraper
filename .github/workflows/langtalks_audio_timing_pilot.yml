@@ -1,0 +1,48 @@
+name: One-time LangTalks excerpt timing validation
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/langtalks_audio_timing_pilot.yml
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Compare MP3 frame timing against ffprobe decoder metadata
+        run: |
+          command -v ffprobe || (sudo apt-get update -qq && sudo apt-get install -y ffmpeg)
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          from langtalks import mp3
+          from langtalks.feed import fetch_episodes
+          ep = next(e for e in fetch_episodes() if e.number == 71)
+          full = Path('langtalks/out/audio') / f'{ep.guid}.mp3'
+          excerpt = Path('langtalks/out/excerpts') / f'{ep.guid}.mp3'
+          def probe(path):
+              out = subprocess.check_output([
+                  'ffprobe', '-v', 'error', '-show_entries',
+                  'format=duration', '-of', 'default=nw=1:nk=1',
+                  str(path)
+              ], text=True)
+              return float(out.strip())
+          for name, path in [('full', full), ('excerpt', excerpt)]:
+              print(f'DURATION_{name.upper()}_FRAMES', round(mp3.duration_seconds(path),2))
+              print(f'DURATION_{name.upper()}_FFPROBE', round(probe(path),2))
+          if abs(probe(excerpt) - 300) > 1.0:
+              raise SystemExit('EXCERPT_DURATION_MISMATCH')
+          PY
+      - if: always()
+        run: rm -rf langtalks/out
