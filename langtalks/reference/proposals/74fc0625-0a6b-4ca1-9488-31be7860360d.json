@@ -1,0 +1,140 @@
+{
+  "episode_guid": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+  "episode_title": "71 - Claw Architectures | Gavriel Cohen (NanoClaw)",
+  "window": {
+    "start": 480,
+    "end": 780
+  },
+  "draft_only": true,
+  "review_status": "pending",
+  "reference_status_note": "Machine-generated candidates are NOT ground truth. Listen to the exact excerpt, remove false terms and add missed terms before approving the reference.",
+  "source": "GitHub Actions local CPU faster-whisper large-v3-turbo, 2026-10-11; zero paid API quota",
+  "suggested_terms": [
+    {
+      "term": "API",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "auth",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "case",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "cases",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "chain",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "CLI",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "Code",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "code review",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "Gmail",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "google",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "human",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "login",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "loop",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "NanoClaw",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "OpenClaw",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "party",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "Practices",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "Review",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "security",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "supply",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    },
+    {
+      "term": "third",
+      "seen_in": [
+        "local_whisper_turbo"
+      ]
+    }
+  ]
+}
