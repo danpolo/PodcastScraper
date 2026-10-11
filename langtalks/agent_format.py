@@ -172,6 +172,57 @@ def from_asr(asr, proposal=None, *, source_urls=None):
     return draft
 
 
+def apply_reference(doc, reference):
+    """Overlay user-reviewed terminology without modifying spoken transcript.
+
+    Even a verified terminology reference does not magically verify all Hebrew
+    text or establish speaker identity. Keep that distinction in provenance.
+    """
+    validate(doc)
+    if (reference.get("episode_guid")
+            and reference["episode_guid"] != doc["episode"]["id"]):
+        raise ValueError("Reference episode does not match transcript episode")
+    approved = (reference.get("review_status") == "approved"
+                and reference.get("terms_exhaustive") is True)
+    result = json.loads(json.dumps(doc, ensure_ascii=False))
+    new_mentions = []
+    for src in reference.get("concept_mentions") or reference.get("verified_occurrences") or []:
+        if not approved:
+            break
+        a = _finite_seconds(src.get("start_s", src.get("start")), "mention.start")
+        b = _finite_seconds(src.get("end_s", src.get("end", a)), "mention.end")
+        if b < a:
+            raise ValueError("Reference mention ends before it starts")
+        phrase = src.get("surface") or src.get("term")
+        canonical = src.get("canonical") or src.get("term")
+        kind = src.get("kind", "other")
+        if not phrase or not canonical or kind not in KINDS:
+            raise ValueError("Invalid reviewed technical concept")
+        new_mentions.append({
+            "id": f"mention-{len(new_mentions)+1:04d}",
+            "turn_id": _turn_for_time(result["turns"], a),
+            "start_s": a, "end_s": b,
+            "surface": phrase, "canonical": canonical,
+            "concept_id": src.get("concept_id"),
+            "aliases": src.get("aliases") or [],
+            "kind": kind, "review_status": "verified",
+            "provenance": {
+                "models": src.get("source_models") or
+                          (src.get("provenance") or {}).get("models") or [],
+                "human_review": "audio_listening_approved",
+            },
+        })
+    if approved:
+        # Reviewed terms replace model suggestions in this reviewed window.
+        result["concept_mentions"] = new_mentions
+        result["provenance"]["editorial_review"] = "terminology_approved_only"
+        result["provenance"]["reference_review_status"] = "approved"
+    else:
+        result["provenance"]["reference_review_status"] = "pending"
+    validate(result)
+    return result
+
+
 def validate(doc):
     if doc.get("schema_version") != SCHEMA_VERSION:
         raise ValueError("Unsupported schema_version")
@@ -291,11 +342,15 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("asr_file", type=Path)
     parser.add_argument("--proposal", type=Path)
+    parser.add_argument("--review", type=Path, help="reviewer-exported reference JSON")
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args(argv)
     asr = json.loads(args.asr_file.read_text(encoding="utf-8"))
     proposal = json.loads(args.proposal.read_text(encoding="utf-8")) if args.proposal else None
     doc = from_asr(asr, proposal)
+    if args.review:
+        reference = json.loads(args.review.read_text(encoding="utf-8"))
+        doc = apply_reference(doc, reference)
     target = args.output_dir
     target.mkdir(parents=True, exist_ok=True)
     stem = doc["episode"]["id"] or args.asr_file.stem
