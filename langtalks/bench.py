@@ -281,13 +281,22 @@ def cmd_report(args):
         for row in rows:
             entry = totals.setdefault(row["provider"], {
                 "overall": [], "recall": [], "reviewed": 0,
+                "approved_overall": [], "approved_recall": [],
             })
-            if score_mod.load_reference(reference_path).get("review_status") == "approved":
+            approved = (
+                score_mod.load_reference(reference_path).get("review_status")
+                == "approved"
+            )
+            if approved:
                 entry["reviewed"] += 1
             if row["overall"] is not None:
                 entry["overall"].append(row["overall"])
+                if approved:
+                    entry["approved_overall"].append(row["overall"])
             if row["components"]["term_recall"] is not None:
                 entry["recall"].append(row["components"]["term_recall"])
+                if approved:
+                    entry["approved_recall"].append(row["components"]["term_recall"])
 
     if not totals:
         raise SystemExit(
@@ -295,16 +304,26 @@ def cmd_report(args):
         )
 
     mean = lambda values: sum(values) / len(values) if values else None
+    if not any(entry["reviewed"] for entry in totals.values()):
+        print("No human-approved references yet; no verified ranking is possible.")
+        print("Use 'score' for provisional per-window diagnostics.")
     print(f"{'provider':<14}{'windows':>9}{'approved':>10}"
           f"{'term recall':>14}{'overall':>10}")
     ranked = sorted(
-        totals.items(), key=lambda kv: mean(kv[1]["recall"]) or 0, reverse=True
+        totals.items(),
+        key=lambda kv: (kv[1]["reviewed"] > 0,
+                        mean(kv[1]["approved_recall"]) or 0),
+        reverse=True,
     )
     for name, entry in ranked:
-        recall, overall = mean(entry["recall"]), mean(entry["overall"])
+        # Never rank with unverified reference labels, even when provisional
+        # scores are available. Count reveals cross-provider sample gaps.
+        recall = mean(entry["approved_recall"])
+        overall = mean(entry["approved_overall"])
+        r = "n/a" if recall is None else f"{recall:.3f}"
+        o = "n/a" if overall is None else f"{overall:.3f}"
         print(f"{name:<14}{len(entry['overall']):>9}{entry['reviewed']:>10}"
-              f"{'n/a' if recall is None else f'{recall:>13.3f}'}"
-              f"{'n/a' if overall is None else f'{overall:>10.3f}'}")
+              f"{r:>14}{o:>10}")
 
 
 def main(argv=None):
