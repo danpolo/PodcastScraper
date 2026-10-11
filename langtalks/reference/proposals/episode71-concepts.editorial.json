@@ -1,0 +1,1005 @@
+{
+  "episode_guid": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+  "episode_title": "71 - Claw Architectures | Gavriel Cohen (NanoClaw)",
+  "window": {
+    "start": 480,
+    "end": 780
+  },
+  "audio_url": "https://feeds.async.com/9b2a0d3c-2257-4b2a-bc0d-175660c81c53/71%20-%20Claws%20Architecture.mp3",
+  "draft_only": true,
+  "review_status": "needs_review",
+  "assistant_editorial_pass": {
+    "status": "proposed_not_audio_verified",
+    "notes": "Terms merged into semantic concepts. Surface language in a compound is inferred from the speaker context and ASR pieces and MUST be checked against the recording; model disagreement isn't proof.",
+    "missing_from_asr_to_check": [
+      "OneCLI",
+      "OAuth",
+      "container",
+      "multi-tenant",
+      "human-in-the-loop approvals",
+      "Anthropic"
+    ]
+  },
+  "provider_outputs_considered": [
+    "local_ivrit_turbo",
+    "local_whisper_turbo"
+  ],
+  "source_models": [
+    "local_whisper_turbo",
+    "local_ivrit_turbo"
+  ],
+  "suggested_terms": [
+    {
+      "term": "supply chain security",
+      "surface": "supply chain security",
+      "canonical": "supply chain security",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 483.96,
+          "end": 485.28,
+          "text": "supply chain Security",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "supply",
+              "start": 483.96
+            },
+            {
+              "term": "chain",
+              "start": 484.62
+            },
+            {
+              "term": "Security",
+              "start": 484.84
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "code review",
+      "surface": "code review",
+      "canonical": "code review",
+      "kind": "technical_practice",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 489.4,
+          "end": 489.86,
+          "text": "code review",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "code",
+              "start": 489.4
+            },
+            {
+              "term": "review",
+              "start": 489.58
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "security best practices",
+      "surface": "security best practices",
+      "canonical": "security best practices",
+      "kind": "technical_practice",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 491,
+          "end": 492.04,
+          "text": "Security Practices",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "Security",
+              "start": 491
+            },
+            {
+              "term": "Practices",
+              "start": 491.6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "NanoClaw",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 504.46,
+          "end": 504.74,
+          "text": "NanoClaw",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 527.26,
+          "end": 527.8,
+          "text": "NanoClaw",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 714.78,
+          "end": 715.22,
+          "text": "Nano Claw",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "NanoClaw",
+      "surface": "NanoClaw",
+      "kind": "product",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    },
+    {
+      "term": "OpenClaw",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 507.28,
+          "end": 507.74,
+          "text": "OpenClaw",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
+      ],
+      "canonical": "OpenClaw",
+      "surface": "OpenClaw",
+      "kind": "product",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    },
+    {
+      "term": "agent",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 518.32,
+          "end": 518.86,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 549.74,
+          "end": 550.38,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 553.02,
+          "end": 553.26,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 558.04,
+          "end": 558.3,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 568.64,
+          "end": 568.86,
+          "text": "agent",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "AI agent",
+      "surface": "agent",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Generic term retained as context: do not verify every occurrence unless useful."
+    },
+    {
+      "term": "orchestation",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 563.42,
+          "end": 563.96,
+          "text": "orchestation",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "orchestration",
+      "surface": "orchestation",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Likely 'orchestration'; check the audio rather than assuming."
+    },
+    {
+      "term": "file system",
+      "surface": "file system",
+      "canonical": "file system",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 577.38,
+          "end": 577.92,
+          "text": "file system",
+          "sources": [
+            "local_ivrit_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "file",
+              "start": 577.38
+            },
+            {
+              "term": "system",
+              "start": 577.68
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "mounted directory",
+      "surface": "mounted directory",
+      "canonical": "mounted directory",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 578.2,
+          "end": 580.02,
+          "text": "mounted directory",
+          "sources": [
+            "local_ivrit_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "mounted",
+              "start": 578.2
+            },
+            {
+              "term": "directory",
+              "start": 578.98
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "credentials",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 616.06,
+          "end": 616.66,
+          "text": "credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 617.9,
+          "end": 618.42,
+          "text": "credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 631.18,
+          "end": 631.74,
+          "text": "credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 641.56,
+          "end": 641.94,
+          "text": "credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 767.41,
+          "end": 768.09,
+          "text": "Credentials",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "credentials",
+      "surface": "credentials",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    },
+    {
+      "term": "gateway",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 629.54,
+          "end": 629.86,
+          "text": "gateway",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "credential gateway",
+      "surface": "gateway",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    },
+    {
+      "term": "human-in-the-loop approval",
+      "surface": "human-in-the-loop approval",
+      "canonical": "human-in-the-loop approval",
+      "kind": "technical_practice",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 634.72,
+          "end": 635.54,
+          "text": "Human Loop approval",
+          "sources": [
+            "local_ivrit_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "Human",
+              "start": 634.72
+            },
+            {
+              "term": "Loop",
+              "start": 635.18
+            },
+            {
+              "term": "approval",
+              "start": 635.32
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "cli",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 646.66,
+          "end": 647.1,
+          "text": "cli",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 659.34,
+          "end": 659.6,
+          "text": "cli",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 665.24,
+          "end": 665.58,
+          "text": "cli",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 687.9,
+          "end": 689.88,
+          "text": "CLI",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 689.54,
+          "end": 689.84,
+          "text": "cli",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 735.05,
+          "end": 735.99,
+          "text": "CLI",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        },
+        {
+          "start": 772.39,
+          "end": 773.01,
+          "text": "CLI",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_whisper_turbo"
+          ]
+        }
+      ],
+      "canonical": "OneCLI",
+      "surface": "cli",
+      "kind": "product",
+      "review_status": "needs_review",
+      "editorial_reason": "Possible OneCLI reference. Verify whether the speaker said OneCLI or generic CLI."
+    },
+    {
+      "term": "Composio",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 682.84,
+          "end": 683.48,
+          "text": "Composio",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "Composio",
+      "surface": "Composio",
+      "kind": "product",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    },
+    {
+      "term": "Auth",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 686.78,
+          "end": 687.02,
+          "text": "Auth",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        },
+        {
+          "start": 763.91,
+          "end": 764.39,
+          "text": "Auth",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "OAuth",
+      "surface": "Auth",
+      "kind": "protocol",
+      "review_status": "needs_review",
+      "editorial_reason": "Possible OAuth; transcription may confuse 'auth' with OAuth."
+    },
+    {
+      "term": "API",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 699.74,
+          "end": 700.18,
+          "text": "API",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
+      ],
+      "canonical": "API",
+      "surface": "API",
+      "kind": "protocol",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    },
+    {
+      "term": "refresh token",
+      "surface": "refresh token",
+      "canonical": "refresh token",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 708.98,
+          "end": 709.62,
+          "text": "Refresh Token",
+          "sources": [
+            "local_ivrit_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "Refresh",
+              "start": 708.98
+            },
+            {
+              "term": "Token",
+              "start": 709.32
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "standalone",
+      "surface": "standalone",
+      "canonical": "standalone",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 716.26,
+          "end": 716.78,
+          "text": "stand alone",
+          "sources": [
+            "local_ivrit_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "stand",
+              "start": 716.26
+            },
+            {
+              "term": "alone",
+              "start": 716.48
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "third-party tools",
+      "surface": "third-party tools",
+      "canonical": "third-party tools",
+      "kind": "technical_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 723.46,
+          "end": 724.1,
+          "text": "third party tools",
+          "sources": [
+            "local_ivrit_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "third",
+              "start": 723.46
+            },
+            {
+              "term": "party",
+              "start": 723.6
+            },
+            {
+              "term": "tools",
+              "start": 723.86
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "managed hosted version",
+      "surface": "managed hosted version",
+      "canonical": "managed hosting",
+      "kind": "descriptive_concept",
+      "review_status": "needs_review",
+      "editorial_reason": "Compound technical phrase from adjacent ASR tokens; check exact wording.",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 751.33,
+          "end": 754.19,
+          "text": "managed hosted version",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ],
+          "alignment": "editorial_compound_estimate",
+          "component_candidates": [
+            {
+              "term": "managed",
+              "start": 751.33
+            },
+            {
+              "term": "hosted",
+              "start": 752.25
+            },
+            {
+              "term": "version",
+              "start": 753.01
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "term": "Gmail",
+      "seen_in": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 759.31,
+          "end": 759.69,
+          "text": "Gmail",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo",
+            "local_whisper_turbo"
+          ]
+        }
+      ],
+      "canonical": "Gmail",
+      "surface": "Gmail",
+      "kind": "product",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    },
+    {
+      "term": "Calendar",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 759.83,
+          "end": 760.03,
+          "text": "Calendar",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "Google Calendar",
+      "surface": "Calendar",
+      "kind": "product",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    },
+    {
+      "term": "Drive",
+      "seen_in": [
+        "local_ivrit_turbo"
+      ],
+      "occurrences": [
+        {
+          "start": 760.03,
+          "end": 760.73,
+          "text": "Drive",
+          "alignment": "asr_word_or_segment",
+          "sources": [
+            "local_ivrit_turbo"
+          ]
+        }
+      ],
+      "canonical": "Google Drive",
+      "surface": "Drive",
+      "kind": "product",
+      "review_status": "needs_review",
+      "editorial_reason": "Relevant technical named entity or concept."
+    }
+  ],
+  "excluded_candidates": [
+    {
+      "term": "cases",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "code",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "managed",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Practices",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "review",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Security",
+      "occurrences": 2,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "alone",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "approval",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "approvals",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "case",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "chain",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "directory",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "far",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "file",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "hosted",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Human",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Loop",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "mounted",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "network",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "party",
+      "occurrences": 2,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Pendency",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "process",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Refresh",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "stand",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Sum",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "supply",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Supply-Chain",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "system",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "third",
+      "occurrences": 2,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "third-party",
+      "occurrences": 2,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Token",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "tools",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "user",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "version",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    },
+    {
+      "term": "Workspace",
+      "occurrences": 1,
+      "reason": "Generic word, constituent of a phrase, or unclear independent technical relevance"
+    }
+  ]
+}
