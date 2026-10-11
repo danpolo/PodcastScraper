@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from langtalks.agent_format import from_asr, render_markdown, validate
+from langtalks.agent_format import from_asr, render_markdown, validate, apply_reference
 
 
 class AgentTranscriptTests(unittest.TestCase):
@@ -89,6 +89,42 @@ class AgentTranscriptTests(unittest.TestCase):
                               "turn_ids": ["turn-0001"], "status": "inferred"})
         with self.assertRaisesRegex(ValueError, "qualified"):
             validate(doc)
+
+    def test_approved_review_attaches_concepts_but_doesnt_verify_hebrew(self):
+        doc = from_asr(self.asr, self.proposal)
+        approved = {
+            "episode_guid": "episode-71", "review_status": "approved",
+            "terms_exhaustive": True,
+            "verified_occurrences": [{
+                "term": "managed hosting",
+                "surface": "managed hosted version",
+                "kind": "descriptive_concept",
+                "start": 491, "end": 493,
+                "source_models": ["local_ivrit_turbo"],
+            }],
+        }
+        result = apply_reference(doc, approved)
+        self.assertEqual(len(result["concept_mentions"]), 1)
+        self.assertEqual(result["concept_mentions"][0]["canonical"],
+                         "managed hosting")
+        self.assertEqual(result["concept_mentions"][0]["review_status"],
+                         "verified")
+        self.assertIn("managed hosted version", result["turns"][0]["text"])
+        self.assertEqual(result["turns"][0]["review_status"], "suggested")
+        self.assertEqual(result["status"], "machine_draft")
+
+    def test_pending_review_never_verifies_models(self):
+        doc = from_asr(self.asr, self.proposal)
+        result = apply_reference(doc, {
+            "episode_guid": "episode-71", "review_status": "pending",
+            "terms_exhaustive": False, "verified_occurrences": [{
+                "term": "managed hosting", "surface": "managed hosted version",
+                "start": 491, "end": 493,
+            }],
+        })
+        self.assertTrue(all(m["review_status"] == "suggested"
+                            for m in result["concept_mentions"]))
+        self.assertEqual(result["provenance"]["reference_review_status"], "pending")
 
     def test_markdown_is_deterministic(self):
         doc = from_asr(self.asr, self.proposal)
