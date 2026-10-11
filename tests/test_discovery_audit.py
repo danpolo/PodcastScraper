@@ -9,7 +9,7 @@ from types import SimpleNamespace
 from io import BytesIO
 
 import discovery_audit as audit
-from tests.test_rss_feed import load_scraper_module
+from test_rss_feed import load_scraper_module
 
 
 def row(ident, title, description_chars=50):
