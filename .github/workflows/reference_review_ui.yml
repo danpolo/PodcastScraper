@@ -26,5 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: podcast-term-reviewer-html
-          path: tools/reference-review.html
+          path: |
+            tools/reference-review.html
+            langtalks/reference/proposals/74fc0625-0a6b-4ca1-9488-31be7860360d.json
           retention-days: 7
