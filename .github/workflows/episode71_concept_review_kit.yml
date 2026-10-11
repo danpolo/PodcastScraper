@@ -9,14 +9,46 @@ permissions:
 jobs:
   kit:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.11"}
-      - run: pip install -r requirements.txt
+      - run: |
+          pip install -r requirements.txt
+          pip install faster-whisper
       - name: Fetch the same five-minute source audio
         run: python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Produce word-timed Hebrew ASR and readable transcript with local free model
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from faster_whisper import WhisperModel
+          from langtalks.feed import fetch_episodes
+          from langtalks.glossary import build, context_prompt
+          from langtalks.agent_format import from_asr, render_markdown
+          ep=next(e for e in fetch_episodes() if e.number==71)
+          audio=next(Path('langtalks/out/excerpts').glob('*.mp3'))
+          model=WhisperModel('ivrit-ai/whisper-large-v3-turbo-ct2',device='cpu',compute_type='int8',cpu_threads=4)
+          segments,_=model.transcribe(str(audio),language='he',beam_size=5,
+              initial_prompt=context_prompt(ep,build(ep))[:600],
+              word_timestamps=True,vad_filter=True)
+          segs=list(segments)
+          tokens=[{'text':w.word,'start':round(w.start+480,2),'end':round(w.end+480,2),'speaker':None}
+                  for seg in segs for w in (seg.words or [])]
+          asr={'provider':'local_ivrit_turbo','source':'excerpt','time_offset':480,
+               'episode_guid':ep.guid,'episode_title':ep.title,
+               'text':''.join(seg.text for seg in segs),'tokens':tokens}
+          proposal=json.loads(Path('langtalks/reference/proposals/episode71-concepts.editorial.json').read_text(encoding='utf-8'))
+          doc=from_asr(asr,proposal)
+          folder=Path('review-kit')
+          folder.mkdir(exist_ok=True)
+          (folder/'episode71-transcript.json').write_text(json.dumps(doc,ensure_ascii=False,indent=2),encoding='utf-8')
+          (folder/'episode71-transcript.md').write_text(render_markdown(doc),encoding='utf-8')
+          (folder/'episode71-asr-source.json').write_text(json.dumps(asr,ensure_ascii=False,indent=2),encoding='utf-8')
+          print('KIT_TRANSCRIPT_TURNS',len(doc['turns']),'CONCEPTS',len(doc['concept_mentions']))
+          PY
       - name: Assemble single-open offline kit
         run: |
           python - <<'PY'
@@ -31,7 +63,10 @@ jobs:
           if marker not in html:
               raise SystemExit('Expected reviewer entrypoint not found')
           safe=json.dumps(draft,ensure_ascii=False).replace('</','<\\/')
+          transcript=json.loads((root/'episode71-transcript.json').read_text(encoding='utf-8'))
+          raw_transcript=json.dumps(transcript,ensure_ascii=False).replace('</','<\\/')
           boot=('<script>window.__localReviewProposal='+safe+';'
+                'window.__localAgentTranscript='+raw_transcript+';'
                 'window.__kitAudioPath="audio.mp3";</script>\n')
           html=html.replace(marker,boot+marker,1)
           (root/'Reviewer.html').write_text(html,encoding='utf-8')
@@ -40,11 +75,12 @@ jobs:
           excerpt=next(Path('langtalks/out/excerpts').glob('*.mp3'))
           shutil.copy2(excerpt,root/'audio.mp3')
           (root/'README.txt').write_text(
-              '1. Open Reviewer.html in Chrome/Edge. Audio and editorial proposal load automatically.\n'
+              '1. Open Reviewer.html in Chrome/Edge. Audio, editorial proposal and transcript context load automatically.\n'
               '2. Inspect uncertain technical concepts, listen at each timestamp, verify / reject.\n'
               '3. Keep spoken phrase distinct from searchable canonical concept.\n'
               '4. Add missed words at current playback time. Merge/split where needed.\n'
               '5. Save session JSON periodically; only export approved reference after full listening review.\n'
+              'The Markdown/JSON transcript draft is NOT independently audio verified.\n'
               'The AI pre-review is NOT human verified. No paid API is needed.\n',
               encoding='utf-8')
           print('KIT_GROUPS',len(draft['suggested_terms']))
