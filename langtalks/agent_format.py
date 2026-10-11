@@ -168,7 +168,15 @@ def from_asr(asr, proposal=None, *, source_urls=None):
             "editorial_review": "not_approved",
         },
         "turns": turns,
-        "topics": [],
+        "topics": [
+            {
+                "id": t.get("id", f"topic-{i:03d}"),
+                "title": t["title"],
+                "turn_ids": t["turn_ids"],
+                "status": "suggested",
+            }
+            for i, t in enumerate((proposal or {}).get("editorial_topics", []), 1)
+        ],
         "concept_mentions": mentions,
     }
     validate(draft)
