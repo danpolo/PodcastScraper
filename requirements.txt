@@ -2,3 +2,4 @@ playwright==1.49.1
 feedparser==6.0.11
 youtube-transcript-api
 python-dotenv
+requests>=2.31,<3
