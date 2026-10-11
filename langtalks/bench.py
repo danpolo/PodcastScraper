@@ -252,6 +252,54 @@ def cmd_reference_draft(args):
               f"from {len(draft['provider_outputs_considered'])} provider outputs")
 
 
+def cmd_agent_ready(args):
+    """Convert cached ASR to bilingual agent-readable JSON + Markdown.
+
+    Zero network or provider calls are made for audio transcription here.
+    A reviewed reference can upgrade concept labels only, not the audio text.
+    """
+    from .agent_format import from_asr, apply_reference, render_markdown
+
+    episodes = fetch_episodes() if not args.offline else []
+    if args.offline:
+        # The cached ASR file already provides the stable episode ID/title.
+        if not args.asr_file:
+            raise SystemExit("--offline requires --asr-file")
+        sources = [Path(args.asr_file)]
+    else:
+        targets = _resolve(args.episodes, episodes)
+        sources = [
+            path
+            for episode in targets
+            for path in sorted(TRANSCRIPT_DIR.glob(
+                f"{episode.guid}.{args.provider or '*'}.json"))
+        ]
+    if not sources:
+        raise SystemExit("No cached ASR transcripts found; no API calls sent.")
+    proposal = json.loads(args.proposal.read_text(encoding="utf-8")) if args.proposal else None
+    reviewed = json.loads(args.review.read_text(encoding="utf-8")) if args.review else None
+    directory = args.output_dir or (ROOT / "out" / "agent_ready")
+    directory.mkdir(parents=True, exist_ok=True)
+    for source in sources:
+        payload = json.loads(source.read_text(encoding="utf-8"))
+        doc = from_asr(payload, proposal)
+        if reviewed:
+            doc = apply_reference(doc, reviewed)
+        stem = payload.get("episode_guid") or source.stem
+        provider = payload.get("provider") or "unknown"
+        name = f"{stem}.{provider}.transcript"
+        (directory / f"{name}.json").write_text(
+            json.dumps(doc, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        (directory / f"{name}.md").write_text(
+            render_markdown(doc), encoding="utf-8",
+        )
+        print(f"{name}: {len(doc['turns'])} turns, "
+              f"{len(doc['concept_mentions'])} concept mentions "
+              "(unverified speech unless separately reviewed)")
+
+
 def cmd_score(args):
     episodes = fetch_episodes()
     for episode in _resolve(args.episodes, episodes):
@@ -381,6 +429,18 @@ def main(argv=None):
                        help="propose terms from ASR; MUST verify by listening")
     p.add_argument("episodes", nargs="+")
     p.set_defaults(func=cmd_reference_draft)
+
+    p = sub.add_parser("agent-ready",
+                       help="render cached ASR to bilingual agent-readable files (no ASR charges)")
+    p.add_argument("episodes", nargs="*")
+    p.add_argument("--provider")
+    p.add_argument("--asr-file", type=Path, help="cached ASR JSON, used with --offline")
+    p.add_argument("--offline", action="store_true",
+                   help="avoid even RSS discovery; use local ASR file")
+    p.add_argument("--proposal", type=Path)
+    p.add_argument("--review", type=Path)
+    p.add_argument("--output-dir", type=Path)
+    p.set_defaults(func=cmd_agent_ready)
 
     p = sub.add_parser("score", help="score transcripts against references")
     p.add_argument("episodes", nargs="+")
