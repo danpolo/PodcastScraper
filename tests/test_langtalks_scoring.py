@@ -19,6 +19,11 @@ class ScoringTests(unittest.TestCase):
         self.assertEqual(len(found), 2)
         self.assertEqual(missed, [])
 
+    def test_phrases_scored_by_spoken_words_not_semantic_alias(self):
+        spoken = ["managed hosted version"]
+        self.assertEqual(term_recall("יש גם managed hosted version", spoken)[0], 1)
+        self.assertEqual(term_recall("יש גם managed hosting", spoken)[0], 0)
+
     def test_partial_reference_cannot_prove_hallucinations(self):
         result = score("LangGraph NanoClaw", [], {
             "technical_terms": ["LangGraph"], "review_status": "draft",
