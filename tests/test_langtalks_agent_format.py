@@ -153,6 +153,65 @@ class AgentTranscriptTests(unittest.TestCase):
         )
         self.assertIn("Unverified technical terminology", render_markdown(result))
 
+    def test_user_confirmed_onecli_repairs_only_matching_asr_spelling(self):
+        guid = "episode-71"
+        transcript = from_asr({
+            "episode_guid": guid, "provider": "ivrit", "source": "excerpt",
+            "time_offset": 480,
+            "text": "1.cli עושה auth ואז שוב 1.Cלי",
+            "tokens": [
+                {"text": "1.cli", "start": 646, "end": 647},
+                {"text": " עושה auth ואז שוב ", "start": 647, "end": 660},
+                {"text": "1.Cלי", "start": 660, "end": 661},
+            ],
+        })
+        ref = {
+            "episode_guid": guid,
+            "review_status": "approved", "terms_exhaustive": True,
+            "verified_occurrences": [
+                {"surface": "OneCLI", "canonical": "OneCLI",
+                 "start": 646, "end": 647, "review_status": "verified",
+                 "speaker_correction_source": "user_explicit_confirmation"},
+                {"surface": "OneCLI", "canonical": "OneCLI",
+                 "start": 660, "end": 661, "review_status": "verified",
+                 "speaker_correction_source": "user_explicit_confirmation"},
+            ],
+        }
+        result = apply_reference(transcript, ref)
+        text = " ".join(t["text"] for t in result["turns"])
+        self.assertEqual(text.count("OneCLI"), 2)
+        self.assertIn("auth", text)
+        self.assertTrue(any("1.cli" in t.get("original_asr_text", "")
+                            for t in result["turns"]))
+        edits = result["provenance"]["explicit_text_corrections"]
+        self.assertTrue(any(x["status"] == "corrected" for x in edits))
+        self.assertTrue(all(t["review_status"] == "suggested" for t in result["turns"]))
+
+    def test_onecli_correction_fails_closed_on_mismatch(self):
+        doc = from_asr({
+            "episode_guid": "episode-71", "text": "1.cli בלבד",
+            "provider": "test",
+            "tokens": [{"text": "1.cli בלבד", "start": 646, "end": 660}],
+        })
+        ref = {
+            "episode_guid": "episode-71",
+            "review_status": "approved", "terms_exhaustive": True,
+            "verified_occurrences": [
+                {"surface": "OneCLI", "start": 646, "end": 647,
+                 "speaker_correction_source": "user_explicit_confirmation",
+                 "review_status": "verified"},
+                {"surface": "OneCLI", "start": 651, "end": 652,
+                 "speaker_correction_source": "user_explicit_confirmation",
+                 "review_status": "verified"},
+            ],
+        }
+        result = apply_reference(doc, ref)
+        self.assertEqual(result["turns"][0]["text"], "1.cli בלבד")
+        self.assertEqual(
+            result["provenance"]["explicit_text_corrections"][0]["status"],
+            "skipped_ambiguous_alignment",
+        )
+
     def test_pending_review_never_verifies_models(self):
         doc = from_asr(self.asr, self.proposal)
         result = apply_reference(doc, {
