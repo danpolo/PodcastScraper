@@ -1,7 +1,7 @@
 """Code-switch metric regression tests."""
 import unittest
 
-from langtalks.score import score, term_recall
+from langtalks.score import score, term_recall, timed_term_recall
 
 
 class ScoringTests(unittest.TestCase):
@@ -23,6 +23,44 @@ class ScoringTests(unittest.TestCase):
         spoken = ["managed hosted version"]
         self.assertEqual(term_recall("יש גם managed hosted version", spoken)[0], 1)
         self.assertEqual(term_recall("יש גם managed hosting", spoken)[0], 0)
+
+    def test_timed_occurrence_recall_catches_missing_repeat_mentions(self):
+        ref = {
+            "technical_terms": ["OneCLI"],
+            "verified_occurrences": [
+                {"surface": "OneCLI", "start": 600, "end": 601,
+                 "review_status": "verified"},
+                {"surface": "OneCLI", "start": 610, "end": 611,
+                 "review_status": "verified"},
+                {"surface": "OneCLI", "start": 620, "end": 621,
+                 "review_status": "verified"},
+            ],
+        }
+        tokens = [
+            {"text": " OneCLI", "start": 600, "end": 601},
+            {"text": " CLI", "start": 610, "end": 611},
+            {"text": " another", "start": 615, "end": 616},
+            {"text": " OneCLI", "start": 620, "end": 621},
+        ]
+        self.assertEqual(term_recall("OneCLI CLI OneCLI", ["OneCLI"])[0], 1.0)
+        result = timed_term_recall(tokens, ref)
+        self.assertEqual(result["total"], 3)
+        self.assertEqual(result["matched"], 2)
+        self.assertEqual(result["missed"], [{"term": "OneCLI", "at_s": 610.0}])
+        self.assertTrue(result["diagnostic_only"])
+        self.assertEqual(score("OneCLI CLI OneCLI", tokens, ref)["timed_term_recall"]["matched"], 2)
+
+    def test_no_false_exact_timing_for_coarse_paragraph_segments(self):
+        ref = {
+            "technical_terms": ["OneCLI"],
+            "verified_occurrences": [
+                {"surface": "OneCLI", "start": 600, "end": 601,
+                 "review_status": "verified"},
+            ],
+        }
+        self.assertIsNone(timed_term_recall([
+            {"text": "OneCLI", "start": 590, "end": 620},
+        ], ref))
 
     def test_partial_reference_cannot_prove_hallucinations(self):
         result = score("LangGraph NanoClaw", [], {
