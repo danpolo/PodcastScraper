@@ -266,7 +266,22 @@ def score(candidate_text: str, tokens: list, reference: dict, glossary: list = N
     # glossary term cannot be classified as a hallucination. Do not award or
     # penalize precision from partial annotations.
     if reference.get("review_status") == "approved" and reference.get("terms_exhaustive"):
-        precision, invented = term_precision(candidate_text, terms, glossary)
+        # ASR *recall* is deliberately strict about high-value Latin terms.
+        # Hallucination *precision* must consider the fuller list of confirmed
+        # speech too, otherwise an ordinary English word excluded from semantic
+        # indexing could be falsely called invented. Reviewed product/protocol
+        # identities also have canonical aliases, e.g. ASR 'Auth' vs OAuth.
+        precision_spoken = list(
+            reference.get("all_verified_english_expressions") or terms
+        )
+        precision_spoken.extend(
+            occ.get("canonical")
+            for occ in reference.get("verified_occurrences") or []
+            if occ.get("review_status") == "verified"
+            and occ.get("kind") in ("product", "protocol")
+            and occ.get("canonical")
+        )
+        precision, invented = term_precision(candidate_text, precision_spoken, glossary)
     else:
         precision, invented = None, []
 
