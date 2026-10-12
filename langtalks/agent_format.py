@@ -201,8 +201,7 @@ def _apply_explicit_speech_corrections(turns, reference):
         return []
     edits = []
     pattern = re.compile(
-        r"(?<!\w)(?:1\.[cC][lL][iI]|1\.[cC]לי|Onecli)(?!\w)",
-        flags=re.IGNORECASE,
+        r"(?<!\w)(?:1\.[cC][lL][iI]|1\.[cC]לי|Onecli)(?!\w)"
     )
     for turn in turns:
         instances = sorted(
@@ -211,6 +210,16 @@ def _apply_explicit_speech_corrections(turns, reference):
             key=lambda o: float(o["start"])
         )
         if not instances:
+            continue
+        if turn.get("review_status") == "verified":
+            # Human-corrected SRT is already authoritative for these words.
+            # Do not tag an existing OneCLI as a fresh ASR correction or
+            # rewrite any other speaker-verified sentence.
+            edits.append({
+                "turn_id": turn["id"],
+                "status": "unchanged_human_reviewed",
+                "count": len(instances),
+            })
             continue
         matches = list(pattern.finditer(turn["text"]))
         if len(matches) != len(instances):
