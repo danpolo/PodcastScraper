@@ -1,0 +1,75 @@
+name: One-time authorized sub-dollar LangTalks 71 ASR test
+on:
+  push:
+    branches: [dev]
+    paths: [.github/workflows/langtalks71_paid_pilot.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  five-minute-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SONIOX_API_KEY: ${{ secrets.SONIOX_API_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Show safe credential configuration state, not values
+        run: |
+          if [[ -n "$SONIOX_API_KEY" ]]; then echo "SONIOX_KEY_CONFIGURED=yes"; else echo "SONIOX_KEY_CONFIGURED=no"; fi
+          if [[ -n "$GROQ_API_KEY" ]]; then echo "GROQ_KEY_CONFIGURED=yes"; else echo "GROQ_KEY_CONFIGURED=no"; fi
+      - name: Prepare five-minute audio only if at least one provider is configured
+        if: ${{ env.SONIOX_API_KEY != '' || env.GROQ_API_KEY != '' }}
+        run: |
+          pip install -r requirements.txt
+          python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Submit at most one approved request per configured provider
+        if: ${{ env.SONIOX_API_KEY != '' || env.GROQ_API_KEY != '' }}
+        run: |
+          python -m langtalks.paid_pilot \
+            --audio langtalks/out/excerpts/74fc0625-0a6b-4ca1-9488-31be7860360d.mp3 \
+            --reference langtalks/reference/74fc0625-0a6b-4ca1-9488-31be7860360d.json \
+            --out-dir langtalks/reviewed/episode71/paid-pilot \
+            --approved-one-shot
+      - name: No credentials: write setup-needed summary, without charging anything
+        if: ${{ env.SONIOX_API_KEY == '' && env.GROQ_API_KEY == '' }}
+        run: |
+          mkdir -p langtalks/reviewed/episode71/paid-pilot
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          output=Path('langtalks/reviewed/episode71/paid-pilot/paid-pilot-summary.json')
+          output.write_text(json.dumps({
+            'status':'missing_api_keys_no_paid_requests_sent',
+            'needed_github_action_secrets':['SONIOX_API_KEY','GROQ_API_KEY'],
+            'approved_audio_seconds':300,
+            'estimated_two_provider_usage_usd':0.0176,
+            'next_action':'Configure keys in repository Actions secrets, then manually Run workflow.',
+          },indent=2)+'\n')
+          print('No provider credentials detected. No API requests or charges.')
+          PY
+      - name: Commit summary and raw responses to dev only, never main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add langtalks/reviewed/episode71/paid-pilot/
+          if ! git diff --cached --quiet; then
+            git commit -m "Record one-time authorized LangTalks 71 paid ASR pilot results"
+            git push origin HEAD:dev
+          fi
+      - name: Preserve pilot results for direct inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: LangTalks71-authorized-ASR-pilot
+          path: langtalks/reviewed/episode71/paid-pilot/
+          retention-days: 7
+      - name: Delete temporary audio files
+        if: always()
+        run: rm -rf langtalks/out
