@@ -1,0 +1,376 @@
+{
+  "episode_guid": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+  "window_original_seconds": [
+    480,
+    780
+  ],
+  "reference": "user-reviewed full bilingual SRT + approved technical concepts",
+  "timestamp_accuracy_caveat": "Per-occurrence ASR word alignment is a diagnostic, not a validated fair score.",
+  "metric_caveats": [
+    "Five-minute single-episode sample; not representative of all Hebrew podcasts.",
+    "Hebrew accuracy measures Hebrew-character edit distance only.",
+    "User-reviewed transcript may retain some ASR mistakes; scores are relative to that reference.",
+    "Precision and tokenization metrics are secondary; use Hebrew and exact English term recall."
+  ],
+  "no_paid_api_called": true,
+  "models": {
+    "local_ivrit_turbo": {
+      "overall": 0.7614083241333801,
+      "metrics": {
+        "term_recall": 0.5588235294117647,
+        "hebrew_accuracy": 0.9716520039100685,
+        "term_precision": 1.0,
+        "script_fidelity": 0.8460260462345484
+      },
+      "latin_ratio": 0.1621,
+      "terms_missed": [
+        "orchestration",
+        "OneCLI",
+        "managed hosted version",
+        "dependency",
+        "Hermes",
+        "Google Workspace",
+        "Log in with Google",
+        "harness",
+        "Codex",
+        "open source",
+        "Anthropic",
+        "vault",
+        "header",
+        "authorization",
+        "runtime"
+      ],
+      "terms_found": [
+        "supply chain security",
+        "code review",
+        "security best practices",
+        "NanoClaw",
+        "OpenClaw",
+        "file system",
+        "mounted directory",
+        "credentials",
+        "gateway",
+        "human-in-the-loop approval",
+        "Composio",
+        "API",
+        "refresh token",
+        "third-party tools",
+        "Gmail",
+        "Calendar",
+        "Drive",
+        "process",
+        "HTTP network"
+      ],
+      "timed_term_recall_diagnostic": {
+        "recall": 0.5,
+        "matched": 23,
+        "total": 46,
+        "missed": [
+          {
+            "term": "NanoClaw",
+            "at_s": 527.26
+          },
+          {
+            "term": "NanoClaw",
+            "at_s": 714.78
+          },
+          {
+            "term": "orchestration",
+            "at_s": 563.42
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 646.66
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 659.34
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 665.24
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 689.54
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 735.05
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 772.39
+          },
+          {
+            "term": "managed hosted version",
+            "at_s": 751.33
+          },
+          {
+            "term": "dependency",
+            "at_s": 486.0
+          },
+          {
+            "term": "Hermes",
+            "at_s": 507.0
+          },
+          {
+            "term": "process",
+            "at_s": 594.08
+          },
+          {
+            "term": "header",
+            "at_s": 672.1
+          },
+          {
+            "term": "authorization",
+            "at_s": 672.96
+          },
+          {
+            "term": "Google Workspace",
+            "at_s": 700.9
+          },
+          {
+            "term": "Log in with Google",
+            "at_s": 705.31
+          },
+          {
+            "term": "harness",
+            "at_s": 727.37
+          },
+          {
+            "term": "Codex",
+            "at_s": 729.0
+          },
+          {
+            "term": "open source",
+            "at_s": 749.0
+          },
+          {
+            "term": "Anthropic",
+            "at_s": 769.29
+          },
+          {
+            "term": "vault",
+            "at_s": 771.46
+          },
+          {
+            "term": "runtime",
+            "at_s": 596.4
+          }
+        ],
+        "method": "relative_word_or_short_segment_audio_alignment",
+        "diagnostic_only": true
+      },
+      "transcript_characters": 3236,
+      "word_tokens": 637
+    },
+    "local_whisper_turbo": {
+      "overall": 0.49785818139885407,
+      "metrics": {
+        "term_recall": 0.23529411764705882,
+        "hebrew_accuracy": 0.7565982404692082,
+        "term_precision": 1.0,
+        "script_fidelity": 0.3042107635405942
+      },
+      "latin_ratio": 0.0583,
+      "terms_missed": [
+        "orchestration",
+        "file system",
+        "mounted directory",
+        "credentials",
+        "gateway",
+        "human-in-the-loop approval",
+        "OneCLI",
+        "Composio",
+        "refresh token",
+        "third-party tools",
+        "Calendar",
+        "Drive",
+        "dependency",
+        "Hermes",
+        "process",
+        "HTTP network",
+        "Google Workspace",
+        "Log in with Google",
+        "harness",
+        "Codex",
+        "open source",
+        "Anthropic",
+        "vault",
+        "header",
+        "authorization",
+        "runtime"
+      ],
+      "terms_found": [
+        "supply chain security",
+        "code review",
+        "security best practices",
+        "NanoClaw",
+        "OpenClaw",
+        "API",
+        "managed hosted version",
+        "Gmail"
+      ],
+      "timed_term_recall_diagnostic": {
+        "recall": 0.1957,
+        "matched": 9,
+        "total": 46,
+        "missed": [
+          {
+            "term": "NanoClaw",
+            "at_s": 714.78
+          },
+          {
+            "term": "orchestration",
+            "at_s": 563.42
+          },
+          {
+            "term": "file system",
+            "at_s": 577.38
+          },
+          {
+            "term": "mounted directory",
+            "at_s": 578.2
+          },
+          {
+            "term": "credentials",
+            "at_s": 616.06
+          },
+          {
+            "term": "credentials",
+            "at_s": 617.9
+          },
+          {
+            "term": "credentials",
+            "at_s": 631.18
+          },
+          {
+            "term": "credentials",
+            "at_s": 641.56
+          },
+          {
+            "term": "credentials",
+            "at_s": 767.41
+          },
+          {
+            "term": "gateway",
+            "at_s": 629.54
+          },
+          {
+            "term": "human-in-the-loop approval",
+            "at_s": 634.72
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 646.66
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 659.34
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 665.24
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 689.54
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 735.05
+          },
+          {
+            "term": "OneCLI",
+            "at_s": 772.39
+          },
+          {
+            "term": "Composio",
+            "at_s": 682.84
+          },
+          {
+            "term": "refresh token",
+            "at_s": 708.98
+          },
+          {
+            "term": "third-party tools",
+            "at_s": 723.46
+          },
+          {
+            "term": "Calendar",
+            "at_s": 759.83
+          },
+          {
+            "term": "Drive",
+            "at_s": 760.03
+          },
+          {
+            "term": "dependency",
+            "at_s": 486.0
+          },
+          {
+            "term": "Hermes",
+            "at_s": 507.0
+          },
+          {
+            "term": "process",
+            "at_s": 561.0
+          },
+          {
+            "term": "process",
+            "at_s": 594.08
+          },
+          {
+            "term": "HTTP network",
+            "at_s": 667.03
+          },
+          {
+            "term": "header",
+            "at_s": 672.1
+          },
+          {
+            "term": "authorization",
+            "at_s": 672.96
+          },
+          {
+            "term": "Google Workspace",
+            "at_s": 700.9
+          },
+          {
+            "term": "Log in with Google",
+            "at_s": 705.31
+          },
+          {
+            "term": "harness",
+            "at_s": 727.37
+          },
+          {
+            "term": "Codex",
+            "at_s": 729.0
+          },
+          {
+            "term": "open source",
+            "at_s": 749.0
+          },
+          {
+            "term": "Anthropic",
+            "at_s": 769.29
+          },
+          {
+            "term": "vault",
+            "at_s": 771.46
+          },
+          {
+            "term": "runtime",
+            "at_s": 596.4
+          }
+        ],
+        "method": "relative_word_or_short_segment_audio_alignment",
+        "diagnostic_only": true
+      },
+      "transcript_characters": 3036,
+      "word_tokens": 592
+    }
+  }
+}
