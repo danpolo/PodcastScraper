@@ -1,0 +1,1889 @@
+{
+  "schema_version": "1.0",
+  "kind": "bilingual_technical_transcript",
+  "episode": {
+    "id": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+    "title": "71 - Claw Architectures | Gavriel Cohen (NanoClaw)",
+    "languages": [
+      "he",
+      "en"
+    ],
+    "source_urls": {}
+  },
+  "status": "human_reviewed",
+  "provenance": {
+    "transcript_model": "local_ivrit_turbo",
+    "source": "excerpt",
+    "source_time_offset_s": 480.0,
+    "editorial_review": "transcript_audio_verified_and_terminology_separately_reviewed",
+    "original_draft_hash": "0b7f34632cf8dd219d3f06efb2cc56db0d86d0237c0c050447be6d92e3c1b059",
+    "review_format": "SRT",
+    "review_window_offset_s": 480.0,
+    "transcript_review": "entire_audio_window_verified_by_listener",
+    "reference_review_status": "approved",
+    "explicit_text_corrections": [
+      {
+        "turn_id": "turn-0033",
+        "status": "unchanged_human_reviewed",
+        "count": 1
+      },
+      {
+        "turn_id": "turn-0035",
+        "status": "unchanged_human_reviewed",
+        "count": 1
+      },
+      {
+        "turn_id": "turn-0036",
+        "status": "unchanged_human_reviewed",
+        "count": 1
+      },
+      {
+        "turn_id": "turn-0041",
+        "status": "unchanged_human_reviewed",
+        "count": 1
+      },
+      {
+        "turn_id": "turn-0051",
+        "status": "unchanged_human_reviewed",
+        "count": 1
+      },
+      {
+        "turn_id": "turn-0057",
+        "status": "unchanged_human_reviewed",
+        "count": 1
+      }
+    ]
+  },
+  "turns": [
+    {
+      "id": "turn-0001",
+      "start_s": 480.0,
+      "end_s": 485.28,
+      "speaker_id": null,
+      "text": "וכל מיני דברים כאלה. וגם את ה-Supply-Chain Security,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0002",
+      "start_s": 485.48,
+      "end_s": 492.04,
+      "speaker_id": null,
+      "text": "מה ה-dependency שלי בתוך הפרויקט, ואם יש לי code review ו-Sum Security Best Practices.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0003",
+      "start_s": 492.62,
+      "end_s": 499.64,
+      "speaker_id": null,
+      "text": "אז יש לי את הנושא הזה של הבידוד, שאני מבודד את האג'נט מהמכונה שהוא רץ בו,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0004",
+      "start_s": 499.74,
+      "end_s": 502.5,
+      "speaker_id": null,
+      "text": "הרבה פעמים זה המכונה שלי, המחשב שלי.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0005",
+      "start_s": 503.18,
+      "end_s": 509.16,
+      "speaker_id": null,
+      "text": "אבל כמו שאתה אומר, NanoClaw זה מולטי-טננט, וגם עם OpenClaw והרמז הם לא...",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0006",
+      "start_s": 510.06,
+      "end_s": 515.58,
+      "speaker_id": null,
+      "text": "מוגדרים כמולטי-טננט. רוב, הרבה מהיוזרים משתמשים בהם בצורה שהוא יותר מולטי-טננט.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0007",
+      "start_s": 515.78,
+      "end_s": 518.86,
+      "speaker_id": null,
+      "text": "זאת אומרת, יש לי כמה use cases, כמה אג'נטים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0008",
+      "start_s": 519.69,
+      "end_s": 522.96,
+      "speaker_id": null,
+      "text": "ואני רוצה שיהיה איזושהי הפרדה ועידוד בין האג'נטים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0009",
+      "start_s": 523.53,
+      "end_s": 528.06,
+      "speaker_id": null,
+      "text": "אבל הוא לא נותן לך את זה ברמה של הארכיטקטוריה. אז NanoClaw או מולטי-טננט...",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0010",
+      "start_s": 528.06,
+      "end_s": 531.88,
+      "speaker_id": null,
+      "text": "ואתם כתבתם את זה כאילו עם איזושהי מערכת שהיא כאילו בזכות קונטיינרים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0011",
+      "start_s": 531.94,
+      "end_s": 535.32,
+      "speaker_id": null,
+      "text": "שהם בעצם מייצרים הפרדה ברמת המערכת ההפעלה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0012",
+      "start_s": 535.4,
+      "end_s": 541.6,
+      "speaker_id": null,
+      "text": "נכון? תספר טיפה רגע על מה עשיתם באמת ומה הטרייד-אופים שלקחתם שם.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0013",
+      "start_s": 542.1,
+      "end_s": 546.04,
+      "speaker_id": null,
+      "text": "כן, אז אני בניתי את זה ל-use case של עסק שלי,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0014",
+      "start_s": 546.24,
+      "end_s": 551.98,
+      "speaker_id": null,
+      "text": "שיש לי כמה לקוחות, אז אני רוצה שאני יכול לשים agent בכמה קבוצות וואטסאפ,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0015",
+      "start_s": 552.1,
+      "end_s": 555.18,
+      "speaker_id": null,
+      "text": "וכל אחד זה agent אחר שמבודד לגמרי אחד בשני.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0016",
+      "start_s": 555.44,
+      "end_s": 559.32,
+      "speaker_id": null,
+      "text": "אז מריצים כל agent בתוך קונטיינר,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0017",
+      "start_s": 559.8,
+      "end_s": 563.96,
+      "speaker_id": null,
+      "text": "יש לך process שרץ מבחוץ, שעושה את ה-orchestration,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0018",
+      "start_s": 563.96,
+      "end_s": 567.48,
+      "speaker_id": null,
+      "text": "מנתב את ההודעות לאג'נט הנכון ומרים קונטיינר,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0019",
+      "start_s": 568.06,
+      "end_s": 573.32,
+      "speaker_id": null,
+      "text": "מריץ את agent בתוך הקונטיינר, אחרי איזשהו פרק זמן שהאג'נט לא פועל,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0020",
+      "start_s": 574.08,
+      "end_s": 580.02,
+      "speaker_id": null,
+      "text": "מוריד את הקונטיינר, אבל הדאטה הוא preserved, זה ב-file system יש mounted directory",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0021",
+      "start_s": 580.02,
+      "end_s": 585.92,
+      "speaker_id": null,
+      "text": "שהדאטה גם הארטיפקטים שהאג'נט מייצר וגם ההודעות.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0022",
+      "start_s": 586.56,
+      "end_s": 593.98,
+      "speaker_id": null,
+      "text": "וזה נותן לך בידוד ברמה של המערכת הפעלה ולא ברמה של processes וזה שאני מנסה לתפוס",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0023",
+      "start_s": 593.98,
+      "end_s": 597.5,
+      "speaker_id": null,
+      "text": "איזושהי פעולה שאיג'נט עושה בruntime.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0024",
+      "start_s": 599.12,
+      "end_s": 602.32,
+      "speaker_id": null,
+      "text": "אז זה בידוד, זה חלק אחד,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0025",
+      "start_s": 602.36,
+      "end_s": 606.08,
+      "speaker_id": null,
+      "text": "והדבר השלישי זה בעצם לתת",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0026",
+      "start_s": 606.9,
+      "end_s": 611.82,
+      "speaker_id": null,
+      "text": "לאג'נט גישה לדאטה ולפעולות רגישות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0027",
+      "start_s": 612.62,
+      "end_s": 616.66,
+      "speaker_id": null,
+      "text": "בצורה מאובטחת. זה אומר בעצם לנהל את כל הסיפור של ה-credentials,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0028",
+      "start_s": 616.66,
+      "end_s": 624.26,
+      "speaker_id": null,
+      "text": "לא לחשוף את ה-credentials לאג'נט, וגם לתת איזשהו מנגנון של בעצם",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0029",
+      "start_s": 624.26,
+      "end_s": 627.3,
+      "speaker_id": null,
+      "text": "לא לתת לאג'נט לעשות את כל מה שהוא רוצה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0030",
+      "start_s": 627.36,
+      "end_s": 631.74,
+      "speaker_id": null,
+      "text": "גם אם אני עושה את הפעולה דרך ה-gateway ואין לו גישה ישירה אל ה-credentials,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0031",
+      "start_s": 631.88,
+      "end_s": 635.54,
+      "speaker_id": null,
+      "text": "אבל שיהיה איזשהו מנגנון של approvals, של Human in the Loop approval,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0032",
+      "start_s": 635.78,
+      "end_s": 638.52,
+      "speaker_id": null,
+      "text": "שאני יכול לאשר פעולה ספציפית או לחסום.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0033",
+      "start_s": 640.32,
+      "end_s": 648.3,
+      "speaker_id": null,
+      "text": "אז בהקשר הזה של credentials באמת, אתם כאילו בNanoClaw המימוש הוא עם OneCLI שזה איזה third party",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0034",
+      "start_s": 648.3,
+      "end_s": 655.92,
+      "speaker_id": null,
+      "text": "כזה שיש לכם איתו איזה פרטנרשיפ, נכון? אני מדבר עכשיו גם בכובע של user שנהנה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0035",
+      "start_s": 655.92,
+      "end_s": 661.46,
+      "speaker_id": null,
+      "text": "מהחיבור הזה. כי מה שאני אוהב ב-OneCLI זה גם באמת שהאג'נט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0036",
+      "start_s": 661.54,
+      "end_s": 668.98,
+      "speaker_id": null,
+      "text": "כאילו אין לי על המכונה שום credential, בעצם OneCLI עוטף את כל ה-HTTP network של",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0037",
+      "start_s": 668.98,
+      "end_s": 674.1,
+      "speaker_id": null,
+      "text": "האג'נט שלי ומוסיף עליו את הheader של האוטוריזיישן שהוא צריך,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0038",
+      "start_s": 676.02,
+      "end_s": 679.24,
+      "speaker_id": null,
+      "text": "ואז המכונה שלי היא כאילו מאוד נקייה מהבחינה הזאת.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0039",
+      "start_s": 679.68,
+      "end_s": 683.48,
+      "speaker_id": null,
+      "text": "ושתיים, שזה גם ממש נחמד, כמו ב-Composio,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0040",
+      "start_s": 683.54,
+      "end_s": 687.02,
+      "speaker_id": null,
+      "text": "למי שמכיר, אני מקבל לעשות אותנטיקציה עם Auth,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0041",
+      "start_s": 687.26,
+      "end_s": 692.56,
+      "speaker_id": null,
+      "text": "אז גם OneCLI יודע לטפל בכאילו כמה אקאונטים אם אני צריך,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0042",
+      "start_s": 692.58,
+      "end_s": 698.34,
+      "speaker_id": null,
+      "text": "יש לי שני ג'ימלים או משהו בסגנון, וגם אם אני רוצה להתחבר למשהו חדש,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0043",
+      "start_s": 698.38,
+      "end_s": 702.16,
+      "speaker_id": null,
+      "text": "אז זה לא עכשיו לך, תביא API מגוגל Workspace וכולי,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0044",
+      "start_s": 703.22,
+      "end_s": 707.7,
+      "speaker_id": null,
+      "text": "זה בלחיצת כפתור, לוג-אין with גוגל, וזה וזה נאיס,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0045",
+      "start_s": 707.86,
+      "end_s": 710.68,
+      "speaker_id": null,
+      "text": "והוא גם דואג ל-Refresh Token וכל הדברים האלה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0046",
+      "start_s": 711.52,
+      "end_s": 715.22,
+      "speaker_id": null,
+      "text": "והוא לא קאפלד באיזושהי צורה, as far as I know, ל-Nano-Claw,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0047",
+      "start_s": 715.3,
+      "end_s": 719.54,
+      "speaker_id": null,
+      "text": "אז כאילו גם כ-stand alone, פתרון לאותנטיקציה זה נראה לי אחלה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0048",
+      "start_s": 719.7,
+      "end_s": 724.1,
+      "speaker_id": null,
+      "text": "זה בעצם פותח לכם את האוטנטיקציה של האג'נט עם third-party tools,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0049",
+      "start_s": 724.26,
+      "end_s": 728.0,
+      "speaker_id": null,
+      "text": "אבל איך אתם פותרים את האותנטיקציה של ההרנס עצמו?",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0050",
+      "start_s": 728.16,
+      "end_s": 731.66,
+      "speaker_id": null,
+      "text": "מול קודקס, מול כל החברים שלנו.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0051",
+      "start_s": 733.41,
+      "end_s": 738.33,
+      "speaker_id": null,
+      "text": "אז זה גם דרך OneCLI, שזה אחלה פרויקט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0052",
+      "start_s": 738.37,
+      "end_s": 741.47,
+      "speaker_id": null,
+      "text": "יש לנו פרטנרים מאוד טובים וחבר'ה טובים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0053",
+      "start_s": 741.57,
+      "end_s": 748.51,
+      "speaker_id": null,
+      "text": "ג'ונת'ן, יונתן פישנר וגיא בן-אהרון, גם פרויקט ישראלי כחול לבן,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0054",
+      "start_s": 748.67,
+      "end_s": 752.29,
+      "speaker_id": null,
+      "text": "פרויקט אופן סורס, יש להם גם managed,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0055",
+      "start_s": 752.53,
+      "end_s": 757.05,
+      "speaker_id": null,
+      "text": "הוסטד וורג'ן, שהיא סופר נוח לי,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0056",
+      "start_s": 757.21,
+      "end_s": 764.39,
+      "speaker_id": null,
+      "text": "מה שאמרת, אתה יכול לחבר את ה-Gmail, Calendar, Drive והמון אפליקציות ב-Auth,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0057",
+      "start_s": 765.73,
+      "end_s": 772.97,
+      "speaker_id": null,
+      "text": "אבל בעצם גם ה-Credentials של אנתרופיק גם יושבים באותו וולט של האג'נט של OneCLI.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0058",
+      "start_s": 774.97,
+      "end_s": 778.35,
+      "speaker_id": null,
+      "text": "בעצם כל הבקשות שיוצאות מהסביבה של האג'נט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0059",
+      "start_s": 778.45,
+      "end_s": 779.67,
+      "speaker_id": null,
+      "text": "מהקונטיינר,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    }
+  ],
+  "topics": [],
+  "concept_mentions": [
+    {
+      "id": "mention-0001",
+      "turn_id": "turn-0001",
+      "start_s": 483.96,
+      "end_s": 485.28,
+      "surface": "supply chain security",
+      "canonical": "supply chain security",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0002",
+      "turn_id": "turn-0002",
+      "start_s": 489.4,
+      "end_s": 489.86,
+      "surface": "code review",
+      "canonical": "code review",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_practice",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0003",
+      "turn_id": "turn-0002",
+      "start_s": 491.0,
+      "end_s": 492.04,
+      "surface": "security best practices",
+      "canonical": "security best practices",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_practice",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0004",
+      "turn_id": "turn-0005",
+      "start_s": 504.46,
+      "end_s": 504.74,
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0005",
+      "turn_id": "turn-0009",
+      "start_s": 527.26,
+      "end_s": 527.8,
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0006",
+      "turn_id": "turn-0046",
+      "start_s": 714.78,
+      "end_s": 715.22,
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0007",
+      "turn_id": "turn-0005",
+      "start_s": 507.28,
+      "end_s": 507.74,
+      "surface": "OpenClaw",
+      "canonical": "OpenClaw",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0008",
+      "turn_id": "turn-0007",
+      "start_s": 518.32,
+      "end_s": 518.86,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0009",
+      "turn_id": "turn-0014",
+      "start_s": 549.74,
+      "end_s": 550.38,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0010",
+      "turn_id": "turn-0015",
+      "start_s": 553.02,
+      "end_s": 553.26,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0011",
+      "turn_id": "turn-0016",
+      "start_s": 558.04,
+      "end_s": 558.3,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0012",
+      "turn_id": "turn-0019",
+      "start_s": 568.64,
+      "end_s": 568.86,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0013",
+      "turn_id": "turn-0026",
+      "start_s": 608.0,
+      "end_s": 609.0,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0014",
+      "turn_id": "turn-0028",
+      "start_s": 619.0,
+      "end_s": 620.0,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0015",
+      "turn_id": "turn-0037",
+      "start_s": 670.27,
+      "end_s": 671.27,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0016",
+      "turn_id": "turn-0048",
+      "start_s": 723.26,
+      "end_s": 724.26,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0017",
+      "turn_id": "turn-0057",
+      "start_s": 772.0,
+      "end_s": 773.0,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0018",
+      "turn_id": "turn-0058",
+      "start_s": 778.0,
+      "end_s": 779.0,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0019",
+      "turn_id": "turn-0017",
+      "start_s": 563.42,
+      "end_s": 563.96,
+      "surface": "orchestration",
+      "canonical": "orchestration",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0020",
+      "turn_id": "turn-0020",
+      "start_s": 577.38,
+      "end_s": 577.92,
+      "surface": "file system",
+      "canonical": "file system",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0021",
+      "turn_id": "turn-0020",
+      "start_s": 578.2,
+      "end_s": 580.02,
+      "surface": "mounted directory",
+      "canonical": "mounted directory",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0022",
+      "turn_id": "turn-0027",
+      "start_s": 616.06,
+      "end_s": 616.66,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0023",
+      "turn_id": "turn-0028",
+      "start_s": 617.9,
+      "end_s": 618.42,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0024",
+      "turn_id": "turn-0030",
+      "start_s": 631.18,
+      "end_s": 631.74,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0025",
+      "turn_id": "turn-0033",
+      "start_s": 641.56,
+      "end_s": 641.94,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0026",
+      "turn_id": "turn-0057",
+      "start_s": 767.41,
+      "end_s": 768.09,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0027",
+      "turn_id": "turn-0030",
+      "start_s": 629.54,
+      "end_s": 629.86,
+      "surface": "gateway",
+      "canonical": "credential gateway",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0028",
+      "turn_id": "turn-0031",
+      "start_s": 634.72,
+      "end_s": 635.54,
+      "surface": "human-in-the-loop approval",
+      "canonical": "human-in-the-loop approval",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_practice",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0029",
+      "turn_id": "turn-0033",
+      "start_s": 646.66,
+      "end_s": 647.1,
+      "surface": "OneCLI",
+      "canonical": "OneCLI",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0030",
+      "turn_id": "turn-0035",
+      "start_s": 659.34,
+      "end_s": 659.6,
+      "surface": "OneCLI",
+      "canonical": "OneCLI",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0031",
+      "turn_id": "turn-0036",
+      "start_s": 665.24,
+      "end_s": 665.58,
+      "surface": "OneCLI",
+      "canonical": "OneCLI",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0032",
+      "turn_id": "turn-0041",
+      "start_s": 689.54,
+      "end_s": 689.84,
+      "surface": "OneCLI",
+      "canonical": "OneCLI",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0033",
+      "turn_id": "turn-0051",
+      "start_s": 735.05,
+      "end_s": 735.99,
+      "surface": "OneCLI",
+      "canonical": "OneCLI",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0034",
+      "turn_id": "turn-0057",
+      "start_s": 772.39,
+      "end_s": 773.01,
+      "surface": "OneCLI",
+      "canonical": "OneCLI",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0035",
+      "turn_id": "turn-0039",
+      "start_s": 682.84,
+      "end_s": 683.48,
+      "surface": "Composio",
+      "canonical": "Composio",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0036",
+      "turn_id": "turn-0040",
+      "start_s": 686.78,
+      "end_s": 687.02,
+      "surface": "Auth",
+      "canonical": "OAuth",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "protocol",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0037",
+      "turn_id": "turn-0056",
+      "start_s": 763.91,
+      "end_s": 764.39,
+      "surface": "Auth",
+      "canonical": "OAuth",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "protocol",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0038",
+      "turn_id": "turn-0043",
+      "start_s": 699.74,
+      "end_s": 700.18,
+      "surface": "API",
+      "canonical": "API",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0039",
+      "turn_id": "turn-0045",
+      "start_s": 708.98,
+      "end_s": 709.62,
+      "surface": "refresh token",
+      "canonical": "refresh token",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0040",
+      "turn_id": "turn-0048",
+      "start_s": 723.46,
+      "end_s": 724.1,
+      "surface": "third-party tools",
+      "canonical": "third-party tool integrations",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0041",
+      "turn_id": "turn-0054",
+      "start_s": 751.33,
+      "end_s": 754.19,
+      "surface": "managed hosted version",
+      "canonical": "managed hosting",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "descriptive_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0042",
+      "turn_id": "turn-0056",
+      "start_s": 759.31,
+      "end_s": 759.69,
+      "surface": "Gmail",
+      "canonical": "Gmail",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0043",
+      "turn_id": "turn-0056",
+      "start_s": 759.83,
+      "end_s": 760.03,
+      "surface": "Calendar",
+      "canonical": "Google Calendar",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0044",
+      "turn_id": "turn-0056",
+      "start_s": 760.03,
+      "end_s": 760.73,
+      "surface": "Drive",
+      "canonical": "Google Drive",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0045",
+      "turn_id": "turn-0002",
+      "start_s": 486.0,
+      "end_s": 487.0,
+      "surface": "dependency",
+      "canonical": "software dependency",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0046",
+      "turn_id": "turn-0005",
+      "start_s": 505.46,
+      "end_s": 506.46,
+      "surface": "multi tenant",
+      "canonical": "multi-tenancy",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0047",
+      "turn_id": "turn-0006",
+      "start_s": 515.84,
+      "end_s": 516.84,
+      "surface": "multi tenant",
+      "canonical": "multi-tenancy",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0048",
+      "turn_id": "turn-0005",
+      "start_s": 507.0,
+      "end_s": 508.0,
+      "surface": "Hermes",
+      "canonical": "Hermes",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0049",
+      "turn_id": "turn-0016",
+      "start_s": 559.0,
+      "end_s": 560.0,
+      "surface": "container",
+      "canonical": "container",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0050",
+      "turn_id": "turn-0019",
+      "start_s": 568.0,
+      "end_s": 569.0,
+      "surface": "container",
+      "canonical": "container",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0051",
+      "turn_id": "turn-0019",
+      "start_s": 569.73,
+      "end_s": 570.73,
+      "surface": "container",
+      "canonical": "container",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0052",
+      "turn_id": "turn-0059",
+      "start_s": 779.0,
+      "end_s": 780.0,
+      "surface": "container",
+      "canonical": "container",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0053",
+      "turn_id": "turn-0017",
+      "start_s": 561.0,
+      "end_s": 562.0,
+      "surface": "process",
+      "canonical": "OS process",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0054",
+      "turn_id": "turn-0022",
+      "start_s": 594.08,
+      "end_s": 595.08,
+      "surface": "process",
+      "canonical": "OS process",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0055",
+      "turn_id": "turn-0036",
+      "start_s": 667.03,
+      "end_s": 668.03,
+      "surface": "HTTP network",
+      "canonical": "HTTP network traffic",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0056",
+      "turn_id": "turn-0043",
+      "start_s": 700.9,
+      "end_s": 701.9,
+      "surface": "Google Workspace",
+      "canonical": "Google Workspace",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0057",
+      "turn_id": "turn-0044",
+      "start_s": 705.31,
+      "end_s": 706.31,
+      "surface": "Log in with Google",
+      "canonical": "Sign in with Google",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_practice",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0058",
+      "turn_id": "turn-0049",
+      "start_s": 727.37,
+      "end_s": 728.37,
+      "surface": "harness",
+      "canonical": "agent harness",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0059",
+      "turn_id": "turn-0050",
+      "start_s": 729.0,
+      "end_s": 730.0,
+      "surface": "Codex",
+      "canonical": "Codex",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "product",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0060",
+      "turn_id": "turn-0054",
+      "start_s": 749.0,
+      "end_s": 750.0,
+      "surface": "open source",
+      "canonical": "open-source software",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "descriptive_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0061",
+      "turn_id": "turn-0057",
+      "start_s": 769.29,
+      "end_s": 770.29,
+      "surface": "Anthropic",
+      "canonical": "Anthropic",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "organization",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0062",
+      "turn_id": "turn-0057",
+      "start_s": 771.46,
+      "end_s": 772.46,
+      "surface": "vault",
+      "canonical": "credential vault",
+      "concept_id": null,
+      "aliases": [],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": "assistant_assigned",
+        "editorial_note": null
+      }
+    },
+    {
+      "id": "mention-0063",
+      "turn_id": "turn-0037",
+      "start_s": 672.1,
+      "end_s": 673.96,
+      "surface": "header ... authorization",
+      "canonical": "HTTP Authorization header",
+      "concept_id": null,
+      "aliases": [
+        "Authorization header"
+      ],
+      "kind": "technical_concept",
+      "review_status": "suggested",
+      "provenance": {
+        "models": [
+          "human_review_components",
+          "assistant_editorial_merge"
+        ],
+        "human_review": "not_yet_approved",
+        "semantic_classification": null,
+        "editorial_note": "Review actual mixed Hebrew-English phrasing before verifying this new composite annotation."
+      }
+    },
+    {
+      "id": "mention-0064",
+      "turn_id": "turn-0023",
+      "start_s": 596.4,
+      "end_s": 597.5,
+      "surface": "runtime",
+      "canonical": "runtime",
+      "concept_id": null,
+      "aliases": [
+        "execution runtime"
+      ],
+      "kind": "technical_concept",
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "human_reviewed_SRT"
+        ],
+        "human_review": "audio_listening_approved",
+        "semantic_classification": null,
+        "editorial_note": null
+      }
+    }
+  ]
+}
