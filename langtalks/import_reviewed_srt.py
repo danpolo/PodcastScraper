@@ -128,11 +128,38 @@ def import_srt(draft, srt_contents, *, reference=None, full_audio_reviewed=False
         "entire_audio_window_verified_by_listener"
         if full_audio_reviewed else "edited_draft_not_yet_verified"
     )
+    # Preserve unconfirmed interpretations as local uncertainty, even after
+    # the user has otherwise reviewed the complete recording.
+    open_questions = [
+        dict(item) for item in (reference or {}).get("transcript_uncertainties", [])
+        if item.get("review_status") == "needs_review"
+    ]
+    for question in open_questions:
+        start = float(question["episode_start_s"])
+        stop = float(question["episode_end_s"])
+        matching = [
+            turn for turn in result["turns"]
+            if turn["start_s"] <= stop and turn["end_s"] >= start
+        ]
+        if not matching:
+            raise ValueError("Open transcription question is not aligned to any SRT cue")
+        for turn in matching:
+            # The editor's time range should identify exactly one small cue.
+            # Leave untouched all other verified speech.
+            if question.get("proposed") in turn["text"]:
+                turn["review_status"] = "needs_review"
+                turn.setdefault("review_questions", []).append(question)
+    result["transcript_uncertainties"] = open_questions
     if reference is not None:
         result = apply_reference(result, reference)
-    result["status"] = "human_reviewed" if full_audio_reviewed else "machine_draft"
+    result["status"] = (
+        "human_reviewed_with_open_questions" if full_audio_reviewed and open_questions
+        else "human_reviewed" if full_audio_reviewed else "machine_draft"
+    )
     if full_audio_reviewed:
         result["provenance"]["editorial_review"] = (
+            "full_transcript_reviewed_except_explicitly_unconfirmed_wording"
+            if open_questions else
             "transcript_audio_verified_and_terminology_separately_reviewed"
             if reference is not None else "transcript_audio_verified_only"
         )
@@ -170,7 +197,10 @@ def main(argv=None):
         updated_reference["reference_text"] = " ".join(
             turn["text"] for turn in result["turns"]
         )
-        updated_reference["transcript_review_status"] = "approved"
+        updated_reference["transcript_review_status"] = (
+            "approved_with_open_questions" if result["transcript_uncertainties"]
+            else "approved"
+        )
         updated_reference["transcript_review_source"] = "human_corrected_SRT"
         (args.out_dir / f"{stem}.scoring-reference.json").write_text(
             json.dumps(updated_reference, ensure_ascii=False, indent=2) + "\n",
