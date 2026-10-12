@@ -33,7 +33,7 @@ class UserReferenceTests(unittest.TestCase):
         )
 
     def test_transcript_review_added_runtime_without_rewriting_the_original(self):
-        self.assertEqual(self.reference["transcript_review_status"], "approved_with_open_questions")
+        self.assertEqual(self.reference["transcript_review_status"], "approved")
         self.assertIn("בruntime", self.reference["reference_text"])
         self.assertNotIn("runtime", self.original["technical_terms"])
         occurrences = [
@@ -54,9 +54,10 @@ class UserReferenceTests(unittest.TestCase):
         self.assertNotIn("הפרדה ועידוד", text)
         self.assertIn("ו-some security best practices", text)
         questions = self.reference["transcript_uncertainties"]
-        self.assertEqual(len(questions), 1)
-        self.assertEqual(questions[0]["review_status"], "needs_review")
-        self.assertEqual(questions[0]["proposed"], "some")
+        self.assertEqual(questions, [])
+        confirmed = next(x for x in self.reference["user_followup_corrections"]
+                         if x["current"] == "some")
+        self.assertEqual(confirmed["review_status"], "user_confirmed")
         self.assertEqual(
             next(x for x in self.reference["verified_occurrences"]
                  if x["canonical"] == "Hermes")["spelling_source"],
