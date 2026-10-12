@@ -122,6 +122,37 @@ class AgentTranscriptTests(unittest.TestCase):
         self.assertEqual(result["turns"][0]["review_status"], "suggested")
         self.assertEqual(result["status"], "machine_draft")
 
+    def test_reviewed_reference_does_not_promote_editorial_suggestion(self):
+        doc = from_asr(self.asr, self.proposal)
+        data = {
+            "episode_guid": "episode-71", "review_status": "approved",
+            "terms_exhaustive": True,
+            "concept_mentions": [
+                {
+                    "start_s": 489, "end_s": 489.8,
+                    "surface": "code review", "canonical": "code review",
+                    "kind": "technical_practice", "review_status": "verified",
+                },
+                {
+                    "start_s": 491, "end_s": 493,
+                    "surface": "managed hosted version",
+                    "canonical": "managed hosting",
+                    "kind": "descriptive_concept", "review_status": "suggested",
+                    "provenance": {"editorial_note": "Confirm wording"},
+                },
+            ],
+        }
+        result = apply_reference(doc, data)
+        self.assertEqual(
+            [m["review_status"] for m in result["concept_mentions"]],
+            ["verified", "suggested"],
+        )
+        self.assertEqual(
+            result["concept_mentions"][1]["provenance"]["human_review"],
+            "not_yet_approved",
+        )
+        self.assertIn("Unverified technical terminology", render_markdown(result))
+
     def test_pending_review_never_verifies_models(self):
         doc = from_asr(self.asr, self.proposal)
         result = apply_reference(doc, {
