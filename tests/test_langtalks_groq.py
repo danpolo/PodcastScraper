@@ -102,6 +102,34 @@ class GroqProviderTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "no usable text"):
                     GroqProvider().transcribe(audio, [], "")
 
+    def test_word_timestamps_preferred_over_coarse_segments(self):
+        reply = Mock()
+        reply.json.return_value = {
+            "text": "Using NanoClaw in production.",
+            "language": "en",
+            "words": [
+                {"word": "Using", "start": 1.0, "end": 1.4, "probability": 0.95},
+                {"word": "NanoClaw", "start": 1.5, "end": 2.1, "probability": 0.99},
+                {"word": "in", "start": 2.2, "end": 2.3, "probability": 0.98},
+                {"word": "production.", "start": 2.4, "end": 3.0, "probability": 0.97},
+            ],
+            "segments": [
+                {"start": 1.0, "end": 3.0, "text": "Using NanoClaw in production."},
+            ],
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            audio = Path(temp) / "excerpt.mp3"
+            audio.write_bytes(b"audio")
+            with patch.dict(os.environ, {"GROQ_API_KEY": "secret"}), patch(
+                "langtalks.providers.groq.requests.post", return_value=reply
+            ):
+                res = GroqProvider().transcribe(audio, ["NanoClaw"], "")
+        self.assertEqual(len(res.tokens), 4)
+        self.assertEqual(res.tokens[1]["text"], "NanoClaw")
+        self.assertEqual(res.tokens[1]["start"], 1.5)
+        self.assertEqual(res.tokens[1]["end"], 2.1)
+        self.assertEqual(res.tokens[1]["confidence"], 0.99)
+
 
 if __name__ == "__main__":
     unittest.main()

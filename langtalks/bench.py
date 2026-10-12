@@ -332,6 +332,47 @@ def cmd_score(args):
                 print(f"     hallucinated: {', '.join(row['hallucinated_terms'][:15])}")
 
 
+def cmd_hybrid(args):
+    """Align and fuse base and donor transcripts by timestamps."""
+    from .hybrid import align_and_merge
+
+    episodes = fetch_episodes()
+    for episode in _resolve(args.episodes, episodes):
+        base_name = args.base
+        donor_name = args.donor
+        base_path = TRANSCRIPT_DIR / f"{episode.guid}.{base_name}.json"
+        donor_path = TRANSCRIPT_DIR / f"{episode.guid}.{donor_name}.json"
+
+        if not base_path.exists():
+            raise SystemExit(f"Base transcript missing: {base_path}")
+        if not donor_path.exists():
+            raise SystemExit(f"Donor transcript missing: {donor_path}")
+
+        with open(base_path, encoding="utf-8") as f:
+            base_data = json.load(f)
+        with open(donor_path, encoding="utf-8") as f:
+            donor_data = json.load(f)
+
+        glossary_terms = glossary_mod.build(episode) if episode else []
+        merged, mods = align_and_merge(
+            base_data,
+            donor_data,
+            glossary_terms=glossary_terms,
+            min_confidence=args.min_confidence,
+        )
+
+        out_name = args.output_name or f"hybrid_{base_name}_{donor_name}"
+        merged["provider"] = out_name
+        out_path = TRANSCRIPT_DIR / f"{episode.guid}.{out_name}.json"
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(merged, f, ensure_ascii=False, indent=2)
+
+        print(f"Merged {episode.guid} ({base_name} + {donor_name}) -> {out_path.name}")
+        print(f"Applied {len(mods)} modifications:")
+        for m in mods:
+            print(f"  [{m['start_s']:.1f}s-{m['end_s']:.1f}s] '{m['original_text']}' -> '{m['replacement_text']}' ({m['rule']})")
+
+
 def cmd_report(args):
     episodes = {e.guid: e for e in fetch_episodes()}
     totals = {}
@@ -441,6 +482,14 @@ def main(argv=None):
     p.add_argument("--review", type=Path)
     p.add_argument("--output-dir", type=Path)
     p.set_defaults(func=cmd_agent_ready)
+
+    p = sub.add_parser("hybrid", help="fuse base and donor transcripts by timestamps")
+    p.add_argument("episodes", nargs="+")
+    p.add_argument("--base", default="local_ivrit_turbo", help="base transcript provider (default: local_ivrit_turbo)")
+    p.add_argument("--donor", default="soniox", help="donor transcript provider (default: soniox)")
+    p.add_argument("--output-name", help="custom provider name for the merged transcript")
+    p.add_argument("--min-confidence", type=float, default=0.70)
+    p.set_defaults(func=cmd_hybrid)
 
     p = sub.add_parser("score", help="score transcripts against references")
     p.add_argument("episodes", nargs="+")

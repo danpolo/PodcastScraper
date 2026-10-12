@@ -46,6 +46,18 @@ class SonioxProvider(Provider):
         response.raise_for_status()
         file_id = response.json()["id"]
 
+        if isinstance(prompt, dict):
+            context_data = prompt
+        else:
+            context_data = {
+                "general": [
+                    {"key": "domain", "value": "AI software engineering"},
+                    {"key": "podcast", "value": "LangTalks"},
+                ],
+                "text": str(prompt),
+                "terms": terms,
+            }
+
         payload = {
             "file_id": file_id,
             "model": MODEL,
@@ -54,10 +66,7 @@ class SonioxProvider(Provider):
             "language_hints": ["he", "en"],
             "enable_speaker_diarization": True,
             "enable_language_identification": True,
-            "context": {
-                "text": prompt,
-                "terms": terms,
-            },
+            "context": context_data,
         }
         response = requests.post(
             f"{BASE_URL}/v1/transcriptions",

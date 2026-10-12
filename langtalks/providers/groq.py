@@ -9,16 +9,17 @@ import requests
 from .base import Provider, TranscriptResult
 
 URL = "https://api.groq.com/openai/v1/audio/transcriptions"
-# Slightly below Groq's 25 MB free-tier upload limit.
+# Slightly below Groq's 25 MB upload limit.
 MAX_UPLOAD_BYTES = 24_000_000
-# Whisper prompt limit is 224 tokens. No tokenizer dependency is introduced;
-# constrain character count conservatively and prioritize episode-specific
-# glossary terms, which are supplied first by glossary.build.
-MAX_PROMPT_CHARS = 240
-PROMPT_PREFIX = "פודקאסט בעברית על AI ותוכנה. מונחים באנגלית: "
+# Whisper prompt limit is 224 tokens. Keeping characters conservatively bounded
+# (~350 chars) maximizes vocabulary density while avoiding truncation.
+MAX_PROMPT_CHARS = 350
+# Clean vocabulary prefix; avoids instructional sentences that induce Whisper
+# hallucination loops during silent audio passages.
+PROMPT_PREFIX = "LangTalks terminology: "
 
 
-def glossary_prompt(terms: list) -> str:
+def glossary_prompt(terms: list, prefix: str = PROMPT_PREFIX, max_chars: int = MAX_PROMPT_CHARS) -> str:
     """Short context hint, not an instruction to rewrite the model's output."""
     included, seen = [], set()
     for raw in terms:
@@ -28,12 +29,12 @@ def glossary_prompt(terms: list) -> str:
             continue
         if len(term) > 60:
             continue
-        proposed = PROMPT_PREFIX + ", ".join(included + [term])
-        if len(proposed) > MAX_PROMPT_CHARS:
+        proposed = prefix + ", ".join(included + [term])
+        if len(proposed) > max_chars:
             break
         included.append(term)
         seen.add(key)
-    return PROMPT_PREFIX + ", ".join(included) if included else ""
+    return prefix + ", ".join(included) if included else ""
 
 
 class GroqProvider(Provider):
@@ -52,10 +53,13 @@ class GroqProvider(Provider):
             "model": self.model,
             "language": "he",
             "response_format": "verbose_json",
+            "temperature": "0.0",
+            "timestamp_granularities[]": ["word", "segment"],
         }
         hint = glossary_prompt(terms)
         if hint:
             data["prompt"] = hint
+
         with audio_path.open("rb") as handle:
             response = requests.post(
                 URL,
@@ -71,20 +75,38 @@ class GroqProvider(Provider):
         transcript = payload.get("text")
         if not isinstance(transcript, str) or not transcript.strip():
             raise RuntimeError("Groq transcription response has no usable text")
+
         tokens = []
-        for segment in payload.get("segments") or []:
-            if not isinstance(segment, dict) or not segment.get("text"):
-                continue
-            start, end = segment.get("start"), segment.get("end")
-            if start is None or end is None:
-                continue
-            tokens.append({
-                "text": segment["text"],
-                "start": float(start),
-                "end": float(end),
-                "speaker": None,
-                "confidence": None,
-            })
+        words = payload.get("words")
+        if words and isinstance(words, list):
+            for word_info in words:
+                if not isinstance(word_info, dict) or not word_info.get("word"):
+                    continue
+                start, end = word_info.get("start"), word_info.get("end")
+                if start is None or end is None:
+                    continue
+                tokens.append({
+                    "text": word_info["word"],
+                    "start": float(start),
+                    "end": float(end),
+                    "speaker": None,
+                    "confidence": word_info.get("probability"),
+                })
+        else:
+            for segment in payload.get("segments") or []:
+                if not isinstance(segment, dict) or not segment.get("text"):
+                    continue
+                start, end = segment.get("start"), segment.get("end")
+                if start is None or end is None:
+                    continue
+                tokens.append({
+                    "text": segment["text"],
+                    "start": float(start),
+                    "end": float(end),
+                    "speaker": None,
+                    "confidence": None,
+                })
+
         return TranscriptResult(
             provider=self.name,
             text=transcript,

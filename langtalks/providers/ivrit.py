@@ -52,9 +52,10 @@ MAX_AUDIO_BYTES = 7 * 1024 * 1024
 
 POLL_SECONDS = 5
 POLL_TIMEOUT_SECONDS = 3600
-# Whisper truncates initial_prompt to the last 224 tokens; keep it short enough
-# that the episode-specific terms at the front are not the part discarded.
-MAX_PROMPT_CHARS = 800
+# Whisper truncates initial_prompt to the last 224 tokens. Keeping characters
+# strictly bounded (<=400 chars) ensures high-priority episode terms at the
+# front are never truncated.
+MAX_PROMPT_CHARS = 400
 
 
 class IvritProvider(Provider):
@@ -83,9 +84,8 @@ class IvritProvider(Provider):
             )
 
         blob = base64.b64encode(audio_path.read_bytes()).decode("ascii")
-        # The glossary goes in as a vocabulary bias, mirroring what the other
-        # providers get from their keyterm parameters.
-        initial_prompt = ", ".join(terms)[:MAX_PROMPT_CHARS]
+        # Build bounded initial_prompt prioritizing episode-specific terms
+        initial_prompt = "מונחים טכניים באנגלית: " + ", ".join(terms)[:MAX_PROMPT_CHARS]
 
         payload = {
             "input": {
@@ -101,6 +101,9 @@ class IvritProvider(Provider):
                     "diarize": True,
                     "output_options": {"word_timestamps": True, "extra_data": False},
                     "initial_prompt": initial_prompt,
+                    "beam_size": 5,
+                    "temperature": 0.0,
+                    "condition_on_previous_text": False,
                     "blob": blob,
                 },
             }
