@@ -1,0 +1,85 @@
+name: Publish reviewed LangTalks 71 transcript
+on:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/episode71_publish_reviewed.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Retrieve existing no-cost ivrit.ai ASR draft from earlier run
+        uses: actions/download-artifact@v4
+        with:
+          name: episode71-agent-ready-draft
+          run-id: 38146100209
+          github-token: ${{ github.token }}
+          path: prior-asr
+      - name: Import user-reviewed SRT and concept reference
+        run: |
+          python -m langtalks.import_reviewed_srt \
+            --draft prior-asr/74fc0625-0a6b-4ca1-9488-31be7860360d.transcript.json \
+            --srt langtalks/reference/transcripts/74fc0625-0a6b-4ca1-9488-31be7860360d.reviewed.srt \
+            --reference langtalks/reference/74fc0625-0a6b-4ca1-9488-31be7860360d.json \
+            --full-audio-reviewed \
+            --out-dir langtalks/reviewed/episode71
+      - name: Validate provenance, count and script fidelity
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('langtalks/reviewed/episode71')
+          ref=json.loads(Path('langtalks/reference/74fc0625-0a6b-4ca1-9488-31be7860360d.json').read_text())
+          doc=json.loads(next(p.glob('*.transcript.json')).read_text())
+          benchmark=json.loads(next(p.glob('*.scoring-reference.json')).read_text())
+          assert doc['status']=='human_reviewed'
+          assert len(doc['turns'])==59,len(doc['turns'])
+          assert len(doc['concept_mentions'])==64,len(doc['concept_mentions'])
+          assert sum(x['review_status']=='verified' for x in doc['concept_mentions'])==63
+          assert sum(x['review_status']=='suggested' for x in doc['concept_mentions'])==1
+          text=' '.join(t['text'] for t in doc['turns'])
+          assert text==ref['reference_text']
+          assert text.count('OneCLI')==6
+          assert 'בruntime' in text
+          assert 'האג\u0027נט' in text
+          assert benchmark['reference_text']==text
+          assert benchmark['transcript_review_status']=='approved'
+          assert doc['episode']['id']==ref['episode_guid']
+          assert not any(t.get('original_asr_text') for t in doc['turns'])
+          assert doc['provenance']['explicit_text_corrections'] is not None
+          print('VERIFIED_TRANSCRIPT_TURNS',len(doc['turns']))
+          print('VERIFIED_TERMS',len(ref['verified_occurrences']))
+          print('RUNTIME_CONCEPT',next(m for m in doc['concept_mentions'] if m['canonical']=='runtime'))
+          print('CREATED',*[str(q) for q in p.glob('*')])
+          PY
+      - name: Automated project regression tests
+        run: python -m unittest discover -s tests -v
+      - name: Publish reviewed reference outputs to dev (never main)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add langtalks/reviewed/episode71/
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish user-reviewed LangTalks 71 bilingual transcript and scoring reference"
+            git push origin HEAD:dev
+          else
+            echo "Reviewed output already matches dev"
+          fi
+      - name: Preserve downloadable reviewed outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: LangTalks71-reviewed-transcript
+          path: langtalks/reviewed/episode71/
+          retention-days: 7
