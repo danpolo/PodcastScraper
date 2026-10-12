@@ -11,7 +11,6 @@
     "security best practices",
     "NanoClaw",
     "OpenClaw",
-    "agent",
     "orchestration",
     "file system",
     "mounted directory",
@@ -20,7 +19,6 @@
     "human-in-the-loop approval",
     "OneCLI",
     "Composio",
-    "Auth",
     "API",
     "refresh token",
     "third-party tools",
@@ -29,9 +27,7 @@
     "Calendar",
     "Drive",
     "dependency",
-    "multi tenant",
     "Hermes",
-    "container",
     "process",
     "HTTP network",
     "Google Workspace",
@@ -2286,7 +2282,7 @@
       }
     }
   ],
-  "review_notes": "Term-only listening review; Hebrew CER and diarization require separate references.\nEditorial reconciliation: corrected all six OneCLI spoken surfaces per explicit user feedback; saved original model surfaces. Classified manually added expressions, retained all 69 approved occurrences, excluded nontechnical English from concept index, and proposed an unapproved Authorization-header composite. Hebrew loanword and manual timestamp precision must be checked separately for exact ASR scoring.",
+  "review_notes": "Term-only listening review; Hebrew CER and diarization require separate references.\nEditorial reconciliation: corrected all six OneCLI spoken surfaces per explicit user feedback; saved original model surfaces. Classified manually added expressions, retained all 69 approved occurrences, excluded nontechnical English from concept index, and proposed an unapproved Authorization-header composite. Hebrew loanword and manual timestamp precision must be checked separately for exact ASR scoring.\nStrict Latin-script benchmark exclusions: agent (generic), container and multi tenant (Hebrewized in part), Auth (ambiguous vs OAuth). These are still stored as approved concept occurrences; only the strict English-spelling metric excludes them.",
   "review_timestamp": "2026-10-12T07:17:28.441Z",
   "all_verified_english_expressions": [
     "supply chain security",
@@ -2347,8 +2343,27 @@
     "transcript_only_occurrences": 7,
     "suggested_composite_mentions": 1,
     "original_distinct_expressions": 41,
-    "benchmark_distinct_terms": 37,
+    "benchmark_distinct_terms": 33,
     "assistant_classified_types": true,
     "human_approved_semantic_merge": false
-  }
+  },
+  "benchmark_exclusions": [
+    {
+      "expression": "agent",
+      "reason": "Generic and frequently Hebrewized loanword; repeated occurrences remain in verified evidence and concept index."
+    },
+    {
+      "expression": "container",
+      "reason": "In some verified passages spoken as Hebrewized קונטיינר; requiring Latin spelling would violate the approved bilingual policy."
+    },
+    {
+      "expression": "multi tenant",
+      "reason": "Spoken as Hebrewized מולטי-טננט in contextual transcript; semantic concept is multi-tenancy but not a required Latin spelling."
+    },
+    {
+      "expression": "Auth",
+      "canonical": "OAuth",
+      "reason": "The ASR wrote Auth and the user indexed OAuth, but the exact spoken orthographic form needs specific confirmation before strict script scoring."
+    }
+  ]
 }
