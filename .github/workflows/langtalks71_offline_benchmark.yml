@@ -1,0 +1,122 @@
+name: Free two-model benchmark against reviewed LangTalks 71
+on:
+  push:
+    branches: [dev]
+    paths: [.github/workflows/langtalks71_offline_benchmark.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: dev}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install local offline inference packages (no paid APIs)
+        run: |
+          pip install -r requirements.txt
+          pip install faster-whisper
+      - name: Reuse earlier no-cost ivrit.ai Whisper ASR output
+        uses: actions/download-artifact@v4
+        with:
+          name: episode71-agent-ready-draft
+          run-id: 38146100209
+          github-token: ${{ github.token }}
+          path: prior-asr
+      - name: Retrieve five-minute public episode MP3 excerpt
+        run: python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Run generic Whisper Turbo at local CPU and score both models
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime,timezone
+          from pathlib import Path
+          from faster_whisper import WhisperModel
+          from langtalks.feed import fetch_episodes
+          from langtalks.glossary import build, context_prompt
+          from langtalks.score import score
+
+          episode=next(e for e in fetch_episodes() if e.number==71)
+          ref=json.loads(Path('langtalks/reference/'+episode.guid+'.json').read_text(encoding='utf-8'))
+          assert ref['transcript_review_status']=='approved'
+          assert 'בruntime' in ref['reference_text']
+          original=json.loads(Path('prior-asr/episode71.asr.json').read_text(encoding='utf-8'))
+          assert original['episode_guid']==episode.guid
+          model=WhisperModel('large-v3-turbo',device='cpu',compute_type='int8',cpu_threads=4)
+          audio=next(Path('langtalks/out/excerpts').glob('*.mp3'))
+          segments,_=model.transcribe(str(audio),language='he',beam_size=5,
+              initial_prompt=context_prompt(episode,build(episode))[:600],
+              word_timestamps=True,vad_filter=True)
+          segments=list(segments)
+          generic={
+              'provider':'local_whisper_turbo',
+              'text':''.join(s.text for s in segments),
+              'tokens':[{
+                  'text':w.word, 'start':round(w.start+480,2),
+                  'end':round(w.end+480,2),'speaker':None
+              } for s in segments for w in (s.words or [])]
+          }
+          wanted=['term_recall','hebrew_accuracy','term_precision','script_fidelity']
+          outcomes={}
+          for asr in [original,generic]:
+              result=score(asr['text'],asr['tokens'],ref,glossary=ref['technical_terms'])
+              outcomes[asr['provider']]={
+                  'overall':result['overall'],
+                  'metrics':{k:result['components'].get(k) for k in wanted},
+                  'latin_ratio':result['latin_ratio'],
+                  'terms_missed':result['terms_missed'],
+                  'terms_found':result['terms_found'],
+                  'timed_term_recall_diagnostic':result['timed_term_recall'],
+                  'transcript_characters':len(asr['text']),
+                  'word_tokens':len(asr['tokens']),
+              }
+          data={
+              'episode_guid':episode.guid,'window_original_seconds':[480,780],
+              'reference':'user-reviewed full bilingual SRT + approved technical concepts',
+              'timestamp_accuracy_caveat':(
+                  'Per-occurrence ASR word alignment is a diagnostic, not a validated fair score.'
+              ),
+              'metric_caveats':[
+                  'Five-minute single-episode sample; not representative of all Hebrew podcasts.',
+                  'Hebrew accuracy measures Hebrew-character edit distance only.',
+                  'User-reviewed transcript may retain some ASR mistakes; scores are relative to that reference.',
+                  'Precision and tokenization metrics are secondary; use Hebrew and exact English term recall.',
+              ],
+              'no_paid_api_called':True,
+              'models':outcomes,
+          }
+          target=Path('langtalks/reviewed/episode71/offline-asr-benchmark.json')
+          target.parent.mkdir(parents=True,exist_ok=True)
+          target.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          for name,metrics in outcomes.items():
+              print('MODEL',name)
+              print('METRICS',json.dumps(metrics['metrics']))
+              print('LATIN_RATIO',metrics['latin_ratio'])
+              print('MISSED_TERMS',json.dumps(metrics['terms_missed'],ensure_ascii=False))
+              print('TIMED_RECALL',json.dumps(metrics['timed_term_recall_diagnostic'],ensure_ascii=False)[:1200])
+          PY
+      - name: Commit reproducible quality comparison to dev only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add langtalks/reviewed/episode71/offline-asr-benchmark.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Benchmark generic and Hebrew-tuned local Whisper against approved episode 71"
+            git push origin HEAD:dev
+          else
+            echo "No changes to offline quality report"
+          fi
+      - name: Preserve report as downloadable artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: LangTalks71-free-offline-benchmark
+          path: langtalks/reviewed/episode71/offline-asr-benchmark.json
+          retention-days: 7
+      - name: Remove downloaded audio
+        if: always()
+        run: rm -rf langtalks/out
