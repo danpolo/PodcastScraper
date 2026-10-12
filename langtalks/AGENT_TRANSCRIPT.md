@@ -56,3 +56,30 @@ Even when English terminology is approved, Hebrew text and unknown speakers rema
 4. Do not mark an incomplete listening review approved, regardless of ASR agreement. A terminology-only approval never upgrades the full transcript.
 
 All paid APIs require explicit user approval first. The benchmark blocks cloud API requests unless --allow-cloud-api is supplied, and the assistant must not supply that override without permission.
+
+## Full transcript proofreading via SRT
+
+The semantic term-review JSON is not a verbatim proofreading of Hebrew speech.
+For episode 71, start with the pre-generated short-cue SRT and the original
+five-minute MP3; use Subtitle Edit or a local subtitle editor to listen and
+correct the speech. SRT timestamps are **relative to the five-minute excerpt**;
+the import code restores the original podcast offset (480 seconds). Keep
+Hebrewized loanwords as Hebrew, and preserve questions, caveats and trade-offs.
+
+Import a corrected SRT without claiming whole-audio review:
+
+    python -m langtalks.import_reviewed_srt \
+      --draft episode71-transcript.json \
+      --srt LangTalks71_EDIT_THIS.srt \
+      --reference langtalks/reference/74fc0625-0a6b-4ca1-9488-31be7860360d.json \
+      --out-dir out/episode71
+
+After the listener explicitly confirms they listened to and corrected the
+*entire* five-minute window, add `--full-audio-reviewed`. The importer
+generates synchronized, timestamped `.transcript.json` and `.transcript.md`
+and a *separate* `.scoring-reference.json` containing the corrected full
+bilingual speech, without modifying the approved term reference or the
+original ASR. That full-text reference enables Hebrew CER and Latin-script
+fidelity scoring. Speaker accuracy is still unavailable until actual speaker
+turns are checked. Semantic topic headings remain `suggested` unless
+independently confirmed. No provider inference or paid service is needed.
