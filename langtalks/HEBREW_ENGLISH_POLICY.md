@@ -12,7 +12,7 @@ Purpose: produce faithful Hebrew-first technical speech that an AI agent can rea
 ## When to use English (Latin script)
 
 - Preserve **distinct English technical expressions** when pronounced as English phrases: code review, supply chain security, mounted directory, managed hosted version. They can span multiple ASR tokens but should form one semantic concept mention when appropriate.
-- Use verified official English spelling for product/protocol identities when the actual referent is clear: NanoClaw, OpenClaw, OneCLI, OAuth, API, Google Workspace.
+- Use verified official English spelling for product/protocol identities when the actual referent is clear: NanoClaw, OpenClaw, **Hermes**, OneCLI, OAuth, API, Google Workspace. Proper names are an explicit exception to the usual Hebrewized-loanword rule: when the speaker unambiguously names a product, write `ו-Hermes` rather than the ASR's phonetic `והרמז`. Preserve spoken Hebrew conjunctions/prepositions before the Latin name. If the identity isn't clear, keep the uncertainty visible instead of guessing.
 - When the speaker pronounces an ambiguous sound (e.g. auth vs OAuth, CLI vs OneCLI), store the speech and mark the identity as **unverified**. Context helps propose a canonical referent, but never certifies it.
 - If a term is pronounced as a fully Hebrewized loanword rather than an English phrase, preserve Hebrew in the transcript while optionally adding an English search alias to a concept annotation.
 
