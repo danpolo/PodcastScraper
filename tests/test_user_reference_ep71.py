@@ -33,7 +33,7 @@ class UserReferenceTests(unittest.TestCase):
         )
 
     def test_transcript_review_added_runtime_without_rewriting_the_original(self):
-        self.assertEqual(self.reference["transcript_review_status"], "approved")
+        self.assertEqual(self.reference["transcript_review_status"], "approved_with_open_questions")
         self.assertIn("בruntime", self.reference["reference_text"])
         self.assertNotIn("runtime", self.original["technical_terms"])
         occurrences = [
@@ -45,6 +45,23 @@ class UserReferenceTests(unittest.TestCase):
         self.assertEqual(occurrences[0]["timestamp_precision"],
                          "approximate_from_reviewed_subtitle_cue")
         self.assertIn("runtime", self.reference["technical_terms"])
+
+    def test_followup_spelling_and_isolation_corrections_with_uncertainty(self):
+        text = self.reference["reference_text"]
+        self.assertIn("ו-Hermes", text)
+        self.assertNotIn("והרמז", text)
+        self.assertIn("הפרדה ובידוד", text)
+        self.assertNotIn("הפרדה ועידוד", text)
+        self.assertIn("ו-some security best practices", text)
+        questions = self.reference["transcript_uncertainties"]
+        self.assertEqual(len(questions), 1)
+        self.assertEqual(questions[0]["review_status"], "needs_review")
+        self.assertEqual(questions[0]["proposed"], "some")
+        self.assertEqual(
+            next(x for x in self.reference["verified_occurrences"]
+                 if x["canonical"] == "Hermes")["spelling_source"],
+            "user_explicit_confirmation",
+        )
 
     def test_onecli_user_correction_all_six_instances(self):
         occurrences = [
