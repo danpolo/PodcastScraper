@@ -1,0 +1,176 @@
+{
+  "gpu": "L4",
+  "compute_type": "float16",
+  "model_load_s": 3.7,
+  "inference_s": 11.47,
+  "total_compute_s": 15.17,
+  "real_time_factor": 0.0382,
+  "vram_before_mb": 446.2,
+  "vram_loaded_mb": 2589.4,
+  "vram_peak_mb": 2735.4,
+  "cost_usd": 0.00337,
+  "words_count": 631,
+  "chars_count": 3323,
+  "full_text": "וכל מיני דברים כאלה. וגם את ה-Supply-Chain Security, מה ה-Dependency שלי בתוך הפרויקט,  ואם יש לי code review ו-Sum Security Best Practices.  אז יש לי את הנושא הזה של הבידוד,  שאני מבודד את האג'נט מהמכונה שהוא רץ בו, הרבה פעמים זה המכונה שלי,  המחשב שלי.  אבל כמו שאתה אומר, NanoClaw זה מולטי-טננט,  וגם עם OpenClaw והרמז הם לא...  מוגדרים כמולטי-טננט,  רוב, הרבה מהיוזרים משתמשים בהם בצורה שהוא יותר מולטי-טננט.  זאת אומרת, יש לי כמה use cases, כמה agentים,  ואני רוצה שיהיה איזושהי הפרדה ועידוד בין האג'נטים,  אבל הוא לא נותן לך את זה ברמה של הארכיטקטורה.  אז ננוקו או מולטי-טננט... ואתם כתבתם את זה כאילו עם איזושהי מערכת שהיא כאילו בזכות קונטיינרים, שהם בעצם מייצרים הפרדה ברמת המערכת ההפעלה, נכון? תספר טיפה רגע על  מה עשיתם באמת ומה הטרייד-אופים שלקחתם שם.  כן, אז אני בניתי את זה ל-use case של עסק שלי,  שיש לי כמה לקוחות, אז אני רוצה שאני יכול לשים agent בכמה קבוצות וואטסאפ,  וכל אחד זה agent אחר שמבודד לגמרי אחד בשני.  אז מריצים כל agent בתוך קונטיינר,  יש לך process שרץ מבחוץ,  שעושה את ה-orchestation,  מנתב את ההודעות לאג'נט הנכון ומרים קונטיינר,  מריץ את האג'נט בתוך הקונטיינר,  אחרי איזשהו פרק זמן שהאג'נט לא פועל,  מוריד את הקונטיינר,  אבל הדאטה הוא preserved, זה ב-file system, יש mounted directory,  שהדאטה, גם הארטיפקטים שהאג'נט מייצר וגם ההודעות.  וזה נותן לך בידוד ברמה של המערכת הפעלה,  ולא ברמה של Processes וזה שאני מנסה לתפוס  איזושהי פעולה שאיג'נט עושה בראנטיים.  אז זה בידוד, זה חלק אחד, והדבר השלישי  זה בעצם לתת  לאג'נט גישה לדאטה ולפעולות רגישות  בצורה מובטחת.  זה אומר בעצם לנהל את כל הסיפור של ה-credentials,  לא לחשוף את ה-credentials לאג'נט,  וגם לתת איזשהו מנגנון של  בעצם לא לתת לאג'נט לעשות את כל מה שהוא רוצה. גם אם אני עושה את הפעולות דרך ה-gateway ואין לו גישה ישירה ל-credentials,  אבל שיהיה איזשהו מנגנון של approvals,  של Human in the Loop approval,  שאני יכול לאשר פעולה ספציפית או לחסום.  אז בהקשר הזה של credentials באמת,  אתם כאילו ביננוקלו המימוש הוא עם 1CRI,  שזה איזה third party כזה שיש לכם איתו איזה פרטנרשיפ, נכון?  אני מדבר עכשיו גם בכובע של יוזר שנהנה מהחיבור הזה.  כי מה שאני אוהב ב-1CRI זה גם באמת שה-agent,  כאילו אין לי על המכונה שום credential.  בעצם 1CRI עוטף את כל ה-HTTP network של האג'נט שלי,  ומוסיף עליו את היעדר של ה-Autorization שהוא צריך.  ואז המכונה שלי היא כאילו מאוד נקייה מהבחינה הזאת. ושתיים,  שזה גם ממש נחמד, כמו ב-Compוזיו, למי שמכיר,  אני מקבל לעשות אותנטיקציה עם Auth, אז גם  1CRI יודע לטפל בכאילו כמה אקאונטים, אם אני צריך, יש לי שני ג'ימלים או משהו בסגנון.  וגם אם אני רוצה להתחבר למשהו חדש, אז זה לא עכשיו לך, תביא API מגוגל Workspace וכולי.  זה בלחיצת כפתור, Login with Google,  וזה ניס,  והוא גם דואג ל-Refresh Token וכל הדברים האלה.  והוא לא קאפלד באיזושהי צורה, as far as I know, ל-Nano-Claw, אז כאילו גם כ-Stand-Alone,  פתרון לאותנטיקציה זה נראה לי אחלה.  זה בעצם פותח את האותנטיקציה של האג'נד עם third-party tools, אבל איך אתם פותרים את האותנטיקציה של ההרנס עצמו?  מול קלו, מול קודקס, מול כל החברים שלנו.  אז זה גם דרך 1CRI,  שזה אחלה פרויקט, יש לנו פרטנר שהוא מאוד טוב,  וחברה טובים,  ג'ונת'ן,  יונתן פישנר וגיא בן-אהרון.  גם פרויקט ישראלי כחול לבן,  פרויקט אופן סורס,  יש להם גם Managed-הוסטד וירג'ן,  שהיא סופר נוח לי, מה שאמרת, אתה יכול לחבר את ה-Gmail,  Calendar,  Drive והמון אפליקציות ב-Auth,  אבל בעצם גם ה-Credential של אנתרופיק גם יושבים באותו  וולט של האג'נט של 1CRI.  בעצם כל הבקשות שיוצאות מהסביבה של האג'נט, מהקונטיינר,",
+  "scores": {
+    "overall": 0.7602719109611265,
+    "components": {
+      "term_recall": 0.5588235294117647,
+      "hebrew_accuracy": 0.9529872673849168,
+      "term_precision": 1.0,
+      "speaker_accuracy": null,
+      "script_fidelity": 0.9375590282848937
+    },
+    "scored_components": [
+      "hebrew_accuracy",
+      "script_fidelity",
+      "term_precision",
+      "term_recall"
+    ],
+    "terms_found": [
+      "supply chain security",
+      "code review",
+      "security best practices",
+      "NanoClaw",
+      "OpenClaw",
+      "file system",
+      "mounted directory",
+      "credentials",
+      "gateway",
+      "human-in-the-loop approval",
+      "API",
+      "refresh token",
+      "third-party tools",
+      "Gmail",
+      "Calendar",
+      "Drive",
+      "dependency",
+      "process",
+      "HTTP network"
+    ],
+    "terms_missed": [
+      "orchestration",
+      "OneCLI",
+      "Composio",
+      "managed hosted version",
+      "Hermes",
+      "Google Workspace",
+      "Log in with Google",
+      "harness",
+      "Codex",
+      "open source",
+      "Anthropic",
+      "vault",
+      "header",
+      "authorization",
+      "runtime"
+    ],
+    "hallucinated_terms": [],
+    "latin_ratio": 0.182,
+    "timed_term_recall": {
+      "recall": 0.4783,
+      "matched": 22,
+      "total": 46,
+      "missed": [
+        {
+          "term": "NanoClaw",
+          "at_s": 527.26
+        },
+        {
+          "term": "NanoClaw",
+          "at_s": 714.78
+        },
+        {
+          "term": "orchestration",
+          "at_s": 563.42
+        },
+        {
+          "term": "credentials",
+          "at_s": 767.41
+        },
+        {
+          "term": "OneCLI",
+          "at_s": 646.66
+        },
+        {
+          "term": "OneCLI",
+          "at_s": 659.34
+        },
+        {
+          "term": "OneCLI",
+          "at_s": 665.24
+        },
+        {
+          "term": "OneCLI",
+          "at_s": 689.54
+        },
+        {
+          "term": "OneCLI",
+          "at_s": 735.05
+        },
+        {
+          "term": "OneCLI",
+          "at_s": 772.39
+        },
+        {
+          "term": "Composio",
+          "at_s": 682.84
+        },
+        {
+          "term": "managed hosted version",
+          "at_s": 751.33
+        },
+        {
+          "term": "Hermes",
+          "at_s": 507.0
+        },
+        {
+          "term": "process",
+          "at_s": 594.08
+        },
+        {
+          "term": "header",
+          "at_s": 672.1
+        },
+        {
+          "term": "authorization",
+          "at_s": 672.96
+        },
+        {
+          "term": "Google Workspace",
+          "at_s": 700.9
+        },
+        {
+          "term": "Log in with Google",
+          "at_s": 705.31
+        },
+        {
+          "term": "harness",
+          "at_s": 727.37
+        },
+        {
+          "term": "Codex",
+          "at_s": 729.0
+        },
+        {
+          "term": "open source",
+          "at_s": 749.0
+        },
+        {
+          "term": "Anthropic",
+          "at_s": 769.29
+        },
+        {
+          "term": "vault",
+          "at_s": 771.46
+        },
+        {
+          "term": "runtime",
+          "at_s": 596.4
+        }
+      ],
+      "method": "relative_word_or_short_segment_audio_alignment",
+      "diagnostic_only": true
+    }
+  }
+}
