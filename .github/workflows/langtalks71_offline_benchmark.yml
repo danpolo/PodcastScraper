@@ -1,5 +1,9 @@
 name: Free two-model benchmark against reviewed LangTalks 71
 on:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/langtalks71_offline_benchmark.yml
   workflow_dispatch:
 permissions:
   contents: write
@@ -39,7 +43,10 @@ jobs:
 
           episode=next(e for e in fetch_episodes() if e.number==71)
           ref=json.loads(Path('langtalks/reference/'+episode.guid+'.json').read_text(encoding='utf-8'))
-          assert ref['transcript_review_status']=='approved'
+          assert ref['transcript_review_status'] in ('approved', 'approved_with_open_questions')
+          assert len(ref.get('transcript_uncertainties', [])) == 1
+          assert 'ו-Hermes' in ref['reference_text']
+          assert 'הפרדה ובידוד' in ref['reference_text']
           assert 'בruntime' in ref['reference_text']
           original=json.loads(Path('prior-asr/episode71.asr.json').read_text(encoding='utf-8'))
           assert original['episode_guid']==episode.guid
@@ -75,6 +82,8 @@ jobs:
           data={
               'episode_guid':episode.guid,'window_original_seconds':[480,780],
               'reference':'user-reviewed full bilingual SRT + approved technical concepts',
+              'reference_review_status':ref['transcript_review_status'],
+              'unconfirmed_wording':ref.get('transcript_uncertainties', []),
               'timestamp_accuracy_caveat':(
                   'Per-occurrence ASR word alignment is a diagnostic, not a validated fair score.'
               ),
