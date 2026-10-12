@@ -391,6 +391,12 @@ def render_markdown(doc):
         lines.append("")
         lines.append(_md(turn["text"]))
         lines.append("")
+        if turn.get("review_status") == "needs_review":
+            lines.append(
+                "> **Unconfirmed wording:** This passage contains an editorial "
+                "interpretation that should be checked against the audio."
+            )
+            lines.append("")
     approved = [m for m in doc.get("concept_mentions", [])
                 if m["review_status"] == "verified"]
     if approved:
