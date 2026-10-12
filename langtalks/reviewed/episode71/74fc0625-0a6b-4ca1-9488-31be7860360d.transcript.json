@@ -10,12 +10,12 @@
     ],
     "source_urls": {}
   },
-  "status": "human_reviewed",
+  "status": "human_reviewed_with_open_questions",
   "provenance": {
     "transcript_model": "local_ivrit_turbo",
     "source": "excerpt",
     "source_time_offset_s": 480.0,
-    "editorial_review": "transcript_audio_verified_and_terminology_separately_reviewed",
+    "editorial_review": "full_transcript_reviewed_except_explicitly_unconfirmed_wording",
     "original_draft_hash": "0b7f34632cf8dd219d3f06efb2cc56db0d86d0237c0c050447be6d92e3c1b059",
     "review_format": "SRT",
     "review_window_offset_s": 480.0,
@@ -69,9 +69,22 @@
       "start_s": 485.48,
       "end_s": 492.04,
       "speaker_id": null,
-      "text": "מה ה-dependency שלי בתוך הפרויקט, ואם יש לי code review ו-Sum Security Best Practices.",
+      "text": "מה ה-dependency שלי בתוך הפרויקט, ואם יש לי code review ו-some security best practices.",
       "timestamp_precision": "human_reviewed_cues",
-      "review_status": "verified"
+      "review_status": "needs_review",
+      "review_questions": [
+        {
+          "kind": "spoken_english_word",
+          "original": "Sum",
+          "proposed": "some",
+          "clip_start_s": 5.48,
+          "clip_end_s": 12.04,
+          "episode_start_s": 485.48,
+          "episode_end_s": 492.04,
+          "review_status": "needs_review",
+          "reason": "Context suggests 'some security best practices'; listener stated spelling uncertain. Do not claim acoustically verified."
+        }
+      ]
     },
     {
       "id": "turn-0003",
@@ -96,7 +109,7 @@
       "start_s": 503.18,
       "end_s": 509.16,
       "speaker_id": null,
-      "text": "אבל כמו שאתה אומר, NanoClaw זה מולטי-טננט, וגם עם OpenClaw והרמז הם לא...",
+      "text": "אבל כמו שאתה אומר, NanoClaw זה מולטי-טננט, וגם עם OpenClaw ו-Hermes הם לא...",
       "timestamp_precision": "human_reviewed_cues",
       "review_status": "verified"
     },
@@ -123,7 +136,7 @@
       "start_s": 519.69,
       "end_s": 522.96,
       "speaker_id": null,
-      "text": "ואני רוצה שיהיה איזושהי הפרדה ועידוד בין האג'נטים,",
+      "text": "ואני רוצה שיהיה איזושהי הפרדה ובידוד בין האג'נטים,",
       "timestamp_precision": "human_reviewed_cues",
       "review_status": "verified"
     },
@@ -1884,6 +1897,19 @@
         "semantic_classification": null,
         "editorial_note": null
       }
+    }
+  ],
+  "transcript_uncertainties": [
+    {
+      "kind": "spoken_english_word",
+      "original": "Sum",
+      "proposed": "some",
+      "clip_start_s": 5.48,
+      "clip_end_s": 12.04,
+      "episode_start_s": 485.48,
+      "episode_end_s": 492.04,
+      "review_status": "needs_review",
+      "reason": "Context suggests 'some security best practices'; listener stated spelling uncertain. Do not claim acoustically verified."
     }
   ]
 }

@@ -41,7 +41,7 @@
     "authorization",
     "runtime"
   ],
-  "reference_text": "וכל מיני דברים כאלה. וגם את ה-Supply-Chain Security, מה ה-dependency שלי בתוך הפרויקט, ואם יש לי code review ו-Sum Security Best Practices. אז יש לי את הנושא הזה של הבידוד, שאני מבודד את האג'נט מהמכונה שהוא רץ בו, הרבה פעמים זה המכונה שלי, המחשב שלי. אבל כמו שאתה אומר, NanoClaw זה מולטי-טננט, וגם עם OpenClaw והרמז הם לא... מוגדרים כמולטי-טננט. רוב, הרבה מהיוזרים משתמשים בהם בצורה שהוא יותר מולטי-טננט. זאת אומרת, יש לי כמה use cases, כמה אג'נטים, ואני רוצה שיהיה איזושהי הפרדה ועידוד בין האג'נטים, אבל הוא לא נותן לך את זה ברמה של הארכיטקטוריה. אז NanoClaw או מולטי-טננט... ואתם כתבתם את זה כאילו עם איזושהי מערכת שהיא כאילו בזכות קונטיינרים, שהם בעצם מייצרים הפרדה ברמת המערכת ההפעלה, נכון? תספר טיפה רגע על מה עשיתם באמת ומה הטרייד-אופים שלקחתם שם. כן, אז אני בניתי את זה ל-use case של עסק שלי, שיש לי כמה לקוחות, אז אני רוצה שאני יכול לשים agent בכמה קבוצות וואטסאפ, וכל אחד זה agent אחר שמבודד לגמרי אחד בשני. אז מריצים כל agent בתוך קונטיינר, יש לך process שרץ מבחוץ, שעושה את ה-orchestration, מנתב את ההודעות לאג'נט הנכון ומרים קונטיינר, מריץ את agent בתוך הקונטיינר, אחרי איזשהו פרק זמן שהאג'נט לא פועל, מוריד את הקונטיינר, אבל הדאטה הוא preserved, זה ב-file system יש mounted directory שהדאטה גם הארטיפקטים שהאג'נט מייצר וגם ההודעות. וזה נותן לך בידוד ברמה של המערכת הפעלה ולא ברמה של processes וזה שאני מנסה לתפוס איזושהי פעולה שאיג'נט עושה בruntime. אז זה בידוד, זה חלק אחד, והדבר השלישי זה בעצם לתת לאג'נט גישה לדאטה ולפעולות רגישות בצורה מאובטחת. זה אומר בעצם לנהל את כל הסיפור של ה-credentials, לא לחשוף את ה-credentials לאג'נט, וגם לתת איזשהו מנגנון של בעצם לא לתת לאג'נט לעשות את כל מה שהוא רוצה, גם אם אני עושה את הפעולה דרך ה-gateway ואין לו גישה ישירה אל ה-credentials, אבל שיהיה איזשהו מנגנון של approvals, של Human in the Loop approval, שאני יכול לאשר פעולה ספציפית או לחסום. אז בהקשר הזה של credentials באמת, אתם כאילו בNanoClaw המימוש הוא עם OneCLI שזה איזה third party כזה שיש לכם איתו איזה פרטנרשיפ, נכון? אני מדבר עכשיו גם בכובע של user שנהנה מהחיבור הזה. כי מה שאני אוהב ב-OneCLI זה גם באמת שהאג'נט, כאילו אין לי על המכונה שום credential, בעצם OneCLI עוטף את כל ה-HTTP network של האג'נט שלי ומוסיף עליו את הheader של האוטוריזיישן שהוא צריך, ואז המכונה שלי היא כאילו מאוד נקייה מהבחינה הזאת. ושתיים, שזה גם ממש נחמד, כמו ב-Composio, למי שמכיר, אני מקבל לעשות אותנטיקציה עם Auth, אז גם OneCLI יודע לטפל בכאילו כמה אקאונטים אם אני צריך, יש לי שני ג'ימלים או משהו בסגנון, וגם אם אני רוצה להתחבר למשהו חדש, אז זה לא עכשיו לך, תביא API מגוגל Workspace וכולי, זה בלחיצת כפתור, לוג-אין with גוגל, וזה וזה נאיס, והוא גם דואג ל-Refresh Token וכל הדברים האלה, והוא לא קאפלד באיזושהי צורה, as far as I know, ל-Nano-Claw, אז כאילו גם כ-stand alone, פתרון לאותנטיקציה זה נראה לי אחלה. זה בעצם פותח לכם את האוטנטיקציה של האג'נט עם third-party tools, אבל איך אתם פותרים את האותנטיקציה של ההרנס עצמו? מול קודקס, מול כל החברים שלנו. אז זה גם דרך OneCLI, שזה אחלה פרויקט, יש לנו פרטנרים מאוד טובים וחבר'ה טובים, ג'ונת'ן, יונתן פישנר וגיא בן-אהרון, גם פרויקט ישראלי כחול לבן, פרויקט אופן סורס, יש להם גם managed, הוסטד וורג'ן, שהיא סופר נוח לי, מה שאמרת, אתה יכול לחבר את ה-Gmail, Calendar, Drive והמון אפליקציות ב-Auth, אבל בעצם גם ה-Credentials של אנתרופיק גם יושבים באותו וולט של האג'נט של OneCLI. בעצם כל הבקשות שיוצאות מהסביבה של האג'נט, מהקונטיינר,",
+  "reference_text": "וכל מיני דברים כאלה. וגם את ה-Supply-Chain Security, מה ה-dependency שלי בתוך הפרויקט, ואם יש לי code review ו-some security best practices. אז יש לי את הנושא הזה של הבידוד, שאני מבודד את האג'נט מהמכונה שהוא רץ בו, הרבה פעמים זה המכונה שלי, המחשב שלי. אבל כמו שאתה אומר, NanoClaw זה מולטי-טננט, וגם עם OpenClaw ו-Hermes הם לא... מוגדרים כמולטי-טננט. רוב, הרבה מהיוזרים משתמשים בהם בצורה שהוא יותר מולטי-טננט. זאת אומרת, יש לי כמה use cases, כמה אג'נטים, ואני רוצה שיהיה איזושהי הפרדה ובידוד בין האג'נטים, אבל הוא לא נותן לך את זה ברמה של הארכיטקטוריה. אז NanoClaw או מולטי-טננט... ואתם כתבתם את זה כאילו עם איזושהי מערכת שהיא כאילו בזכות קונטיינרים, שהם בעצם מייצרים הפרדה ברמת המערכת ההפעלה, נכון? תספר טיפה רגע על מה עשיתם באמת ומה הטרייד-אופים שלקחתם שם. כן, אז אני בניתי את זה ל-use case של עסק שלי, שיש לי כמה לקוחות, אז אני רוצה שאני יכול לשים agent בכמה קבוצות וואטסאפ, וכל אחד זה agent אחר שמבודד לגמרי אחד בשני. אז מריצים כל agent בתוך קונטיינר, יש לך process שרץ מבחוץ, שעושה את ה-orchestration, מנתב את ההודעות לאג'נט הנכון ומרים קונטיינר, מריץ את agent בתוך הקונטיינר, אחרי איזשהו פרק זמן שהאג'נט לא פועל, מוריד את הקונטיינר, אבל הדאטה הוא preserved, זה ב-file system יש mounted directory שהדאטה גם הארטיפקטים שהאג'נט מייצר וגם ההודעות. וזה נותן לך בידוד ברמה של המערכת הפעלה ולא ברמה של processes וזה שאני מנסה לתפוס איזושהי פעולה שאיג'נט עושה בruntime. אז זה בידוד, זה חלק אחד, והדבר השלישי זה בעצם לתת לאג'נט גישה לדאטה ולפעולות רגישות בצורה מאובטחת. זה אומר בעצם לנהל את כל הסיפור של ה-credentials, לא לחשוף את ה-credentials לאג'נט, וגם לתת איזשהו מנגנון של בעצם לא לתת לאג'נט לעשות את כל מה שהוא רוצה, גם אם אני עושה את הפעולה דרך ה-gateway ואין לו גישה ישירה אל ה-credentials, אבל שיהיה איזשהו מנגנון של approvals, של Human in the Loop approval, שאני יכול לאשר פעולה ספציפית או לחסום. אז בהקשר הזה של credentials באמת, אתם כאילו בNanoClaw המימוש הוא עם OneCLI שזה איזה third party כזה שיש לכם איתו איזה פרטנרשיפ, נכון? אני מדבר עכשיו גם בכובע של user שנהנה מהחיבור הזה. כי מה שאני אוהב ב-OneCLI זה גם באמת שהאג'נט, כאילו אין לי על המכונה שום credential, בעצם OneCLI עוטף את כל ה-HTTP network של האג'נט שלי ומוסיף עליו את הheader של האוטוריזיישן שהוא צריך, ואז המכונה שלי היא כאילו מאוד נקייה מהבחינה הזאת. ושתיים, שזה גם ממש נחמד, כמו ב-Composio, למי שמכיר, אני מקבל לעשות אותנטיקציה עם Auth, אז גם OneCLI יודע לטפל בכאילו כמה אקאונטים אם אני צריך, יש לי שני ג'ימלים או משהו בסגנון, וגם אם אני רוצה להתחבר למשהו חדש, אז זה לא עכשיו לך, תביא API מגוגל Workspace וכולי, זה בלחיצת כפתור, לוג-אין with גוגל, וזה וזה נאיס, והוא גם דואג ל-Refresh Token וכל הדברים האלה, והוא לא קאפלד באיזושהי צורה, as far as I know, ל-Nano-Claw, אז כאילו גם כ-stand alone, פתרון לאותנטיקציה זה נראה לי אחלה. זה בעצם פותח לכם את האוטנטיקציה של האג'נט עם third-party tools, אבל איך אתם פותרים את האותנטיקציה של ההרנס עצמו? מול קודקס, מול כל החברים שלנו. אז זה גם דרך OneCLI, שזה אחלה פרויקט, יש לנו פרטנרים מאוד טובים וחבר'ה טובים, ג'ונת'ן, יונתן פישנר וגיא בן-אהרון, גם פרויקט ישראלי כחול לבן, פרויקט אופן סורס, יש להם גם managed, הוסטד וורג'ן, שהיא סופר נוח לי, מה שאמרת, אתה יכול לחבר את ה-Gmail, Calendar, Drive והמון אפליקציות ב-Auth, אבל בעצם גם ה-Credentials של אנתרופיק גם יושבים באותו וולט של האג'נט של OneCLI. בעצם כל הבקשות שיוצאות מהסביבה של האג'נט, מהקונטיינר,",
   "speaker_turns": [],
   "review_status": "approved",
   "terms_exhaustive": true,
@@ -767,7 +767,10 @@
       "review_status": "verified",
       "semantic_index_inclusion": true,
       "editorial_classification": "assistant_assigned_from_user_review",
-      "timestamp_precision": "manual_approximate"
+      "timestamp_precision": "manual_approximate",
+      "original_asr_word": "הרמז",
+      "spelling_source": "user_explicit_confirmation",
+      "spoken_context": "ו-Hermes"
     },
     {
       "term": "use cases",
@@ -2323,7 +2326,7 @@
       }
     }
   ],
-  "review_notes": "Term-only listening review; Hebrew CER and diarization require separate references.\nEditorial reconciliation: corrected all six OneCLI spoken surfaces per explicit user feedback; saved original model surfaces. Classified manually added expressions, retained all 69 approved occurrences, excluded nontechnical English from concept index, and proposed an unapproved Authorization-header composite. Hebrew loanword and manual timestamp precision must be checked separately for exact ASR scoring.\nStrict Latin-script benchmark exclusions: agent (generic), container and multi tenant (Hebrewized in part), Auth (ambiguous vs OAuth). These are still stored as approved concept occurrences; only the strict English-spelling metric excludes them.\nTranscript review 2026-10-12: user finished reviewing and correcting the full five-minute SRT, including בruntime at relative 01:53.98-01:57.50. Runtime is added as a verified technical concept; exact word-level bounds are an estimate inside the reviewed subtitle cue. Reference_text is the concatenated user-corrected SRT (not the original ASR).",
+  "review_notes": "Term-only listening review; Hebrew CER and diarization require separate references.\nEditorial reconciliation: corrected all six OneCLI spoken surfaces per explicit user feedback; saved original model surfaces. Classified manually added expressions, retained all 69 approved occurrences, excluded nontechnical English from concept index, and proposed an unapproved Authorization-header composite. Hebrew loanword and manual timestamp precision must be checked separately for exact ASR scoring.\nStrict Latin-script benchmark exclusions: agent (generic), container and multi tenant (Hebrewized in part), Auth (ambiguous vs OAuth). These are still stored as approved concept occurrences; only the strict English-spelling metric excludes them.\nTranscript review 2026-10-12: user finished reviewing and correcting the full five-minute SRT, including בruntime at relative 01:53.98-01:57.50. Runtime is added as a verified technical concept; exact word-level bounds are an estimate inside the reviewed subtitle cue. Reference_text is the concatenated user-corrected SRT (not the original ASR).\nFollow-up correction: normalized the named project Hermes from הרמז, corrected separation to ובידוד, and provisionally interpreted Sum as some (still needs audio confirmation). The original submitted SRT is separately archived.",
   "review_timestamp": "2026-10-12T07:17:28.441Z",
   "all_verified_english_expressions": [
     "supply chain security",
@@ -2411,12 +2414,50 @@
       "reason": "The ASR wrote Auth and the user indexed OAuth, but the exact spoken orthographic form needs specific confirmation before strict script scoring."
     }
   ],
-  "transcript_review_status": "approved",
+  "transcript_review_status": "approved_with_open_questions",
   "transcript_review_source": "human_corrected_SRT",
   "transcript_review_window": {
     "start": 480,
     "end": 780,
     "cues": 59,
     "relative_srt_timing": true
-  }
+  },
+  "transcript_uncertainties": [
+    {
+      "kind": "spoken_english_word",
+      "original": "Sum",
+      "proposed": "some",
+      "clip_start_s": 5.48,
+      "clip_end_s": 12.04,
+      "episode_start_s": 485.48,
+      "episode_end_s": 492.04,
+      "review_status": "needs_review",
+      "reason": "Context suggests 'some security best practices'; listener stated spelling uncertain. Do not claim acoustically verified."
+    }
+  ],
+  "user_followup_corrections": [
+    {
+      "clip_s": 8,
+      "asr": "Sum",
+      "current": "some",
+      "review_status": "provisional",
+      "target": "transcript"
+    },
+    {
+      "clip_s": 26,
+      "asr": "הרמז",
+      "current": "Hermes",
+      "review_status": "user_confirmed",
+      "target": "transcript",
+      "reason": "Specific named project, not Hebrewized generic loanword"
+    },
+    {
+      "clip_s": 40,
+      "asr": "ועידוד",
+      "current": "ובידוד",
+      "review_status": "user_confirmed",
+      "target": "transcript",
+      "reason": "Agent separation/isolation"
+    }
+  ]
 }
