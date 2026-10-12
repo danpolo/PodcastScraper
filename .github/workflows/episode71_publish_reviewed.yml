@@ -49,7 +49,7 @@ jobs:
           ref=json.loads(Path('langtalks/reference/74fc0625-0a6b-4ca1-9488-31be7860360d.json').read_text())
           doc=json.loads(next(p.glob('*.transcript.json')).read_text())
           benchmark=json.loads(next(p.glob('*.scoring-reference.json')).read_text())
-          assert doc['status']=='human_reviewed_with_open_questions'
+          assert doc['status']=='human_reviewed'
           assert len(doc['turns'])==59,len(doc['turns'])
           assert len(doc['concept_mentions'])==64,len(doc['concept_mentions'])
           assert sum(x['review_status']=='verified' for x in doc['concept_mentions'])==63
@@ -60,11 +60,9 @@ jobs:
           assert 'בruntime' in text
           assert 'האג\u0027נט' in text
           assert benchmark['reference_text']==text
-          assert benchmark['transcript_review_status']=='approved_with_open_questions'
-          assert len(doc['transcript_uncertainties'])==1
-          assert doc['transcript_uncertainties'][0]['proposed']=='some'
-          assert doc['turns'][1]['review_status']=='needs_review'
-          assert sum(x['review_status']=='verified' for x in doc['turns'])==58
+          assert benchmark['transcript_review_status']=='approved'
+          assert doc['transcript_uncertainties']==[]
+          assert sum(x['review_status']=='verified' for x in doc['turns'])==59
           assert 'ו-some security best practices' in text
           assert 'ו-Hermes' in text and 'והרמז' not in text
           assert 'הפרדה ובידוד' in text and 'הפרדה ועידוד' not in text
