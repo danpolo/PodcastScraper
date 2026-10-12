@@ -1,0 +1,2153 @@
+{
+  "episode_guid": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+  "episode_title": "71 - Claw Architectures | Gavriel Cohen (NanoClaw)",
+  "window": {
+    "start": 480,
+    "end": 780
+  },
+  "technical_terms": [
+    "supply chain security",
+    "code review",
+    "security best practices",
+    "NanoClaw",
+    "OpenClaw",
+    "agent",
+    "orchestation",
+    "file system",
+    "mounted directory",
+    "credentials",
+    "gateway",
+    "human-in-the-loop approval",
+    "Onecli",
+    "Composio",
+    "Auth",
+    "API",
+    "refresh token",
+    "standalone",
+    "third-party tools",
+    "managed hosted version",
+    "Gmail",
+    "Calendar",
+    "Drive",
+    "dependency",
+    "multi tenant",
+    "Hermes",
+    "use cases",
+    "container",
+    "process",
+    "preserved",
+    "HTTP network",
+    "header",
+    "authorization",
+    "Google Workspace",
+    "Log in with Google",
+    "coupled",
+    "harness",
+    "Codex",
+    "open source",
+    "Anthropic",
+    "vault"
+  ],
+  "reference_text": "",
+  "speaker_turns": [],
+  "review_status": "approved",
+  "terms_exhaustive": true,
+  "verified_occurrences": [
+    {
+      "term": "supply chain security",
+      "surface": "supply chain security",
+      "canonical": "supply chain security",
+      "kind": "technical_concept",
+      "start": 483.96,
+      "end": 485.28,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "code review",
+      "surface": "code review",
+      "canonical": "code review",
+      "kind": "technical_practice",
+      "start": 489.4,
+      "end": 489.86,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "security best practices",
+      "surface": "security best practices",
+      "canonical": "security best practices",
+      "kind": "technical_practice",
+      "start": 491,
+      "end": 492.04,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "NanoClaw",
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "kind": "product",
+      "start": 504.46,
+      "end": 504.74,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "NanoClaw",
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "kind": "product",
+      "start": 527.26,
+      "end": 527.8,
+      "source_models": [
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "NanoClaw",
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "kind": "product",
+      "start": 714.78,
+      "end": 715.22,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OpenClaw",
+      "surface": "OpenClaw",
+      "canonical": "OpenClaw",
+      "kind": "product",
+      "start": 507.28,
+      "end": 507.74,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 518.32,
+      "end": 518.86,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 549.74,
+      "end": 550.38,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 553.02,
+      "end": 553.26,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 558.04,
+      "end": 558.3,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 568.64,
+      "end": 568.86,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 608,
+      "end": 609,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 619,
+      "end": 620,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 670.267503,
+      "end": 671.267503,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 723.262792,
+      "end": 724.262792,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 772,
+      "end": 773,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "AI agent",
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "start": 778,
+      "end": 779,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "orchestration",
+      "surface": "orchestation",
+      "canonical": "orchestration",
+      "kind": "technical_concept",
+      "start": 563.42,
+      "end": 563.96,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "file system",
+      "surface": "file system",
+      "canonical": "file system",
+      "kind": "technical_concept",
+      "start": 577.38,
+      "end": 577.92,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "mounted directory",
+      "surface": "mounted directory",
+      "canonical": "mounted directory",
+      "kind": "technical_concept",
+      "start": 578.2,
+      "end": 580.02,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "credentials",
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "start": 616.06,
+      "end": 616.66,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "credentials",
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "start": 617.9,
+      "end": 618.42,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "credentials",
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "start": 631.18,
+      "end": 631.74,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "credentials",
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "start": 641.56,
+      "end": 641.94,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "credentials",
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "start": 767.41,
+      "end": 768.09,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "credential gateway",
+      "surface": "gateway",
+      "canonical": "credential gateway",
+      "kind": "technical_concept",
+      "start": 629.54,
+      "end": 629.86,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "human-in-the-loop approval",
+      "surface": "human-in-the-loop approval",
+      "canonical": "human-in-the-loop approval",
+      "kind": "technical_practice",
+      "start": 634.72,
+      "end": 635.54,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OneCLI",
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "start": 646.66,
+      "end": 647.1,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OneCLI",
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "start": 659.34,
+      "end": 659.6,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OneCLI",
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "start": 665.24,
+      "end": 665.58,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OneCLI",
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "start": 689.54,
+      "end": 689.84,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OneCLI",
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "start": 735.05,
+      "end": 735.99,
+      "source_models": [
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OneCLI",
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "start": 772.39,
+      "end": 773.01,
+      "source_models": [
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Composio",
+      "surface": "Composio",
+      "canonical": "Composio",
+      "kind": "product",
+      "start": 682.84,
+      "end": 683.48,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OAuth",
+      "surface": "Auth",
+      "canonical": "OAuth",
+      "kind": "protocol",
+      "start": 686.78,
+      "end": 687.02,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "OAuth",
+      "surface": "Auth",
+      "canonical": "OAuth",
+      "kind": "protocol",
+      "start": 763.91,
+      "end": 764.39,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "API",
+      "surface": "API",
+      "canonical": "API",
+      "kind": "protocol",
+      "start": 699.74,
+      "end": 700.18,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "refresh token",
+      "surface": "refresh token",
+      "canonical": "refresh token",
+      "kind": "technical_concept",
+      "start": 708.98,
+      "end": 709.62,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "standalone",
+      "surface": "standalone",
+      "canonical": "standalone",
+      "kind": "technical_concept",
+      "start": 716.26,
+      "end": 716.78,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "third-party tools",
+      "surface": "third-party tools",
+      "canonical": "third-party tools",
+      "kind": "technical_concept",
+      "start": 723.46,
+      "end": 724.1,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "managed hosting",
+      "surface": "managed hosted version",
+      "canonical": "managed hosting",
+      "kind": "descriptive_concept",
+      "start": 751.33,
+      "end": 754.19,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Gmail",
+      "surface": "Gmail",
+      "canonical": "Gmail",
+      "kind": "product",
+      "start": 759.31,
+      "end": 759.69,
+      "source_models": [
+        "local_ivrit_turbo",
+        "local_whisper_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Google Calendar",
+      "surface": "Calendar",
+      "canonical": "Google Calendar",
+      "kind": "product",
+      "start": 759.83,
+      "end": 760.03,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Google Drive",
+      "surface": "Drive",
+      "canonical": "Google Drive",
+      "kind": "product",
+      "start": 760.03,
+      "end": 760.73,
+      "source_models": [
+        "local_ivrit_turbo"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "dependency",
+      "surface": "dependency",
+      "canonical": "dependency",
+      "kind": "other",
+      "start": 486,
+      "end": 487,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "multi tenant",
+      "surface": "multi tenant",
+      "canonical": "multi tenant",
+      "kind": "other",
+      "start": 505.463188,
+      "end": 506.463188,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "multi tenant",
+      "surface": "multi tenant",
+      "canonical": "multi tenant",
+      "kind": "other",
+      "start": 515.836408,
+      "end": 516.836408,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Hermes",
+      "surface": "Hermes",
+      "canonical": "Hermes",
+      "kind": "other",
+      "start": 507,
+      "end": 508,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "use cases",
+      "surface": "use cases",
+      "canonical": "use cases",
+      "kind": "other",
+      "start": 518.424891,
+      "end": 519.424891,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "use cases",
+      "surface": "use cases",
+      "canonical": "use cases",
+      "kind": "other",
+      "start": 545,
+      "end": 546,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "container",
+      "surface": "container",
+      "canonical": "container",
+      "kind": "other",
+      "start": 559,
+      "end": 560,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "container",
+      "surface": "container",
+      "canonical": "container",
+      "kind": "other",
+      "start": 568,
+      "end": 569,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "container",
+      "surface": "container",
+      "canonical": "container",
+      "kind": "other",
+      "start": 569.734566,
+      "end": 570.734566,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "container",
+      "surface": "container",
+      "canonical": "container",
+      "kind": "other",
+      "start": 779,
+      "end": 780,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "process",
+      "surface": "process",
+      "canonical": "process",
+      "kind": "other",
+      "start": 561,
+      "end": 562,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "process",
+      "surface": "process",
+      "canonical": "process",
+      "kind": "other",
+      "start": 594.082613,
+      "end": 595.082613,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "preserved data",
+      "surface": "preserved",
+      "canonical": "preserved data",
+      "kind": "other",
+      "start": 577.455335,
+      "end": 578.455335,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "HTTP network",
+      "surface": "HTTP network",
+      "canonical": "HTTP network",
+      "kind": "other",
+      "start": 667.027322,
+      "end": 668.027322,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "header",
+      "surface": "header",
+      "canonical": "header",
+      "kind": "other",
+      "start": 672.099316,
+      "end": 673.099316,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "authorization",
+      "surface": "authorization",
+      "canonical": "authorization",
+      "kind": "other",
+      "start": 672.958476,
+      "end": 673.958476,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Google Workspace",
+      "surface": "Google Workspace",
+      "canonical": "Google Workspace",
+      "kind": "other",
+      "start": 700.901032,
+      "end": 701.901032,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Log in with Google",
+      "surface": "Log in with Google",
+      "canonical": "Log in with Google",
+      "kind": "other",
+      "start": 705.306247,
+      "end": 706.306247,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "coupled",
+      "surface": "coupled",
+      "canonical": "coupled",
+      "kind": "other",
+      "start": 712.6801,
+      "end": 713.6801,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "harness",
+      "surface": "harness",
+      "canonical": "harness",
+      "kind": "other",
+      "start": 727.367757,
+      "end": 728.367757,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Codex",
+      "surface": "Codex",
+      "canonical": "Codex",
+      "kind": "other",
+      "start": 729,
+      "end": 730,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "open source",
+      "surface": "open source",
+      "canonical": "open source",
+      "kind": "other",
+      "start": 749,
+      "end": 750,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "Anthropic",
+      "surface": "Anthropic",
+      "canonical": "Anthropic",
+      "kind": "other",
+      "start": 769.292877,
+      "end": 770.292877,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    },
+    {
+      "term": "vault",
+      "surface": "vault",
+      "canonical": "vault",
+      "kind": "other",
+      "start": 771.46122,
+      "end": 772.46122,
+      "source_models": [
+        "manual"
+      ],
+      "review_status": "verified"
+    }
+  ],
+  "concept_mentions": [
+    {
+      "id": "mention-0001",
+      "turn_id": null,
+      "start_s": 483.96,
+      "end_s": 485.28,
+      "surface": "supply chain security",
+      "canonical": "supply chain security",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0002",
+      "turn_id": null,
+      "start_s": 489.4,
+      "end_s": 489.86,
+      "surface": "code review",
+      "canonical": "code review",
+      "kind": "technical_practice",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0003",
+      "turn_id": null,
+      "start_s": 491,
+      "end_s": 492.04,
+      "surface": "security best practices",
+      "canonical": "security best practices",
+      "kind": "technical_practice",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0004",
+      "turn_id": null,
+      "start_s": 504.46,
+      "end_s": 504.74,
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0005",
+      "turn_id": null,
+      "start_s": 527.26,
+      "end_s": 527.8,
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0006",
+      "turn_id": null,
+      "start_s": 714.78,
+      "end_s": 715.22,
+      "surface": "NanoClaw",
+      "canonical": "NanoClaw",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0007",
+      "turn_id": null,
+      "start_s": 507.28,
+      "end_s": 507.74,
+      "surface": "OpenClaw",
+      "canonical": "OpenClaw",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0008",
+      "turn_id": null,
+      "start_s": 518.32,
+      "end_s": 518.86,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0009",
+      "turn_id": null,
+      "start_s": 549.74,
+      "end_s": 550.38,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0010",
+      "turn_id": null,
+      "start_s": 553.02,
+      "end_s": 553.26,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0011",
+      "turn_id": null,
+      "start_s": 558.04,
+      "end_s": 558.3,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0012",
+      "turn_id": null,
+      "start_s": 568.64,
+      "end_s": 568.86,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0013",
+      "turn_id": null,
+      "start_s": 608,
+      "end_s": 609,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0014",
+      "turn_id": null,
+      "start_s": 619,
+      "end_s": 620,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0015",
+      "turn_id": null,
+      "start_s": 670.267503,
+      "end_s": 671.267503,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0016",
+      "turn_id": null,
+      "start_s": 723.262792,
+      "end_s": 724.262792,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0017",
+      "turn_id": null,
+      "start_s": 772,
+      "end_s": 773,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0018",
+      "turn_id": null,
+      "start_s": 778,
+      "end_s": 779,
+      "surface": "agent",
+      "canonical": "AI agent",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0019",
+      "turn_id": null,
+      "start_s": 563.42,
+      "end_s": 563.96,
+      "surface": "orchestation",
+      "canonical": "orchestration",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0020",
+      "turn_id": null,
+      "start_s": 577.38,
+      "end_s": 577.92,
+      "surface": "file system",
+      "canonical": "file system",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0021",
+      "turn_id": null,
+      "start_s": 578.2,
+      "end_s": 580.02,
+      "surface": "mounted directory",
+      "canonical": "mounted directory",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0022",
+      "turn_id": null,
+      "start_s": 616.06,
+      "end_s": 616.66,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0023",
+      "turn_id": null,
+      "start_s": 617.9,
+      "end_s": 618.42,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0024",
+      "turn_id": null,
+      "start_s": 631.18,
+      "end_s": 631.74,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0025",
+      "turn_id": null,
+      "start_s": 641.56,
+      "end_s": 641.94,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0026",
+      "turn_id": null,
+      "start_s": 767.41,
+      "end_s": 768.09,
+      "surface": "credentials",
+      "canonical": "credentials",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0027",
+      "turn_id": null,
+      "start_s": 629.54,
+      "end_s": 629.86,
+      "surface": "gateway",
+      "canonical": "credential gateway",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0028",
+      "turn_id": null,
+      "start_s": 634.72,
+      "end_s": 635.54,
+      "surface": "human-in-the-loop approval",
+      "canonical": "human-in-the-loop approval",
+      "kind": "technical_practice",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0029",
+      "turn_id": null,
+      "start_s": 646.66,
+      "end_s": 647.1,
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0030",
+      "turn_id": null,
+      "start_s": 659.34,
+      "end_s": 659.6,
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0031",
+      "turn_id": null,
+      "start_s": 665.24,
+      "end_s": 665.58,
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0032",
+      "turn_id": null,
+      "start_s": 689.54,
+      "end_s": 689.84,
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0033",
+      "turn_id": null,
+      "start_s": 735.05,
+      "end_s": 735.99,
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0034",
+      "turn_id": null,
+      "start_s": 772.39,
+      "end_s": 773.01,
+      "surface": "Onecli",
+      "canonical": "OneCLI",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0035",
+      "turn_id": null,
+      "start_s": 682.84,
+      "end_s": 683.48,
+      "surface": "Composio",
+      "canonical": "Composio",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0036",
+      "turn_id": null,
+      "start_s": 686.78,
+      "end_s": 687.02,
+      "surface": "Auth",
+      "canonical": "OAuth",
+      "kind": "protocol",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0037",
+      "turn_id": null,
+      "start_s": 763.91,
+      "end_s": 764.39,
+      "surface": "Auth",
+      "canonical": "OAuth",
+      "kind": "protocol",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0038",
+      "turn_id": null,
+      "start_s": 699.74,
+      "end_s": 700.18,
+      "surface": "API",
+      "canonical": "API",
+      "kind": "protocol",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0039",
+      "turn_id": null,
+      "start_s": 708.98,
+      "end_s": 709.62,
+      "surface": "refresh token",
+      "canonical": "refresh token",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0040",
+      "turn_id": null,
+      "start_s": 716.26,
+      "end_s": 716.78,
+      "surface": "standalone",
+      "canonical": "standalone",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0041",
+      "turn_id": null,
+      "start_s": 723.46,
+      "end_s": 724.1,
+      "surface": "third-party tools",
+      "canonical": "third-party tools",
+      "kind": "technical_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0042",
+      "turn_id": null,
+      "start_s": 751.33,
+      "end_s": 754.19,
+      "surface": "managed hosted version",
+      "canonical": "managed hosting",
+      "kind": "descriptive_concept",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0043",
+      "turn_id": null,
+      "start_s": 759.31,
+      "end_s": 759.69,
+      "surface": "Gmail",
+      "canonical": "Gmail",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo",
+          "local_whisper_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0044",
+      "turn_id": null,
+      "start_s": 759.83,
+      "end_s": 760.03,
+      "surface": "Calendar",
+      "canonical": "Google Calendar",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0045",
+      "turn_id": null,
+      "start_s": 760.03,
+      "end_s": 760.73,
+      "surface": "Drive",
+      "canonical": "Google Drive",
+      "kind": "product",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "local_ivrit_turbo"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0046",
+      "turn_id": null,
+      "start_s": 486,
+      "end_s": 487,
+      "surface": "dependency",
+      "canonical": "dependency",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0047",
+      "turn_id": null,
+      "start_s": 505.463188,
+      "end_s": 506.463188,
+      "surface": "multi tenant",
+      "canonical": "multi tenant",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0048",
+      "turn_id": null,
+      "start_s": 515.836408,
+      "end_s": 516.836408,
+      "surface": "multi tenant",
+      "canonical": "multi tenant",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0049",
+      "turn_id": null,
+      "start_s": 507,
+      "end_s": 508,
+      "surface": "Hermes",
+      "canonical": "Hermes",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0050",
+      "turn_id": null,
+      "start_s": 518.424891,
+      "end_s": 519.424891,
+      "surface": "use cases",
+      "canonical": "use cases",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0051",
+      "turn_id": null,
+      "start_s": 545,
+      "end_s": 546,
+      "surface": "use cases",
+      "canonical": "use cases",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0052",
+      "turn_id": null,
+      "start_s": 559,
+      "end_s": 560,
+      "surface": "container",
+      "canonical": "container",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0053",
+      "turn_id": null,
+      "start_s": 568,
+      "end_s": 569,
+      "surface": "container",
+      "canonical": "container",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0054",
+      "turn_id": null,
+      "start_s": 569.734566,
+      "end_s": 570.734566,
+      "surface": "container",
+      "canonical": "container",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0055",
+      "turn_id": null,
+      "start_s": 779,
+      "end_s": 780,
+      "surface": "container",
+      "canonical": "container",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0056",
+      "turn_id": null,
+      "start_s": 561,
+      "end_s": 562,
+      "surface": "process",
+      "canonical": "process",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0057",
+      "turn_id": null,
+      "start_s": 594.082613,
+      "end_s": 595.082613,
+      "surface": "process",
+      "canonical": "process",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0058",
+      "turn_id": null,
+      "start_s": 577.455335,
+      "end_s": 578.455335,
+      "surface": "preserved",
+      "canonical": "preserved data",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0059",
+      "turn_id": null,
+      "start_s": 667.027322,
+      "end_s": 668.027322,
+      "surface": "HTTP network",
+      "canonical": "HTTP network",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0060",
+      "turn_id": null,
+      "start_s": 672.099316,
+      "end_s": 673.099316,
+      "surface": "header",
+      "canonical": "header",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0061",
+      "turn_id": null,
+      "start_s": 672.958476,
+      "end_s": 673.958476,
+      "surface": "authorization",
+      "canonical": "authorization",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0062",
+      "turn_id": null,
+      "start_s": 700.901032,
+      "end_s": 701.901032,
+      "surface": "Google Workspace",
+      "canonical": "Google Workspace",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0063",
+      "turn_id": null,
+      "start_s": 705.306247,
+      "end_s": 706.306247,
+      "surface": "Log in with Google",
+      "canonical": "Log in with Google",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0064",
+      "turn_id": null,
+      "start_s": 712.6801,
+      "end_s": 713.6801,
+      "surface": "coupled",
+      "canonical": "coupled",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0065",
+      "turn_id": null,
+      "start_s": 727.367757,
+      "end_s": 728.367757,
+      "surface": "harness",
+      "canonical": "harness",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0066",
+      "turn_id": null,
+      "start_s": 729,
+      "end_s": 730,
+      "surface": "Codex",
+      "canonical": "Codex",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0067",
+      "turn_id": null,
+      "start_s": 749,
+      "end_s": 750,
+      "surface": "open source",
+      "canonical": "open source",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0068",
+      "turn_id": null,
+      "start_s": 769.292877,
+      "end_s": 770.292877,
+      "surface": "Anthropic",
+      "canonical": "Anthropic",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    },
+    {
+      "id": "mention-0069",
+      "turn_id": null,
+      "start_s": 771.46122,
+      "end_s": 772.46122,
+      "surface": "vault",
+      "canonical": "vault",
+      "kind": "other",
+      "concept_id": null,
+      "aliases": [],
+      "review_status": "verified",
+      "provenance": {
+        "models": [
+          "manual"
+        ],
+        "timestamp_alignment": "human_checked_review"
+      }
+    }
+  ],
+  "review_notes": "Term-only listening review; Hebrew CER and diarization require separate references.",
+  "review_timestamp": "2026-10-12T07:17:28.441Z"
+}
