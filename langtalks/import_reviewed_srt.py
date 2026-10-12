@@ -162,6 +162,20 @@ def main(argv=None):
     (args.out_dir / f"{stem}.transcript.md").write_text(
         render_markdown(result), encoding="utf-8"
     )
+    if args.full_audio_reviewed and ref is not None:
+        # The human-checked full bilingual text enables the previously
+        # unscorable Hebrew CER and Latin-script fidelity diagnostics.
+        # Create a NEW reference copy: never overwrite the original annotations.
+        updated_reference = copy.deepcopy(ref)
+        updated_reference["reference_text"] = " ".join(
+            turn["text"] for turn in result["turns"]
+        )
+        updated_reference["transcript_review_status"] = "approved"
+        updated_reference["transcript_review_source"] = "human_corrected_SRT"
+        (args.out_dir / f"{stem}.scoring-reference.json").write_text(
+            json.dumps(updated_reference, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
     print(f"Exported {len(result['turns'])} timed turns and "
           f"{len(result['concept_mentions'])} separately reviewed concepts")
 
