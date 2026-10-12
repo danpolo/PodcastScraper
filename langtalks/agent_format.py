@@ -183,6 +183,61 @@ def from_asr(asr, proposal=None, *, source_urls=None):
     return draft
 
 
+def _apply_explicit_speech_corrections(turns, reference):
+    """Correct only unambiguous, user-confirmed lexical ASR mistakes.
+
+    This is deliberately NOT a generic canonical-name rewrite. A semantic
+    alias is not evidence that the speaker uttered that word. Currently the
+    supported correction is the user's explicit confirmation that all six
+    OneCLI mentions were spoken as OneCLI, although ASR wrote 1.cli/1.Cלי.
+    """
+    verified = [
+        item for item in (reference.get("verified_occurrences") or [])
+        if item.get("review_status") == "verified"
+        and item.get("speaker_correction_source") == "user_explicit_confirmation"
+        and item.get("surface") == "OneCLI"
+    ]
+    if not verified:
+        return []
+    edits = []
+    pattern = re.compile(
+        r"(?<!\w)(?:1\.[cC][lL][iI]|1\.[cC]לי|Onecli)(?!\w)",
+        flags=re.IGNORECASE,
+    )
+    for turn in turns:
+        instances = sorted(
+            [o for o in verified if
+             float(turn["start_s"])-1 <= float(o["start"]) <= float(turn["end_s"])+1],
+            key=lambda o: float(o["start"])
+        )
+        if not instances:
+            continue
+        matches = list(pattern.finditer(turn["text"]))
+        if len(matches) != len(instances):
+            edits.append({
+                "turn_id": turn["id"], "status": "skipped_ambiguous_alignment",
+                "expected": len(instances), "observed": len(matches),
+            })
+            continue
+        old_text = turn["text"]
+        turn["text"] = pattern.sub("OneCLI", old_text)
+        turn["original_asr_text"] = old_text
+        turn["text_edits"] = [
+            {
+                "at_s": float(instances[i]["start"]),
+                "from_asr": match.group(0),
+                "to_reviewed": "OneCLI",
+                "evidence": "user_explicit_audio_confirmation",
+            }
+            for i, match in enumerate(matches)
+        ]
+        edits.append({
+            "turn_id": turn["id"], "status": "corrected",
+            "count": len(matches),
+        })
+    return edits
+
+
 def apply_reference(doc, reference):
     """Overlay user-reviewed terminology without modifying spoken transcript.
 
@@ -239,6 +294,9 @@ def apply_reference(doc, reference):
         result["concept_mentions"] = new_mentions
         result["provenance"]["editorial_review"] = "terminology_approved_only"
         result["provenance"]["reference_review_status"] = "approved"
+        result["provenance"]["explicit_text_corrections"] = (
+            _apply_explicit_speech_corrections(result["turns"], reference)
+        )
     else:
         result["provenance"]["reference_review_status"] = "pending"
     validate(result)
