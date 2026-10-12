@@ -209,6 +209,13 @@ def apply_reference(doc, reference):
         kind = src.get("kind", "other")
         if not phrase or not canonical or kind not in KINDS:
             raise ValueError("Invalid reviewed technical concept")
+        # Approval of a reference's spoken terminology must not automatically
+        # approve a *new* editorial semantic merge, inferred canonicalization,
+        # or individually unreviewed occurrence. Preserve the local status.
+        occurrence_status = src.get("review_status", "verified")
+        if occurrence_status not in STATUSES:
+            raise ValueError("Invalid reference concept review status")
+        provenance = src.get("provenance") or {}
         new_mentions.append({
             "id": f"mention-{len(new_mentions)+1:04d}",
             "turn_id": _turn_for_time(result["turns"], a),
@@ -216,11 +223,15 @@ def apply_reference(doc, reference):
             "surface": phrase, "canonical": canonical,
             "concept_id": src.get("concept_id"),
             "aliases": src.get("aliases") or [],
-            "kind": kind, "review_status": "verified",
+            "kind": kind, "review_status": occurrence_status,
             "provenance": {
-                "models": src.get("source_models") or
-                          (src.get("provenance") or {}).get("models") or [],
-                "human_review": "audio_listening_approved",
+                "models": src.get("source_models") or provenance.get("models") or [],
+                "human_review": (
+                    "audio_listening_approved"
+                    if occurrence_status == "verified" else "not_yet_approved"
+                ),
+                "semantic_classification": provenance.get("semantic_classification"),
+                "editorial_note": provenance.get("editorial_note"),
             },
         })
     if approved:
