@@ -19,6 +19,8 @@ jobs:
           persist-credentials: true
       - uses: actions/setup-python@v5
         with: {python-version: "3.11"}
+      - name: Install dependencies for the complete regression suite
+        run: pip install -r requirements.txt
       - name: Retrieve existing no-cost ivrit.ai ASR draft from earlier run
         uses: actions/download-artifact@v4
         with:
