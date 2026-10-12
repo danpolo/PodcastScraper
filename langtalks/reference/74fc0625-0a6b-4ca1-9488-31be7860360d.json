@@ -2326,7 +2326,7 @@
       }
     }
   ],
-  "review_notes": "Term-only listening review; Hebrew CER and diarization require separate references.\nEditorial reconciliation: corrected all six OneCLI spoken surfaces per explicit user feedback; saved original model surfaces. Classified manually added expressions, retained all 69 approved occurrences, excluded nontechnical English from concept index, and proposed an unapproved Authorization-header composite. Hebrew loanword and manual timestamp precision must be checked separately for exact ASR scoring.\nStrict Latin-script benchmark exclusions: agent (generic), container and multi tenant (Hebrewized in part), Auth (ambiguous vs OAuth). These are still stored as approved concept occurrences; only the strict English-spelling metric excludes them.\nTranscript review 2026-10-12: user finished reviewing and correcting the full five-minute SRT, including בruntime at relative 01:53.98-01:57.50. Runtime is added as a verified technical concept; exact word-level bounds are an estimate inside the reviewed subtitle cue. Reference_text is the concatenated user-corrected SRT (not the original ASR).\nFollow-up correction: normalized the named project Hermes from הרמז, corrected separation to ובידוד, and provisionally interpreted Sum as some (still needs audio confirmation). The original submitted SRT is separately archived.",
+  "review_notes": "Term-only listening review; Hebrew CER and diarization require separate references.\nEditorial reconciliation: corrected all six OneCLI spoken surfaces per explicit user feedback; saved original model surfaces. Classified manually added expressions, retained all 69 approved occurrences, excluded nontechnical English from concept index, and proposed an unapproved Authorization-header composite. Hebrew loanword and manual timestamp precision must be checked separately for exact ASR scoring.\nStrict Latin-script benchmark exclusions: agent (generic), container and multi tenant (Hebrewized in part), Auth (ambiguous vs OAuth). These are still stored as approved concept occurrences; only the strict English-spelling metric excludes them.\nTranscript review 2026-10-12: user finished reviewing and correcting the full five-minute SRT, including בruntime at relative 01:53.98-01:57.50. Runtime is added as a verified technical concept; exact word-level bounds are an estimate inside the reviewed subtitle cue. Reference_text is the concatenated user-corrected SRT (not the original ASR).\nFollow-up correction: normalized the named project Hermes from הרמז, corrected separation to ובידוד, and provisionally interpreted Sum as some (still needs audio confirmation). The original submitted SRT is separately archived.\n2026-10-12: User explicitly confirmed the word 'some' at about 00:08; all 59 corrected transcript cues can now be treated as reviewed.",
   "review_timestamp": "2026-10-12T07:17:28.441Z",
   "all_verified_english_expressions": [
     "supply chain security",
@@ -2414,7 +2414,7 @@
       "reason": "The ASR wrote Auth and the user indexed OAuth, but the exact spoken orthographic form needs specific confirmation before strict script scoring."
     }
   ],
-  "transcript_review_status": "approved_with_open_questions",
+  "transcript_review_status": "approved",
   "transcript_review_source": "langtalks/reference/transcripts/74fc0625-0a6b-4ca1-9488-31be7860360d.reviewed.srt",
   "transcript_review_window": {
     "start": 480,
@@ -2422,26 +2422,15 @@
     "cues": 59,
     "relative_srt_timing": true
   },
-  "transcript_uncertainties": [
-    {
-      "kind": "spoken_english_word",
-      "original": "Sum",
-      "proposed": "some",
-      "clip_start_s": 5.48,
-      "clip_end_s": 12.04,
-      "episode_start_s": 485.48,
-      "episode_end_s": 492.04,
-      "review_status": "needs_review",
-      "reason": "Context suggests 'some security best practices'; listener stated spelling uncertain. Do not claim acoustically verified."
-    }
-  ],
+  "transcript_uncertainties": [],
   "user_followup_corrections": [
     {
       "clip_s": 8,
       "asr": "Sum",
       "current": "some",
-      "review_status": "provisional",
-      "target": "transcript"
+      "review_status": "user_confirmed",
+      "target": "transcript",
+      "reason": "User explicitly confirmed 'some' from audio."
     },
     {
       "clip_s": 26,
