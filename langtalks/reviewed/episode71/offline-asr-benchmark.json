@@ -10,16 +10,16 @@
     "Five-minute single-episode sample; not representative of all Hebrew podcasts.",
     "Hebrew accuracy measures Hebrew-character edit distance only.",
     "User-reviewed transcript may retain some ASR mistakes; scores are relative to that reference.",
-    "Precision and tokenization metrics are secondary; use Hebrew and exact English term recall."
+    "Precision and tokenization metrics are secondary; use Hebrew and exact English term recall.",
+    "Earlier initial benchmark inadvertently scored term precision against a glossary made only from reference terms, which cannot identify external false-positive terms. That tautological 100% precision and its weighted overall have been removed."
   ],
   "no_paid_api_called": true,
   "models": {
     "local_ivrit_turbo": {
-      "overall": 0.7614083241333801,
+      "overall": null,
       "metrics": {
         "term_recall": 0.5588235294117647,
         "hebrew_accuracy": 0.9716520039100685,
-        "term_precision": 1.0,
         "script_fidelity": 0.8460260462345484
       },
       "latin_ratio": 0.1621,
@@ -108,11 +108,11 @@
           },
           {
             "term": "dependency",
-            "at_s": 486.0
+            "at_s": 486
           },
           {
             "term": "Hermes",
-            "at_s": 507.0
+            "at_s": 507
           },
           {
             "term": "process",
@@ -140,11 +140,11 @@
           },
           {
             "term": "Codex",
-            "at_s": 729.0
+            "at_s": 729
           },
           {
             "term": "open source",
-            "at_s": 749.0
+            "at_s": 749
           },
           {
             "term": "Anthropic",
@@ -163,14 +163,15 @@
         "diagnostic_only": true
       },
       "transcript_characters": 3236,
-      "word_tokens": 637
+      "word_tokens": 637,
+      "reported_overall_before_precision_audit": null,
+      "overall_status": "unvalidated_precision_glossary_not_ranked"
     },
     "local_whisper_turbo": {
-      "overall": 0.49785818139885407,
+      "overall": null,
       "metrics": {
         "term_recall": 0.23529411764705882,
         "hebrew_accuracy": 0.7565982404692082,
-        "term_precision": 1.0,
         "script_fidelity": 0.3042107635405942
       },
       "latin_ratio": 0.0583,
@@ -307,15 +308,15 @@
           },
           {
             "term": "dependency",
-            "at_s": 486.0
+            "at_s": 486
           },
           {
             "term": "Hermes",
-            "at_s": 507.0
+            "at_s": 507
           },
           {
             "term": "process",
-            "at_s": 561.0
+            "at_s": 561
           },
           {
             "term": "process",
@@ -347,11 +348,11 @@
           },
           {
             "term": "Codex",
-            "at_s": 729.0
+            "at_s": 729
           },
           {
             "term": "open source",
-            "at_s": 749.0
+            "at_s": 749
           },
           {
             "term": "Anthropic",
@@ -370,7 +371,16 @@
         "diagnostic_only": true
       },
       "transcript_characters": 3036,
-      "word_tokens": 592
+      "word_tokens": 592,
+      "reported_overall_before_precision_audit": null,
+      "overall_status": "unvalidated_precision_glossary_not_ranked"
     }
-  }
+  },
+  "recommended_focus": [
+    "hebrew_accuracy",
+    "term_recall",
+    "script_fidelity",
+    "timed_term_recall_diagnostic"
+  ],
+  "benchmark_stage": "two_free_models_compared_using_reviewed_reference; accuracy_vs_one_clip_only"
 }
