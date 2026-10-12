@@ -70,6 +70,23 @@ class ScoringTests(unittest.TestCase):
         self.assertEqual(result["hallucinated_terms"], [])
         self.assertEqual(result["components"]["term_recall"], 1)
 
+    def test_precision_uses_approved_spoken_words_outside_semantic_index(self):
+        ref = {
+            "review_status": "approved", "terms_exhaustive": True,
+            "technical_terms": ["OneCLI"],
+            "all_verified_english_expressions": ["OneCLI", "agent", "Auth"],
+            "verified_occurrences": [
+                {"surface": "OneCLI", "canonical": "OneCLI", "kind": "product",
+                 "review_status": "verified"},
+                {"surface": "Auth", "canonical": "OAuth", "kind": "protocol",
+                 "review_status": "verified"},
+            ],
+        }
+        output = score("OneCLI OAuth agent", [], ref, ["OneCLI", "OAuth", "agent"])
+        self.assertEqual(output["hallucinated_terms"], [])
+        self.assertEqual(output["components"]["term_precision"], 1.0)
+        self.assertEqual(output["components"]["term_recall"], 1.0)
+
     def test_approved_exhaustive_reference_enables_precision(self):
         result = score("LangGraph NanoClaw", [], {
             "technical_terms": ["LangGraph"], "review_status": "approved",
