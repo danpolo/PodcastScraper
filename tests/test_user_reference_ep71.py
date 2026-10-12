@@ -23,13 +23,28 @@ class UserReferenceTests(unittest.TestCase):
     def test_all_user_reviewed_evidence_preserved(self):
         self.assertTrue(self.reference["review_status"] == "approved")
         self.assertEqual(len(self.original["verified_occurrences"]), 69)
-        self.assertEqual(len(self.reference["verified_occurrences"]), 69)
+        self.assertEqual(len(self.reference["verified_occurrences"]), 70)
         self.assertEqual(self.reference["editorial_summary"]["original_distinct_expressions"], 41)
-        self.assertEqual(len(self.reference["all_verified_english_expressions"]), 41)
+        self.assertEqual(len(self.reference["all_verified_english_expressions"]), 42)
         self.assertEqual(
             sorted(round(x["start"], 4) for x in self.original["verified_occurrences"]),
-            sorted(round(x["start"], 4) for x in self.reference["verified_occurrences"]),
+            sorted(round(x["start"], 4) for x in self.reference["verified_occurrences"]
+                   if x["canonical"] != "runtime"),
         )
+
+    def test_transcript_review_added_runtime_without_rewriting_the_original(self):
+        self.assertEqual(self.reference["transcript_review_status"], "approved")
+        self.assertIn("בruntime", self.reference["reference_text"])
+        self.assertNotIn("runtime", self.original["technical_terms"])
+        occurrences = [
+            o for o in self.reference["verified_occurrences"]
+            if o["canonical"] == "runtime"
+        ]
+        self.assertEqual(len(occurrences), 1)
+        self.assertEqual(occurrences[0]["spoken_context"], "בruntime")
+        self.assertEqual(occurrences[0]["timestamp_precision"],
+                         "approximate_from_reviewed_subtitle_cue")
+        self.assertIn("runtime", self.reference["technical_terms"])
 
     def test_onecli_user_correction_all_six_instances(self):
         occurrences = [
@@ -45,8 +60,8 @@ class UserReferenceTests(unittest.TestCase):
 
     def test_approved_word_doesnt_automatically_verify_editorial_merge(self):
         concepts = self.reference["concept_mentions"]
-        self.assertEqual(len(concepts), 63)
-        self.assertEqual(sum(x["review_status"] == "verified" for x in concepts), 62)
+        self.assertEqual(len(concepts), 64)
+        self.assertEqual(sum(x["review_status"] == "verified" for x in concepts), 63)
         merges = [x for x in concepts if x["canonical"] == "HTTP Authorization header"]
         self.assertEqual(len(merges), 1)
         self.assertEqual(merges[0]["review_status"], "suggested")
@@ -74,7 +89,7 @@ class UserReferenceTests(unittest.TestCase):
         updated = apply_reference(doc, self.reference)
         self.assertEqual(updated["status"], "machine_draft")
         self.assertEqual(updated["turns"][0]["review_status"], "suggested")
-        self.assertEqual(len(updated["concept_mentions"]), 63)
+        self.assertEqual(len(updated["concept_mentions"]), 64)
         self.assertEqual(sum(m["review_status"] == "suggested"
                              for m in updated["concept_mentions"]), 1)
         self.assertEqual(updated["provenance"]["editorial_review"],
