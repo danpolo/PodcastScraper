@@ -49,6 +49,25 @@ class ReviewedSubtitlesTests(unittest.TestCase):
                          ["verified", "suggested"])
         self.assertIn("original_draft_hash", d["provenance"])
 
+    def test_open_lexical_question_is_not_misrepresented_as_verified(self):
+        altered_srt = self.srt.replace("שלום OneCLI", "שלום some")
+        ref = {
+            "episode_guid": "ep", "review_status": "approved",
+            "terms_exhaustive": True,
+            "transcript_uncertainties": [
+                {"kind": "spoken_english_word",
+                 "proposed": "some", "original": "Sum",
+                 "episode_start_s": 480.0, "episode_end_s": 484.0,
+                 "review_status": "needs_review"},
+            ],
+        }
+        output = import_srt(self.draft, altered_srt, reference=ref,
+                            full_audio_reviewed=True)
+        self.assertEqual(output["status"], "human_reviewed_with_open_questions")
+        self.assertEqual(output["turns"][0]["review_status"], "needs_review")
+        self.assertEqual(output["turns"][1]["review_status"], "verified")
+        self.assertEqual(len(output["transcript_uncertainties"]), 1)
+
     def test_without_explicit_approval_transcript_remains_draft(self):
         d = import_srt(self.draft, self.srt, full_audio_reviewed=False)
         self.assertEqual(d["status"], "machine_draft")
