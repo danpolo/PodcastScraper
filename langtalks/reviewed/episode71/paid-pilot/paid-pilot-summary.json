@@ -1,10 +1,223 @@
 {
-  "status": "missing_api_keys_no_paid_requests_sent",
-  "needed_github_action_secrets": [
-    "SONIOX_API_KEY",
-    "GROQ_API_KEY"
+  "guid": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+  "window_original_seconds": [
+    480,
+    780
   ],
-  "approved_audio_seconds": 300,
-  "estimated_two_provider_usage_usd": 0.0176,
-  "next_action": "Configure keys in repository Actions secrets, then manually Run workflow."
+  "duration_seconds": 300.0163265305701,
+  "estimated_usage_total_usd": 0.01758,
+  "actual_cost": "check_provider_dashboard",
+  "billing_limit_note": "Estimate only; no automatic balance hard stop available.",
+  "providers": {
+    "soniox": {
+      "model": "stt-async-v5",
+      "estimated_cost_usd": 0.00833,
+      "status": "failed_no_automatic_retry",
+      "error_type": "RuntimeError",
+      "possible_charge": true
+    },
+    "groq_v3": {
+      "model": "whisper-large-v3",
+      "estimated_cost_usd": 0.00925,
+      "status": "completed",
+      "transcript_characters": 2666,
+      "metrics": {
+        "hebrew_accuracy": 0.6919686581782566,
+        "technical_term_recall": 0.5294117647058824,
+        "script_fidelity": 0.8029184309059734,
+        "timed_term_recall_diagnostic": {
+          "recall": 0.1087,
+          "matched": 5,
+          "total": 46,
+          "missed": [
+            {
+              "term": "supply chain security",
+              "at_s": 483.96
+            },
+            {
+              "term": "NanoClaw",
+              "at_s": 527.26
+            },
+            {
+              "term": "NanoClaw",
+              "at_s": 714.78
+            },
+            {
+              "term": "OpenClaw",
+              "at_s": 507.28
+            },
+            {
+              "term": "orchestration",
+              "at_s": 563.42
+            },
+            {
+              "term": "file system",
+              "at_s": 577.38
+            },
+            {
+              "term": "mounted directory",
+              "at_s": 578.2
+            },
+            {
+              "term": "credentials",
+              "at_s": 631.18
+            },
+            {
+              "term": "credentials",
+              "at_s": 641.56
+            },
+            {
+              "term": "credentials",
+              "at_s": 767.41
+            },
+            {
+              "term": "gateway",
+              "at_s": 629.54
+            },
+            {
+              "term": "human-in-the-loop approval",
+              "at_s": 634.72
+            },
+            {
+              "term": "OneCLI",
+              "at_s": 646.66
+            },
+            {
+              "term": "OneCLI",
+              "at_s": 659.34
+            },
+            {
+              "term": "OneCLI",
+              "at_s": 665.24
+            },
+            {
+              "term": "OneCLI",
+              "at_s": 689.54
+            },
+            {
+              "term": "OneCLI",
+              "at_s": 735.05
+            },
+            {
+              "term": "OneCLI",
+              "at_s": 772.39
+            },
+            {
+              "term": "Composio",
+              "at_s": 682.84
+            },
+            {
+              "term": "API",
+              "at_s": 699.74
+            },
+            {
+              "term": "refresh token",
+              "at_s": 708.98
+            },
+            {
+              "term": "third-party tools",
+              "at_s": 723.46
+            },
+            {
+              "term": "managed hosted version",
+              "at_s": 751.33
+            },
+            {
+              "term": "Gmail",
+              "at_s": 759.31
+            },
+            {
+              "term": "Calendar",
+              "at_s": 759.83
+            },
+            {
+              "term": "Drive",
+              "at_s": 760.03
+            },
+            {
+              "term": "dependency",
+              "at_s": 486.0
+            },
+            {
+              "term": "Hermes",
+              "at_s": 507.0
+            },
+            {
+              "term": "process",
+              "at_s": 561.0
+            },
+            {
+              "term": "process",
+              "at_s": 594.08
+            },
+            {
+              "term": "HTTP network",
+              "at_s": 667.03
+            },
+            {
+              "term": "header",
+              "at_s": 672.1
+            },
+            {
+              "term": "authorization",
+              "at_s": 672.96
+            },
+            {
+              "term": "Google Workspace",
+              "at_s": 700.9
+            },
+            {
+              "term": "Log in with Google",
+              "at_s": 705.31
+            },
+            {
+              "term": "harness",
+              "at_s": 727.37
+            },
+            {
+              "term": "Codex",
+              "at_s": 729.0
+            },
+            {
+              "term": "open source",
+              "at_s": 749.0
+            },
+            {
+              "term": "Anthropic",
+              "at_s": 769.29
+            },
+            {
+              "term": "vault",
+              "at_s": 771.46
+            },
+            {
+              "term": "runtime",
+              "at_s": 596.4
+            }
+          ],
+          "method": "relative_word_or_short_segment_audio_alignment",
+          "diagnostic_only": true
+        }
+      },
+      "missed_terms": [
+        "orchestration",
+        "file system",
+        "mounted directory",
+        "gateway",
+        "human-in-the-loop approval",
+        "refresh token",
+        "dependency",
+        "HTTP network",
+        "Google Workspace",
+        "Log in with Google",
+        "harness",
+        "Codex",
+        "open source",
+        "Anthropic",
+        "vault",
+        "header"
+      ]
+    }
+  },
+  "user_approved": true
 }

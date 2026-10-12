@@ -1,0 +1,235 @@
+{
+  "provider": "groq_v3",
+  "text": " וכל מיני דרווינג כאלה. וגם את ה-supply chain security, מה הדפנדנסי שלי בתוך הפרויקט, והם יש לי code review ו-some security best practices. אז יש לי את הנושא הזה של הבידוד, שאני מבודד את ה-agent מהמכונה שהוא רץ בו, הרבה פעמים זה המכונה שלי, המחשב שלי, אבל כמו שאתה אומר, NanoClaw זה מולטי-טננט, וגם עם OpenClaw והHermes הם לא מוגדרים כמולטי-טננט, הרבה מהיוזרים משתמשים בהם בצורה שהוא יותר מולטי-טננט זאת אומרת יש לי כמה use cases, כמה agentים ואני רוצה שיהיה איזושהי הפרדה ובידוד בין ה-agentים אבל הוא לא נותן לך את זה ברמה של האקטקטורה ואתם גדרתם את זה כאילו עם איזושהי מערכת שכאילו בזכות קונטיינרים שהם בעצם מייצרים הפרדה ברמת מערכת הפעלה נכון? ספרתי פעם רגע על מה עשיתם באמת ומה הטרייד אופים שלקחתם שם. מונחים באנגלית ותוכנה. מונחים באנגלית ותוכנה. Case agent agent agent agent process ל-agent הנכון, ומרים container, מריצ את ה-agent בתוך ה-container, אחרי איזשהו פרק זמן שה-agent לא עול, מוריד את ה-container, אבל הדאטה היא מונחת, זה בפייל סיסט, יש מענקת דירקטורי שהדאטה, גם הארטפקטים שעדנית מייצר וגם ההודעות וזה נותן לך בידוד ברמה של המערכת הפעלה ולא ברמה של פרוסססים וזה שאני מנסה לתפוס איזושהי פעולה שעדנית עושה ב-Runtime אז זה בידוד, זה חלק אחד והדבר השלישי זה בעצם לתת לאג'נט גישה לדאטה ולפעולות רגישות בצורה מובטחת זה אומר בעצם לנהל את כל הסיפור של ה-credentials, לא לחשוף את ה-credentials לאג'נט agent approvals human and loop approvals אז בהקשר הזה של credentials באמת, אתם, כאילו, בננו-קלו המימוש הוא עם OneCLI, שזה איזה third party כזה שיש לכם איתו איזה partnership, נכון? אני מדבר עכשיו גם בקובע של user שנהנה מהחיבור הזה. כי מה שאני אוהב ב-OneCLI זה גם באמת שהאג'נט, כאילו אין לי על המכונה שום קרדנציאל. בעצם OneCLI עוטף את כל ה-HTTP נטוורק של האג'נט שלי ומוסיף עליו את ההדר של ה-authorization שהוא צריך. אז המכונה שלי היא כאילו מאוד נקייה מהבחינה הזאת. ושתיים, שזה גם ממש נחמד, כמו ב-Composio, למי שמכיר, אני מקבל לעשות אותנטיקציה עם OAuth, אז גם OneCLI יודע לטפל בכאילו כמה אקאונטים אם אני צריך, יש לי שני ג'ימילים או משהו בסגנון. API login with Google nice token והוא לא coupled באיזושהי צורה as far as I know ל-NanoClaw, אז כאילו גם כ-standalone פתרון לאותנטיקציה זה נראה לי אחלה. זה בעצם פותר לכם את האותנטיקציה של האג'נט עם third party tools, אבל איך אתם פותרים את האותנטיקציה של ה-Hermes עצמו? מול כל ה... מול קודקס, מול כל החברים שלנו. אז זה גם דרך OneCLI, שזה אחלה פרויקט, יש לנו פארטנר שמוטוב, חיר טובים, ג'ונתן פישנר וגיא בן-אהרון. גם פרויקט ישראלי, כחול לבן, פרויקט אופן סורס, יש להם גם managed hosted version, שיש סופר נוח לי, מה שאמרת, אתה יכול לחבר את ה-Gmail, calendar, drive והמון אפליקציות ב-OAuth אבל בעצם גם ה-credentials של אנתרופיק גם יושבים באותו וולט של האג'נט של OneCLI בעצם כל הבקשות שיוצאות מהסביבה של האג'נט, מה-container",
+  "tokens": [
+    {
+      "text": " וכל מיני דרווינג כאלה. וגם את ה-supply chain security, מה הדפנדנסי שלי בתוך הפרויקט,",
+      "start": 480.0,
+      "end": 487.5,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " והם יש לי code review ו-some security best practices.",
+      "start": 488.1,
+      "end": 492.26,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " אז יש לי את הנושא הזה של הבידוד, שאני מבודד את ה-agent מהמכונה שהוא רץ בו, הרבה פעמים זה המכונה שלי,",
+      "start": 492.66,
+      "end": 501.2,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " המחשב שלי, אבל כמו שאתה אומר, NanoClaw זה מולטי-טננט,",
+      "start": 501.8,
+      "end": 505.76,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " וגם עם OpenClaw והHermes הם לא מוגדרים כמולטי-טננט, הרבה מהיוזרים משתמשים בהם בצורה שהוא יותר מולטי-טננט",
+      "start": 505.76,
+      "end": 515.76,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " זאת אומרת יש לי כמה use cases, כמה agentים ואני רוצה שיהיה איזושהי הפרדה ובידוד בין ה-agentים אבל הוא לא נותן לך את זה ברמה של האקטקטורה",
+      "start": 515.76,
+      "end": 525.76,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " ואתם גדרתם את זה כאילו עם איזושהי מערכת שכאילו בזכות קונטיינרים שהם בעצם מייצרים הפרדה ברמת מערכת הפעלה נכון?",
+      "start": 525.76,
+      "end": 535.72,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " ספרתי פעם רגע על מה עשיתם באמת ומה הטרייד אופים שלקחתם שם.",
+      "start": 535.72,
+      "end": 541.8,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " מונחים באנגלית ותוכנה. מונחים באנגלית ותוכנה.",
+      "start": 541.8,
+      "end": 542.8,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " Case agent agent agent agent process",
+      "start": 542.8,
+      "end": 565.104,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " ל-agent הנכון, ומרים container, מריצ את ה-agent בתוך ה-container, אחרי איזשהו פרק זמן שה-agent לא עול, מוריד את ה-container,",
+      "start": 565.104,
+      "end": 575.644,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " אבל הדאטה היא מונחת, זה בפייל סיסט, יש מענקת דירקטורי שהדאטה, גם הארטפקטים שעדנית מייצר וגם ההודעות",
+      "start": 575.644,
+      "end": 586.104,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " וזה נותן לך בידוד ברמה של המערכת הפעלה ולא ברמה של פרוסססים וזה שאני מנסה לתפוס איזושהי פעולה שעדנית עושה ב-Runtime",
+      "start": 587.104,
+      "end": 597.724,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " אז זה בידוד, זה חלק אחד והדבר השלישי זה בעצם לתת לאג'נט גישה לדאטה ולפעולות רגישות בצורה מובטחת",
+      "start": 597.724,
+      "end": 613.724,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " זה אומר בעצם לנהל את כל הסיפור של ה-credentials, לא לחשוף את ה-credentials לאג'נט",
+      "start": 613.724,
+      "end": 618.724,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " agent approvals human and loop approvals",
+      "start": 618.724,
+      "end": 640.728,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " אז בהקשר הזה של credentials באמת, אתם, כאילו, בננו-קלו המימוש הוא עם OneCLI,",
+      "start": 640.728,
+      "end": 647.208,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " שזה איזה third party כזה שיש לכם איתו איזה partnership, נכון? אני מדבר עכשיו גם בקובע של user",
+      "start": 647.208,
+      "end": 654.768,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " שנהנה מהחיבור הזה. כי מה שאני אוהב ב-OneCLI זה גם באמת שהאג'נט, כאילו אין לי על המכונה שום קרדנציאל.",
+      "start": 654.768,
+      "end": 664.128,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " בעצם OneCLI עוטף את כל ה-HTTP נטוורק של האג'נט שלי ומוסיף עליו את ההדר של ה-authorization שהוא צריך.",
+      "start": 664.128,
+      "end": 674.368,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " אז המכונה שלי היא כאילו מאוד נקייה מהבחינה הזאת.",
+      "start": 674.368,
+      "end": 679.368,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " ושתיים, שזה גם ממש נחמד, כמו ב-Composio, למי שמכיר, אני מקבל לעשות אותנטיקציה עם OAuth,",
+      "start": 679.368,
+      "end": 687.368,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " אז גם OneCLI יודע לטפל בכאילו כמה אקאונטים אם אני צריך, יש לי שני ג'ימילים או משהו בסגנון.",
+      "start": 687.368,
+      "end": 694.368,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " API login with Google nice token",
+      "start": 694.368,
+      "end": 710.772,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " והוא לא coupled באיזושהי צורה as far as I know ל-NanoClaw, אז כאילו גם כ-standalone פתרון לאותנטיקציה זה נראה לי אחלה.",
+      "start": 711.852,
+      "end": 719.612,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " זה בעצם פותר לכם את האותנטיקציה של האג'נט עם third party tools, אבל איך אתם פותרים את האותנטיקציה של ה-Hermes עצמו?",
+      "start": 719.692,
+      "end": 728.092,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " מול כל ה... מול קודקס, מול כל החברים שלנו.",
+      "start": 728.092,
+      "end": 732.092,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " אז זה גם דרך OneCLI, שזה אחלה פרויקט, יש לנו פארטנר שמוטוב, חיר טובים,",
+      "start": 733.092,
+      "end": 741.092,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " ג'ונתן פישנר וגיא בן-אהרון. גם פרויקט ישראלי, כחול לבן, פרויקט אופן סורס, יש להם גם managed hosted version,",
+      "start": 741.092,
+      "end": 754.092,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " שיש סופר נוח לי, מה שאמרת, אתה יכול לחבר את ה-Gmail, calendar, drive והמון אפליקציות ב-OAuth",
+      "start": 754.092,
+      "end": 764.532,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " אבל בעצם גם ה-credentials של אנתרופיק גם יושבים באותו וולט של האג'נט של OneCLI",
+      "start": 764.532,
+      "end": 773.452,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": " בעצם כל הבקשות שיוצאות מהסביבה של האג'נט, מה-container",
+      "start": 773.452,
+      "end": 780.012,
+      "speaker": null,
+      "confidence": null
+    }
+  ],
+  "episode_guid": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+  "source": "excerpt",
+  "time_offset": 480,
+  "model": "whisper-large-v3",
+  "pilot_permission": "one_shot_2026_10_12"
+}
