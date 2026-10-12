@@ -136,6 +136,59 @@ def term_precision(candidate: str, terms: list, glossary: list = None) -> tuple:
     return 1.0 - len(invented) / len(emitted), sorted(invented)
 
 
+def timed_term_recall(tokens: list, reference: dict, tolerance: float = 1.5):
+    """Diagnostic: count recognition of EACH user-reviewed term appearance.
+
+    The old term_recall() only checks whether a term appeared *anywhere*.
+    With six OneCLI occurrences a model recognizing only one could misleadingly
+    score 100% on that term. This opt-in diagnostic uses absolute episode time.
+
+    Word-level or short-segment timestamps are required; long segment timing is
+    too coarse to verify individual mentions. The score remains diagnostic
+    (not part of weighted provider rankings) until different adapters' timing
+    fidelity has been validated.
+    """
+    terms = set(reference.get("technical_terms") or [])
+    appearances = [
+        occ for occ in (reference.get("verified_occurrences") or [])
+        if occ.get("surface") in terms and
+        occ.get("review_status") == "verified"
+    ]
+    candidates = []
+    for token in tokens or []:
+        a, b = token.get("start"), token.get("end")
+        if a is None or b is None:
+            continue
+        try:
+            a, b = float(a), float(b)
+        except (TypeError, ValueError):
+            continue
+        if a < 0 or b < a or b - a > 6.0:
+            continue  # no false precision from coarse paragraph segments
+        candidates.append((a, b, str(token.get("text", ""))))
+    if not appearances or not candidates:
+        return None
+    matches, misses = [], []
+    for occ in appearances:
+        start, end = float(occ["start"]), float(occ["end"])
+        nearby = [text for a, b, text in candidates
+                  if b >= start - tolerance and a <= end + tolerance]
+        observed = "".join(nearby)
+        if _has_term(_normalize(observed), occ["surface"]):
+            matches.append({"term": occ["surface"], "at_s": round(start, 2)})
+        else:
+            misses.append({"term": occ["surface"], "at_s": round(start, 2)})
+    total = len(appearances)
+    return {
+        "recall": round(len(matches) / total, 4),
+        "matched": len(matches),
+        "total": total,
+        "missed": misses,
+        "method": "relative_word_or_short_segment_audio_alignment",
+        "diagnostic_only": True,
+    }
+
+
 def hebrew_accuracy(candidate: str, reference_text: str) -> float:
     """1 - CER over Hebrew characters only.
 
@@ -241,6 +294,7 @@ def score(candidate_text: str, tokens: list, reference: dict, glossary: list = N
         "terms_missed": missed,
         "hallucinated_terms": invented[:40],
         "latin_ratio": round(_latin_ratio(candidate_text), 4),
+        "timed_term_recall": timed_term_recall(tokens, reference),
     }
 
 
