@@ -5,22 +5,36 @@
     780
   ],
   "reference": "user-reviewed full bilingual SRT + approved technical concepts",
+  "reference_review_status": "approved_with_open_questions",
+  "unconfirmed_wording": [
+    {
+      "kind": "spoken_english_word",
+      "original": "Sum",
+      "proposed": "some",
+      "clip_start_s": 5.48,
+      "clip_end_s": 12.04,
+      "episode_start_s": 485.48,
+      "episode_end_s": 492.04,
+      "review_status": "needs_review",
+      "reason": "Context suggests 'some security best practices'; listener stated spelling uncertain. Do not claim acoustically verified."
+    }
+  ],
   "timestamp_accuracy_caveat": "Per-occurrence ASR word alignment is a diagnostic, not a validated fair score.",
   "metric_caveats": [
     "Five-minute single-episode sample; not representative of all Hebrew podcasts.",
     "Hebrew accuracy measures Hebrew-character edit distance only.",
     "User-reviewed transcript may retain some ASR mistakes; scores are relative to that reference.",
-    "Precision and tokenization metrics are secondary; use Hebrew and exact English term recall.",
-    "Earlier initial benchmark inadvertently scored term precision against a glossary made only from reference terms, which cannot identify external false-positive terms. That tautological 100% precision and its weighted overall have been removed."
+    "Precision/overall excluded from rankings until the broad dictionary and false-positive labels are independently validated."
   ],
   "no_paid_api_called": true,
   "models": {
     "local_ivrit_turbo": {
       "overall": null,
+      "overall_status": "not_ranked_precision_vocabulary_unvalidated",
       "metrics": {
         "term_recall": 0.5588235294117647,
-        "hebrew_accuracy": 0.9716520039100685,
-        "script_fidelity": 0.8460260462345484
+        "hebrew_accuracy": 0.9691478942213516,
+        "script_fidelity": 0.8349776194391156
       },
       "latin_ratio": 0.1621,
       "terms_missed": [
@@ -108,11 +122,11 @@
           },
           {
             "term": "dependency",
-            "at_s": 486
+            "at_s": 486.0
           },
           {
             "term": "Hermes",
-            "at_s": 507
+            "at_s": 507.0
           },
           {
             "term": "process",
@@ -140,11 +154,11 @@
           },
           {
             "term": "Codex",
-            "at_s": 729
+            "at_s": 729.0
           },
           {
             "term": "open source",
-            "at_s": 749
+            "at_s": 749.0
           },
           {
             "term": "Anthropic",
@@ -163,35 +177,28 @@
         "diagnostic_only": true
       },
       "transcript_characters": 3236,
-      "word_tokens": 637,
-      "reported_overall_before_precision_audit": null,
-      "overall_status": "unvalidated_precision_glossary_not_ranked"
+      "word_tokens": 637
     },
     "local_whisper_turbo": {
       "overall": null,
+      "overall_status": "not_ranked_precision_vocabulary_unvalidated",
       "metrics": {
-        "term_recall": 0.23529411764705882,
-        "hebrew_accuracy": 0.7565982404692082,
-        "script_fidelity": 0.3042107635405942
+        "term_recall": 0.4411764705882353,
+        "hebrew_accuracy": 0.7894221351616063,
+        "script_fidelity": 0.7659025968900466
       },
-      "latin_ratio": 0.0583,
+      "latin_ratio": 0.2396,
       "terms_missed": [
         "orchestration",
         "file system",
         "mounted directory",
-        "credentials",
-        "gateway",
         "human-in-the-loop approval",
         "OneCLI",
         "Composio",
-        "refresh token",
-        "third-party tools",
+        "managed hosted version",
         "Calendar",
         "Drive",
-        "dependency",
-        "Hermes",
         "process",
-        "HTTP network",
         "Google Workspace",
         "Log in with Google",
         "harness",
@@ -200,7 +207,6 @@
         "Anthropic",
         "vault",
         "header",
-        "authorization",
         "runtime"
       ],
       "terms_found": [
@@ -209,15 +215,26 @@
         "security best practices",
         "NanoClaw",
         "OpenClaw",
+        "credentials",
+        "gateway",
         "API",
-        "managed hosted version",
-        "Gmail"
+        "refresh token",
+        "third-party tools",
+        "Gmail",
+        "dependency",
+        "Hermes",
+        "HTTP network",
+        "authorization"
       ],
       "timed_term_recall_diagnostic": {
-        "recall": 0.1957,
-        "matched": 9,
+        "recall": 0.3913,
+        "matched": 18,
         "total": 46,
         "missed": [
+          {
+            "term": "NanoClaw",
+            "at_s": 527.26
+          },
           {
             "term": "NanoClaw",
             "at_s": 714.78
@@ -236,27 +253,7 @@
           },
           {
             "term": "credentials",
-            "at_s": 616.06
-          },
-          {
-            "term": "credentials",
-            "at_s": 617.9
-          },
-          {
-            "term": "credentials",
-            "at_s": 631.18
-          },
-          {
-            "term": "credentials",
-            "at_s": 641.56
-          },
-          {
-            "term": "credentials",
             "at_s": 767.41
-          },
-          {
-            "term": "gateway",
-            "at_s": 629.54
           },
           {
             "term": "human-in-the-loop approval",
@@ -291,12 +288,8 @@
             "at_s": 682.84
           },
           {
-            "term": "refresh token",
-            "at_s": 708.98
-          },
-          {
-            "term": "third-party tools",
-            "at_s": 723.46
+            "term": "managed hosted version",
+            "at_s": 751.33
           },
           {
             "term": "Calendar",
@@ -307,32 +300,16 @@
             "at_s": 760.03
           },
           {
-            "term": "dependency",
-            "at_s": 486
-          },
-          {
-            "term": "Hermes",
-            "at_s": 507
-          },
-          {
             "term": "process",
-            "at_s": 561
+            "at_s": 561.0
           },
           {
             "term": "process",
             "at_s": 594.08
           },
           {
-            "term": "HTTP network",
-            "at_s": 667.03
-          },
-          {
             "term": "header",
             "at_s": 672.1
-          },
-          {
-            "term": "authorization",
-            "at_s": 672.96
           },
           {
             "term": "Google Workspace",
@@ -348,11 +325,11 @@
           },
           {
             "term": "Codex",
-            "at_s": 729
+            "at_s": 729.0
           },
           {
             "term": "open source",
-            "at_s": 749
+            "at_s": 749.0
           },
           {
             "term": "Anthropic",
@@ -370,17 +347,8 @@
         "method": "relative_word_or_short_segment_audio_alignment",
         "diagnostic_only": true
       },
-      "transcript_characters": 3036,
-      "word_tokens": 592,
-      "reported_overall_before_precision_audit": null,
-      "overall_status": "unvalidated_precision_glossary_not_ranked"
+      "transcript_characters": 3331,
+      "word_tokens": 644
     }
-  },
-  "recommended_focus": [
-    "hebrew_accuracy",
-    "term_recall",
-    "script_fidelity",
-    "timed_term_recall_diagnostic"
-  ],
-  "benchmark_stage": "two_free_models_compared_using_reviewed_reference; accuracy_vs_one_clip_only"
+  }
 }
