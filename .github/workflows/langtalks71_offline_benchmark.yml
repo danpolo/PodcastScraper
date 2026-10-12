@@ -1,8 +1,5 @@
 name: Free two-model benchmark against reviewed LangTalks 71
 on:
-  push:
-    branches: [dev]
-    paths: [.github/workflows/langtalks71_offline_benchmark.yml]
   workflow_dispatch:
 permissions:
   contents: write
@@ -60,12 +57,13 @@ jobs:
                   'end':round(w.end+480,2),'speaker':None
               } for s in segments for w in (s.words or [])]
           }
-          wanted=['term_recall','hebrew_accuracy','term_precision','script_fidelity']
+          wanted=['term_recall','hebrew_accuracy','script_fidelity']
           outcomes={}
           for asr in [original,generic]:
-              result=score(asr['text'],asr['tokens'],ref,glossary=ref['technical_terms'])
+              result=score(asr['text'],asr['tokens'],ref,glossary=build(episode))
               outcomes[asr['provider']]={
-                  'overall':result['overall'],
+                  'overall':None,  # Not comparable across models without validated precision vocabulary
+                  'overall_status':'not_ranked_precision_vocabulary_unvalidated',
                   'metrics':{k:result['components'].get(k) for k in wanted},
                   'latin_ratio':result['latin_ratio'],
                   'terms_missed':result['terms_missed'],
@@ -84,7 +82,7 @@ jobs:
                   'Five-minute single-episode sample; not representative of all Hebrew podcasts.',
                   'Hebrew accuracy measures Hebrew-character edit distance only.',
                   'User-reviewed transcript may retain some ASR mistakes; scores are relative to that reference.',
-                  'Precision and tokenization metrics are secondary; use Hebrew and exact English term recall.',
+                  'Precision/overall excluded from rankings until the broad dictionary and false-positive labels are independently validated.',
               ],
               'no_paid_api_called':True,
               'models':outcomes,
