@@ -1,0 +1,10 @@
+{
+  "status": "missing_api_keys_no_paid_requests_sent",
+  "needed_github_action_secrets": [
+    "SONIOX_API_KEY",
+    "GROQ_API_KEY"
+  ],
+  "approved_audio_seconds": 300,
+  "estimated_two_provider_usage_usd": 0.0176,
+  "next_action": "Configure keys in repository Actions secrets, then manually Run workflow."
+}
