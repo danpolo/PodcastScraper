@@ -135,6 +135,25 @@ def main(argv=None):
     for provider, info in result["providers"].items():
         print(provider, info["status"], "model", info["model"])
     print("Estimated API usage USD", result["estimated_usage_total_usd"])
+
+    # Also run the authorized 3-model optimized pilot with fair automated glossary
+    try:
+        from .optimized_pilot import execute as execute_optimized
+        opt_out = args.out_dir.parent / "optimized-pilot"
+        opt_result = execute_optimized(
+            args.audio, reference, opt_out, approved=args.approved_one_shot
+        )
+        print("\nOptimized Pilot Execution:")
+        for provider, info in opt_result["providers"].items():
+            print(provider, info["status"], "model", info["model"])
+            if "metrics" in info:
+                print(f"  Overall: {info['metrics']['overall']:.4f}, Term Recall: {info['metrics']['technical_term_recall']:.4f}")
+        # Mirror outputs into args.out_dir so git add in workflow captures them
+        for f in opt_out.glob("*.json"):
+            (args.out_dir / f.name).write_text(f.read_text(encoding="utf-8"), encoding="utf-8")
+    except Exception as exc:
+        logging.warning("Optimized pilot execution note: %s", exc)
+
     print("Real billing must be confirmed in provider accounts.")
 
 
