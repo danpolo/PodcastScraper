@@ -1,0 +1,55 @@
+name: One-time authorized LangTalks 71 optimized ASR pilot
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  optimized-cloud-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SONIOX_API_KEY: ${{ secrets.SONIOX_API_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Verify credential availability without leaking values
+        run: |
+          if [[ -n "$SONIOX_API_KEY" ]]; then echo "SONIOX_KEY_CONFIGURED=yes"; else echo "SONIOX_KEY_CONFIGURED=no"; fi
+          if [[ -n "$GROQ_API_KEY" ]]; then echo "GROQ_KEY_CONFIGURED=yes"; else echo "GROQ_KEY_CONFIGURED=no"; fi
+      - name: Prepare five-minute audio excerpt
+        if: ${{ env.SONIOX_API_KEY != '' || env.GROQ_API_KEY != '' }}
+        run: |
+          pip install -r requirements.txt
+          python -m langtalks.bench excerpt 71 --start 480 --end 780
+      - name: Submit at most one approved request per configured provider
+        if: ${{ env.SONIOX_API_KEY != '' || env.GROQ_API_KEY != '' }}
+        run: |
+          python -m langtalks.optimized_pilot \
+            --audio langtalks/out/excerpts/74fc0625-0a6b-4ca1-9488-31be7860360d.mp3 \
+            --reference langtalks/reference/74fc0625-0a6b-4ca1-9488-31be7860360d.json \
+            --out-dir langtalks/reviewed/episode71/optimized-pilot \
+            --approved-one-shot
+      - name: Commit summary and raw responses to dev only, never main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add langtalks/reviewed/episode71/optimized-pilot/
+          if ! git diff --cached --quiet; then
+            git commit -m "Record one-time authorized LangTalks 71 optimized ASR pilot results"
+            git push origin HEAD:dev
+          fi
+      - name: Preserve pilot results for direct inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: LangTalks71-optimized-ASR-pilot
+          path: langtalks/reviewed/episode71/optimized-pilot/
+          retention-days: 7
+      - name: Delete temporary audio files
+        if: always()
+        run: rm -rf langtalks/out
