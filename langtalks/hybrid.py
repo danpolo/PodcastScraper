@@ -219,6 +219,7 @@ def extract_latin_donor_phrases(
         for i in range(n_words - length + 1):
             window = words[i : i + length]
             cores = [w.text.strip(".,;:!?()[]{}\"' ") for w in window]
+            cores = [re.sub(r"^[ובהלמכ]-", "", core) for core in cores]
             if (all(re.search(r"[A-Za-z]", c) for c in cores)
                     and all(window[k + 1].start - window[k].end <= 0.70
                             and not window[k].text.rstrip().endswith((".", "!", "?"))
