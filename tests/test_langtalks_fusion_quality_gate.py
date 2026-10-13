@@ -39,3 +39,18 @@ def test_development_gate_fails_on_missing_donor_evidence():
     report["changes"][0]["donor_token_indices"] = []
     with pytest.raises(AssertionError):
         assert_no_development_regression(report)
+
+
+
+def test_development_gate_rejects_repeated_term_loss():
+    report = example()
+    report["revised_hybrid"]["one_to_one_timed_occurrence_diagnostic"]["matched"] = 34
+    with pytest.raises(AssertionError, match="occurrences"):
+        assert_no_development_regression(report)
+
+
+def test_development_gate_rejects_loanword_loss():
+    report = example()
+    report["revised_hybrid"]["known_loanword_recall"]["observed"] = 13
+    with pytest.raises(AssertionError, match="loanwords"):
+        assert_no_development_regression(report)
