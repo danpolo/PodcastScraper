@@ -12,43 +12,7 @@
     "soniox": {
       "model": "stt-async-v5",
       "estimated_cost_usd": 0.00833,
-      "status": "completed",
-      "transcript_characters": 3321,
-      "metrics": {
-        "hebrew_accuracy": 0.8770812928501469,
-        "technical_term_recall": 0.9117647058823529,
-        "script_fidelity": 0.7044256084975711,
-        "timed_term_recall_diagnostic": {
-          "recall": 0.913,
-          "matched": 42,
-          "total": 46,
-          "missed": [
-            {
-              "term": "human-in-the-loop approval",
-              "at_s": 634.72
-            },
-            {
-              "term": "process",
-              "at_s": 594.08
-            },
-            {
-              "term": "Log in with Google",
-              "at_s": 705.31
-            },
-            {
-              "term": "harness",
-              "at_s": 727.37
-            }
-          ],
-          "method": "relative_word_or_short_segment_audio_alignment",
-          "diagnostic_only": true
-        }
-      },
-      "missed_terms": [
-        "human-in-the-loop approval",
-        "Log in with Google",
-        "harness"
-      ]
+      "status": "cached_skipped"
     },
     "groq_v3": {
       "model": "whisper-large-v3",
