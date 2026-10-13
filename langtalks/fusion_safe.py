@@ -164,7 +164,39 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             if (i > 0 and base_tokens[i].get("text", "").startswith("-")
                     and _LATIN.search(base_tokens[i - 1].get("text", ""))):
                 continue
-            if _clean(base_text) == _clean(donor.text):
+            normalized_identical = _clean(base_text) == _clean(donor.text)
+            # Style-only rewriting is forbidden, except canonical internal
+            # capitals of a genuine mixed-case technical identifier.
+            official_mixed_caps = (identity_word and bool(re.search(r"[A-Z]{2,}", donor.text))
+                                   and "-" in base_text.strip().strip("-")
+                                   and not _HEBREW.search(base_text)
+                                   and not base_text.lstrip().startswith("-"))
+            if normalized_identical and not official_mixed_caps:
+                continue
+            if (_LATIN.search(base_text) and donor.min_subword_confidence is not None
+                    and donor.min_subword_confidence < max(min_confidence, 0.72)):
+                continue
+            base_parts = base_text.strip().split()
+            donor_parts = donor.text.strip().split()
+            if len(base_parts) != len(donor_parts):
+                # Only a tightly anchored named entity may consume two
+                # phonetically related Hebrew words; never intervening
+                # conjunctions, fillers, or otherwise correct Latin words.
+                if not (not _LATIN.search(base_text)
+                        and len(base_parts) == 2 and len(donor_parts) == 1
+                        and identity_word and donor.confidence >= 0.97
+                        and not any(w in ("ו", "או", "עם", "של", "זה", "גם", "את")
+                                    for w in base_parts)
+                        and _affix_and_similarity(base_text, donor.text)[1] >= 0.76):
+                    continue
+            if (len(donor_parts) > 1 and _LATIN.search(base_text)
+                    and _HEBREW.search(base_text)
+                    and any(len(w) > 1 for w in re.findall(r"[\u0590-\u05ff]+", base_text))):
+                continue
+            if len(donor.words) > 1 and any(
+                    is_hebrewized_loanword(word.text.strip().strip(".,!"),
+                                          base_text)
+                    for word in donor.words):
                 continue
             if (_protected(base_text, donor.text)
                     and not (entity and donor.confidence >= 0.97
@@ -179,6 +211,14 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             prefix, similarity = _affix_and_similarity(base_text, donor.text)
             threshold = 0.71 if has_latin else (0.52 if identity_word else 0.65 if entity else 0.67)
             if similarity < threshold:
+                continue
+            # A good local word-level match is insufficient when the span
+            # includes an already-correct Latin donor expression plus extras.
+            donor_stem = _clean(donor.text)
+            if (donor_stem and _LATIN.search(base_text)
+                    and re.search(r"(?<![a-z0-9])" + re.escape(donor_stem)
+                                  + r"(?![a-z0-9])", _clean(base_text))
+                    and not official_mixed_caps):
                 continue
             donor_center = (donor.start + donor.end) / 2
             base_center = (start + end) / 2
@@ -210,6 +250,12 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
         trailing = re.search(r"[.,;:!?]+\s*$", original)
         punctuation = trailing.group().rstrip() if trailing else ""
         replacement = leading + prefix + donor.text.strip() + punctuation
+        # A leading dash can join a separately timed Hebrew clitic to its
+        # English stem: ה + -dependency, ב + -OneCLI.
+        if (original.lstrip().startswith("-") and i > 0
+                and base_tokens[i - 1].get("text", "").strip() in _PREFIXES
+                and not prefix):
+            replacement = leading + "-" + donor.text.strip() + punctuation
         if (_clean(original) == _clean(replacement)
                 or original.strip().casefold() == replacement.strip().casefold()):
             continue
