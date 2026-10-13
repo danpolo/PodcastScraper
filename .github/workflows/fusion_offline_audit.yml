@@ -4,6 +4,11 @@ on:
     branches: [dev]
     paths:
       - .github/workflows/fusion_offline_audit.yml
+      - langtalks/strict_occurrence.py
+      - langtalks/fusion_safe.py
+      - langtalks/hybrid.py
+      - tests/test_langtalks_hybrid_v2.py
+      - langtalks/fusion_audit_eval.py
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,6 +27,7 @@ jobs:
       - name: Focused regression suite
         run: python -m pytest -q tests/test_langtalks_hybrid.py tests/test_langtalks_hybrid_v2.py tests/test_langtalks_strict_occurrence.py tests/test_langtalks_scoring.py
       - name: Cached Episode 71 comparison
+        if: always()
         run: |
           python - <<'PY'
           import json

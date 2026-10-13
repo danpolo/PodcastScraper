@@ -16,8 +16,16 @@ def timed_term_recall_strict(tokens, reference, tolerance=1.5):
     acoustic proof of correctness.
     """
     surfaces = set(reference.get('technical_terms') or [])
+    def has_valid_time(o):
+        try:
+            a, b = float(o['start']), float(o['end'])
+            return math.isfinite(a) and math.isfinite(b) and 0 <= a <= b
+        except (KeyError, TypeError, ValueError):
+            return False
+
     expected = [o for o in reference.get('verified_occurrences') or []
-                if o.get('surface') in surfaces and o.get('review_status') == 'verified']
+                if o.get('surface') in surfaces and o.get('review_status') == 'verified'
+                and has_valid_time(o)]
     if not expected:
         return None
     sequence = []
