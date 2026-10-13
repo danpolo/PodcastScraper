@@ -217,6 +217,9 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
 
     clean_tokens = [t for t in base_tokens if t.get("text") != ""]
     text = re.sub(r"[ \t]+", " ", "".join(t.get("text", "") for t in clean_tokens)).strip()
+    if not modifications and isinstance(base_transcript.get("text"), str):
+        # With no grounded edits, return the original ASR surface verbatim.
+        text = base_transcript["text"]
     result = {
         "provider": f"hybrid_{base_transcript.get('provider', 'base')}_{donor_transcript.get('provider', 'donor')}",
         "source": base_transcript.get("source", "excerpt"),
