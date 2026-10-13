@@ -93,6 +93,7 @@ class DonorPhrase:
     end: float
     confidence: float
     words: List[DonorWord] = field(default_factory=list)
+    min_subword_confidence: Optional[float] = None
 
 
 def assemble_donor_words(tokens: List[dict]) -> List[DonorWord]:
@@ -201,8 +202,7 @@ def extract_latin_donor_phrases(
                 break
 
         if re.search(r"[A-Za-z]", core):
-            conf = (w.min_subword_confidence if w.min_subword_confidence is not None
-                    else w.confidence if w.confidence is not None else 0.0)
+            conf = w.confidence if w.confidence is not None else 0.0
             phrases.append(
                 DonorPhrase(
                     text=core,
@@ -210,6 +210,7 @@ def extract_latin_donor_phrases(
                     end=w.end,
                     confidence=conf,
                     words=[w],
+                    min_subword_confidence=w.min_subword_confidence,
                 )
             )
 
@@ -223,9 +224,10 @@ def extract_latin_donor_phrases(
                             and not window[k].text.rstrip().endswith((".", "!", "?"))
                             for k in range(len(window) - 1))):
                 full_text = " ".join(c for c in cores if c)
-                avg_conf = min((w.min_subword_confidence if w.min_subword_confidence is not None
-                                else w.confidence if w.confidence is not None else 0.0)
-                               for w in window)
+                avg_conf = min((w.confidence if w.confidence is not None else 0.0) for w in window)
+                weakest = min((w.min_subword_confidence if w.min_subword_confidence is not None
+                               else w.confidence if w.confidence is not None else 0.0)
+                              for w in window)
                 phrases.append(
                     DonorPhrase(
                         text=full_text,
@@ -233,6 +235,7 @@ def extract_latin_donor_phrases(
                         end=window[-1].end,
                         confidence=round(avg_conf, 4),
                         words=list(window),
+                        min_subword_confidence=round(weakest, 4),
                     )
                 )
 
