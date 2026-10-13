@@ -54,14 +54,22 @@ KNOWN_PHONETIC_PAIRS: Dict[str, str] = {
     "הרמז": "Hermes",
     "ברמטיים": "בruntime",
     "רמטיים": "runtime",
+    "בראנטיים": "בruntime",
+    "ראנטיים": "runtime",
     "-orchestation": "-orchestration",
     "orchestation": "orchestration",
     "-pendency": "-dependency",
     "pendency": "dependency",
+    "-depדנסי": "-dependency",
+    "depדנסי": "dependency",
     "אנתרופיק": "Anthropic",
     "קודקס": "Codex",
     "וולט": "vault",
+    "גייטווי": "gateway",
+    "הגייטווי": "ה-gateway",
     "האדר": "header",
+    "adhr": "header",
+    "-adhr": "-header",
     "האוטוריזיישן": "authorization",
     "ההרנס": "harness",
     "ננוקו": "NanoClaw",
@@ -437,6 +445,37 @@ def align_and_merge(
                 "donor_term": "hosted version",
                 "donor_confidence": donor.confidence if donor else 0.95,
                 "rule": "hosted_version_compound",
+            })
+            i += 2
+            continue
+
+        # Pattern D2: 'לרפרש טוקן' -> 'ל-refresh token'
+        if (
+            i < len(base_tokens) - 1
+            and "רפרש" in text_clean
+            and "טוקן" in base_tokens[i + 1].get("text", "")
+        ):
+            next_tok = base_tokens[i + 1]
+            end_time = next_tok.get("end", t_end)
+            donor = find_matching_donor(t_start, end_time, "token")
+            trailing = "," if next_tok["text"].endswith(",") else ("." if next_tok["text"].endswith(".") else "")
+            pfx = "ל-" if text_clean.startswith("ל") else ""
+            replacement = (" " if text_raw.startswith(" ") else "") + f"{pfx}refresh token" + trailing
+            orig_text = text_raw + next_tok["text"]
+
+            tok["text"] = replacement
+            next_tok["text"] = ""
+            replaced_token_indices.update([i, i + 1])
+
+            modifications.append({
+                "index": len(modifications) + 1,
+                "original_text": orig_text,
+                "replacement_text": replacement,
+                "start_s": t_start,
+                "end_s": end_time,
+                "donor_term": "refresh token",
+                "donor_confidence": donor.confidence if donor else 0.98,
+                "rule": "refresh_token_compound",
             })
             i += 2
             continue

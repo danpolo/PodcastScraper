@@ -13,7 +13,10 @@ from pathlib import Path
 import urllib.request
 
 import feedparser
-from playwright.async_api import async_playwright
+try:
+    from playwright.async_api import async_playwright
+except ImportError:
+    async_playwright = None
 
 import config
 

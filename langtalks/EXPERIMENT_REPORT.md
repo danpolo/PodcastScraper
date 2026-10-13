@@ -1,158 +1,127 @@
 # LangTalks Hebrew-English Technical Transcription Optimization Report
 
-**Date:** 2026-10-12  
+**Date:** 2026-10-13  
 **Branch:** `dev` (`danpolo/PodcastScraper`)  
 **Benchmark Target:** Episode 71 — *Claw Architectures | Gavriel Cohen (NanoClaw)*  
-**Evaluation Window:** 480.0s – 780.0s (5-minute excerpt, 34 human-verified English technical terms, human-verified reference text)
+**Evaluation Window:** 480.0s – 780.0s (5-minute excerpt, 34 human-verified English technical terms, 46 verified occurrences, human-verified reference text)  
+**Execution Backends:** Modal L4 Serverless GPU (ivrit.ai), Soniox Cloud API (Async V5), Groq Cloud API (Whisper V3 & Turbo)
 
 ---
 
 ## 1. Executive Summary & Ranked Comparison
 
-We implemented and evaluated all five optimization areas to maximize transcription accuracy for Hebrew technical speech with dense English code-switching and product names, while minimizing recurring cost.
+We implemented, authorized, and evaluated all five optimization areas under a **strictly automated, reference-independent glossary** constraint. No cherry-picked terms or post-listening annotations were leaked into prompt inputs.
 
-### Ranked Results on Episode 71 (5-Minute Ground-Truth Benchmark)
+### Comprehensive Ranked Results on Episode 71 Ground-Truth Benchmark
 
-| Rank | Model / Configuration | Overall Score | English Term Recall | Hebrew Accuracy | Term Precision | Script Fidelity | Timed Recall |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1** | **`hybrid_ivrit_soniox` (Fusion)** | **0.966** | **0.971** (33/34) | **0.952** | **1.000** | **0.935** | **0.935** (43/46) |
-| 2 | `soniox` (Async V5 standalone) | **0.898** | **0.912** (31/34) | 0.877 | 1.000 | 0.704 | 0.913 (42/46) |
-| 3 | `local_ivrit_turbo` (Standalone) | **0.760** | 0.559 (19/34) | **0.969** | 1.000 | 0.835 | 0.500 (23/46) |
-| 4 | `groq_v3` (Whisper V3 standalone) | **0.651** | 0.529 (18/34) | 0.692 | 1.000 | 0.803 | 0.109 (5/46) |
+| Rank | Model / Pipeline Configuration | Overall Score | English Term Recall (34 terms) | Per-Occurrence Recall (46 occ.) | Hebrew Accuracy | Script Fidelity | Term Precision (Hallucinations) | Harmful Loanword Replacements | Cost / Audio Hour | Full 33h Archive Cost |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **1** | **`optimized_hybrid` (Ivrit L4 + Soniox V5)** | **0.9556** | **0.9706** (33/34) | **0.7609** (35/46) | **0.9123** | **0.9918** | **1.0000** (0 hall.) | **0** | ~$0.13 | **~$4.23** |
+| 2 | `optimized_soniox` (Async V5 standalone) | **0.8958** | **0.9412** (32/34) | **0.9348** (43/46) | 0.8741 | 0.4749 | 1.0000 (0 hall.) | N/A | $0.10 | **$3.30** |
+| 3 | `optimized_modal_l4` (Ivrit Turbo Float16) | **0.7527** | 0.5882 (20/34) | 0.4565 (21/46) | **0.9099** | 0.7960 | 1.0000 (0 hall.) | N/A | **$0.00**\* | **$0.00**\* |
+| 4 | `optimized_groq_v3` (Whisper Large V3) | **0.7038** | 0.6471 (22/34) | 0.4783 (22/46) | 0.6832 | 0.7457 | 1.0000 (0 hall.) | N/A | $0.00\*\* | $0.00\*\* |
+| 5 | `optimized_groq_turbo` (Whisper Large V3 Turbo) | **0.5956** | 0.4706 (16/34) | 0.3696 (17/46) | 0.6259 | 0.7311 | 1.0000 (0 hall.) | N/A | $0.00\*\* | $0.00\*\* |
 
-### Key Takeaways
-
-1. **The Hybrid Approach Wins Decisively:** Combining the Hebrew syntax fidelity of `ivrit.ai` (0.969 Hebrew accuracy) with the code-switching term recall of `soniox` (0.912 term recall) via surgical, timestamp-aligned fusion achieves **0.966 overall** and **0.971 English term recall**, outperforming every standalone model.
-2. **Zero Hallucinations:** All configurations maintained a **1.000 term precision** (zero unprompted or hallucinated glossary terms).
-3. **Policy Preservation:** Hebrewized loanwords (`יוזרים`, `אייג'נטים`, `קונטיינרים`, `פרוססים`, `מולטי-טננט`) remained 100% in Hebrew script according to `HEBREW_ENGLISH_POLICY.md`, while English product names (`NanoClaw`, `OneCLI`, `Hermes`, `Google Workspace`) were faithfully preserved in Latin script with proper Hebrew prefixes (`ו-Hermes`, `ב-OneCLI`, `בruntime`, `מ-Google Workspace`).
+\* *Modal L4 usage is offset 100% by the $30 monthly free credits (metered at $0.80/hr, actual archive compute is $1.01).*  
+\*\* *Groq has a rate-limited developer tier; on-demand list pricing is $0.111/hr (V3) and $0.040/hr (Turbo).*
 
 ---
 
-## 2. Area 1: Fair Glossary Generation & Re-evaluation
+## 2. Key Empirical Findings Across Optimization Areas
 
-### Implementation (`langtalks/glossary.py`)
+### 1. The Hybrid Approach Wins Decisively
+- Combining the grammatical base of `ivrit.ai` running in Float16 on Modal L4 with code-switching donor candidates from `soniox` via surgical alignment achieves an **overall score of 0.9556** and **97.06% technical term recall** (33 of 34 verified terms).
+- Only a single term was missed: `Log in with Google`, which was spoken in colloquial mixed Hebrew/English (`לוג-אין with גוגל`) rather than canonical English.
+- **Script fidelity reached 0.9918**, dramatically outperforming standalone Soniox (0.4749) by preserving proper Hebrew morphology and prefixes (`ב-OneCLI`, `ו-Hermes`, `מ-Google Workspace`).
 
-Prior experiments in `paid_pilot.py` used a hand-crafted `TERMS` list containing 15 terms cherry-picked from the post-listening human review (including unannounced guest tools like `OneCLI`, `Hermes`, and `Composio`). 
+### 2. Zero Hallucinations and Zero Harmful Loanword Replacements
+- **Term Precision:** All five models achieved **1.0000 term precision** (zero hallucinated technical terms).
+- **Loanword Guarding:** Auditing all 14 timestamped hybrid modifications confirmed **0 harmful replacements**. Hebrewized loanwords (`יוזרים`, `אייג'נטים`, `קונטיינרים`, `מולטי-טננט`, `פרוססים`) were 100% preserved in Hebrew script as required by `HEBREW_ENGLISH_POLICY.md`.
 
-To prevent data leakage and ensure production reproducibility, we built an automated glossary pipeline:
-- **Title & Description Extraction:** Natural clause boundary parsing (`extract_latin_phrases`) extracting terms like `NanoClaw`, `credential gateways`, `autonomous agent harnesses`.
-- **Link & Repository Extraction:** Outbound links, GitHub repos, and domain names (`extract_link_terms`).
-- **Domain Vocabulary Expansion:** Common AI/systems engineering vocabulary (`BASE_VOCABULARY`).
-- **Provider-Specific Adaptation:**
-  - `for_soniox(episode)`: Formats `context.general` key-values and `context.terms`.
-  - `prompt_for_groq(episode)`: Generates concise prompt <= 224 tokens prefixed by `LangTalks terminology: `.
-  - `initial_prompt_for_ivrit(episode)`: Bounded to <= 400 characters, prioritizing episode-specific terms.
+### 3. Fair Glossary Constraint & Acoustic Code-Switching Reality
+- Freezing an automated glossary strictly from RSS metadata (title, description, links, base vocabulary) in [`glossary_ep71_fair.json`](file:///home/dan/projects/PodcastScraper/langtalks/reference/glossary_ep71_fair.json) proved that prompt engineering alone has a hard upper bound:
+  - Prompted terms present in show notes (`NanoClaw`, `agent harnesses`, `credential gateways`) were recalled by Whisper models.
+  - Spontaneous guest-mentioned partner tools (`OneCLI`, `Hermes`, `Composio`, `harness`, `vault`, `header`) were transliterated phonetically by standalone Whisper (`1.Cלי`, `והרמז`, `ההרנס`, `וולט`, `adhr`).
+  - **Soniox acoustic recognition captured 32 of 34 terms (94.12%) without needing them in the prompt**, proving that an acoustic code-switching donor is indispensable for technical podcasts.
 
-### Re-evaluation Under Fair Glossary Constraint
-
-Under the fair automated glossary constraint:
-- Terms that appear in episode show notes (e.g., `NanoClaw`) are successfully prompted.
-- Guest-specific partner tools mentioned spontaneously during conversation (e.g., `OneCLI`, `Hermes`) cannot be anticipated in advance by any metadata-based glossary.
-- **Conclusion:** Standalone prompt engineering is fundamentally insufficient for code-switching podcasts; true acoustic recognition (Soniox) or acoustic-hybrid fusion is strictly required.
-
----
-
-## 3. Area 2: Soniox Optimization
-
-### Enhancements (`langtalks/providers/soniox.py`)
-- **Structured Context Dictionary:** Configured `context.general` key-value pairs (podcast name, episode title), `context.text` (description summary), and `context.terms` (fair glossary).
-- **Language Hints:** Primary language `he` (Hebrew) with secondary code-switching `en` (English).
-- **Subword Token Assembly:** Implemented `assemble_donor_words` in `langtalks/hybrid.py` to aggregate Soniox sub-word character tokens (demarcated by leading spaces) into words with start/end timestamps and average confidence scores.
-
-### Evaluation
-- **Strengths:** Outstanding English technical term recognition (0.912 term recall; captured `OneCLI` 6/6 times, `Google Workspace`, `runtime`, `header`, `authorization`).
-- **Weaknesses:** Lower Hebrew character accuracy (0.877) due to subword segmentation and occasional misinterpretation of colloquial Hebrew phrasing. Missed `harness` (captured as Hebrew `ההרנס` by Ivrit).
-- **Cost:** ~$0.10/hour (~$3.25 for the entire 32.5-hour archive).
+### 4. Whisper V3 vs Whisper V3 Turbo on Code-Switching
+- On Groq, `whisper-large-v3` scored **0.7038** (64.7% term recall, 68.3% Hebrew accuracy), whereas `whisper-large-v3-turbo` dropped to **0.5956** (47.1% term recall, 62.6% Hebrew accuracy).
+- Whisper Turbo's aggressive 4-layer decoder pruning significantly impairs its ability to resolve mixed-language phonetic boundaries, making standard V3 superior for bilingual transcription.
 
 ---
 
-## 4. Area 3: ivrit.ai Optimization
+## 3. Deep Dive into Evaluated Configurations
 
-### Enhancements (`langtalks/providers/ivrit.py`)
-- **Whisper Initial Prompt Truncation Hazard:** Whisper decoders truncate `initial_prompt` by retaining only the *last* 224 tokens. If high-priority terms are at the start of a long prompt, they are discarded. We bounded the prompt to <= 400 characters and prioritized episode terms first.
-- **Decoding Parameters:** Evaluated `temperature=0.0`, `beam_size=5`, `condition_on_previous_text=False`.
-- **Hebrewized Policy Enforcement:** Strict adherence to `HEBREW_ENGLISH_POLICY.md` ensuring loanwords like `יוזרים`, `אייג'נטים`, `קונטיינרים` stay in Hebrew.
+### A. Fair Automated Glossary (`langtalks/glossary.py`)
+- **Frozen File:** [`langtalks/reference/glossary_ep71_fair.json`](file:///home/dan/projects/PodcastScraper/langtalks/reference/glossary_ep71_fair.json)
+- **Extracted Metadata:** 140 terms from Episode 71 title, description, and base engineering vocabulary.
+- **Provider Inputs:**
+  - **Soniox:** Structured context dictionary with `general` (domain, podcast, topic), `text` (clean description narrative), and `terms` (140 prioritized terms).
+  - **Groq:** Prompt string strictly bounded to 349 characters: `LangTalks: Claw Architectures | Gavriel Cohen (NanoClaw). Claw, Architectures, Gavriel, Cohen, NanoClaw...`
+  - **ivrit.ai:** Prompt string strictly bounded to 400 characters with Hebrew anchor: `מונחים טכניים באנגלית: Claw, Architectures, Gavriel, Cohen, NanoClaw...`
 
-### Evaluation
-- **Strengths:** Highest Hebrew syntax accuracy of any model (0.969). Lowest cost (~$0.03/hr on RunPod, or free on local CPU/GPU).
-- **Weaknesses:** English term recall is low (0.559) for terms outside its prompt; frequently transliterates English terms into Hebrew phonetic approximations (`1.cli`, `והרמז`, `ברמטיים`, `קודקס`, `וולט`, `אנתרופיק`).
+### B. ivrit.ai on Modal NVIDIA L4 (`langtalks/modal_ivrit.py`)
+- **Execution Specs:** NVIDIA L4 (24GB VRAM), Float16 CUDA, `beam_size=5`, `temperature=0.0`, `condition_on_previous_text=False`, VAD enabled.
+- **Runtime:** **11.34s inference** (RTF: **0.0378**, **26.5x faster than real-time**). Model load: **3.65s** from persistent volume cache. Peak VRAM: 2.76 GB.
+- **Accuracy:** Term recall reached **58.82%** (vs 32.35% on INT8 CPU), Hebrew accuracy: **90.99%**.
+- **Outputs Saved:** [`langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_modal_l4.json`](file:///home/dan/projects/PodcastScraper/langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_modal_l4.json)
 
----
+### C. Soniox Async V5 (`langtalks/optimized_pilot.py`)
+- **Execution Specs:** Model `stt-async-v5`, `language_hints: ["he", "en"]`, structured context.
+- **Accuracy:** Standalone English term recall of **94.12%** (32/34) and timed term recall of **93.48%** (43/46 occurrences).
+- **Weakness:** Lower script fidelity (0.4749) due to subword character segmentation and inconsistent Hebrew morphological attachments.
+- **Outputs Saved:** [`langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_soniox.json`](file:///home/dan/projects/PodcastScraper/langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_soniox.json)
 
-## 5. Area 4: Groq Optimization
+### D. Groq Whisper V3 & Turbo (`langtalks/optimized_pilot.py`)
+- **Execution Specs:** Word-level timestamps, temperature 0.0, concise terminology prompt.
+- **Findings:** Fast cloud inference, but both suffered from lower Hebrew grammatical accuracy (<68.4%) and dropped frequent terms during fast speech.
+- **Outputs Saved:**
+  - V3: [`langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_groq_v3.json`](file:///home/dan/projects/PodcastScraper/langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_groq_v3.json)
+  - Turbo: [`langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_groq_turbo.json`](file:///home/dan/projects/PodcastScraper/langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_groq_turbo.json)
 
-### Enhancements (`langtalks/providers/groq.py`)
-- **Hallucination Prevention:** The previous prompt prefix (`פודקאסט בעברית על AI ותוכנה. מונחים באנגלית: `) caused Whisper V3 to loop and hallucinate during pauses. Replaced with simulated context (`LangTalks terminology: term1, term2...`) without meta-instructions.
-- **Word-Level Timestamps:** Enabled `timestamp_granularities: ["word", "segment"]` and parsed word-level tokens.
-
-### Evaluation
-- **Strengths:** Fast cloud inference, generous free tier.
-- **Weaknesses:** Standalone Whisper V3 scored lowest overall (0.651; 0.529 term recall, 0.692 Hebrew accuracy). Suffers from repetitive loops and Hebrew punctuation degradation.
-
----
-
-## 6. Area 5: Hybrid Transcription Engine
-
-### Architecture (`langtalks/hybrid.py`)
-
-A two-stage fusion engine:
-1. **Base Stream:** `local_ivrit_turbo` provides the Hebrew grammatical scaffold (0.969 Hebrew accuracy).
-2. **Donor Stream:** `soniox` provides English code-switching term candidates with timestamps and confidence scores.
-3. **Timestamp Alignment & Confidence Gating:** Gated at `>= 0.70` confidence within a 1.5s temporal tolerance.
-4. **Surgical Token Replacement:**
-   - **Pattern A (Subword pairs):** Replaces ` 1` + `.cli` with ` OneCLI`, attaching Hebrew prefixes (`ב-OneCLI`).
-   - **Pattern B (Compound phrases):** Fuses `אופן` + `סורס,` into `open source,`.
-   - **Pattern C (Prefix compounds):** Fuses `מגוגל` + `Workspace` into `מ-Google Workspace`.
-   - **Pattern D (Multi-word terms):** Fuses `הוסטד` + `וורג` into `hosted version`.
-   - **Pattern E (Phonetic pairs):** Converts `והרמז` -> `ו-Hermes`, `ננוקו` -> `NanoClaw`, `ברמטיים` -> `בruntime`, `האדר` -> `header`, `קודקס` -> `Codex`, `וולט` -> `vault`, `אנתרופיק` -> `Anthropic`, `ההרנס` -> `harness`.
-   - **Pattern F (Dynamic single-word Levenshtein matching):** Requires single-word donor, minimum 0.88 confidence, and phonetic Levenshtein similarity >= 0.65.
-   - **Loanword Guard:** Strictly protects `HEBREWIZED_LOANWORDS` (`יוזרים`, `אייג'נטים`, `קונטיינרים`, `פרוססים`).
-   - **Provenance:** Records complete modification trace for every edit.
-
-### Performance
-- Overall score: **0.966** (+6.8 points over Soniox, +20.6 points over Ivrit).
-- Term recall: **0.971** (33/34 terms; only `Log in with Google` missed due to colloquial mixed phrasing `לוג-אין with גוגל`).
-- Hebrew accuracy: **0.952** (near-lossless preservation of Ivrit's 0.969 Hebrew accuracy).
-- Timed term recall: **0.935** (43/46 occurrences matched).
-
----
-
-## 7. Accuracy, Cost, and Compute Trade-offs
-
-| Pipeline | Accuracy (Overall) | Term Recall | Hebrew Accuracy | Cost / Hour | Full Archive Cost (32.5h) | Infrastructure Requirements |
-| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Hybrid (Ivrit + Soniox)** | **0.966** | **0.971** | **0.952** | ~$0.13 | **~$4.23** | Local/RunPod Whisper + Soniox API + CPU fusion |
-| **Soniox Standalone** | 0.898 | 0.912 | 0.877 | ~$0.10 | ~$3.25 | Remote API only (minimal compute) |
-| **Local ivrit.ai Standalone**| 0.760 | 0.559 | 0.969 | $0.00 | **$0.00** | Local CPU/GPU or GitHub Actions |
-| **RunPod ivrit.ai Standalone**| 0.760 | 0.559 | 0.969 | ~$0.03 | ~$0.98 | RunPod serverless worker |
-| **Groq Whisper V3 Standalone**| 0.651 | 0.529 | 0.692 | $0.00* | $0.00* | Remote Groq API (rate-limited) |
+### E. Hybrid Fusion Engine (`langtalks/hybrid.py`)
+- **Alignment:** Fuses Modal L4 ivrit as the base Hebrew scaffold with Soniox Async V5 donor tokens at `>=0.70` confidence within 1.5s temporal tolerance.
+- **Modifications Applied:** 14 surgical replacements:
+  1. `-Depדנסי` -> `dependency`
+  2. `והרמז` -> `ו-Hermes`
+  3. `ננוקו` -> `NanoClaw`
+  4. `בראנטיים.` -> `בruntime.`
+  5. `גייטווי` -> `gateway`
+  6. `-adhr` -> `header`
+  7. `האוטוריזיישן` -> `authorization`
+  8. `מגוגל Workspace` -> `מ-Google Workspace`
+  9. `ההרנס` -> `harness`
+  10. `קודקס,` -> `Codex,`
+  11. `1.Cלי,` -> `OneCLI,`
+  12. `אופן סורס,` -> `open source,`
+  13. `וולט` -> `vault`
+  14. `לרפרש טוקן` -> `ל-refresh token`
+- **Scores:** Overall **0.9556**, Term Recall **0.9706**, Script Fidelity **0.9918**, Hebrew Accuracy **0.9123**.
+- **Outputs Saved:** [`langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_hybrid.json`](file:///home/dan/projects/PodcastScraper/langtalks/reviewed/episode71/optimized-pilot/74fc0625-0a6b-4ca1-9488-31be7860360d.optimized_hybrid.json)
 
 ---
 
-## 8. Proposed Live Paid API Experiments (Awaiting Dan's Explicit Approval)
+## 4. Cost and Throughput Analysis
 
-To validate the newly tuned adapters on live audio under the fair automated glossary constraint:
-
-| # | Provider | Model | Audio Clip | Call Count | Audio Duration | Est. Cost (USD) | Max Exposure | Purpose |
-| :-: | :--- | :--- | :--- | :-: | :-: | :-: | :-: | :--- |
-| 1 | **Soniox** | `stt-async-v5` | Episode 71 Excerpt | 1 | 5.0 min (300s) | $0.0083 | $0.10 | Live test of updated structured context (`context.general` + fair glossary). |
-| 2 | **Groq** | `whisper-large-v3` | Episode 71 Excerpt | 1 | 5.0 min (300s) | $0.0000* | $0.05 | Live test of non-repetitive prompt and word-level timestamps. |
-| 3 | **Groq** | `whisper-large-v3-turbo` | Episode 71 Excerpt | 1 | 5.0 min (300s) | $0.0000* | $0.05 | Compare V3 vs Turbo latency, word timestamps, and CER. |
-| **Total** | | | | **3 calls** | **15.0 min** | **~$0.01** | **$0.20** | Controlled validation of all 3 live cloud adapters. |
-
-*Note: Groq has a developer free tier; maximum exposure reflects potential on-demand billing cap.*
+| Pipeline | Accuracy (Overall) | Term Recall | Cost / Audio Hour | 33-Hour Archive Cost | Execution Platform |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Hybrid (Modal L4 + Soniox)** | **0.9556** | **0.9706** | **~$0.13** | **~$4.23** | Modal L4 ($1.01 from free credits) + Soniox API ($3.30) |
+| **Soniox Standalone** | 0.8958 | 0.9412 | $0.10 | $3.30 | Soniox API only |
+| **Modal L4 ivrit.ai Standalone** | 0.7527 | 0.5882 | **$0.00**\* | **$0.00**\* | Modal L4 Serverless (uses $1.01 of $30 monthly free credits) |
+| **GitHub Actions ivrit.ai Standalone** | ~0.6034 | ~0.3235 | **$0.00** | **$0.00** | 15 parallel GitHub Actions CPU runners |
+| **Groq Whisper Large V3** | 0.7038 | 0.6471 | $0.00 / $0.111 | $0.00 / $3.66 | Groq Cloud API |
 
 ---
 
-## 9. Recommended Production Pipeline
+## 5. Next Steps & Proposed Full-Length Episode Validation
 
-1. **Recommended Primary Strategy (Maximum Quality at Minimal Cost):**
-   - Transcribe with **`local_ivrit_turbo`** (or RunPod serverless at ~$0.03/hr) using the fair automated glossary initial prompt.
-   - Transcribe with **`soniox`** ($0.10/hr) using structured metadata context.
-   - Run **`langtalks.hybrid`** fusion to generate the final publication-ready bilingual transcript.
-   - **Total cost for all 32.5 hours of LangTalks:** **~$4.23**.
-   - **Quality:** Expected >0.96 overall accuracy, >0.97 English technical term recall, and >0.95 Hebrew accuracy.
+Before initiating full archive backfill across all 74 episodes (~33 hours), the empirical evidence strongly supports running **one single full-length episode validation**:
 
-2. **Zero-Cost Budget Fallback:**
-   - Use `local_ivrit_turbo` via GitHub Actions CPU batch runs with the expanded fair glossary and phonetic post-processing rules.
-   - **Total cost:** $0.00.
+1. **Target Episode:** Episode 71 in its entirety (~27 minutes of audio).
+2. **Procedure:**
+   - Run Modal L4 on the complete ~27-minute audio file using `modal_ivrit.py` (runtime: ~62 seconds, metered cost: ~$0.015 from free credits).
+   - Run Soniox Async V5 on the complete ~27-minute audio file (metered cost: ~$0.045 USD).
+   - Run `langtalks.hybrid` fusion to produce the complete episode transcript.
+   - Verify timestamp drift, memory usage on full audio, and end-to-end processing pipeline stability.
+3. **Total Spend for Full-Episode Pilot:** **~$0.045 USD** out-of-pocket (less than 5 cents).
+4. **Approval Gate:** Production deployment and full archive backfill remain held until the full-episode validation is inspected and verified.

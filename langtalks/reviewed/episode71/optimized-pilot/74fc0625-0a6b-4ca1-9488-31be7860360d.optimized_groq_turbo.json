@@ -1,0 +1,4107 @@
+{
+  "provider": "groq_turbo",
+  "text": " וכל מיני דברים כאלה, וגם את ה- supply chain security, מה ה-dependency שלי בתוך הפרויקט, והם יש לי code review ו- some security best practices. אז יש לי את הנושא הזה של הבידוד, שאני מבודד את האג'נט מהמכונה שהוא רץ בו, הרבה פעמים זה המכונה שלי, המחשב שלי, אבל כמו שאתה אומר, NanoClaw זה multi-tenant וגם OpenClaw והHermes הם לא מוגדרים כ-multi-tenant, הרבה מהיוזרים משתמשים בהם בצורה שהוא יותר multi-tenant. אתה אומר, יש לי כמה use cases, כמה agentים ואני רוצה שיהיה איזושהי הפרדה ובידוד בין האג'נטים, אבל הוא לא נותן לך את זה ברמה של הארכיטקטורה. אז נאנטור... ואתם כתרתם את זה עם איזושהי מערכת שהיא בזכות קונטיינרים, שהם בעצם מייצרים הפרדה ברמת המערכת הפעלה, נכון? ספרתי פה רגע על מה עשיתם באמת ומה הטריד-אופים שלקחתם שם. case agent agent agent container container מריצ את agent בתוך container, אחרי איזשהו פרק זמן שהאג'נט לא הועל, מוריד את the container, אבל הדאטה הוא preserved זה בפיילסיסט, של מיונטטי דירקטרי, שהדאטה, גם הארטיפקטים שהאנטט מייצר וגם ה-Hotout, וזה נותן לך בידוד ברמה של מערכת הפעלה, ולא ברמה של פרוסססססי וזה שאני מנסה לתפוס איזושהי פעולה שהאנטט עושה ברונטיים. approvals gateway approval human and the loop approval אז בהקשר הזה של credentials באמת, אתם כאילו, בינינו כלום המימוש הוא עם 1 CLI, שזה איזה third party כזה שיש לכם איתו איזה partnership, נכון? אני מדבר עכשיו גם בקובע של יוזר שנהנה מהחיבור הזה, כי מה שאני אוהב ב-One CLI זה גם באמת שהאג'נט, כאילו אין לי על המכונה שום קרדנשיאל, בעצם One CLI עוטף את כל ה-HTTP נטוורק של האג'נט שלי ומוסיף עליו את העדר של ה-authorיזיישן שהוא צריך, ואז המכונה שלי היא כאילו מאוד נקייה מהבחינה הזאת. ושתיים, שזה גם ממש נחמד, כמו בקומפוזיו, למי שמכיר, אני מקבל לעשות אותנטיקציה עם Auth, אז גם One CLI יודע לטפל בכאילו כמה אקאונטים, אם אני צריך, יש לי שני ג'ימילים או משהו בסגנון. וגם אם אני רוצה להתחבר למשהו חדש, API login with Google nice Token coupled as far as I know, לנאנו-Claw, אז כאילו גם כסטנדלון פתרון לאותנטיקציה זה נראה לי אחלה. זה בעצם פותר לכם את האותנטיקציה של האג'נט עם third-party tools, אבל איך אתם פותרים את האותנטיקציה של ההרנס עצמו? מול כלו, מול קודקס, מול כל החברים שלנו. אז זה גם דרך One CLI, שזה אחלה פרויקט, יש לנו פרטנר שמוד טוב, חבר טובים, ג'ונתן, יונתן פישנר וגיא בן אהרון, גם פרויקט ישראלי כחול לבן, פרויקט Open Source, יש להם גם Managed Hosted Virgin, שהיא סופר נוחה לי, מה שאמרת, אתה יכול לחבר את ה-Gmail, Calendar, Drive והמון אפליקציות באורת. אבל בעצם גם ה-Credentials של Anthropic גם יושבים באותו וולט של האג'נט של 1CLI. בעצם כל הבקשות שיוצאות מהסביבה של האג'נט, מהה-Container,",
+  "tokens": [
+    {
+      "text": "וכל",
+      "start": 480.0,
+      "end": 480.74,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מיני",
+      "start": 480.74,
+      "end": 481.02,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "דברים",
+      "start": 481.02,
+      "end": 482.22,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כאלה,",
+      "start": 482.22,
+      "end": 482.76,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וגם",
+      "start": 482.76,
+      "end": 483.46,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 483.46,
+      "end": 483.66,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-",
+      "start": 483.66,
+      "end": 484.04,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "supply",
+      "start": 484.04,
+      "end": 484.52,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "chain",
+      "start": 484.52,
+      "end": 484.8,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "security,",
+      "start": 484.8,
+      "end": 485.58,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מה",
+      "start": 485.58,
+      "end": 485.76,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-dependency",
+      "start": 485.76,
+      "end": 486.26,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שלי",
+      "start": 486.26,
+      "end": 486.52,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בתוך",
+      "start": 486.52,
+      "end": 486.9,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הפרויקט,",
+      "start": 486.9,
+      "end": 487.6,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "והם",
+      "start": 488.8,
+      "end": 489.1,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יש",
+      "start": 489.1,
+      "end": 489.28,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לי",
+      "start": 489.28,
+      "end": 489.4,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "code",
+      "start": 489.4,
+      "end": 489.62,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "review",
+      "start": 489.62,
+      "end": 489.94,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ו-",
+      "start": 489.94,
+      "end": 490.92,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "some",
+      "start": 490.92,
+      "end": 490.98,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "security",
+      "start": 490.98,
+      "end": 491.36,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "best",
+      "start": 491.36,
+      "end": 491.58,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "practices.",
+      "start": 491.58,
+      "end": 492.28,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 492.64,
+      "end": 492.86,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יש",
+      "start": 492.86,
+      "end": 493.18,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לי",
+      "start": 493.18,
+      "end": 493.34,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 493.34,
+      "end": 493.56,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הנושא",
+      "start": 493.56,
+      "end": 493.98,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הזה",
+      "start": 493.98,
+      "end": 494.18,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 494.18,
+      "end": 494.44,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הבידוד,",
+      "start": 494.44,
+      "end": 495.74,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שאני",
+      "start": 495.74,
+      "end": 496.38,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מבודד",
+      "start": 496.38,
+      "end": 496.86,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 496.86,
+      "end": 497.02,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האג'נט",
+      "start": 497.02,
+      "end": 497.52,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מהמכונה",
+      "start": 497.52,
+      "end": 498.38,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהוא",
+      "start": 498.38,
+      "end": 499.06,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "רץ",
+      "start": 499.06,
+      "end": 499.34,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בו,",
+      "start": 499.34,
+      "end": 499.76,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הרבה",
+      "start": 499.76,
+      "end": 499.92,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פעמים",
+      "start": 499.92,
+      "end": 500.12,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 500.12,
+      "end": 500.3,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "המכונה",
+      "start": 500.3,
+      "end": 500.7,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שלי,",
+      "start": 500.7,
+      "end": 501.8,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "המחשב",
+      "start": 501.8,
+      "end": 502.24,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שלי,",
+      "start": 502.24,
+      "end": 502.72,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אבל",
+      "start": 502.8,
+      "end": 503.54,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כמו",
+      "start": 503.54,
+      "end": 503.94,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שאתה",
+      "start": 503.94,
+      "end": 504.18,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אומר,",
+      "start": 504.18,
+      "end": 504.38,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "NanoClaw",
+      "start": 504.38,
+      "end": 504.76,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 504.76,
+      "end": 504.92,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "multi-tenant",
+      "start": 504.92,
+      "end": 505.58,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וגם",
+      "start": 505.58,
+      "end": 507.14,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "OpenClaw",
+      "start": 507.14,
+      "end": 507.72,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "והHermes",
+      "start": 507.72,
+      "end": 508.32,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הם",
+      "start": 508.32,
+      "end": 508.54,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לא",
+      "start": 508.54,
+      "end": 508.94,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מוגדרים",
+      "start": 508.94,
+      "end": 510.64,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כ-multi-tenant,",
+      "start": 510.64,
+      "end": 512.06,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הרבה",
+      "start": 512.06,
+      "end": 512.8,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מהיוזרים",
+      "start": 512.8,
+      "end": 513.28,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "משתמשים",
+      "start": 513.28,
+      "end": 513.84,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בהם",
+      "start": 513.84,
+      "end": 513.96,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בצורה",
+      "start": 513.96,
+      "end": 514.26,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהוא",
+      "start": 514.26,
+      "end": 514.5,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יותר",
+      "start": 514.5,
+      "end": 514.86,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "multi-tenant.",
+      "start": 514.86,
+      "end": 515.72,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אתה",
+      "start": 515.68,
+      "end": 516.12,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אומר,",
+      "start": 516.12,
+      "end": 516.4,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יש",
+      "start": 516.4,
+      "end": 516.76,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לי",
+      "start": 516.76,
+      "end": 516.9,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כמה",
+      "start": 516.9,
+      "end": 517.18,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "use",
+      "start": 517.18,
+      "end": 517.54,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "cases,",
+      "start": 517.54,
+      "end": 518.14,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כמה",
+      "start": 518.14,
+      "end": 518.28,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "agentים",
+      "start": 518.28,
+      "end": 518.92,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ואני",
+      "start": 518.92,
+      "end": 520.0,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "רוצה",
+      "start": 520.0,
+      "end": 520.34,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שיהיה",
+      "start": 520.34,
+      "end": 520.6,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איזושהי",
+      "start": 520.6,
+      "end": 520.98,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הפרדה",
+      "start": 520.98,
+      "end": 521.5,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ובידוד",
+      "start": 521.5,
+      "end": 522.14,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בין",
+      "start": 522.14,
+      "end": 522.44,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האג'נטים,",
+      "start": 522.44,
+      "end": 523.08,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אבל",
+      "start": 523.08,
+      "end": 523.82,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הוא",
+      "start": 523.82,
+      "end": 523.92,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לא",
+      "start": 523.92,
+      "end": 524.02,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נותן",
+      "start": 524.02,
+      "end": 524.28,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לך",
+      "start": 524.28,
+      "end": 524.42,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 524.42,
+      "end": 524.56,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 524.56,
+      "end": 524.68,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ברמה",
+      "start": 524.68,
+      "end": 525.16,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 525.16,
+      "end": 525.38,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הארכיטקטורה.",
+      "start": 525.38,
+      "end": 525.98,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 526.2,
+      "end": 527.08,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נאנטור...",
+      "start": 527.08,
+      "end": 528.22,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ואתם",
+      "start": 527.7,
+      "end": 527.72,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כתרתם",
+      "start": 527.72,
+      "end": 528.2,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 528.2,
+      "end": 528.3,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 528.3,
+      "end": 528.44,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עם",
+      "start": 528.44,
+      "end": 528.92,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איזושהי",
+      "start": 528.92,
+      "end": 529.62,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מערכת",
+      "start": 529.62,
+      "end": 530.02,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהיא",
+      "start": 530.02,
+      "end": 530.22,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בזכות",
+      "start": 530.22,
+      "end": 531.24,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "קונטיינרים,",
+      "start": 531.24,
+      "end": 532.02,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהם",
+      "start": 532.02,
+      "end": 532.26,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בעצם",
+      "start": 532.26,
+      "end": 532.5,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מייצרים",
+      "start": 532.5,
+      "end": 532.82,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הפרדה",
+      "start": 532.82,
+      "end": 533.58,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ברמת",
+      "start": 533.58,
+      "end": 534.0,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "המערכת",
+      "start": 534.0,
+      "end": 535.02,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הפעלה,",
+      "start": 535.02,
+      "end": 535.42,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נכון?",
+      "start": 535.42,
+      "end": 535.7,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ספרתי",
+      "start": 535.44,
+      "end": 536.04,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פה",
+      "start": 536.04,
+      "end": 536.12,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "רגע",
+      "start": 536.12,
+      "end": 536.42,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "על",
+      "start": 536.42,
+      "end": 536.66,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מה",
+      "start": 536.66,
+      "end": 538.14,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עשיתם",
+      "start": 538.14,
+      "end": 538.58,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "באמת",
+      "start": 538.58,
+      "end": 538.9,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ומה",
+      "start": 538.9,
+      "end": 539.26,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הטריד-אופים",
+      "start": 539.26,
+      "end": 539.96,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שלקחתם",
+      "start": 539.96,
+      "end": 541.3,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שם.",
+      "start": 541.3,
+      "end": 541.7,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כן,",
+      "start": 542.7,
+      "end": 542.98,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 542.98,
+      "end": 543.04,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אני",
+      "start": 543.04,
+      "end": 543.2,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בניתי",
+      "start": 543.2,
+      "end": 543.54,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 543.54,
+      "end": 543.72,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 543.72,
+      "end": 543.86,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ל-use",
+      "start": 543.86,
+      "end": 544.44,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "case",
+      "start": 544.44,
+      "end": 544.64,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 544.64,
+      "end": 544.96,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עסק",
+      "start": 544.96,
+      "end": 545.74,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שלי",
+      "start": 545.74,
+      "end": 546.12,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שיש",
+      "start": 546.12,
+      "end": 547.02,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לי",
+      "start": 547.02,
+      "end": 547.14,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כמה",
+      "start": 547.14,
+      "end": 547.36,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לקוחות,",
+      "start": 547.36,
+      "end": 547.96,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 547.96,
+      "end": 548.02,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אני",
+      "start": 548.02,
+      "end": 548.14,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "רוצה",
+      "start": 548.14,
+      "end": 548.42,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שאני",
+      "start": 548.42,
+      "end": 548.64,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יכול",
+      "start": 548.64,
+      "end": 548.88,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לשים",
+      "start": 548.88,
+      "end": 549.72,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "agent",
+      "start": 549.72,
+      "end": 550.42,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בכמה",
+      "start": 550.42,
+      "end": 551.1,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "קבוצות",
+      "start": 551.1,
+      "end": 551.48,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וואטסאפ,",
+      "start": 551.48,
+      "end": 552.1,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וכל",
+      "start": 552.2,
+      "end": 552.6,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אחד",
+      "start": 552.6,
+      "end": 552.8,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 552.8,
+      "end": 553.0,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "agent",
+      "start": 553.0,
+      "end": 553.26,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אחר",
+      "start": 553.26,
+      "end": 553.68,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שמובדל",
+      "start": 553.744,
+      "end": 554.264,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לגמרי",
+      "start": 554.264,
+      "end": 554.584,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אחד",
+      "start": 554.584,
+      "end": 554.804,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "משני.",
+      "start": 554.804,
+      "end": 555.344,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 555.884,
+      "end": 556.144,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מריצים",
+      "start": 556.144,
+      "end": 557.704,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כל",
+      "start": 557.704,
+      "end": 558.024,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "agent",
+      "start": 558.024,
+      "end": 558.324,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בתוך",
+      "start": 558.324,
+      "end": 558.784,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "container,",
+      "start": 558.784,
+      "end": 559.424,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יש",
+      "start": 559.424,
+      "end": 560.284,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לך",
+      "start": 560.284,
+      "end": 560.484,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פרוסס",
+      "start": 560.484,
+      "end": 561.424,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שרץ",
+      "start": 561.424,
+      "end": 561.864,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מבחוץ,",
+      "start": 561.864,
+      "end": 562.724,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שעושה",
+      "start": 562.724,
+      "end": 563.264,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 563.264,
+      "end": 563.344,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-orchestration,",
+      "start": 563.344,
+      "end": 564.124,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מנתב",
+      "start": 564.124,
+      "end": 564.484,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 564.484,
+      "end": 564.624,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ההודעות",
+      "start": 564.624,
+      "end": 565.064,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לאג'נט",
+      "start": 565.064,
+      "end": 565.484,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הנכון,",
+      "start": 565.484,
+      "end": 566.044,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ומרים",
+      "start": 566.044,
+      "end": 566.804,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "container,",
+      "start": 566.804,
+      "end": 567.644,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מריצ",
+      "start": 568.204,
+      "end": 568.524,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 568.524,
+      "end": 568.644,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "agent",
+      "start": 568.644,
+      "end": 568.844,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בתוך",
+      "start": 568.844,
+      "end": 569.204,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "container,",
+      "start": 569.204,
+      "end": 569.944,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אחרי",
+      "start": 569.944,
+      "end": 570.784,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איזשהו",
+      "start": 570.784,
+      "end": 571.104,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פרק",
+      "start": 571.104,
+      "end": 571.724,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זמן",
+      "start": 571.724,
+      "end": 571.944,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהאג'נט",
+      "start": 571.944,
+      "end": 572.484,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לא",
+      "start": 572.484,
+      "end": 572.724,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הועל,",
+      "start": 572.724,
+      "end": 574.284,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מוריד",
+      "start": 574.284,
+      "end": 574.624,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 574.624,
+      "end": 574.804,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "the",
+      "start": 574.804,
+      "end": 574.864,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "container,",
+      "start": 574.864,
+      "end": 575.504,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אבל",
+      "start": 575.504,
+      "end": 575.904,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הדאטה",
+      "start": 575.904,
+      "end": 576.364,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הוא",
+      "start": 576.364,
+      "end": 576.524,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "preserved",
+      "start": 576.524,
+      "end": 576.984,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 576.984,
+      "end": 577.164,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בפיילסיסט,",
+      "start": 577.164,
+      "end": 578.004,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 578.164,
+      "end": 578.264,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מיונטטי",
+      "start": 578.264,
+      "end": 579.744,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "דירקטרי,",
+      "start": 579.744,
+      "end": 580.444,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהדאטה,",
+      "start": 580.444,
+      "end": 582.984,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 582.984,
+      "end": 583.424,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הארטיפקטים",
+      "start": 583.424,
+      "end": 584.064,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהאנטט",
+      "start": 584.064,
+      "end": 584.344,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מייצר",
+      "start": 584.344,
+      "end": 584.844,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וגם",
+      "start": 584.844,
+      "end": 585.204,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-Hotout,",
+      "start": 585.204,
+      "end": 586.064,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וזה",
+      "start": 586.064,
+      "end": 587.344,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נותן",
+      "start": 587.344,
+      "end": 587.564,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לך",
+      "start": 587.564,
+      "end": 587.724,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בידוד",
+      "start": 587.724,
+      "end": 588.264,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ברמה",
+      "start": 588.264,
+      "end": 588.664,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 588.664,
+      "end": 588.904,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מערכת",
+      "start": 588.904,
+      "end": 589.744,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הפעלה,",
+      "start": 589.744,
+      "end": 590.364,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ולא",
+      "start": 590.364,
+      "end": 591.384,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ברמה",
+      "start": 591.384,
+      "end": 591.764,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 591.764,
+      "end": 592.004,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פרוסססססי",
+      "start": 592.004,
+      "end": 592.684,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וזה",
+      "start": 592.684,
+      "end": 592.904,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שאני",
+      "start": 592.904,
+      "end": 593.124,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מנסה",
+      "start": 593.124,
+      "end": 593.424,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לתפוס",
+      "start": 593.424,
+      "end": 593.964,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איזושהי",
+      "start": 593.964,
+      "end": 594.744,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פעולה",
+      "start": 594.744,
+      "end": 595.184,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהאנטט",
+      "start": 595.184,
+      "end": 595.524,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עושה",
+      "start": 595.524,
+      "end": 596.144,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ברונטיים.",
+      "start": 596.144,
+      "end": 598.064,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 597.844,
+      "end": 599.804,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 599.804,
+      "end": 600.404,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בידוד,",
+      "start": 600.404,
+      "end": 601.164,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 601.164,
+      "end": 601.324,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "חלק",
+      "start": 601.324,
+      "end": 602.104,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אחד,",
+      "start": 602.104,
+      "end": 602.464,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "והדבר",
+      "start": 602.464,
+      "end": 603.104,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "השלישי",
+      "start": 603.104,
+      "end": 603.744,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 603.744,
+      "end": 604.444,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בעצם",
+      "start": 604.444,
+      "end": 604.904,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לתת",
+      "start": 604.904,
+      "end": 606.064,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לאג'נט",
+      "start": 606.064,
+      "end": 607.464,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גישה",
+      "start": 607.464,
+      "end": 608.124,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לדאטה",
+      "start": 608.124,
+      "end": 609.864,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ולפעולות",
+      "start": 609.864,
+      "end": 610.904,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "רגישות",
+      "start": 610.904,
+      "end": 611.884,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בצורה",
+      "start": 611.884,
+      "end": 613.024,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מובטחת.",
+      "start": 613.024,
+      "end": 613.764,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 613.764,
+      "end": 613.924,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אומר",
+      "start": 613.924,
+      "end": 614.124,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בעצם",
+      "start": 614.124,
+      "end": 614.484,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לנהל",
+      "start": 614.484,
+      "end": 614.844,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 614.844,
+      "end": 614.984,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כל",
+      "start": 614.984,
+      "end": 615.164,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הסיפור",
+      "start": 615.164,
+      "end": 615.764,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 615.764,
+      "end": 615.944,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הקרדנשל,",
+      "start": 615.944,
+      "end": 616.624,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לא",
+      "start": 616.624,
+      "end": 616.864,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לחשוף",
+      "start": 616.864,
+      "end": 617.504,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 617.504,
+      "end": 617.684,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הקרדנשל",
+      "start": 617.684,
+      "end": 618.304,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לאג'נט,",
+      "start": 618.304,
+      "end": 619.104,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וגם",
+      "start": 619.104,
+      "end": 620.104,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לתת",
+      "start": 620.104,
+      "end": 621.784,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איזשהו",
+      "start": 621.784,
+      "end": 622.024,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מנגנון",
+      "start": 622.024,
+      "end": 622.464,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של...",
+      "start": 622.464,
+      "end": 623.124,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בעצם",
+      "start": 623.124,
+      "end": 624.224,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לא",
+      "start": 624.224,
+      "end": 625.244,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לתת",
+      "start": 625.244,
+      "end": 625.544,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לאג'נט",
+      "start": 625.544,
+      "end": 625.904,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לעשות",
+      "start": 625.904,
+      "end": 626.544,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כל",
+      "start": 626.544,
+      "end": 626.784,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מה",
+      "start": 626.784,
+      "end": 626.924,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהוא",
+      "start": 626.924,
+      "end": 627.044,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "רוצה,",
+      "start": 627.044,
+      "end": 627.384,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ועד",
+      "start": 627.444,
+      "end": 627.524,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יעממ",
+      "start": 627.524,
+      "end": 627.724,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אני",
+      "start": 627.724,
+      "end": 627.904,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עושה",
+      "start": 627.904,
+      "end": 628.784,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 628.784,
+      "end": 628.844,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הפעולות",
+      "start": 628.844,
+      "end": 629.204,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 629.204,
+      "end": 629.384,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הלגייטוי",
+      "start": 629.384,
+      "end": 629.864,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ואין",
+      "start": 629.768,
+      "end": 630.088,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לו",
+      "start": 630.088,
+      "end": 630.208,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גישה",
+      "start": 630.208,
+      "end": 630.568,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "להישאר",
+      "start": 630.568,
+      "end": 630.928,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "על",
+      "start": 630.928,
+      "end": 631.048,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-Credentials,",
+      "start": 631.048,
+      "end": 631.828,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אבל",
+      "start": 632.228,
+      "end": 632.448,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שיהיה",
+      "start": 632.448,
+      "end": 632.668,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איזשהו",
+      "start": 632.668,
+      "end": 632.868,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מנגנון",
+      "start": 632.868,
+      "end": 633.208,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 633.208,
+      "end": 633.428,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "approval,",
+      "start": 633.428,
+      "end": 634.368,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 634.368,
+      "end": 634.708,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "human",
+      "start": 634.708,
+      "end": 634.908,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "and",
+      "start": 634.908,
+      "end": 635.108,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "the",
+      "start": 635.108,
+      "end": 635.228,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "loop",
+      "start": 635.228,
+      "end": 635.308,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "approval,",
+      "start": 635.308,
+      "end": 635.808,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שאני",
+      "start": 635.808,
+      "end": 636.048,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יכול",
+      "start": 636.048,
+      "end": 636.288,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לאשר",
+      "start": 636.288,
+      "end": 636.828,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פעולה",
+      "start": 636.828,
+      "end": 637.328,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ספציפית",
+      "start": 637.328,
+      "end": 637.828,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "או",
+      "start": 637.828,
+      "end": 638.008,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לחסום.",
+      "start": 638.008,
+      "end": 639.588,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 640.708,
+      "end": 640.888,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בהקשר",
+      "start": 640.888,
+      "end": 641.188,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הזה",
+      "start": 641.188,
+      "end": 641.388,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 641.388,
+      "end": 641.548,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "credentials",
+      "start": 641.548,
+      "end": 641.968,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "באמת,",
+      "start": 641.968,
+      "end": 642.728,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אתם",
+      "start": 642.728,
+      "end": 644.428,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כאילו,",
+      "start": 644.428,
+      "end": 644.988,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בינינו",
+      "start": 644.988,
+      "end": 645.408,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כלום",
+      "start": 645.408,
+      "end": 645.548,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "המימוש",
+      "start": 645.548,
+      "end": 645.948,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הוא",
+      "start": 645.948,
+      "end": 646.108,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עם",
+      "start": 646.108,
+      "end": 646.328,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "1",
+      "start": 646.328,
+      "end": 646.688,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "CLI,",
+      "start": 646.688,
+      "end": 647.268,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שזה",
+      "start": 647.268,
+      "end": 647.488,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איזה",
+      "start": 647.488,
+      "end": 647.648,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "third",
+      "start": 647.648,
+      "end": 648.008,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "party",
+      "start": 648.008,
+      "end": 648.368,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כזה",
+      "start": 648.368,
+      "end": 648.708,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שיש",
+      "start": 648.708,
+      "end": 649.108,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לכם",
+      "start": 649.108,
+      "end": 649.388,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איתו",
+      "start": 649.388,
+      "end": 649.648,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איזה",
+      "start": 649.648,
+      "end": 649.888,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "partnership,",
+      "start": 649.888,
+      "end": 650.588,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נכון?",
+      "start": 650.588,
+      "end": 650.948,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אני",
+      "start": 650.968,
+      "end": 651.088,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מדבר",
+      "start": 651.088,
+      "end": 651.688,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עכשיו",
+      "start": 651.688,
+      "end": 651.948,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 651.948,
+      "end": 652.168,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בקובע",
+      "start": 652.168,
+      "end": 653.548,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 653.548,
+      "end": 653.888,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יוזר",
+      "start": 653.888,
+      "end": 654.688,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שנהנה",
+      "start": 654.688,
+      "end": 655.948,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מהחיבור",
+      "start": 655.948,
+      "end": 657.148,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הזה,",
+      "start": 657.148,
+      "end": 657.668,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כי",
+      "start": 657.668,
+      "end": 658.628,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מה",
+      "start": 658.628,
+      "end": 658.748,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שאני",
+      "start": 658.748,
+      "end": 658.948,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אוהב",
+      "start": 658.948,
+      "end": 659.068,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ב-One",
+      "start": 659.068,
+      "end": 659.328,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "CLI",
+      "start": 659.328,
+      "end": 659.648,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 659.648,
+      "end": 659.788,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 659.788,
+      "end": 660.048,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "באמת",
+      "start": 660.048,
+      "end": 660.428,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהאג'נט,",
+      "start": 660.428,
+      "end": 661.588,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כאילו",
+      "start": 661.588,
+      "end": 661.668,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אין",
+      "start": 661.668,
+      "end": 661.908,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לי",
+      "start": 661.908,
+      "end": 662.088,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "על",
+      "start": 662.088,
+      "end": 662.448,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "המכונה",
+      "start": 662.448,
+      "end": 662.948,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שום",
+      "start": 662.948,
+      "end": 663.308,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "קרדנשיאל,",
+      "start": 663.308,
+      "end": 664.048,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בעצם",
+      "start": 664.048,
+      "end": 664.488,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "One",
+      "start": 664.488,
+      "end": 665.288,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "CLI",
+      "start": 665.288,
+      "end": 665.628,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עוטף",
+      "start": 665.628,
+      "end": 665.948,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 665.948,
+      "end": 666.108,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כל",
+      "start": 666.108,
+      "end": 666.328,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-HTTP",
+      "start": 666.328,
+      "end": 667.008,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נטוורק",
+      "start": 667.008,
+      "end": 668.668,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 668.668,
+      "end": 669.828,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האג'נט",
+      "start": 669.828,
+      "end": 670.248,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שלי",
+      "start": 670.248,
+      "end": 670.488,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ומוסיף",
+      "start": 670.488,
+      "end": 671.188,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עליו",
+      "start": 671.188,
+      "end": 671.448,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 671.448,
+      "end": 671.528,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "העדר",
+      "start": 671.528,
+      "end": 671.868,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 671.868,
+      "end": 672.248,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-authorיזיישן",
+      "start": 672.248,
+      "end": 673.488,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהוא",
+      "start": 673.488,
+      "end": 673.648,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "צריך,",
+      "start": 673.648,
+      "end": 674.488,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ואז",
+      "start": 674.328,
+      "end": 676.608,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "המכונה",
+      "start": 676.608,
+      "end": 677.168,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שלי",
+      "start": 677.168,
+      "end": 677.448,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "היא",
+      "start": 677.448,
+      "end": 677.588,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כאילו",
+      "start": 677.588,
+      "end": 677.728,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מאוד",
+      "start": 677.728,
+      "end": 678.048,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נקייה",
+      "start": 678.048,
+      "end": 678.508,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מהבחינה",
+      "start": 678.508,
+      "end": 678.928,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הזאת.",
+      "start": 678.928,
+      "end": 679.408,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ושתיים,",
+      "start": 679.408,
+      "end": 680.388,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שזה",
+      "start": 680.388,
+      "end": 681.448,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 681.448,
+      "end": 681.608,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ממש",
+      "start": 681.608,
+      "end": 681.788,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נחמד,",
+      "start": 681.788,
+      "end": 682.428,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כמו",
+      "start": 682.428,
+      "end": 682.648,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בקומפוזיו,",
+      "start": 682.648,
+      "end": 683.508,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "למי",
+      "start": 683.508,
+      "end": 683.728,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שמכיר,",
+      "start": 683.728,
+      "end": 684.428,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אני",
+      "start": 684.428,
+      "end": 684.888,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מקבל",
+      "start": 684.888,
+      "end": 685.368,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לעשות",
+      "start": 685.368,
+      "end": 685.788,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אותנטיקציה",
+      "start": 685.788,
+      "end": 686.528,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עם",
+      "start": 686.528,
+      "end": 686.788,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Auth,",
+      "start": 686.788,
+      "end": 687.348,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 686.828,
+      "end": 687.468,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 687.468,
+      "end": 687.908,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "One",
+      "start": 687.908,
+      "end": 689.548,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "CLI",
+      "start": 689.548,
+      "end": 689.908,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יודע",
+      "start": 689.908,
+      "end": 690.048,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לטפל",
+      "start": 690.048,
+      "end": 690.528,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בכאילו",
+      "start": 690.528,
+      "end": 691.128,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כמה",
+      "start": 691.128,
+      "end": 691.488,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אקאונטים,",
+      "start": 691.488,
+      "end": 692.048,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אם",
+      "start": 692.048,
+      "end": 692.128,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אני",
+      "start": 692.128,
+      "end": 692.248,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "צריך,",
+      "start": 692.248,
+      "end": 692.688,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יש",
+      "start": 692.688,
+      "end": 692.768,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לי",
+      "start": 692.768,
+      "end": 692.868,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שני",
+      "start": 692.868,
+      "end": 693.188,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ג'ימילים",
+      "start": 693.188,
+      "end": 693.748,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "או",
+      "start": 693.748,
+      "end": 693.968,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "משהו",
+      "start": 693.968,
+      "end": 694.148,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בסגנון.",
+      "start": 694.148,
+      "end": 694.868,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וגם",
+      "start": 694.868,
+      "end": 695.788,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אם",
+      "start": 695.788,
+      "end": 696.428,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אני",
+      "start": 696.428,
+      "end": 696.568,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "רוצה",
+      "start": 696.568,
+      "end": 697.248,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "להתחבר",
+      "start": 697.248,
+      "end": 697.648,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "למשהו",
+      "start": 697.648,
+      "end": 697.948,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "חדש,",
+      "start": 697.948,
+      "end": 698.388,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 698.328,
+      "end": 698.528,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 698.528,
+      "end": 698.668,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לא",
+      "start": 698.668,
+      "end": 698.788,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עכשיו",
+      "start": 698.788,
+      "end": 699.148,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לכתבי",
+      "start": 699.148,
+      "end": 699.768,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "API",
+      "start": 699.768,
+      "end": 700.148,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מגוגל",
+      "start": 700.148,
+      "end": 700.928,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וורקספייס",
+      "start": 700.928,
+      "end": 701.568,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וכולי,",
+      "start": 701.568,
+      "end": 702.328,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 702.328,
+      "end": 703.288,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בלחיצת",
+      "start": 703.288,
+      "end": 704.268,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כפתור",
+      "start": 704.268,
+      "end": 704.768,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "login",
+      "start": 704.768,
+      "end": 705.128,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "with",
+      "start": 705.128,
+      "end": 705.408,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Google",
+      "start": 705.412,
+      "end": 705.692,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וזה",
+      "start": 705.692,
+      "end": 707.312,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "nice",
+      "start": 707.312,
+      "end": 707.532,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "והוא",
+      "start": 707.532,
+      "end": 708.292,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 708.292,
+      "end": 708.452,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "דואג",
+      "start": 708.452,
+      "end": 708.812,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ל-Refresh",
+      "start": 708.812,
+      "end": 709.312,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Token",
+      "start": 709.312,
+      "end": 709.632,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וכל",
+      "start": 709.632,
+      "end": 709.972,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הדברים",
+      "start": 709.972,
+      "end": 710.332,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האלה",
+      "start": 710.332,
+      "end": 710.692,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "והוא",
+      "start": 710.692,
+      "end": 711.972,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לא",
+      "start": 711.972,
+      "end": 712.192,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "coupled",
+      "start": 712.192,
+      "end": 712.612,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "באיזושהי",
+      "start": 712.612,
+      "end": 713.172,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "צורה,",
+      "start": 713.172,
+      "end": 713.572,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "as",
+      "start": 713.612,
+      "end": 713.932,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "far",
+      "start": 713.932,
+      "end": 714.072,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "as",
+      "start": 714.072,
+      "end": 714.212,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "I",
+      "start": 714.212,
+      "end": 714.292,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "know,",
+      "start": 714.292,
+      "end": 714.812,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לנאנו-Claw,",
+      "start": 714.812,
+      "end": 715.372,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 715.372,
+      "end": 715.432,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כאילו",
+      "start": 715.432,
+      "end": 715.512,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 715.512,
+      "end": 715.692,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כסטנדלון",
+      "start": 715.692,
+      "end": 716.832,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פתרון",
+      "start": 716.832,
+      "end": 717.272,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לאותנטיקציה",
+      "start": 717.272,
+      "end": 718.052,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 718.052,
+      "end": 718.212,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נראה",
+      "start": 718.212,
+      "end": 719.112,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לי",
+      "start": 719.112,
+      "end": 719.252,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אחלה.",
+      "start": 719.252,
+      "end": 719.632,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 719.612,
+      "end": 720.172,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בעצם",
+      "start": 720.172,
+      "end": 720.492,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פותר",
+      "start": 720.492,
+      "end": 720.792,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לכם",
+      "start": 720.792,
+      "end": 720.952,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 720.952,
+      "end": 721.032,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האותנטיקציה",
+      "start": 721.032,
+      "end": 721.852,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 721.852,
+      "end": 722.412,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האג'נט",
+      "start": 722.412,
+      "end": 723.132,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עם",
+      "start": 723.132,
+      "end": 723.392,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "third-party",
+      "start": 723.392,
+      "end": 723.832,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "tools,",
+      "start": 723.832,
+      "end": 724.212,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אבל",
+      "start": 724.212,
+      "end": 724.432,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "איך",
+      "start": 724.432,
+      "end": 724.532,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אתם",
+      "start": 724.532,
+      "end": 724.852,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פותרים",
+      "start": 724.852,
+      "end": 725.772,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 725.772,
+      "end": 725.952,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האותנטיקציה",
+      "start": 725.952,
+      "end": 726.812,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 726.812,
+      "end": 727.112,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ההרנס",
+      "start": 727.112,
+      "end": 727.592,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "עצמו?",
+      "start": 727.592,
+      "end": 728.052,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מול",
+      "start": 728.312,
+      "end": 728.652,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כלו,",
+      "start": 728.652,
+      "end": 728.992,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מול",
+      "start": 728.992,
+      "end": 729.172,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "קודקס,",
+      "start": 729.172,
+      "end": 729.852,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מול",
+      "start": 729.852,
+      "end": 730.032,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כל",
+      "start": 730.032,
+      "end": 730.232,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "החברים",
+      "start": 730.232,
+      "end": 731.232,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שלנו.",
+      "start": 731.232,
+      "end": 731.812,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אז",
+      "start": 733.732,
+      "end": 733.932,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "זה",
+      "start": 733.932,
+      "end": 734.072,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 734.072,
+      "end": 734.392,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "דרך",
+      "start": 734.392,
+      "end": 734.992,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "One",
+      "start": 734.992,
+      "end": 735.552,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "CLI,",
+      "start": 735.552,
+      "end": 736.292,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שזה",
+      "start": 736.292,
+      "end": 737.492,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אחלה",
+      "start": 737.492,
+      "end": 737.732,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פרויקט,",
+      "start": 737.732,
+      "end": 738.612,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יש",
+      "start": 738.612,
+      "end": 738.732,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לנו",
+      "start": 738.732,
+      "end": 738.832,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פרטנר",
+      "start": 738.832,
+      "end": 739.232,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שמוד",
+      "start": 739.232,
+      "end": 739.572,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "טוב,",
+      "start": 739.572,
+      "end": 740.032,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "חבר",
+      "start": 740.032,
+      "end": 740.912,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "טובים,",
+      "start": 740.912,
+      "end": 741.572,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ג'ונתן,",
+      "start": 741.572,
+      "end": 742.432,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יונתן",
+      "start": 742.432,
+      "end": 742.812,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פישנר",
+      "start": 742.812,
+      "end": 743.272,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וגיא",
+      "start": 743.272,
+      "end": 743.872,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בן",
+      "start": 743.872,
+      "end": 744.112,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אהרון,",
+      "start": 744.112,
+      "end": 744.952,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 744.952,
+      "end": 745.192,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פרויקט",
+      "start": 745.192,
+      "end": 745.992,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ישראלי",
+      "start": 745.992,
+      "end": 746.712,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כחול",
+      "start": 746.712,
+      "end": 747.992,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לבן,",
+      "start": 747.992,
+      "end": 748.632,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "פרויקט",
+      "start": 748.632,
+      "end": 749.272,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Open",
+      "start": 749.272,
+      "end": 749.512,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Source,",
+      "start": 749.512,
+      "end": 750.172,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יש",
+      "start": 750.172,
+      "end": 750.872,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "להם",
+      "start": 750.872,
+      "end": 751.032,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 751.032,
+      "end": 751.292,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Managed",
+      "start": 751.292,
+      "end": 752.292,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Hosted",
+      "start": 752.292,
+      "end": 753.172,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Virgin,",
+      "start": 753.172,
+      "end": 754.972,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שהיא",
+      "start": 754.592,
+      "end": 755.712,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "סופר",
+      "start": 755.712,
+      "end": 756.292,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "נוחה",
+      "start": 756.292,
+      "end": 756.712,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לי,",
+      "start": 756.712,
+      "end": 757.252,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מה",
+      "start": 757.252,
+      "end": 757.772,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שאמרת,",
+      "start": 757.772,
+      "end": 758.272,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אתה",
+      "start": 758.272,
+      "end": 758.332,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יכול",
+      "start": 758.332,
+      "end": 758.512,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "לחבר",
+      "start": 758.512,
+      "end": 758.872,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "את",
+      "start": 758.872,
+      "end": 759.052,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-Gmail,",
+      "start": 759.052,
+      "end": 759.792,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Calendar,",
+      "start": 759.792,
+      "end": 760.452,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Drive",
+      "start": 760.452,
+      "end": 760.892,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "והמון",
+      "start": 760.892,
+      "end": 761.992,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אפליקציות",
+      "start": 761.992,
+      "end": 762.772,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "באורת.",
+      "start": 762.772,
+      "end": 764.572,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "אבל",
+      "start": 765.992,
+      "end": 766.212,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בעצם",
+      "start": 766.212,
+      "end": 766.492,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 766.492,
+      "end": 766.812,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "ה-Credentials",
+      "start": 766.812,
+      "end": 768.092,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 768.092,
+      "end": 768.372,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "Anthropic",
+      "start": 768.372,
+      "end": 768.892,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "גם",
+      "start": 768.892,
+      "end": 769.232,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "יושבים",
+      "start": 769.232,
+      "end": 769.692,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "באותו",
+      "start": 769.692,
+      "end": 770.692,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "וולט",
+      "start": 770.692,
+      "end": 770.992,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 770.992,
+      "end": 771.672,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האג'נט",
+      "start": 771.672,
+      "end": 772.252,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 772.252,
+      "end": 772.392,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "1CLI.",
+      "start": 772.392,
+      "end": 773.252,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "בעצם",
+      "start": 775.052,
+      "end": 775.392,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "כל",
+      "start": 775.392,
+      "end": 775.652,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "הבקשות",
+      "start": 775.652,
+      "end": 776.172,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "שיוצאות",
+      "start": 776.172,
+      "end": 776.932,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מהסביבה",
+      "start": 776.932,
+      "end": 777.772,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "של",
+      "start": 777.772,
+      "end": 777.972,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "האג'נט,",
+      "start": 777.972,
+      "end": 778.472,
+      "speaker": null,
+      "confidence": null
+    },
+    {
+      "text": "מהה-Container,",
+      "start": 778.472,
+      "end": 780.452,
+      "speaker": null,
+      "confidence": null
+    }
+  ],
+  "episode_guid": "74fc0625-0a6b-4ca1-9488-31be7860360d",
+  "episode_title": "71 - Claw Architectures | Gavriel Cohen (NanoClaw)",
+  "source": "excerpt",
+  "time_offset": 480.0,
+  "model": "whisper-large-v3-turbo",
+  "glossary_type": "automated_reference_independent"
+}
