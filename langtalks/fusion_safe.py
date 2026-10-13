@@ -144,6 +144,9 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             continue
         if donor.confidence < max(min_confidence, 0.85):
             continue
+        if (donor.min_subword_confidence is not None
+                and donor.min_subword_confidence < max(min_confidence, 0.72)):
+            continue
         proposed = []
         entity = _identity_like(donor.text, glossary)
         for i, j, start, end in _candidate_spans(base_tokens, donor, occupied, time_tolerance):
@@ -211,6 +214,7 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             "donor_end_s": donor.end,
             "donor_term": donor.text,
             "donor_confidence": donor.confidence,
+            "donor_min_subword_confidence": donor.min_subword_confidence,
             "alignment_similarity": round(similarity, 4),
             "rule": "verified_timed_phonetic_alignment",
         })
