@@ -58,6 +58,7 @@ def summarize(transcript: dict, reference: dict) -> dict:
         "overall_legacy_weighted_score": scored["overall"],
         "unique_term_recall": scored["components"]["term_recall"],
         "timed_occurrence_diagnostic": scored["timed_term_recall"],
+        "one_to_one_timed_occurrence_diagnostic": scored["timed_term_recall_strict"],
         "hebrew_character_accuracy": scored["components"]["hebrew_accuracy"],
         "script_density_fidelity": scored["components"]["script_fidelity"],
         "glossary_limited_term_precision": scored["components"]["term_precision"],
@@ -91,7 +92,7 @@ def replay(root: Path = ROOT) -> dict:
         "rejected_candidates_sample": merged["provenance"].get("rejected_candidates_sample", []),
         "limitations": [
             "Episode 71 was used during development: these are NOT held-out metrics",
-            "Timestamped term matching is tolerance-based and is not yet one-to-one adjudicated",
+            "Strict occurrence matching is one-to-one but still approximate due to ASR word timestamps",
             "Glossary precision cannot establish the absence of hallucinations",
             "Extra Latin tokens are review flags, not automatically proven hallucinations",
             "Word error rate is an imperfect proxy for Hebrew code-switching quality",
