@@ -250,6 +250,11 @@ def speaker_accuracy(tokens: list, speaker_turns: list, tolerance: float = 2.0) 
     return matched / len(speaker_turns)
 
 
+def _strict_occurrences(tokens, reference):
+    from .strict_occurrence import timed_term_recall_strict
+    return timed_term_recall_strict(tokens, reference)
+
+
 def score(candidate_text: str, tokens: list, reference: dict, glossary: list = None) -> dict:
     """Score one candidate transcript window against its reference annotation.
 
@@ -310,6 +315,8 @@ def score(candidate_text: str, tokens: list, reference: dict, glossary: list = N
         "hallucinated_terms": invented[:40],
         "latin_ratio": round(_latin_ratio(candidate_text), 4),
         "timed_term_recall": timed_term_recall(tokens, reference),
+        "timed_term_recall_strict": _strict_occurrences(tokens, reference),
+        "precision_scope": "glossary-limited; not an exhaustive hallucination measure",
     }
 
 
