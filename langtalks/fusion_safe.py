@@ -13,6 +13,7 @@ from typing import List, Optional, Tuple
 
 from .hybrid import (assemble_donor_words, extract_latin_donor_phrases,
                      heb_to_latin_approx, _edit_dist, is_hebrewized_loanword)
+from .glossary import BASE_VOCABULARY
 
 _LATIN = re.compile(r"[A-Za-z]")
 _HEBREW = re.compile(r"[\u0590-\u05ff]")
@@ -44,11 +45,14 @@ def _affix_and_similarity(base_text: str, donor_text: str) -> Tuple[str, float]:
     """Choose an optional, acoustically compatible Hebrew clitic."""
     core = base_text.strip().strip('"\u0027.,;:!?()[]{}')
     donor = donor_text.strip().strip('"\u0027.,;:!?()[]{}')
-    options = [("", core)]
+    mandatory_prefix = core[:2] if len(core) > 3 and core[0] in _PREFIXES and core[1] == "-" else ""
+    if mandatory_prefix:
+        core = core[2:]
+    options = [(mandatory_prefix, core)]
     if len(core) > 2 and core[0] in _PREFIXES and core[1] != "-":
-        options.append((core[0] + "-", core[1:]))
+        options.append((mandatory_prefix + core[0] + "-", core[1:]))
     if len(core) > 3 and core[:2] in tuple(c + "-" for c in _PREFIXES):
-        options.append((core[:2], core[2:]))
+        options.append((mandatory_prefix + core[:2], core[2:]))
     scored = []
     for prefix, candidate in options:
         raw = _similarity(_romanized(candidate), _romanized(donor))
@@ -99,7 +103,7 @@ def _candidate_spans(tokens: List[dict], donor, occupied: set, tolerance: float)
             continue
         if first_times[1] < donor.start - tolerance:
             continue
-        for j in range(i + 1, min(i + 6, len(tokens) + 1)):
+        for j in range(i + 1, min(i + 10, len(tokens) + 1)):
             if j - 1 in occupied:
                 break
             curr = _valid_time(tokens[j - 1])
@@ -131,7 +135,8 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
     base_tokens = [dict(t) for t in base_transcript.get("tokens", [])]
     words = assemble_donor_words(donor_transcript.get("tokens", []))
     candidates = extract_latin_donor_phrases(words)
-    glossary = {_clean(term) for term in glossary_terms or []}
+    glossary = {_clean(term) for term in BASE_VOCABULARY}
+    glossary.update(_clean(term) for term in glossary_terms or [])
     candidates.sort(key=lambda p: (-len(p.words), p.start, p.end))
     occupied = set()
     used_donor_indices = set()
@@ -144,22 +149,35 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             continue
         if donor.confidence < max(min_confidence, 0.85):
             continue
-        if (donor.min_subword_confidence is not None
-                and donor.min_subword_confidence < max(min_confidence, 0.72)):
-            continue
         proposed = []
         entity = _identity_like(donor.text, glossary)
+        identity_word = (len(donor.words) == 1
+                         and bool(re.search(r"[A-Z].*[A-Z]|[a-z][A-Z]|^[A-Z][a-z]{4,}", donor.text)))
+        floor = 0.58 if identity_word else 0.72
+        if (donor.min_subword_confidence is not None
+                and donor.min_subword_confidence < max(min_confidence - 0.12, floor)):
+            continue
         for i, j, start, end in _candidate_spans(base_tokens, donor, occupied, time_tolerance):
             base_text = "".join(t.get("text", "") for t in base_tokens[i:j])
-            if not base_text.strip() or _protected(base_text, donor.text):
+            if not base_text.strip():
+                continue
+            if (i > 0 and base_tokens[i].get("text", "").startswith("-")
+                    and _LATIN.search(base_tokens[i - 1].get("text", ""))):
+                continue
+            if _clean(base_text) == _clean(donor.text):
+                continue
+            if (_protected(base_text, donor.text)
+                    and not (entity and donor.confidence >= 0.97
+                             and _affix_and_similarity(base_text, donor.text)[1] >= 0.78
+                             and not is_hebrewized_loanword(donor.text, base_text))):
                 continue
             has_latin = bool(_LATIN.search(base_text))
             if not has_latin and not (entity or len(donor.words) > 1):
                 continue
-            if not has_latin and donor.confidence < max(min_confidence, 0.95 if not entity else 0.92):
+            if not has_latin and donor.confidence < max(min_confidence, 0.95 if not entity else 0.86):
                 continue
             prefix, similarity = _affix_and_similarity(base_text, donor.text)
-            threshold = 0.71 if has_latin else (0.72 if entity else 0.84)
+            threshold = 0.71 if has_latin else (0.52 if identity_word else 0.65 if entity else 0.67)
             if similarity < threshold:
                 continue
             donor_center = (donor.start + donor.end) / 2
@@ -183,14 +201,17 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
         best = proposed[0]
         if len(proposed) > 1:
             second = proposed[1]
-            if (best[2], best[3]) != (second[2], second[3]) and best[0] - second[0] < 0.035:
-                continue
+            if (best[2], best[3]) != (second[2], second[3]) and best[0] - second[0] < 0.012:
+                a1, b1, a2, b2 = best[4], best[5], second[4], second[5]
+                if min(b1, b2) - max(a1, a2) < 0.5 * min(b1 - a1, b2 - a2):
+                    continue
         _, similarity, i, j, start, end, prefix, original = best
         leading = re.match(r"\s*", original).group()
         trailing = re.search(r"[.,;:!?]+\s*$", original)
         punctuation = trailing.group().rstrip() if trailing else ""
         replacement = leading + prefix + donor.text.strip() + punctuation
-        if original.strip().casefold() == replacement.strip().casefold():
+        if (_clean(original) == _clean(replacement)
+                or original.strip().casefold() == replacement.strip().casefold()):
             continue
         base_tokens[i]["text"] = replacement
         # The merged token covers the complete replaced span, not just its
