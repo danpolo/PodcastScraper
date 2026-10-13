@@ -63,17 +63,18 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add langtalks/reviewed/episode71/paid-pilot/ langtalks/evaluations/0e404ceb-d04b-4818-907d-a74aafa7c155/provider_soniox.original.json
+          git add langtalks/evaluations/0e404ceb-d04b-4818-907d-a74aafa7c155/provider_soniox.original.json
           if ! git diff --cached --quiet; then
-            git commit -m "Record one-time authorized LangTalks ASR results"
+            git commit -m "Record immutable Soniox ASR output for Episode 74 evaluation"
+            git pull --rebase origin dev
             git push origin HEAD:dev
           fi
       - name: Preserve pilot results for direct inspection
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: LangTalks71-authorized-ASR-pilot
-          path: langtalks/reviewed/episode71/paid-pilot/
+          name: LangTalks74-Soniox-ASR
+          path: langtalks/evaluations/0e404ceb-d04b-4818-907d-a74aafa7c155/provider_soniox.original.json
           retention-days: 7
       - name: Delete temporary audio files
         if: always()
