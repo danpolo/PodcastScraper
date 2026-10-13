@@ -190,6 +190,11 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
         if original.strip().casefold() == replacement.strip().casefold():
             continue
         base_tokens[i]["text"] = replacement
+        # The merged token covers the complete replaced span, not just its
+        # first original subword. The base confidence no longer applies.
+        base_tokens[i]["end"] = end
+        base_tokens[i]["confidence"] = None
+        base_tokens[i]["fusion_source"] = "donor_aligned"
         for idx in range(i + 1, j):
             base_tokens[idx]["text"] = ""
         occupied.update(range(i, j))
