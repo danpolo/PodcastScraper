@@ -53,7 +53,7 @@ def _affix_and_similarity(base_text: str, donor_text: str) -> Tuple[str, float]:
     for prefix, candidate in options:
         raw = _similarity(_romanized(candidate), _romanized(donor))
         consonant = _similarity(_consonants(candidate), _consonants(donor))
-        scored.append((max(raw, consonant * 0.96) + (0.006 if prefix else 0), prefix))
+        scored.append((min(1.0, max(raw, consonant * 0.96) + (0.006 if prefix else 0)), prefix))
     score, prefix = max(scored, key=lambda v: (v[0], -len(v[1])))
     return prefix, score
 
@@ -140,7 +140,7 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
 
     for donor in candidates:
         indices = {idx for word in donor.words for idx in word.token_indices}
-        if indices & used_donor_indices or not _LATIN.search(donor.text):
+        if indices & used_donor_indices or not _LATIN.search(donor.text) or _HEBREW.search(donor.text):
             continue
         if donor.confidence < max(min_confidence, 0.85):
             continue
