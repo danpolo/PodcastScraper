@@ -120,3 +120,38 @@ def test_provenance_grounded_in_actual_donor_tokens():
 def test_invalid_thresholds_rejected():
     with pytest.raises(ValueError):
         align_and_merge({}, {}, time_tolerance=-1)
+
+
+def test_low_confidence_subword_not_hidden_by_confident_letters():
+    base = transcript(["1CRI"])
+    donor = {"tokens": [
+        {"text": " One", "start": 0.0, "end": .10, "confidence": .70},
+        {"text": "C", "start": .10, "end": .20, "confidence": .99},
+        {"text": "L", "start": .20, "end": .30, "confidence": .99},
+        {"text": "I", "start": .30, "end": .55, "confidence": .99},
+    ]}
+    merged, mods = align_and_merge(base, donor)
+    assert not mods
+    assert merged["text"] == "1CRI"
+
+
+def test_multitoken_edit_merges_timing_without_reusing_old_confidence():
+    base = {"tokens": [
+        {"text": " 1", "start": 1., "end": 1.2, "confidence": .2},
+        {"text": ".cli", "start": 1.2, "end": 1.6, "confidence": .2},
+    ]}
+    donor = {"tokens": [
+        {"text": " OneCLI", "start": 1., "end": 1.6, "confidence": .98},
+    ]}
+    merged, mods = align_and_merge(base, donor)
+    assert len(mods) == 1
+    assert len(merged["tokens"]) == 1
+    assert merged["tokens"][0]["end"] == pytest.approx(1.6)
+    assert merged["tokens"][0]["confidence"] is None
+
+
+def test_no_token_fallback_preserves_original_base_text():
+    base = {"provider": "base", "text": "הטקסט המקורי.", "tokens": []}
+    merged, mods = align_and_merge(base, transcript(["OneCLI"], .99))
+    assert merged["text"] == base["text"]
+    assert not mods
