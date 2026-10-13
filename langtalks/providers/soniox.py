@@ -108,8 +108,8 @@ class SonioxProvider(Provider):
         tokens = [
             {
                 "text": token.get("text", ""),
-                "start": (token.get("start_ms") or 0) / 1000.0,
-                "end": (token.get("end_ms") or 0) / 1000.0,
+                "start": (token["start_ms"] / 1000.0 if token.get("start_ms") is not None else None),
+                "end": (token["end_ms"] / 1000.0 if token.get("end_ms") is not None else None),
                 "speaker": token.get("speaker"),
                 "confidence": token.get("confidence"),
             }
