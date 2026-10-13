@@ -1,0 +1,49 @@
+name: Hybrid Fusion Offline Audit
+on:
+  push:
+    branches: [dev]
+    paths:
+      - .github/workflows/fusion_offline_audit.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    name: Offline tests and cached replay
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Focused regression suite
+        run: python -m pytest -q tests/test_langtalks_hybrid.py tests/test_langtalks_hybrid_v2.py tests/test_langtalks_strict_occurrence.py tests/test_langtalks_scoring.py
+      - name: Cached Episode 71 comparison
+        run: |
+          python - <<'PY'
+          import json
+          from collections import Counter
+          from langtalks.fusion_audit_eval import replay
+          result = replay()
+          for label in ["baseline_ivrit", "baseline_soniox", "previous_hybrid", "revised_hybrid"]:
+              obj = result[label]
+              print("METRICS", label, json.dumps({
+                  key: obj[key] for key in [
+                      "overall_legacy_weighted_score",
+                      "unique_term_recall",
+                      "timed_occurrence_diagnostic",
+                      "one_to_one_timed_occurrence_diagnostic",
+                      "hebrew_character_accuracy",
+                      "script_density_fidelity",
+                      "word_error_rate",
+                      "character_error_rate",
+                      "known_loanword_recall",
+                      "extra_latin_tokens_for_manual_review"
+                  ]
+              }, ensure_ascii=False))
+          print("MODIFICATION_COUNT", result["modification_count"])
+          print("MODIFICATIONS", json.dumps(result["changes"], ensure_ascii=False))
+          PY
