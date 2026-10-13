@@ -1,117 +1,88 @@
-# Hybrid fusion correctness audit (dev)
+# Hybrid fusion audit — evidence-based v2
 
-**Scope:** \`langtalks/hybrid.py\`, new \`fusion_safe.py\`, cached Episode 71
-480–780s outputs, human-approved reference, \`score.py\`, Soniox adapter, and
-existing tests. No ASR calls, paid compute, archive backfill, or reference edits.
+**Repository/branch:** `danpolo/PodcastScraper` / `dev` only.  
+**Benchmark:** LangTalks episode 71, 480–780 seconds, human-reviewed.  
+**Status:** Offline validation successful; **not production-validated**. No external ASR requests, Modal invocations, archive backfills, or reference modifications were made.
 
-## Priority findings
+## Executive finding
 
-| Priority | Original defect | Impact | Response |
-| --- | --- | --- | --- |
-| P0 | Rule-based substitution fired with \`donor=None\` and fabricated donor confidence (0.95–0.99) | Unsupported corrections incorrectly presented as corroborated speech | Removed all episode-specific rewrite branches; every edit now requires actual donor token indices, valid timing and sufficient donor confidence |
-| P0 | \`find_matching_donor\` returned the first temporally overlapping phrase, ordered by phrase length, without a local lexical match | Nearby unrelated words could be treated as evidence | Replaced with local time **and** phonetic matching; ambiguous spans are rejected |
-| P1 | Product-specific spellings and error variants were embedded in \`KNOWN_PHONETIC_PAIRS\` | Reference leakage into inference, overfit Episode 71 | Removed correction dictionary; tests retain known regressions without exposing ground-truth terms to the engine |
-| P1 | Six reference-timed OneCLI mentions in donor; only one in the saved hybrid | Unique-term recall concealed five missing occurrences | Added donor-occurrence matching and six-variant repeat test; cached-data replay required before numerical claims |
-| P1 | Fixed pattern cases for English compounds and Hebrew prefixes | Phrases outside the hard-coded list could not be corrected | Generic contiguous multiword candidates; prefix inference from phonetic fit; conservative rejection if identity unclear |
-| P1 | Missing Soniox timestamps were silently coerced to zero | False synchronization with early audio | Preserve missing timestamps as null; reject malformed timing |
-| P1 | Missing donor confidence was interpreted as 1.0 | False high-confidence evidence | Require actual model confidence; unknown confidence no longer triggers a rewrite |
-| P2 | Subword assembly could merge speech across invalid/gapped timestamps; phrases could cross sentence boundaries | Incorrect word and phrase candidates | Validate token times, break at gaps, and reject punctuation-crossing phrase windows |
-| P2 | Protected Hebrewized forms were finite and nominally enumerated | Inflected/unlisted loans vulnerable | Keep explicit protections plus conservative Hebrew suffix guard; mixed-script donor substitutions are rejected |
-| P2 | Provenance recorded only textual donor claim and time | Weak auditability | Add exact donor/base token indices, source time, similarity and rejected candidate samples |
+The original fusion engine was **not a reliable general-purpose aligner**. It applied episode-specific text substitutions even without donor agreement and fabricated donor confidence. Its headline 95.56% composite score concealed a severe repeated-mention regression: Soniox recognized six `OneCLI` occurrences; the old hybrid retained only one.
 
-## Why the old aggregate metrics are inadequate
+The replacement uses Soniox **as time-local evidence, not as authority**. It edits only when temporal alignment, phonetic/lexical compatibility, and model-reported confidence pass conservative checks. Every accepted edit links back to exact base and donor token indices.
 
-The historical 0.9556 weighted score used **unique** English term recall
-(33/34), Hebrew-only character accuracy, glossary-limited precision, and
-script *density*. It **excluded** timed occurrence recall, despite the
-hybrid retaining only 35/46 verified mentions versus Soniox's 43/46.
-Script-density similarity is not lexical script fidelity: a text could put
-the right overall quantity of Latin characters in the wrong locations.
-A glossary hit without a reference hit does not provide a comprehensive
-hallucination check, and 100% *glossary-limited* precision does **not**
-prove zero unsupported words, claims, or technical names.
+## Prioritized audit and fixes
 
-The reviewed reference also contains manually confirmed non-technical
-corrections (such as the Hebrew isolation wording) that a
-**technical-term substitution engine** should not silently inject from the
-reference. The remaining mistakes must be reported, not patched as
-Episode 71-specific transcription substitutions.
+| Priority | Defect / risk | Remediation |
+|---|---|---|
+| P0 | Episode 71 hard-coded rewrites (`1.cli`, `והרמז`, etc.) executed **without** a corresponding donor observation | Removed the rewrite table and special compound branches; no donor evidence means no change |
+| P0 | First time-overlapping donor phrase could win with no lexical alignment | Compare local candidate spans on timing, phonetics, and edit compatibility; reject ambiguity |
+| P0 | Absent donor confidence was replaced by fabricated values around 0.95–0.99 | Require genuine numeric Soniox confidence; keep missing/invalid confidence from triggering an edit |
+| P1 | Repeated proper nouns, split products, Hebrew affixes, and mixed-script stems were undercorrected | One-to-one donor occurrence use; token-span matching; evidence-based Hebrew clitic handling |
+| P1 | Phrase fusion could consume correct neighboring words, drop punctuation, or romanize split Hebrew loanwords | Introduced span containment, per-word agreement, script/morphology protection, and no-style-only-change guards |
+| P1 | Soniox missing times were coerced to 0s; weak subword confidence could be hidden in averages | Preserve null timestamps, validate ranges, retain word confidence plus subword floor |
+| P1 | Fused token retained its original short span and stale ivrit confidence | Extend fused token time over its full base span and clear stale confidence; retain exact provenance |
+| P2 | Unique term recall and Latin-script density overstated correctness; glossary precision did not cover hallucinations | Added strict one-to-one occurrence diagnostic, WER/CER, loanword recall, and review-only unsupported-Latin flags, with **no changes to old scoring weights** |
+| P2 | Existing cached-benchmark test pointed to an absent `out/transcripts` folder and silently skipped; main CI lacked `pytest` | Added tracked-cache replay checks in offline CI and fixed the test environment |
 
-## Design decisions
+## Reproducible Episode 71 results
 
-1. Keep ivrit.ai as an immutable base. Do not translate or paraphrase Hebrew.
-2. Treat Soniox as **candidate evidence**, not the truth. Require time, donor
-   confidence, and lexical/phonetic compatibility together.
-3. Refuse candidate collisions and ambiguous spans rather than guessing.
-4. Require stronger evidence when changing an all-Hebrew word than when
-   repairing a partly Latin technical name.
-5. Keep unrecognized Hebrewized loans intact, including productive suffixes.
-6. Record source token indices for every amendment. A donor-provided phrase
-   cannot be reused to justify several distinct edits.
-7. Keep human annotations out of inference. The reference is exclusively
-   for evaluation and regression development.
+All values below were recomputed with the **same current evaluation code and approved reference**, using only immutable cached outputs. Because this excerpt informed development, **none of these figures demonstrate generalization**.
 
-**Trade-off:** A strict engine may miss genuine English entities that both
-models render very differently (e.g., short Hebrew approximations of product
-names). These should be flagged for review, not invented.
+| Metric | ivrit.ai L4 | Soniox V5 | Previous hybrid | Revised hybrid |
+| --- | ---: | ---: | ---: | ---: |
+| Unique technical terms | 20/34 (58.82%) | 32/34 (94.12%) | 33/34 (97.06%) | **32/34 (94.12%)** |
+| Verified timed term occurrences¹ | 21/46 (45.65%) | **43/46 (93.48%)** | 35/46 (76.09%) | **42/46 (91.30%)** |
+| `OneCLI` mentions | 0/6 | 6/6 | 1/6 | **6/6** |
+| Hebrew-only character accuracy | 90.99% | 87.41% | 91.23% | **92.90%** |
+| Whole-transcript WER ↓ | 11.85% | 18.33% | 11.06% | **9.79%** |
+| Whole-transcript normalized CER ↓ | 8.18% | 11.50% | 7.80% | **6.54%** |
+| Known Hebrewized loanword surface recall | 15/19 | 5/19 | 15/19 | **15/19** |
+| Latin-script character-density similarity² | 79.60% | 47.49% | 99.18% | 90.04% |
+| **Legacy weighted composite²** | 75.27% | 89.53% | 95.56% | 93.73% |
 
-## Available results and reproducible offline replay
+¹ Time alignment is a **one-to-one diagnostic**, still subject to word-timestamp uncertainty; not independent audio adjudication.  
+² These aggregate/density scores remain for backward comparison **only**. The lower legacy score is not evidence of worse transcript quality: WER, CER, Hebrew accuracy, and occurrence recall all improved. Neither density nor glossary-limited precision proves absence of hallucinations.
 
-Historical cached Episode 71 measurements (from the unchanged original output):
+**Delta versus previous hybrid:** +7/46 timed occurrences; `OneCLI` +5/6; Hebrew character accuracy +1.66 percentage points; WER −1.27 points; CER −1.26 points. Unique term coverage −1/34. The reference-independent algorithm makes **25** timed, donor-backed edits, preserving original ASR inputs.
 
-| Metric | Ivrit L4 | Soniox V5 | Old hybrid |
-| --- | ---: | ---: | ---: |
-| Unique technical-term recall | 20/34 | 32/34 | 33/34 |
-| Timed technical-term occurrences | 21/46 | 43/46 | 35/46 |
-| Hebrew-only character accuracy | 0.9099 | 0.8741 | 0.9123 |
-| Script character-density score | 0.7960 | 0.4749 | 0.9918 |
-| Old weighted composite | 0.7527 | 0.8958 | 0.9556 |
+## Accepted behavior and notable abstentions
 
-The new engine's exact cached-replay scores **have not been established by
-this audit environment**. Do not replace the last column with synthetic
-test expectations. To calculate objective results *offline* against all
-three saved inputs, the frozen old hybrid, and the approved reference:
+Successful cached repairs include `OneCLI` in all six differing corruptions, `ה-dependency`, `ה-header`, `ו-Hermes`, `ב-runtime`, `ל-refresh token`, and `open source`. Hebrew prefixes attached to corrected terms remain visible. The engine rejects edits to split `האג'נט` tokens, common Hebrewized suffixes, unchanged English terms, and uncertain donor matches.
 
-\`\`\`bash
-python -m langtalks.fusion_audit_eval --output /tmp/podcasts-fusion-ep71-v2.json
-pytest -q tests/test_langtalks_hybrid.py tests/test_langtalks_hybrid_v2.py tests/test_langtalks_scoring.py
-\`\`\`
+Four verified timed technical-term occurrences are still missed by the revised hybrid:
 
-The replay generates legacy metrics alongside WER, whole-transcript CER,
-known Hebrewized-loanword preservation, unique term recall, occurrence
-recall, script density, and a **review-only** list of Latin words absent
-from the reference. None of these additional measures changes the score
-weights. The script never sends requests and refuses to overwrite existing
-report paths. Existing archived ASR JSON and human references remain intact.
+- `NanoClaw` at ~714.8s: corresponding Soniox candidate includes a low-confidence subword; the engine abstains
+- `gateway` at ~629.5s: Hebrew phonetics remain too far from a safe Latin rewrite
+- `process` at ~594.1s: donor and base speech/loanword forms disagree with the specific English surface
+- `Log in with Google` at ~705.3s: the donor says `login with Google`; do not manufacture different wording
 
-## Validation actually completed
+The transcript also retains `agentים`, `ועידוד`, and `Sum Security Best Practices`. These are genuine limitations against the human reference. The available donor text supports potential fixes in context, but correction would require more robust morphology/Hebrew-speech alignment or explicit review. No reference-derived rewrite was installed.
 
-The replacement algorithm passed 15 local synthetic offline tests covering
-repeated named entities, six corrupted product spellings, phonetic Hebrew
-clitics, missing/unconfident donor evidence, unrelated speech, loanword
-preservation, compound English corrections, time separation, and invalid
-configuration. New repository-level tests are committed on \`dev\`;
-**the complete checked-out repository test suite and full Episode 71
-cached replay were not executed in the current environment**.
+## Hallucination and provenance limitations
 
-## Open risks and acceptance gates
+- **100% glossary-limited term precision is not a hallucination audit.** Technical names absent from the glossary, invented ordinary words, incorrect Hebrew, and contextually wrong substitutions still require inspection.
+- Every applied edit has base/donor token indices, start/end times, confidence, similarity, and replacement text. Provenance demonstrates *why an edit was proposed*, **not that the resulting speech is verified**.
+- Confidence values are model-provided, not calibrated probabilities. The reference-derived metrics do not independently confirm the episode's acoustic truth.
+- A productive Hebrew suffix guard and simple consonant transliteration can reject genuine code-switches or occasionally accept false positives; some loanwords remain ambiguous without listening.
+- The measured 15/19 known-loanword recall is **not exhaustive**; it is a finite vocabulary surface check.
+- WER/CER conflate Hebrew morphology, punctuation, and code-switching; report them alongside the term and loanword metrics, not in place of them.
 
-- The current phonetic approximation is intentionally simple; transliteration
-  variants outside its coverage may be rejected, not corrected.
-- Confidence is model-reported and uncalibrated. True error rates cannot be
-  inferred from numeric confidence gates alone.
-- Hebrew clitic inference can remain ambiguous, particularly with product
-  names sharing common Hebrew consonants.
-- Multiword candidates need further testing against timestamp drift and long
-  uninterrupted English passages.
-- The old timed matcher is tolerance-based, not a rigorously one-to-one
-  temporal assignment. Its results remain diagnostic.
-- \`agentים\` requires a morphology/loanword correction policy and
-  \`ועידוד\` requires independent Hebrew transcription verification; the
-  hybrid deliberately does not invent a rewrite for either.
+## Validation, reproducibility, and deliverables
 
-**Recommendation:** NOT production-ready. First execute offline replay,
-inspect every revised change (including regressions against Soniox and
-ivrit.ai), and resolve any errors. If satisfactory, test on a separately
-chosen **unseen** episode with independent human review. Only then consider
-deployment; do not infer archive accuracy or safety from Episode 71.
+The pinned development benchmark was replayed **offline** on GitHub Actions. The main project CI passed, and the focused fusion tests passed (45 passed, 1 skipped before the final reporting/quality-gate addition). References and saved baseline outputs are unchanged.
+
+- [Full project CI (successful)](https://github.com/danpolo/PodcastScraper/actions/runs/38395972716)
+- [Fusion regression tests and exact cached replay (successful)](https://github.com/danpolo/PodcastScraper/actions/runs/38395972763)
+
+Run locally from the project root (no keys, network, or audio needed):
+
+```bash
+python -m pytest -q tests/test_langtalks_hybrid.py tests/test_langtalks_hybrid_v2.py tests/test_langtalks_strict_occurrence.py tests/test_langtalks_scoring.py tests/test_langtalks_fusion_quality_gate.py
+python -m langtalks.fusion_audit_eval --output /tmp/fusion-episode71-comparison.json --merged-output /tmp/fusion-episode71-revised-hybrid.json
+```
+
+The offline CI also uploads both JSONs as a **30-day artifact** under the fusion workflow run. Its quality gate requires non-regression on timed mentions, WER, Hebrew-only CER-based accuracy, and known loanword preservation against the saved previous hybrid. This is a **development-set safety net**, not evidence of held-out generalization. The source files never overwrite existing outputs.
+
+## Recommendation
+
+**Ready for a new, unseen-episode *validation experiment*, but NOT production-ready.** Freeze this algorithm and its thresholds before selecting a new episode. Choose an episode independently (different guest/vocabulary if possible), collect human review without using it to tune the algorithm, and report all standalone and fused metrics plus per-edit false positives, omissions, prefix/morphology errors, and code-switch fidelity. Require zero severe unsupported rewrites before considering deployment. Keep production/archival fusion disabled until such a held-out review passes.

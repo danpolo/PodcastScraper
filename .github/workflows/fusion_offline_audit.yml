@@ -9,6 +9,7 @@ on:
       - langtalks/hybrid.py
       - tests/test_langtalks_hybrid_v2.py
       - langtalks/fusion_audit_eval.py
+      - tests/test_langtalks_fusion_quality_gate.py
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,9 +32,16 @@ jobs:
         run: |
           python - <<'PY'
           import json
-          from collections import Counter
-          from langtalks.fusion_audit_eval import replay
-          result = replay()
+          from pathlib import Path
+          from langtalks.fusion_audit_eval import replay, assert_no_development_regression
+          result, merged = replay(include_merged=True)
+          assert_no_development_regression(result)
+          out = Path("fusion-results")
+          out.mkdir(exist_ok=True)
+          (out / "episode71-comparison.json").write_text(
+              json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          (out / "episode71-revised-hybrid.json").write_text(
+              json.dumps(merged, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           for label in ["baseline_ivrit", "baseline_soniox", "previous_hybrid", "revised_hybrid"]:
               obj = result[label]
               print("METRICS", label, json.dumps({
@@ -53,3 +61,11 @@ jobs:
           print("MODIFICATION_COUNT", result["modification_count"])
           print("MODIFICATIONS", json.dumps(result["changes"], ensure_ascii=False))
           PY
+      - name: Upload offline comparison artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: episode71-hybrid-fusion-replay
+          path: fusion-results/
+          if-no-files-found: ignore
+          retention-days: 30

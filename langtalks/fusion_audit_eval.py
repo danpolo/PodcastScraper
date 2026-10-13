@@ -69,7 +69,7 @@ def summarize(transcript: dict, reference: dict) -> dict:
     }
 
 
-def replay(root: Path = ROOT) -> dict:
+def replay(root: Path = ROOT, include_merged: bool = False):
     pilot = root / "reviewed" / "episode71" / "optimized-pilot"
     stem = str(GUID) + "."
     with (pilot / (stem + "optimized_modal_l4.json")).open(encoding="utf-8") as fh:
@@ -80,7 +80,7 @@ def replay(root: Path = ROOT) -> dict:
         previous = json.load(fh)
     reference = load_reference(root / "reference" / (GUID + ".json"))
     merged, mods = align_and_merge(base, donor)
-    return {
+    result = {
         "benchmark": "Episode 71, 480-780s, development set only",
         "glossary_leakage": "No glossary or reference supplied to fusion at replay time",
         "baseline_ivrit": summarize(base, reference),
@@ -98,21 +98,57 @@ def replay(root: Path = ROOT) -> dict:
             "Word error rate is an imperfect proxy for Hebrew code-switching quality",
         ],
     }
+    return (result, merged) if include_merged else result
+
+
+def assert_no_development_regression(result: dict) -> None:
+    """Offline gates against the *frozen* previous output, not production KPIs.
+
+    Episode 71 is a DEVELOPMENT benchmark, so passing these constraints
+    demonstrates only non-regression against these cached reference annotations.
+    """
+    prior, current = result["previous_hybrid"], result["revised_hybrid"]
+    old_occ = prior["one_to_one_timed_occurrence_diagnostic"]
+    new_occ = current["one_to_one_timed_occurrence_diagnostic"]
+    assert old_occ and new_occ, "timed term evidence unavailable"
+    assert new_occ["matched"] >= old_occ["matched"], "timed occurrences regressed"
+    assert current["word_error_rate"] <= prior["word_error_rate"], "WER regressed"
+    assert current["hebrew_character_accuracy"] >= prior["hebrew_character_accuracy"], "Hebrew accuracy regressed"
+    a = current["known_loanword_recall"]
+    b = prior["known_loanword_recall"]
+    assert a["observed"] >= b["observed"], "known Hebrewized loanwords regressed"
+    for mod in result["changes"]:
+        assert mod["donor_token_indices"], "edit lacks donor evidence"
+        assert mod["base_token_indices"], "edit lacks base provenance"
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root", type=Path, default=ROOT)
-    p.add_argument("--output", type=Path, help="Optional NEW path; source files are immutable")
+    p.add_argument("--output", type=Path, help="Optional NEW report JSON path")
+    p.add_argument("--merged-output", type=Path,
+                   help="Optional NEW hybrid transcript JSON path; never overwrites ASR outputs")
     args = p.parse_args()
-    result = replay(args.root)
+    for path in (args.output, args.merged_output):
+        if path is not None and path.exists():
+            p.error(f"refusing to overwrite existing file: {path}")
+    if args.output and args.output == args.merged_output:
+        p.error("report and hybrid output paths must differ")
+    if args.merged_output:
+        result, merged = replay(args.root, include_merged=True)
+    else:
+        result = replay(args.root)
+        merged = None
     serialized = json.dumps(result, ensure_ascii=False, indent=2)
     if args.output:
-        if args.output.exists():
-            p.error("refusing to overwrite an existing evaluation file")
-        args.output.write_text(serialized + "\n", encoding="utf-8")
+        with args.output.open("x", encoding="utf-8") as fh:
+            fh.write(serialized + "\n")
     else:
         print(serialized)
+    if args.merged_output:
+        with args.merged_output.open("x", encoding="utf-8") as fh:
+            json.dump(merged, fh, ensure_ascii=False, indent=2)
+            fh.write("\n")
 
 
 if __name__ == "__main__":
