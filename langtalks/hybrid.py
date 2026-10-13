@@ -45,36 +45,6 @@ HEBREWIZED_LOANWORDS: Dict[str, Set[str]] = {
     "debug": {"לדבג", "דיבגתי", "מדבג"},
 }
 
-# Known phonetic transliterations and typos produced by Hebrew-only Whisper models
-# mapped to canonical Latin technical terms and products.
-KNOWN_PHONETIC_PAIRS: Dict[str, str] = {
-    "1.cli": "OneCLI",
-    "1.cלי": "OneCLI",
-    "והרמז": "ו-Hermes",
-    "הרמז": "Hermes",
-    "ברמטיים": "בruntime",
-    "רמטיים": "runtime",
-    "בראנטיים": "בruntime",
-    "ראנטיים": "runtime",
-    "-orchestation": "-orchestration",
-    "orchestation": "orchestration",
-    "-pendency": "-dependency",
-    "pendency": "dependency",
-    "-depדנסי": "-dependency",
-    "depדנסי": "dependency",
-    "אנתרופיק": "Anthropic",
-    "קודקס": "Codex",
-    "וולט": "vault",
-    "גייטווי": "gateway",
-    "הגייטווי": "ה-gateway",
-    "האדר": "header",
-    "adhr": "header",
-    "-adhr": "-header",
-    "האוטוריזיישן": "authorization",
-    "ההרנס": "harness",
-    "ננוקו": "NanoClaw",
-}
-
 HEBREW_TO_LATIN_MAP = {
     "א": "a", "ב": "b", "ג": "g", "ד": "d", "ה": "h", "ו": "o", "ז": "z",
     "ח": "h", "ט": "t", "י": "i", "כ": "k", "ך": "k", "ל": "l", "מ": "m",
@@ -142,7 +112,7 @@ def assemble_donor_words(tokens: List[dict]) -> List[DonorWord]:
             raw_text = "".join(current_chars)
             clean_text = raw_text.strip()
             if clean_text and start_time is not None and end_time is not None:
-                avg_conf = sum(confidences) / len(confidences) if confidences else 1.0
+                avg_conf = (sum(confidences) / len(confidences) if len(confidences) == len(current_indices) else None)
                 words.append(
                     DonorWord(
                         text=raw_text,
@@ -165,6 +135,7 @@ def assemble_donor_words(tokens: List[dict]) -> List[DonorWord]:
         conf = tok.get("confidence")
 
         if start is None or end is None:
+            flush()
             continue
         try:
             start_f, end_f = float(start), float(end)
@@ -209,7 +180,7 @@ def extract_latin_donor_phrases(
                 break
 
         if re.search(r"[A-Za-z]", core):
-            conf = w.confidence if w.confidence is not None else 1.0
+            conf = w.confidence if w.confidence is not None else 0.0
             phrases.append(
                 DonorPhrase(
                     text=core,
@@ -225,9 +196,11 @@ def extract_latin_donor_phrases(
         for i in range(n_words - length + 1):
             window = words[i : i + length]
             cores = [w.text.strip(".,;:!?()[]{}\"' ") for w in window]
-            if all(re.search(r"[A-Za-z]", c) for c in cores):
+            if (all(re.search(r"[A-Za-z]", c) for c in cores)
+                    and all(window[k + 1].start - window[k].end <= 0.70
+                            for k in range(len(window) - 1))):
                 full_text = " ".join(c for c in cores if c)
-                avg_conf = sum((w.confidence or 1.0) for w in window) / len(window)
+                avg_conf = min((w.confidence if w.confidence is not None else 0.0) for w in window)
                 phrases.append(
                     DonorPhrase(
                         text=full_text,
@@ -280,304 +253,14 @@ def align_and_merge(
     min_confidence: float = 0.70,
     time_tolerance: float = 1.5,
 ) -> Tuple[dict, List[dict]]:
-    """Align base and donor transcripts by timestamps and perform selective surgical fusion.
+    """Conservative donor-grounded fusion; original inputs remain untouched.
 
-    Returns:
-        (merged_transcript_dict, list_of_applied_modifications)
+    See fusion_safe.py for the v2 alignment implementation. The public API is
+    preserved for existing callers and benchmarks.
     """
-    base_tokens = [dict(t) for t in base_transcript.get("tokens", [])]
-    donor_tokens = donor_transcript.get("tokens", [])
+    from .fusion_safe import align_and_merge_v2
 
-    donor_words = assemble_donor_words(donor_tokens)
-    donor_phrases = extract_latin_donor_phrases(donor_words)
-
-    # Sort donor candidates by phrase length descending
-    donor_phrases.sort(key=lambda p: (len(p.text.split()), p.end - p.start), reverse=True)
-
-    glossary_set = {t.lower() for t in (glossary_terms or [])}
-    modifications = []
-    replaced_token_indices: Set[int] = set()
-
-    # Pre-filter donor phrases with sufficient confidence
-    donor_by_time: List[DonorPhrase] = [
-        p for p in donor_phrases if p.confidence >= min_confidence and len(p.text.strip()) >= 2
-    ]
-
-    def find_matching_donor(start_t: float, end_t: float, expected_sub: str = "") -> Optional[DonorPhrase]:
-        for d in donor_by_time:
-            if not (end_t < d.start - time_tolerance or start_t > d.end + time_tolerance):
-                if not expected_sub or expected_sub.lower() in d.text.lower():
-                    return d
-        return None
-
-    # Step 1: Surgical token pattern scanning on base tokens
-    i = 0
-    while i < len(base_tokens):
-        if i in replaced_token_indices:
-            i += 1
-            continue
-
-        tok = base_tokens[i]
-        text_raw = tok.get("text", "")
-        text_clean = text_raw.strip().strip(".,;:!?()[]{}\"'")
-        text_clean_lower = text_clean.lower()
-        t_start = tok.get("start", 0.0)
-        t_end = tok.get("end", 0.0)
-
-        # Pattern A: OneCLI in Ivrit (emitted as ' 1', '.cli' or ' 1', '.Cלי' or '-1', '.cli')
-        if (
-            i < len(base_tokens) - 1
-            and text_clean in ("1", "-1")
-            and any(k in base_tokens[i + 1].get("text", "").lower() for k in (".cli", ".cלי", "cli", "cלי"))
-        ):
-            next_tok = base_tokens[i + 1]
-            end_time = next_tok.get("end", t_end)
-            donor = find_matching_donor(t_start, end_time, "onecli")
-            trailing = "." if next_tok["text"].endswith(".") else ("," if next_tok["text"].endswith(",") else "")
-            pfx = " ב-OneCLI" if (i > 0 and base_tokens[i - 1].get("text", "").strip() == "ב") else (
-                " OneCLI" if text_raw.startswith(" ") else "OneCLI"
-            )
-            if pfx.startswith(" ב-") and i > 0:
-                base_tokens[i - 1]["text"] = ""
-                replaced_token_indices.add(i - 1)
-
-            orig_text = (base_tokens[i - 1]["text"] if pfx.startswith(" ב-") else "") + text_raw + next_tok["text"]
-            tok["text"] = pfx + trailing
-            next_tok["text"] = ""
-            replaced_token_indices.update([i, i + 1])
-
-            modifications.append({
-                "index": len(modifications) + 1,
-                "original_text": orig_text,
-                "replacement_text": pfx + trailing,
-                "start_s": t_start,
-                "end_s": end_time,
-                "donor_term": "OneCLI",
-                "donor_confidence": donor.confidence if donor else 0.99,
-                "rule": "onecli_asr_subword_pair",
-            })
-            i += 2
-            continue
-
-        # Pattern B: Multi-token compound 'אופן סורס' -> 'open source'
-        if (
-            i < len(base_tokens) - 1
-            and text_clean == "אופן"
-            and base_tokens[i + 1].get("text", "").strip().startswith("סורס")
-        ):
-            next_tok = base_tokens[i + 1]
-            end_time = next_tok.get("end", t_end)
-            donor = find_matching_donor(t_start, end_time, "open source")
-            trailing = "," if next_tok["text"].endswith(",") else ("." if next_tok["text"].endswith(".") else "")
-            replacement = (" open source" if text_raw.startswith(" ") else "open source") + trailing
-            orig_text = text_raw + next_tok["text"]
-
-            tok["text"] = replacement
-            next_tok["text"] = ""
-            replaced_token_indices.update([i, i + 1])
-
-            modifications.append({
-                "index": len(modifications) + 1,
-                "original_text": orig_text,
-                "replacement_text": replacement,
-                "start_s": t_start,
-                "end_s": end_time,
-                "donor_term": "open source",
-                "donor_confidence": donor.confidence if donor else 0.98,
-                "rule": "open_source_compound",
-            })
-            i += 2
-            continue
-
-        # Pattern C: 'מגוגל Workspace' -> 'מ-Google Workspace'
-        if (
-            i < len(base_tokens) - 1
-            and text_clean == "מגוגל"
-            and "workspace" in base_tokens[i + 1].get("text", "").lower()
-        ):
-            next_tok = base_tokens[i + 1]
-            end_time = next_tok.get("end", t_end)
-            donor = find_matching_donor(t_start, end_time, "workspace")
-            trailing = "," if next_tok["text"].endswith(",") else ("." if next_tok["text"].endswith(".") else "")
-            replacement = (" מ-Google Workspace" if text_raw.startswith(" ") else "מ-Google Workspace") + trailing
-            orig_text = text_raw + next_tok["text"]
-
-            tok["text"] = replacement
-            next_tok["text"] = ""
-            replaced_token_indices.update([i, i + 1])
-
-            modifications.append({
-                "index": len(modifications) + 1,
-                "original_text": orig_text,
-                "replacement_text": replacement,
-                "start_s": t_start,
-                "end_s": end_time,
-                "donor_term": "Google Workspace",
-                "donor_confidence": donor.confidence if donor else 0.99,
-                "rule": "google_workspace_compound",
-            })
-            i += 2
-            continue
-
-        # Pattern D: 'הוסטד וורג' -> 'hosted version'
-        if (
-            i < len(base_tokens) - 1
-            and "הוסטד" in text_clean
-            and any(k in base_tokens[i + 1].get("text", "") for k in ("וורג", "וורג'ן"))
-        ):
-            next_tok = base_tokens[i + 1]
-            end_time = next_tok.get("end", t_end)
-            donor = find_matching_donor(t_start, end_time, "hosted")
-            trailing = "," if next_tok["text"].endswith(",") else ("." if next_tok["text"].endswith(".") else "")
-            replacement = (" hosted version" if text_raw.startswith(" ") else "hosted version") + trailing
-            orig_text = text_raw + next_tok["text"]
-
-            tok["text"] = replacement
-            next_tok["text"] = ""
-            replaced_token_indices.update([i, i + 1])
-
-            modifications.append({
-                "index": len(modifications) + 1,
-                "original_text": orig_text,
-                "replacement_text": replacement,
-                "start_s": t_start,
-                "end_s": end_time,
-                "donor_term": "hosted version",
-                "donor_confidence": donor.confidence if donor else 0.95,
-                "rule": "hosted_version_compound",
-            })
-            i += 2
-            continue
-
-        # Pattern D2: 'לרפרש טוקן' -> 'ל-refresh token'
-        if (
-            i < len(base_tokens) - 1
-            and "רפרש" in text_clean
-            and "טוקן" in base_tokens[i + 1].get("text", "")
-        ):
-            next_tok = base_tokens[i + 1]
-            end_time = next_tok.get("end", t_end)
-            donor = find_matching_donor(t_start, end_time, "token")
-            trailing = "," if next_tok["text"].endswith(",") else ("." if next_tok["text"].endswith(".") else "")
-            pfx = "ל-" if text_clean.startswith("ל") else ""
-            replacement = (" " if text_raw.startswith(" ") else "") + f"{pfx}refresh token" + trailing
-            orig_text = text_raw + next_tok["text"]
-
-            tok["text"] = replacement
-            next_tok["text"] = ""
-            replaced_token_indices.update([i, i + 1])
-
-            modifications.append({
-                "index": len(modifications) + 1,
-                "original_text": orig_text,
-                "replacement_text": replacement,
-                "start_s": t_start,
-                "end_s": end_time,
-                "donor_term": "refresh token",
-                "donor_confidence": donor.confidence if donor else 0.98,
-                "rule": "refresh_token_compound",
-            })
-            i += 2
-            continue
-
-        # Pattern E: Single-token phonetic transliteration pairs
-        matched_pair = None
-        for phonetic_key, target_term in KNOWN_PHONETIC_PAIRS.items():
-            if (
-                phonetic_key == text_clean_lower
-                or phonetic_key == text_clean
-                or phonetic_key == text_clean.lstrip("-").lower()
-            ):
-                matched_pair = target_term
-                break
-
-        if matched_pair:
-            donor = find_matching_donor(t_start, t_end, matched_pair.lstrip("ו-ב-ה-"))
-            leading_ws = " " if text_raw.startswith(" ") else ""
-            trailing = "." if text_raw.endswith(".") else ("," if text_raw.endswith(",") else "")
-
-            if matched_pair.startswith("-"):
-                final_replacement = matched_pair + trailing
-            elif matched_pair.startswith(("ו-", "ב-", "ה-")):
-                final_replacement = leading_ws + matched_pair + trailing
-            else:
-                pfx, _ = extract_hebrew_prefix(text_clean)
-                final_replacement = leading_ws + (pfx if pfx else "") + matched_pair + trailing
-
-            modifications.append({
-                "index": len(modifications) + 1,
-                "original_text": tok["text"],
-                "replacement_text": final_replacement,
-                "start_s": t_start,
-                "end_s": t_end,
-                "donor_term": matched_pair,
-                "donor_confidence": donor.confidence if donor else 0.98,
-                "rule": "single_token_phonetic_pair",
-            })
-            tok["text"] = final_replacement
-            replaced_token_indices.add(i)
-            i += 1
-            continue
-
-        # Pattern F: Dynamic phonetic similarity check (for single-word terms across episodes)
-        donor = find_matching_donor(t_start, t_end)
-        if (
-            donor
-            and len(donor.text.split()) == 1
-            and donor.confidence >= 0.88
-            and (donor.text.lower() in glossary_set or any(c.isupper() for c in donor.text[1:]))
-            and not is_hebrewized_loanword(donor.text, text_clean)
-            and not re.search(r"[A-Za-z]", text_clean)
-            and len(text_clean) >= 3
-        ):
-            pfx, stem = extract_hebrew_prefix(text_clean)
-            approx = heb_to_latin_approx(stem if stem else text_clean)
-            donor_clean = re.sub(r"[^\w]", "", donor.text.lower())
-            if len(approx) >= 3 and len(donor_clean) >= 3 and abs(len(approx) - len(donor_clean)) <= 2:
-                dist = _edit_dist(approx, donor_clean)
-                max_len = max(len(approx), len(donor_clean))
-                if max_len > 0 and (1.0 - dist / max_len) >= 0.65:
-                    leading_ws = " " if text_raw.startswith(" ") else ""
-                    trailing = "." if text_raw.endswith(".") else ("," if text_raw.endswith(",") else "")
-                    final_replacement = leading_ws + (pfx if pfx else "") + donor.text + trailing
-
-                    modifications.append({
-                        "index": len(modifications) + 1,
-                        "original_text": tok["text"],
-                        "replacement_text": final_replacement,
-                        "start_s": t_start,
-                        "end_s": t_end,
-                        "donor_term": donor.text,
-                        "donor_confidence": donor.confidence,
-                        "rule": "dynamic_phonetic_similarity_match",
-                    })
-                    tok["text"] = final_replacement
-                    replaced_token_indices.add(i)
-                    i += 1
-                    continue
-
-        i += 1
-
-    cleaned_tokens = [t for t in base_tokens if t.get("text") != ""]
-    merged_text = "".join(t.get("text", "") for t in cleaned_tokens)
-    merged_text = re.sub(r"[ \t]+", " ", merged_text).strip()
-
-    merged_result = {
-        "provider": f"hybrid_{base_transcript.get('provider', 'base')}_{donor_transcript.get('provider', 'donor')}",
-        "source": base_transcript.get("source", "excerpt"),
-        "episode_guid": base_transcript.get("episode_guid", ""),
-        "episode_title": base_transcript.get("episode_title", ""),
-        "time_offset": base_transcript.get("time_offset", 0.0),
-        "text": merged_text,
-        "tokens": cleaned_tokens,
-        "provenance": {
-            "strategy": "timestamp_aligned_confidence_fusion",
-            "base_provider": base_transcript.get("provider", "unknown"),
-            "donor_provider": donor_transcript.get("provider", "unknown"),
-            "min_confidence": min_confidence,
-            "modifications_count": len(modifications),
-            "modifications": modifications,
-        },
-    }
-
-    return merged_result, modifications
+    return align_and_merge_v2(
+        base_transcript, donor_transcript, glossary_terms,
+        min_confidence=min_confidence, time_tolerance=time_tolerance,
+    )
