@@ -1,0 +1,83 @@
+{
+  "protocol": "Held-out full-episode transcription evaluation protocol (v1)",
+  "phase": "Phase 1 completed (Engine execution, Dataset A/B preservation, SRT export & delivery)",
+  "timestamp": "2026-10-13T18:30:00+03:00",
+  "episode": {
+    "number": 74,
+    "title": "74 - Jev",
+    "guid": "0e404ceb-d04b-4818-907d-a74aafa7c155",
+    "duration_seconds": 1848.89,
+    "spoken_speech_range_s": [
+      0.21,
+      1839.25
+    ],
+    "audio_sha256": "1ab5af1fe7d45a14378af6efe495599e83b0e280d8d220362203698a5452bfdc"
+  },
+  "frozen_engine": {
+    "commit": "1397ca8",
+    "branch": "dev",
+    "fusion_version": 2,
+    "min_confidence": 0.7,
+    "time_tolerance_s": 1.5,
+    "base_provider": "modal_ivrit_l4 (ivrit-ai/whisper-large-v3-turbo-ct2 on NVIDIA L4, Float16)",
+    "donor_provider": "soniox (stt-async-v5, language_hints=[he, en], structured context)"
+  },
+  "execution_summary": {
+    "base_tokens_count": 3907,
+    "base_compute_s": 60.81,
+    "base_cost_usd": 0.01351,
+    "donor_tokens_count": 6732,
+    "donor_cost_usd_est": 0.051,
+    "fusion_modifications_count": 46,
+    "dataset_a_terms_count": 132,
+    "dataset_b_concepts_count": 186,
+    "dataset_b_estimated_occurrences": 771,
+    "srt_cues_count": 287,
+    "srt_words_count": 3914,
+    "srt_word_accuracy_vs_hybrid": "100% verbatim match (3914/3914 words)"
+  },
+  "delivery_status": {
+    "audio_mp3_delivered": true,
+    "hybrid_draft_srt_delivered": true,
+    "delivery_method": "send-to-me workflow"
+  },
+  "artifacts": {
+    "audio.mp3": {
+      "size_bytes": 29582359,
+      "sha256": "1ab5af1fe7d45a14378af6efe495599e83b0e280d8d220362203698a5452bfdc",
+      "target_file": "langtalks/out/audio/0e404ceb-d04b-4818-907d-a74aafa7c155.mp3"
+    },
+    "engine_glossary.original.json": {
+      "size_bytes": 8769,
+      "sha256": "1e29398897ac89ca11441dd33534aeb61cf642b48d55d4b790718380f3e15ad1"
+    },
+    "engine_terms_detected.original.json": {
+      "size_bytes": 366637,
+      "sha256": "75a99259dce328af1fba980503ca3cd71d30e8a360ef12fbe83b79861094cf8d"
+    },
+    "fusion_edits.original.json": {
+      "size_bytes": 24256,
+      "sha256": "3a7573dc7ae2616c5c7a0b2ba0a27976779c1621d0fd7a533a657447c6eabfff"
+    },
+    "hybrid_draft.srt": {
+      "size_bytes": 44141,
+      "sha256": "94b1adcecc3dea095ad0b37e05aac56bae5c14ee4769c3b0d33e9241d84fc130"
+    },
+    "hybrid_revised.original.json": {
+      "size_bytes": 613119,
+      "sha256": "ad4418662fcc7e2d5ee1642d1f9dbb5440812ef2e0aee25474845b4151570be8"
+    },
+    "manifest.preflight.json": {
+      "size_bytes": 3553,
+      "sha256": "fa252d2f1e705eb7ec2a59add4039054017898730aa61285bbf841768e12a628"
+    },
+    "provider_ivrit.original.json": {
+      "size_bytes": 558808,
+      "sha256": "8801c9246b9b6587b0a236bec1093538e70f9d14affd553ff2fcaa4ff98d319f"
+    },
+    "provider_soniox.original.json": {
+      "size_bytes": 1380636,
+      "sha256": "c148440aa60e523f6e3008df5eb7d1f2b996e63b70f219e8aad429b23c2714c5"
+    }
+  }
+}

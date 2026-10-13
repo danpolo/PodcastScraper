@@ -1,0 +1,1074 @@
+[
+  {
+    "index": 1,
+    "original_text": " לואו, מידיום, היי, ריסק",
+    "replacement_text": " low medium high risk",
+    "start_s": 724.45,
+    "end_s": 726.57,
+    "base_token_indices": [
+      1581,
+      1582,
+      1583,
+      1584
+    ],
+    "donor_token_indices": [
+      3905,
+      3906,
+      3907,
+      3908,
+      3909,
+      3910,
+      3911,
+      3912
+    ],
+    "donor_start_s": 724.83,
+    "donor_end_s": 726.51,
+    "donor_term": "low medium high risk",
+    "donor_confidence": 0.9989,
+    "donor_min_subword_confidence": 0.998,
+    "alignment_similarity": 0.6982,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 2,
+    "original_text": " use case ב-SDLC",
+    "replacement_text": " use case SDLC",
+    "start_s": 882.57,
+    "end_s": 883.59,
+    "base_token_indices": [
+      1927,
+      1928,
+      1929,
+      1930
+    ],
+    "donor_token_indices": [
+      4721,
+      4722,
+      4723,
+      4724,
+      4725,
+      4726,
+      4727,
+      4728
+    ],
+    "donor_start_s": 882.69,
+    "donor_end_s": 883.71,
+    "donor_term": "use case SDLC",
+    "donor_confidence": 0.9981,
+    "donor_min_subword_confidence": 0.9981,
+    "alignment_similarity": 0.9167,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 3,
+    "original_text": " סיסטם פרומפט,",
+    "replacement_text": " system prompt,",
+    "start_s": 265.49,
+    "end_s": 266.31,
+    "base_token_indices": [
+      548,
+      549
+    ],
+    "donor_token_indices": [
+      1368,
+      1369,
+      1370
+    ],
+    "donor_start_s": 265.59,
+    "donor_end_s": 266.25,
+    "donor_term": "system prompt",
+    "donor_confidence": 0.9979,
+    "donor_min_subword_confidence": 0.9968,
+    "alignment_similarity": 0.864,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 4,
+    "original_text": " לווקטור דאטאבייס,",
+    "replacement_text": " ל-vector database,",
+    "start_s": 530.31,
+    "end_s": 531.47,
+    "base_token_indices": [
+      1132,
+      1133
+    ],
+    "donor_token_indices": [
+      2842,
+      2843,
+      2844,
+      2845,
+      2846,
+      2847
+    ],
+    "donor_start_s": 530.43,
+    "donor_end_s": 531.51,
+    "donor_term": "vector database",
+    "donor_confidence": 0.993,
+    "donor_min_subword_confidence": 0.9855,
+    "alignment_similarity": 0.846,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 5,
+    "original_text": " הסוויט ספוט",
+    "replacement_text": " ה-sweet spot",
+    "start_s": 1276.19,
+    "end_s": 1277.25,
+    "base_token_indices": [
+      2756,
+      2757
+    ],
+    "donor_token_indices": [
+      6729,
+      6730,
+      6731,
+      6732,
+      6733,
+      6734
+    ],
+    "donor_start_s": 1276.41,
+    "donor_end_s": 1277.31,
+    "donor_term": "sweet spot",
+    "donor_confidence": 0.9736,
+    "donor_min_subword_confidence": 0.9019,
+    "alignment_similarity": 0.806,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 6,
+    "original_text": " דום אלמנטס",
+    "replacement_text": " DOM elements",
+    "start_s": 1342.59,
+    "end_s": 1343.59,
+    "base_token_indices": [
+      2903,
+      2904
+    ],
+    "donor_token_indices": [
+      7077,
+      7078,
+      7079,
+      7080,
+      7081
+    ],
+    "donor_start_s": 1342.95,
+    "donor_end_s": 1343.55,
+    "donor_term": "DOM elements",
+    "donor_confidence": 0.973,
+    "donor_min_subword_confidence": 0.92,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 7,
+    "original_text": " הטול קולינג",
+    "replacement_text": " ה-tool calling",
+    "start_s": 1387.93,
+    "end_s": 1388.71,
+    "base_token_indices": [
+      3006,
+      3007
+    ],
+    "donor_token_indices": [
+      7331,
+      7332,
+      7333,
+      7334,
+      7335,
+      7336
+    ],
+    "donor_start_s": 1388.01,
+    "donor_end_s": 1388.67,
+    "donor_term": "tool calling",
+    "donor_confidence": 0.9917,
+    "donor_min_subword_confidence": 0.9688,
+    "alignment_similarity": 0.8289,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 8,
+    "original_text": " לקלוד קוד",
+    "replacement_text": " ל-Claude Code",
+    "start_s": 1391.73,
+    "end_s": 1393.33,
+    "base_token_indices": [
+      3016,
+      3017
+    ],
+    "donor_token_indices": [
+      7354,
+      7355,
+      7356,
+      7357,
+      7358,
+      7359
+    ],
+    "donor_start_s": 1392.69,
+    "donor_end_s": 1393.35,
+    "donor_term": "Claude Code",
+    "donor_confidence": 0.8761,
+    "donor_min_subword_confidence": 0.7549,
+    "alignment_similarity": 0.966,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 9,
+    "original_text": " טול קול",
+    "replacement_text": " tool call",
+    "start_s": 1395.75,
+    "end_s": 1396.23,
+    "base_token_indices": [
+      3022,
+      3023
+    ],
+    "donor_token_indices": [
+      7371,
+      7372,
+      7373
+    ],
+    "donor_start_s": 1395.81,
+    "donor_end_s": 1396.17,
+    "donor_term": "tool call",
+    "donor_confidence": 0.9959,
+    "donor_min_subword_confidence": 0.9924,
+    "alignment_similarity": 0.768,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 10,
+    "original_text": " טיים סירייס,",
+    "replacement_text": " time series,",
+    "start_s": 1669.31,
+    "end_s": 1669.99,
+    "base_token_indices": [
+      3583,
+      3584
+    ],
+    "donor_token_indices": [
+      8779,
+      8780,
+      8781
+    ],
+    "donor_start_s": 1669.41,
+    "donor_end_s": 1670.01,
+    "donor_term": "time series",
+    "donor_confidence": 0.9677,
+    "donor_min_subword_confidence": 0.9375,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 11,
+    "original_text": " ה-SDRC",
+    "replacement_text": " ה-SDLC",
+    "start_s": 21.17,
+    "end_s": 21.81,
+    "base_token_indices": [
+      52,
+      53
+    ],
+    "donor_token_indices": [
+      121,
+      122,
+      123,
+      124,
+      125
+    ],
+    "donor_start_s": 21.15,
+    "donor_end_s": 21.81,
+    "donor_term": "SDLC",
+    "donor_confidence": 0.994,
+    "donor_min_subword_confidence": 0.9724,
+    "alignment_similarity": 0.756,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 12,
+    "original_text": " מללם",
+    "replacement_text": " מ-LLM",
+    "start_s": 48.85,
+    "end_s": 49.37,
+    "base_token_indices": [
+      104
+    ],
+    "donor_token_indices": [
+      253,
+      254,
+      255,
+      256
+    ],
+    "donor_start_s": 48.93,
+    "donor_end_s": 49.41,
+    "donor_term": "LLM",
+    "donor_confidence": 0.9779,
+    "donor_min_subword_confidence": 0.9147,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 13,
+    "original_text": " ללם",
+    "replacement_text": " LLM",
+    "start_s": 49.51,
+    "end_s": 49.93,
+    "base_token_indices": [
+      106
+    ],
+    "donor_token_indices": [
+      259,
+      260,
+      261
+    ],
+    "donor_start_s": 49.65,
+    "donor_end_s": 50.01,
+    "donor_term": "LLM",
+    "donor_confidence": 0.9978,
+    "donor_min_subword_confidence": 0.9939,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 14,
+    "original_text": " קלאסיפייר",
+    "replacement_text": " classifier",
+    "start_s": 137.39,
+    "end_s": 138.07,
+    "base_token_indices": [
+      296
+    ],
+    "donor_token_indices": [
+      732,
+      733,
+      734
+    ],
+    "donor_start_s": 137.55,
+    "donor_end_s": 138.09,
+    "donor_term": "classifier",
+    "donor_confidence": 0.9684,
+    "donor_min_subword_confidence": 0.9079,
+    "alignment_similarity": 0.64,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 15,
+    "original_text": " ב-Jew",
+    "replacement_text": " ב-Jev",
+    "start_s": 141.33,
+    "end_s": 141.87,
+    "base_token_indices": [
+      305,
+      306
+    ],
+    "donor_token_indices": [
+      756,
+      757,
+      758
+    ],
+    "donor_start_s": 141.57,
+    "donor_end_s": 141.93,
+    "donor_term": "Jev",
+    "donor_confidence": 0.9994,
+    "donor_min_subword_confidence": 0.9989,
+    "alignment_similarity": 0.6727,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 16,
+    "original_text": " פלאש,",
+    "replacement_text": " Flash,",
+    "start_s": 231.37,
+    "end_s": 231.99,
+    "base_token_indices": [
+      477
+    ],
+    "donor_token_indices": [
+      1188,
+      1189,
+      1190
+    ],
+    "donor_start_s": 231.69,
+    "donor_end_s": 231.99,
+    "donor_term": "Flash",
+    "donor_confidence": 0.8886,
+    "donor_min_subword_confidence": 0.6789,
+    "alignment_similarity": 0.6,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 17,
+    "original_text": " קלאסיפייר",
+    "replacement_text": " classifier",
+    "start_s": 348.27,
+    "end_s": 348.75,
+    "base_token_indices": [
+      719
+    ],
+    "donor_token_indices": [
+      1794,
+      1795,
+      1796
+    ],
+    "donor_start_s": 348.33,
+    "donor_end_s": 348.75,
+    "donor_term": "classifier",
+    "donor_confidence": 0.9987,
+    "donor_min_subword_confidence": 0.9962,
+    "alignment_similarity": 0.64,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 18,
+    "original_text": " ראג.",
+    "replacement_text": " RAG.",
+    "start_s": 497.61,
+    "end_s": 498.05,
+    "base_token_indices": [
+      1059
+    ],
+    "donor_token_indices": [
+      2661,
+      2662,
+      2663
+    ],
+    "donor_start_s": 497.85,
+    "donor_end_s": 498.03,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9989,
+    "donor_min_subword_confidence": 0.9981,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 19,
+    "original_text": " בראג?",
+    "replacement_text": " ב-RAG?",
+    "start_s": 501.95,
+    "end_s": 502.39,
+    "base_token_indices": [
+      1070
+    ],
+    "donor_token_indices": [
+      2685,
+      2686,
+      2687,
+      2688,
+      2689
+    ],
+    "donor_start_s": 502.11,
+    "donor_end_s": 502.47,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9994,
+    "donor_min_subword_confidence": 0.9975,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 20,
+    "original_text": " פייפליין",
+    "replacement_text": " pipeline",
+    "start_s": 504.47,
+    "end_s": 506.01,
+    "base_token_indices": [
+      1075
+    ],
+    "donor_token_indices": [
+      2701,
+      2702,
+      2703,
+      2704
+    ],
+    "donor_start_s": 505.47,
+    "donor_end_s": 505.95,
+    "donor_term": "pipeline",
+    "donor_confidence": 0.993,
+    "donor_min_subword_confidence": 0.9722,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 21,
+    "original_text": " בנושן",
+    "replacement_text": " ב-Notion",
+    "start_s": 518.69,
+    "end_s": 519.41,
+    "base_token_indices": [
+      1101
+    ],
+    "donor_token_indices": [
+      2767,
+      2768,
+      2769,
+      2770
+    ],
+    "donor_start_s": 518.85,
+    "donor_end_s": 519.33,
+    "donor_term": "Notion",
+    "donor_confidence": 0.9947,
+    "donor_min_subword_confidence": 0.9895,
+    "alignment_similarity": 0.646,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 22,
+    "original_text": " בנושן.",
+    "replacement_text": " ב-Notion.",
+    "start_s": 521.33,
+    "end_s": 521.89,
+    "base_token_indices": [
+      1107
+    ],
+    "donor_token_indices": [
+      2783,
+      2784,
+      2785,
+      2786
+    ],
+    "donor_start_s": 521.43,
+    "donor_end_s": 521.85,
+    "donor_term": "Notion",
+    "donor_confidence": 0.9996,
+    "donor_min_subword_confidence": 0.9994,
+    "alignment_similarity": 0.646,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 23,
+    "original_text": " ראג,",
+    "replacement_text": " RAG,",
+    "start_s": 527.79,
+    "end_s": 528.07,
+    "base_token_indices": [
+      1125
+    ],
+    "donor_token_indices": [
+      2825,
+      2826,
+      2827,
+      2828
+    ],
+    "donor_start_s": 527.91,
+    "donor_end_s": 528.21,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9997,
+    "donor_min_subword_confidence": 0.9991,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 24,
+    "original_text": " בנושן",
+    "replacement_text": " ב-Notion",
+    "start_s": 562.15,
+    "end_s": 562.71,
+    "base_token_indices": [
+      1207
+    ],
+    "donor_token_indices": [
+      3033,
+      3034,
+      3035,
+      3036
+    ],
+    "donor_start_s": 562.23,
+    "donor_end_s": 562.71,
+    "donor_term": "Notion",
+    "donor_confidence": 0.9986,
+    "donor_min_subword_confidence": 0.998,
+    "alignment_similarity": 0.646,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 25,
+    "original_text": "-repeos",
+    "replacement_text": "-repos",
+    "start_s": 599.29,
+    "end_s": 600.87,
+    "base_token_indices": [
+      1307
+    ],
+    "donor_token_indices": [
+      3260,
+      3261
+    ],
+    "donor_start_s": 600.51,
+    "donor_end_s": 600.75,
+    "donor_term": "repos",
+    "donor_confidence": 0.9536,
+    "donor_min_subword_confidence": 0.9398,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 26,
+    "original_text": " לרג.",
+    "replacement_text": " ל-RAG.",
+    "start_s": 632.65,
+    "end_s": 633.15,
+    "base_token_indices": [
+      1387
+    ],
+    "donor_token_indices": [
+      3437,
+      3438,
+      3439,
+      3440,
+      3441
+    ],
+    "donor_start_s": 632.97,
+    "donor_end_s": 633.99,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9997,
+    "donor_min_subword_confidence": 0.9989,
+    "alignment_similarity": 0.966,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 27,
+    "original_text": " ראג",
+    "replacement_text": " RAG",
+    "start_s": 635.87,
+    "end_s": 636.81,
+    "base_token_indices": [
+      1395
+    ],
+    "donor_token_indices": [
+      3457,
+      3458,
+      3459
+    ],
+    "donor_start_s": 636.63,
+    "donor_end_s": 636.81,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9999,
+    "donor_min_subword_confidence": 0.9998,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 28,
+    "original_text": " הראג,",
+    "replacement_text": " ה-RAG,",
+    "start_s": 663.35,
+    "end_s": 663.65,
+    "base_token_indices": [
+      1455
+    ],
+    "donor_token_indices": [
+      3590,
+      3591,
+      3592,
+      3593,
+      3594
+    ],
+    "donor_start_s": 663.45,
+    "donor_end_s": 663.75,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9991,
+    "donor_min_subword_confidence": 0.9972,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 29,
+    "original_text": " פי-אר.",
+    "replacement_text": " PR.",
+    "start_s": 726.95,
+    "end_s": 727.65,
+    "base_token_indices": [
+      1586,
+      1587
+    ],
+    "donor_token_indices": [
+      3914,
+      3915,
+      3916
+    ],
+    "donor_start_s": 727.41,
+    "donor_end_s": 727.89,
+    "donor_term": "PR",
+    "donor_confidence": 0.9681,
+    "donor_min_subword_confidence": 0.9046,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 30,
+    "original_text": " ה-confident",
+    "replacement_text": " ה-confidence",
+    "start_s": 747.53,
+    "end_s": 748.11,
+    "base_token_indices": [
+      1632,
+      1633
+    ],
+    "donor_token_indices": [
+      4020,
+      4021,
+      4022,
+      4023,
+      4024,
+      4025
+    ],
+    "donor_start_s": 747.57,
+    "donor_end_s": 748.23,
+    "donor_term": "confidence",
+    "donor_confidence": 0.9998,
+    "donor_min_subword_confidence": 0.9991,
+    "alignment_similarity": 0.806,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 31,
+    "original_text": " ראג",
+    "replacement_text": " RAG",
+    "start_s": 1053.21,
+    "end_s": 1053.69,
+    "base_token_indices": [
+      2280
+    ],
+    "donor_token_indices": [
+      5577,
+      5578,
+      5579
+    ],
+    "donor_start_s": 1053.39,
+    "donor_end_s": 1053.63,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9969,
+    "donor_min_subword_confidence": 0.9907,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 32,
+    "original_text": " פלאש",
+    "replacement_text": " Flash",
+    "start_s": 1106.51,
+    "end_s": 1106.81,
+    "base_token_indices": [
+      2404
+    ],
+    "donor_token_indices": [
+      5863,
+      5864
+    ],
+    "donor_start_s": 1106.67,
+    "donor_end_s": 1106.85,
+    "donor_term": "Flash",
+    "donor_confidence": 0.9702,
+    "donor_min_subword_confidence": 0.9644,
+    "alignment_similarity": 0.6,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 33,
+    "original_text": " פלאש",
+    "replacement_text": " Flash",
+    "start_s": 1115.55,
+    "end_s": 1115.99,
+    "base_token_indices": [
+      2429
+    ],
+    "donor_token_indices": [
+      5915,
+      5916,
+      5917
+    ],
+    "donor_start_s": 1115.79,
+    "donor_end_s": 1116.09,
+    "donor_term": "Flash",
+    "donor_confidence": 0.9972,
+    "donor_min_subword_confidence": 0.9929,
+    "alignment_similarity": 0.6,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 34,
+    "original_text": " טוקן",
+    "replacement_text": " token",
+    "start_s": 1117.33,
+    "end_s": 1117.69,
+    "base_token_indices": [
+      2431
+    ],
+    "donor_token_indices": [
+      5921,
+      5922
+    ],
+    "donor_start_s": 1117.47,
+    "donor_end_s": 1117.71,
+    "donor_term": "token",
+    "donor_confidence": 0.9997,
+    "donor_min_subword_confidence": 0.9997,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 35,
+    "original_text": " פלאש",
+    "replacement_text": " Flash",
+    "start_s": 1172.01,
+    "end_s": 1172.35,
+    "base_token_indices": [
+      2531
+    ],
+    "donor_token_indices": [
+      6170,
+      6171,
+      6172
+    ],
+    "donor_start_s": 1172.19,
+    "donor_end_s": 1172.43,
+    "donor_term": "Flash",
+    "donor_confidence": 0.8638,
+    "donor_min_subword_confidence": 0.5922,
+    "alignment_similarity": 0.6,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 36,
+    "original_text": " פלאש,",
+    "replacement_text": " Flash,",
+    "start_s": 1185.15,
+    "end_s": 1185.59,
+    "base_token_indices": [
+      2556
+    ],
+    "donor_token_indices": [
+      6225,
+      6226,
+      6227
+    ],
+    "donor_start_s": 1185.33,
+    "donor_end_s": 1185.63,
+    "donor_term": "Flash",
+    "donor_confidence": 0.997,
+    "donor_min_subword_confidence": 0.9914,
+    "alignment_similarity": 0.6,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 37,
+    "original_text": " קלאסיפייר.",
+    "replacement_text": " classifier.",
+    "start_s": 1202.63,
+    "end_s": 1203.17,
+    "base_token_indices": [
+      2591
+    ],
+    "donor_token_indices": [
+      6305,
+      6306,
+      6307,
+      6308
+    ],
+    "donor_start_s": 1202.73,
+    "donor_end_s": 1203.45,
+    "donor_term": "classifier",
+    "donor_confidence": 0.9549,
+    "donor_min_subword_confidence": 0.8204,
+    "alignment_similarity": 0.64,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 38,
+    "original_text": " פלאש,",
+    "replacement_text": " Flash,",
+    "start_s": 1269.13,
+    "end_s": 1269.79,
+    "base_token_indices": [
+      2741
+    ],
+    "donor_token_indices": [
+      6691,
+      6692,
+      6693
+    ],
+    "donor_start_s": 1269.51,
+    "donor_end_s": 1269.81,
+    "donor_term": "Flash",
+    "donor_confidence": 0.9995,
+    "donor_min_subword_confidence": 0.9987,
+    "alignment_similarity": 0.6,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 39,
+    "original_text": " רג",
+    "replacement_text": " RAG",
+    "start_s": 1335.51,
+    "end_s": 1336.07,
+    "base_token_indices": [
+      2889
+    ],
+    "donor_token_indices": [
+      7045,
+      7046,
+      7047,
+      7048
+    ],
+    "donor_start_s": 1335.87,
+    "donor_end_s": 1336.17,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9288,
+    "donor_min_subword_confidence": 0.717,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 40,
+    "original_text": " הדום",
+    "replacement_text": " ה-DOM",
+    "start_s": 1353.15,
+    "end_s": 1353.49,
+    "base_token_indices": [
+      2930
+    ],
+    "donor_token_indices": [
+      7132,
+      7133,
+      7134,
+      7135
+    ],
+    "donor_start_s": 1353.27,
+    "donor_end_s": 1353.57,
+    "donor_term": "DOM",
+    "donor_confidence": 0.9582,
+    "donor_min_subword_confidence": 0.8669,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 41,
+    "original_text": " אמדי",
+    "replacement_text": " MD",
+    "start_s": 1433.07,
+    "end_s": 1433.39,
+    "base_token_indices": [
+      3100
+    ],
+    "donor_token_indices": [
+      7546,
+      7547,
+      7548
+    ],
+    "donor_start_s": 1433.13,
+    "donor_end_s": 1433.49,
+    "donor_term": "MD",
+    "donor_confidence": 0.9982,
+    "donor_min_subword_confidence": 0.9948,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 42,
+    "original_text": " אמדי,",
+    "replacement_text": " MD,",
+    "start_s": 1438.07,
+    "end_s": 1438.29,
+    "base_token_indices": [
+      3111
+    ],
+    "donor_token_indices": [
+      7576,
+      7577,
+      7578
+    ],
+    "donor_start_s": 1438.11,
+    "donor_end_s": 1438.41,
+    "donor_term": "MD",
+    "donor_confidence": 0.9993,
+    "donor_min_subword_confidence": 0.9979,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 43,
+    "original_text": " אפילו,",
+    "replacement_text": " SLA,",
+    "start_s": 1563.63,
+    "end_s": 1564.07,
+    "base_token_indices": [
+      3371
+    ],
+    "donor_token_indices": [
+      8256,
+      8257,
+      8258
+    ],
+    "donor_start_s": 1563.39,
+    "donor_end_s": 1563.75,
+    "donor_term": "SLA",
+    "donor_confidence": 0.9991,
+    "donor_min_subword_confidence": 0.9985,
+    "alignment_similarity": 0.48,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 44,
+    "original_text": " פיאנו,",
+    "replacement_text": " Piano,",
+    "start_s": 1633.79,
+    "end_s": 1634.25,
+    "base_token_indices": [
+      3514
+    ],
+    "donor_token_indices": [
+      8607,
+      8608,
+      8609
+    ],
+    "donor_start_s": 1633.95,
+    "donor_end_s": 1634.25,
+    "donor_term": "Piano",
+    "donor_confidence": 0.9131,
+    "donor_min_subword_confidence": 0.74,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 45,
+    "original_text": " רג",
+    "replacement_text": " RAG",
+    "start_s": 1706.09,
+    "end_s": 1706.43,
+    "base_token_indices": [
+      3659
+    ],
+    "donor_token_indices": [
+      8965,
+      8966,
+      8967,
+      8968
+    ],
+    "donor_start_s": 1706.19,
+    "donor_end_s": 1706.55,
+    "donor_term": "RAG",
+    "donor_confidence": 0.882,
+    "donor_min_subword_confidence": 0.6255,
+    "alignment_similarity": 0.96,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  },
+  {
+    "index": 46,
+    "original_text": " ראג",
+    "replacement_text": " RAG",
+    "start_s": 1717.35,
+    "end_s": 1717.63,
+    "base_token_indices": [
+      3677
+    ],
+    "donor_token_indices": [
+      9017,
+      9018,
+      9019
+    ],
+    "donor_start_s": 1717.41,
+    "donor_end_s": 1717.59,
+    "donor_term": "RAG",
+    "donor_confidence": 0.9984,
+    "donor_min_subword_confidence": 0.9952,
+    "alignment_similarity": 1.0,
+    "rule": "donor_supported_timed_phonetic_alignment"
+  }
+]
