@@ -25,12 +25,12 @@ jobs:
           if [[ -n "$SONIOX_API_KEY" ]]; then echo "SONIOX_KEY_CONFIGURED=yes"; else echo "SONIOX_KEY_CONFIGURED=no"; fi
           if [[ -n "$GROQ_API_KEY" ]]; then echo "GROQ_KEY_CONFIGURED=yes"; else echo "GROQ_KEY_CONFIGURED=no"; fi
       - name: Prepare five-minute audio only if at least one provider is configured
-        if: ${{ env.SONIOX_API_KEY != '' || env.GROQ_API_KEY != '' }}
+        if: ${{ env.RUN_EP71 == 'true' && (env.SONIOX_API_KEY != '' || env.GROQ_API_KEY != '') }}
         run: |
           pip install -r requirements.txt
           python -m langtalks.bench excerpt 71 --start 480 --end 780
       - name: Submit at most one approved request per configured provider
-        if: ${{ env.SONIOX_API_KEY != '' || env.GROQ_API_KEY != '' }}
+        if: ${{ env.RUN_EP71 == 'true' && (env.SONIOX_API_KEY != '' || env.GROQ_API_KEY != '') }}
         run: |
           python -m langtalks.paid_pilot \
             --audio langtalks/out/excerpts/74fc0625-0a6b-4ca1-9488-31be7860360d.mp3 \
@@ -54,13 +54,18 @@ jobs:
           },indent=2)+'\n')
           print('No provider credentials detected. No API requests or charges.')
           PY
+      - name: Execute Soniox transcription on Episode 74 if configured
+        if: ${{ env.SONIOX_API_KEY != '' }}
+        run: |
+          pip install -r requirements.txt
+          python -m langtalks.transcribe_held_out_soniox
       - name: Commit summary and raw responses to dev only, never main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add langtalks/reviewed/episode71/paid-pilot/
+          git add langtalks/reviewed/episode71/paid-pilot/ langtalks/evaluations/0e404ceb-d04b-4818-907d-a74aafa7c155/provider_soniox.original.json
           if ! git diff --cached --quiet; then
-            git commit -m "Record one-time authorized LangTalks 71 paid ASR pilot results"
+            git commit -m "Record one-time authorized LangTalks ASR results"
             git push origin HEAD:dev
           fi
       - name: Preserve pilot results for direct inspection
