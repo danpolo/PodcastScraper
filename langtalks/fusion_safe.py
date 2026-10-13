@@ -277,10 +277,19 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
         # donor clitic. Do not guess ו- from loanwords starting with ו.
         explicit_prefix = (original.strip()[:2]
                            if re.match(r"^[ובהלמכ]-", original.strip()) else "")
+        inferred_prefix = prefix
         prefix = explicit_prefix
         if (donor.hebrew_prefix and original.strip().startswith(donor.hebrew_prefix[0])
                 and not explicit_prefix):
             prefix = donor.hebrew_prefix
+        elif (not prefix and inferred_prefix and original.strip().startswith(inferred_prefix[0])):
+            # When donor omits an attached conjunction, infer it only if
+            # removing the clitic materially improves vowel-aware phonetics.
+            unprefixed = original.strip()[1:]
+            similarity_with = _similarity(_romanized(original.strip()), _romanized(donor.text))
+            similarity_without = _similarity(_romanized(unprefixed), _romanized(donor.text))
+            if similarity_without - similarity_with >= 0.10:
+                prefix = inferred_prefix
         leading = re.match(r"\s*", original).group()
         trailing = re.search(r"[.,;:!?]+\s*$", original)
         punctuation = trailing.group().rstrip() if trailing else ""

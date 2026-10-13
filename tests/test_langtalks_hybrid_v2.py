@@ -183,3 +183,11 @@ def test_supply_chain_already_correct_must_not_be_split():
 def test_unprefixed_product_does_not_invent_hebrew_conjunction():
     merged, _ = align_and_merge(transcript(["וולט"]), transcript(["vault"], .99))
     assert "ו-vault" not in merged["text"]
+
+
+def test_unmarked_donor_google_preserves_hebrew_conjunction():
+    base = transcript(["וגוגל"])
+    donor = transcript(["Google"], .99)
+    merged, mods = align_and_merge(base, donor)
+    assert "ו-Google" in merged["text"]
+    assert len(mods) == 1
