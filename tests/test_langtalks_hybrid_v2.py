@@ -155,3 +155,31 @@ def test_no_token_fallback_preserves_original_base_text():
     merged, mods = align_and_merge(base, transcript(["OneCLI"], .99))
     assert merged["text"] == base["text"]
     assert not mods
+
+
+def test_split_hebrew_agent_loanword_is_not_romanized():
+    base = {"tokens": [
+        {"text": " האג", "start": 1.0, "end": 1.3},
+        {"text": "'נט", "start": 1.3, "end": 1.6},
+    ]}
+    donor = transcript(["agent"], .99, shift=1)
+    merged, mods = align_and_merge(base, donor)
+    assert not mods
+    assert "האג'נט" in merged["text"]
+
+
+def test_supply_chain_already_correct_must_not_be_split():
+    base = {"tokens": [
+        {"text": " ה", "start": 1, "end": 1.1},
+        {"text": "-Supply", "start": 1.1, "end": 1.4},
+        {"text": "-Chain", "start": 1.4, "end": 1.6},
+        {"text": " Security,", "start": 1.6, "end": 1.9},
+    ]}
+    donor = transcript(["ה-supply", "chain", "security"], .99, shift=1, step=.3)
+    merged, mods = align_and_merge(base, donor)
+    assert "Supply-Chain Security" in merged["text"]
+
+
+def test_unprefixed_product_does_not_invent_hebrew_conjunction():
+    merged, _ = align_and_merge(transcript(["וולט"]), transcript(["vault"], .99))
+    assert "ו-vault" not in merged["text"]

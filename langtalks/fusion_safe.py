@@ -63,6 +63,8 @@ def _affix_and_similarity(base_text: str, donor_text: str) -> Tuple[str, float]:
 
 
 def _protected(base_text: str, donor_text: str) -> bool:
+    if re.search(r"['׳][\u0590-\u05ff]", base_text):
+        return True
     if is_hebrewized_loanword(donor_text, base_text):
         return True
     if _HEBREW.search(base_text) and not _LATIN.search(base_text):
@@ -161,6 +163,8 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             base_text = "".join(t.get("text", "") for t in base_tokens[i:j])
             if not base_text.strip():
                 continue
+            if _HEBREW.search(base_text) and re.search(r"['׳]", base_text):
+                continue
             if (i > 0 and base_tokens[i].get("text", "").startswith("-")
                     and _LATIN.search(base_tokens[i - 1].get("text", ""))):
                 continue
@@ -178,6 +182,14 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
                 continue
             base_parts = base_text.strip().split()
             donor_parts = donor.text.strip().split()
+            if len(donor_parts) > 1 and _LATIN.search(base_text):
+                base_latin = re.findall(r"[A-Za-z]{3,}", base_text)
+                donor_latin = re.findall(r"[A-Za-z]{3,}", donor.text)
+                if any(not any(max(_similarity(part.lower(), name.lower()),
+                                   _similarity(_consonants(part), _consonants(name))) >= .70
+                               for name in donor_latin)
+                       for part in base_latin):
+                    continue
             if (len(donor_parts) > 1 and not _LATIN.search(base_text)
                     and ("'" in base_text or "׳" in base_text)):
                 continue
@@ -261,6 +273,14 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
                 if min(b1, b2) - max(a1, a2) < 0.5 * min(b1 - a1, b2 - a2):
                     continue
         _, similarity, i, j, start, end, prefix, original = best
+        # A written Hebrew prefix is preserved; new ones require a matching
+        # donor clitic. Do not guess ו- from loanwords starting with ו.
+        explicit_prefix = (original.strip()[:2]
+                           if re.match(r"^[ובהלמכ]-", original.strip()) else "")
+        prefix = explicit_prefix
+        if (donor.hebrew_prefix and original.strip().startswith(donor.hebrew_prefix[0])
+                and not explicit_prefix):
+            prefix = donor.hebrew_prefix
         leading = re.match(r"\s*", original).group()
         trailing = re.search(r"[.,;:!?]+\s*$", original)
         punctuation = trailing.group().rstrip() if trailing else ""

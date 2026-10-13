@@ -94,6 +94,7 @@ class DonorPhrase:
     confidence: float
     words: List[DonorWord] = field(default_factory=list)
     min_subword_confidence: Optional[float] = None
+    hebrew_prefix: str = ""
 
 
 def assemble_donor_words(tokens: List[dict]) -> List[DonorWord]:
@@ -211,6 +212,8 @@ def extract_latin_donor_phrases(
                     confidence=conf,
                     words=[w],
                     min_subword_confidence=w.min_subword_confidence,
+                    hebrew_prefix=next((pfx for pfx in ("ו-", "ב-", "ה-", "ל-", "מ-", "כ-")
+                                        if w.text.strip().startswith(pfx)), ""),
                 )
             )
 
@@ -237,6 +240,8 @@ def extract_latin_donor_phrases(
                         confidence=round(avg_conf, 4),
                         words=list(window),
                         min_subword_confidence=round(weakest, 4),
+                        hebrew_prefix=next((pfx for pfx in ("ו-", "ב-", "ה-", "ל-", "מ-", "כ-")
+                                            if window[0].text.strip().startswith(pfx)), ""),
                     )
                 )
 
