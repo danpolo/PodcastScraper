@@ -178,6 +178,17 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
                 continue
             base_parts = base_text.strip().split()
             donor_parts = donor.text.strip().split()
+            if (len(donor_parts) > 1 and not _LATIN.search(base_text)
+                    and ("'" in base_text or "׳" in base_text)):
+                continue
+            if (len(base_parts) == len(donor_parts) and len(donor_parts) > 1
+                    and _LATIN.search(base_text) and not _HEBREW.search(base_text)):
+                # Reject phrase-window shifts that replace a correct word with
+                # a neighboring word. Phonetic agreement must hold per word.
+                if any(max(_similarity(_romanized(left), _romanized(right)),
+                           _similarity(_consonants(left), _consonants(right))) < .62
+                       for left, right in zip(base_parts, donor_parts)):
+                    continue
             if len(base_parts) != len(donor_parts):
                 # Only a tightly anchored named entity may consume two
                 # phonetically related Hebrew words; never intervening
@@ -209,9 +220,13 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             if not has_latin and donor.confidence < max(min_confidence, 0.95 if not entity else 0.86):
                 continue
             prefix, similarity = _affix_and_similarity(base_text, donor.text)
-            threshold = 0.71 if has_latin else (0.52 if identity_word else 0.65 if entity else 0.67)
+            threshold = 0.67 if has_latin else (0.46 if identity_word else 0.59 if entity else 0.66)
             if similarity < threshold:
                 continue
+            if has_latin and len(base_parts) == 1 and len(donor_parts) == 1:
+                if (_clean(base_text).endswith("s") and _clean(base_text)[:-1] == _clean(donor.text)
+                        or _clean(donor.text).endswith("s") and _clean(donor.text)[:-1] == _clean(base_text)):
+                    continue
             # A good local word-level match is insufficient when the span
             # includes an already-correct Latin donor expression plus extras.
             donor_stem = _clean(donor.text)
@@ -257,7 +272,12 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
                 and not prefix):
             replacement = leading + "-" + donor.text.strip() + punctuation
         if (_clean(original) == _clean(replacement)
-                or original.strip().casefold() == replacement.strip().casefold()):
+                and not (len(donor.words) == 1 and re.search(r"[A-Z]{2,}", donor.text)
+                         and "-" in original.strip().strip("-")
+                         and not original.lstrip().startswith("-")
+                         and not _HEBREW.search(original))):
+            continue
+        if original.strip().casefold() == replacement.strip().casefold():
             continue
         base_tokens[i]["text"] = replacement
         # The merged token covers the complete replaced span, not just its
