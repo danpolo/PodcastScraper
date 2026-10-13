@@ -1,0 +1,47 @@
+name: Held-out LangTalks 74 Soniox transcription
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  transcribe-soniox:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SONIOX_API_KEY: ${{ secrets.SONIOX_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify credential presence
+        run: |
+          if [[ -n "$SONIOX_API_KEY" ]]; then
+            echo "SONIOX_KEY_CONFIGURED=yes"
+          else
+            echo "SONIOX_KEY_CONFIGURED=no"
+            exit 1
+          fi
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Execute Soniox transcription
+        run: python -m langtalks.transcribe_held_out_soniox
+      - name: Commit Soniox result to dev branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add langtalks/evaluations/0e404ceb-d04b-4818-907d-a74aafa7c155/provider_soniox.original.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record immutable Soniox ASR output for Episode 74 evaluation"
+            git push origin HEAD:dev
+          fi
+      - name: Upload Soniox transcript artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: soniox-ep74-transcript
+          path: langtalks/evaluations/0e404ceb-d04b-4818-907d-a74aafa7c155/provider_soniox.original.json
+          if-no-files-found: ignore
