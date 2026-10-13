@@ -39,7 +39,7 @@ ivrit_image = (
 )
 
 
-def _transcribe_on_l4(audio_bytes: bytes, initial_prompt: str, compute_type: str = "float16") -> dict:
+def _transcribe_on_l4(audio_bytes: bytes, initial_prompt: str, compute_type: str = "float16", time_offset: float = 0.0) -> dict:
     from faster_whisper import WhisperModel
 
     try:
@@ -91,8 +91,8 @@ def _transcribe_on_l4(audio_bytes: bytes, initial_prompt: str, compute_type: str
     t_infer = time.perf_counter() - t0_infer
     vram_peak = get_vram_mb()
 
-    audio_duration = 300.0  # 5 minutes
-    rtf = t_infer / audio_duration
+    audio_duration = getattr(info, "duration", 0.0) or (segments_list[-1].end if segments_list else 300.0)
+    rtf = t_infer / max(audio_duration, 1.0)
 
     # Extract words
     words = []
@@ -102,8 +102,8 @@ def _transcribe_on_l4(audio_bytes: bytes, initial_prompt: str, compute_type: str
         for w in seg.words or []:
             words.append({
                 "text": w.word,
-                "start": round(w.start + 480.0, 2),
-                "end": round(w.end + 480.0, 2),
+                "start": round(w.start + time_offset, 2),
+                "end": round(w.end + time_offset, 2),
                 "speaker": None,
                 "confidence": round(float(w.probability), 4) if getattr(w, "probability", None) is not None else None,
             })
@@ -137,12 +137,13 @@ def _transcribe_on_l4(audio_bytes: bytes, initial_prompt: str, compute_type: str
     image=ivrit_image,
     gpu="L4",
     volumes={CACHE_DIR: model_volume},
-    timeout=180,
+    timeout=600,
     max_containers=1,
 )
-def run_optimized_ivrit_l4(audio_bytes: bytes, initial_prompt: str) -> dict:
+def run_optimized_ivrit_l4(audio_bytes: bytes, initial_prompt: str, time_offset: float = 0.0) -> dict:
     """Execute optimized ivrit transcription on NVIDIA L4 ($0.80/hr)."""
-    return _transcribe_on_l4(audio_bytes, initial_prompt, compute_type="float16")
+    return _transcribe_on_l4(audio_bytes, initial_prompt, compute_type="float16", time_offset=time_offset)
+
 
 
 @app.local_entrypoint()

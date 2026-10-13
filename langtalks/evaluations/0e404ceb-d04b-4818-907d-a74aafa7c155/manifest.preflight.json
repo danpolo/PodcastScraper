@@ -1,0 +1,107 @@
+{
+  "protocol_version": "v1 (langtalks/HELD_OUT_EVALUATION_PROTOCOL.md)",
+  "selected_episode": {
+    "number": 74,
+    "title": "74 - Jev",
+    "guid": "0e404ceb-d04b-4818-907d-a74aafa7c155",
+    "published": "Tue, 22 Sep 2026 03:30:00 GMT",
+    "duration_seconds": 1848.89,
+    "audio_url": "https://feeds.async.com/0f321328-8001-41f9-9afa-698fe39418b1/JEV.mp3",
+    "audio_file_size_bytes": 29582359,
+    "audio_sha256": "1ab5af1fe7d45a14378af6efe495599e83b0e280d8d220362203698a5452bfdc",
+    "selection_reason": "Representative unseen episode; different domain/guest (TypeSafe AI Jev classifier vs NanoClaw harness in Ep 71); full audio available; untouched in previous benchmarks/pilots.",
+    "eligible_alternatives_considered": [
+      {
+        "number": 73,
+        "title": "73 - Harness Engineering",
+        "reason_excluded": "Harness/agent topic overlap with Ep 71"
+      },
+      {
+        "number": 72,
+        "title": "72 - Personal Assistant Agent",
+        "reason_excluded": "Claw series audio/topic overlap with Ep 71"
+      },
+      {
+        "number": 70,
+        "title": "70 - Our Claude Code Tips",
+        "reason_excluded": "Stub reference file already present in repo"
+      },
+      {
+        "number": 69,
+        "title": "69 - Marketing for Agents",
+        "reason_excluded": "Secondary candidate, 34.8m duration"
+      },
+      {
+        "number": 68,
+        "title": "68 - AI-SDLC",
+        "reason_excluded": "Secondary candidate, 22.7m duration"
+      }
+    ]
+  },
+  "freeze": {
+    "git_commit": "2948ff87797d605aa8f7febac622982ce72c224b",
+    "branch": "dev",
+    "dirty_working_tree": false,
+    "engine_files": {
+      "langtalks/hybrid.py": "Public entrypoint align_and_merge delegating to fusion_safe.py",
+      "langtalks/fusion_safe.py": "Evidence-based v2 fusion engine",
+      "langtalks/glossary.py": "Fair automated glossary builder",
+      "langtalks/score.py": "Scorer and normalization definitions",
+      "langtalks/strict_occurrence.py": "Strict one-to-one timed occurrence evaluator"
+    },
+    "fusion_thresholds": {
+      "min_confidence": 0.7,
+      "time_tolerance_seconds": 1.5,
+      "hebrew_prefixes_preserved": [
+        "ו-",
+        "ב-",
+        "ה-",
+        "ל-",
+        "מ-",
+        "כ-"
+      ],
+      "protected_loanwords_count": 12
+    },
+    "planned_models": {
+      "base": {
+        "provider": "modal_ivrit_l4",
+        "model": "ivrit-ai/whisper-large-v3-turbo-ct2",
+        "hardware": "NVIDIA L4 GPU",
+        "precision": "Float16 (CUDA)",
+        "decoding": {
+          "language": "he",
+          "beam_size": 5,
+          "temperature": 0.0,
+          "condition_on_previous_text": false,
+          "word_timestamps": true,
+          "vad_filter": true
+        },
+        "rate_usd_per_hour": 0.8,
+        "estimated_compute_cost_usd": 0.017
+      },
+      "donor": {
+        "provider": "soniox",
+        "model": "stt-async-v5",
+        "language_hints": [
+          "he",
+          "en"
+        ],
+        "diarization": true,
+        "language_identification": true,
+        "rate_usd_per_hour": 0.1,
+        "estimated_cost_usd": 0.051
+      }
+    },
+    "total_estimated_cost_usd": 0.068
+  },
+  "offline_regression_status": {
+    "focused_suite": "52 passed",
+    "full_repo_suite": "151 passed",
+    "episode71_replay_assertions": "assert_no_development_regression passed"
+  },
+  "dataset_a": {
+    "path": "engine_glossary.original.json",
+    "sha256": "3a79be54dbfe5e3942cf7a712202b31a5cb1c2c6143a1e96d485dd834f16525e",
+    "terms_count": 132
+  }
+}
