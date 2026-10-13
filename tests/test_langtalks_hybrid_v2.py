@@ -191,3 +191,37 @@ def test_unmarked_donor_google_preserves_hebrew_conjunction():
     merged, mods = align_and_merge(base, donor)
     assert "ו-Google" in merged["text"]
     assert len(mods) == 1
+
+
+def test_split_clitic_and_mixed_latin_stem_only_with_matching_donor():
+    base = {"tokens": [
+        {"text": " ה", "start": 1., "end": 1.1},
+        {"text": "-Depדנסי", "start": 1.1, "end": 1.6},
+        {"text": " שלנו", "start": 1.7, "end": 2.1},
+    ]}
+    correct = {"tokens": [
+        {"text": " ה-dependency", "start": 1.0, "end": 1.6, "confidence": .95},
+    ]}
+    merged, mods = align_and_merge(base, correct)
+    assert "ה-dependency שלנו" in merged["text"]
+    assert len(mods) == 1
+    assert mods[0]["base_token_indices"] == [0, 1]
+    wrong = {"tokens": [
+        {"text": " ה-workflow", "start": 1.0, "end": 1.6, "confidence": .99},
+    ]}
+    abstained, changes = align_and_merge(base, wrong)
+    assert changes == []
+    assert "ה-Depדנסי" in abstained["text"]
+
+
+def test_split_clitic_and_latin_typo_preserves_the_clitic():
+    base = {"tokens": [
+        {"text": " ה", "start": 1., "end": 1.1},
+        {"text": "-adhr", "start": 1.1, "end": 1.6},
+    ]}
+    donor = {"tokens": [
+        {"text": " ה-header", "start": 1, "end": 1.6, "confidence": .98},
+    ]}
+    merged, mods = align_and_merge(base, donor)
+    assert merged["text"] == "ה-header"
+    assert mods and mods[0]["donor_token_indices"] == [0]

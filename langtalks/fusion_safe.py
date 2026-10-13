@@ -155,7 +155,7 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
         entity = _identity_like(donor.text, glossary)
         identity_word = (len(donor.words) == 1
                          and bool(re.search(r"[A-Z].*[A-Z]|[a-z][A-Z]|^[A-Z][a-z]{4,}", donor.text)))
-        floor = 0.58 if identity_word else 0.72
+        floor = 0.55 if identity_word and donor.confidence >= 0.93 else (0.58 if identity_word else 0.72)
         if (donor.min_subword_confidence is not None
                 and donor.min_subword_confidence < max(min_confidence - 0.12, floor)):
             continue
@@ -166,7 +166,10 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             if _HEBREW.search(base_text) and re.search(r"['׳]", base_text):
                 continue
             if (i > 0 and base_tokens[i].get("text", "").startswith("-")
-                    and _LATIN.search(base_tokens[i - 1].get("text", ""))):
+                    and (_LATIN.search(base_tokens[i - 1].get("text", ""))
+                         or (donor.hebrew_prefix
+                             and base_tokens[i - 1].get("text", "").strip()
+                             == donor.hebrew_prefix[0]))):
                 continue
             normalized_identical = _clean(base_text) == _clean(donor.text)
             # Style-only rewriting is forbidden, except canonical internal
@@ -233,6 +236,23 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
                 continue
             prefix, similarity = _affix_and_similarity(base_text, donor.text)
             threshold = 0.67 if has_latin else (0.46 if identity_word else 0.59 if entity else 0.66)
+            # If *both* recognizers independently preserve the same attached
+            # Hebrew clitic, a high-confidence Latin donor may repair a short
+            # corrupted Latin stem, including mixed-script partial spellings.
+            stem_evidence = False
+            if (donor.hebrew_prefix and base_text.strip().startswith(donor.hebrew_prefix)
+                    and entity and donor.confidence >= .93
+                    and (donor.min_subword_confidence is None
+                         or donor.min_subword_confidence >= .78)
+                    and len(donor.words) == 1):
+                stem = base_text.strip()[len(donor.hebrew_prefix):]
+                latin_part = re.search(r"[A-Za-z]{3,}", stem)
+                if latin_part and len(donor.text) >= 5:
+                    src_chars = set(latin_part.group().lower())
+                    dst_chars = set(donor.text.lower())
+                    if len(src_chars & dst_chars) / len(src_chars) >= 0.75:
+                        stem_evidence = True
+                        threshold = min(threshold, .39)
             if similarity < threshold:
                 continue
             if has_latin and len(base_parts) == 1 and len(donor_parts) == 1:
@@ -332,7 +352,7 @@ def align_and_merge_v2(base_transcript: dict, donor_transcript: dict,
             "donor_confidence": donor.confidence,
             "donor_min_subword_confidence": donor.min_subword_confidence,
             "alignment_similarity": round(similarity, 4),
-            "rule": "verified_timed_phonetic_alignment",
+            "rule": "donor_supported_timed_phonetic_alignment",
         })
 
     clean_tokens = [t for t in base_tokens if t.get("text") != ""]
