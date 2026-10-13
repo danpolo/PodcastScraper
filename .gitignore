@@ -6,6 +6,7 @@ scraper.log
 AI Thinkers podcast data/
 # Benchmark working files: ~32 MB of audio per episode, plus raw ASR output.
 langtalks/out/
+*.mp3
 *.pyc
 .env
 auth.json
