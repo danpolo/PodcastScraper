@@ -17,6 +17,7 @@ Core invariants:
 
 import json
 import logging
+import math
 import re
 import unicodedata
 from dataclasses import dataclass, field
@@ -118,7 +119,7 @@ def assemble_donor_words(tokens: List[dict]) -> List[DonorWord]:
                         text=raw_text,
                         start=start_time,
                         end=end_time,
-                        confidence=round(avg_conf, 4),
+                        confidence=round(avg_conf, 4) if avg_conf is not None else None,
                         token_indices=list(current_indices),
                     )
                 )
@@ -140,7 +141,25 @@ def assemble_donor_words(tokens: List[dict]) -> List[DonorWord]:
         try:
             start_f, end_f = float(start), float(end)
         except (ValueError, TypeError):
+            flush()
             continue
+        if not math.isfinite(start_f) or not math.isfinite(end_f) or start_f < 0 or end_f < start_f:
+            flush()
+            continue
+        if not text:
+            flush()
+            continue
+        if end_time is not None and (start_f - end_time > 0.70 or start_f < end_time - 0.50):
+            flush()
+        if conf is not None:
+            try:
+                conf_val = float(conf)
+                if not math.isfinite(conf_val) or not 0 <= conf_val <= 1:
+                    conf_val = None
+            except (ValueError, TypeError):
+                conf_val = None
+        else:
+            conf_val = None
 
         if text.startswith(" ") or text.startswith("\n") or text.startswith("\t"):
             flush()
@@ -148,16 +167,16 @@ def assemble_donor_words(tokens: List[dict]) -> List[DonorWord]:
             end_time = end_f
             current_chars.append(text)
             current_indices.append(idx)
-            if conf is not None:
-                confidences.append(float(conf))
+            if conf_val is not None:
+                confidences.append(conf_val)
         else:
             if not current_chars:
                 start_time = start_f
             end_time = end_f
             current_chars.append(text)
             current_indices.append(idx)
-            if conf is not None:
-                confidences.append(float(conf))
+            if conf_val is not None:
+                confidences.append(conf_val)
 
     flush()
     return words
@@ -198,6 +217,7 @@ def extract_latin_donor_phrases(
             cores = [w.text.strip(".,;:!?()[]{}\"' ") for w in window]
             if (all(re.search(r"[A-Za-z]", c) for c in cores)
                     and all(window[k + 1].start - window[k].end <= 0.70
+                            and not window[k].text.rstrip().endswith((".", "!", "?"))
                             for k in range(len(window) - 1))):
                 full_text = " ".join(c for c in cores if c)
                 avg_conf = min((w.confidence if w.confidence is not None else 0.0) for w in window)
