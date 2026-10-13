@@ -83,6 +83,7 @@ class DonorWord:
     end: float
     confidence: Optional[float]
     token_indices: List[int] = field(default_factory=list)
+    min_subword_confidence: Optional[float] = None
 
 
 @dataclass
@@ -121,6 +122,7 @@ def assemble_donor_words(tokens: List[dict]) -> List[DonorWord]:
                         end=end_time,
                         confidence=round(avg_conf, 4) if avg_conf is not None else None,
                         token_indices=list(current_indices),
+                        min_subword_confidence=(round(min(confidences), 4) if avg_conf is not None else None),
                     )
                 )
         current_chars = []
@@ -199,7 +201,8 @@ def extract_latin_donor_phrases(
                 break
 
         if re.search(r"[A-Za-z]", core):
-            conf = w.confidence if w.confidence is not None else 0.0
+            conf = (w.min_subword_confidence if w.min_subword_confidence is not None
+                    else w.confidence if w.confidence is not None else 0.0)
             phrases.append(
                 DonorPhrase(
                     text=core,
@@ -220,7 +223,9 @@ def extract_latin_donor_phrases(
                             and not window[k].text.rstrip().endswith((".", "!", "?"))
                             for k in range(len(window) - 1))):
                 full_text = " ".join(c for c in cores if c)
-                avg_conf = min((w.confidence if w.confidence is not None else 0.0) for w in window)
+                avg_conf = min((w.min_subword_confidence if w.min_subword_confidence is not None
+                                else w.confidence if w.confidence is not None else 0.0)
+                               for w in window)
                 phrases.append(
                     DonorPhrase(
                         text=full_text,
