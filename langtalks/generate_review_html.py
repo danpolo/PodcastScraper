@@ -96,8 +96,58 @@ def migrate_review_session(saved_session: Dict[str, Any], new_proposal: Dict[str
     remapped_details = []
 
     # 3. Match new occurrences against saved occurrences using prioritized bipartite matching
+    # requiring meaningful surface/identity compatibility and strict time bounds.
     def _clean_str(s: str) -> str:
         return re.sub(r"[^a-zA-Z0-9\u0590-\u05fe]", "", s or "").lower()
+
+    def _are_compatible(s_canon: str, s_surf: str, n_canon: str, n_surf: str, time_diff: float, same_cue: bool = False) -> bool:
+        s_c = _clean_str(s_surf)
+        n_c = _clean_str(n_surf)
+        s_canon_c = _clean_str(s_canon)
+        n_canon_c = _clean_str(n_canon)
+
+        if not s_c or not n_c:
+            return False
+
+        # 1. Surface compatibility
+        surface_compat = False
+        if s_c == n_c:
+            surface_compat = True
+        elif s_c in n_c or n_c in s_c:
+            surface_compat = True
+        else:
+            # Strip Hebrew prefixes (ובלמשכה)
+            s_stem = re.sub(r"^[ובלמשכה]{1,3}-?", "", s_c)
+            n_stem = re.sub(r"^[ובלמשכה]{1,3}-?", "", n_c)
+            if s_stem and n_stem and (s_stem == n_stem or s_stem in n_stem or n_stem in s_stem):
+                surface_compat = True
+
+        # 2. Concept / Identity compatibility
+        concept_compat = False
+        if s_canon_c and n_canon_c and s_canon_c == n_canon_c:
+            concept_compat = True
+        elif s_c and n_canon_c and (s_c in n_canon_c or n_canon_c in s_c):
+            concept_compat = True
+        elif n_c and s_canon_c and (n_c in s_canon_c or s_canon_c in n_c):
+            concept_compat = True
+
+        # 3. Decision logic
+        if same_cue:
+            if surface_compat:
+                return True
+            if concept_compat and time_diff <= 1.5:
+                return True
+            return False
+
+        # If not same cue:
+        if not (surface_compat or concept_compat):
+            return False
+        if time_diff > 2.5:
+            return False
+        if not (s_c == n_c or (s_canon_c and s_canon_c == n_canon_c)) and time_diff > 1.2:
+            return False
+
+        return True
 
     new_occs_flat = []
     for group in migrated_state["term_groups"]:
@@ -115,7 +165,8 @@ def migrate_review_session(saved_session: Dict[str, Any], new_proposal: Dict[str
                 and occ.get("source_cue_id")
                 and s["occ"]["source_cue_id"] == occ.get("source_cue_id")
             )
-            if not (same_cue or time_diff <= 1.5):
+
+            if not _are_compatible(s["canonical"], s["occ"].get("surface", ""), group["canonical"], occ.get("surface", ""), time_diff, same_cue):
                 continue
 
             score = 0.0
@@ -124,11 +175,13 @@ def migrate_review_session(saved_session: Dict[str, Any], new_proposal: Dict[str
                     score += 100.0
                 elif n_clean in s_clean or s_clean in n_clean:
                     score += 50.0
+                else:
+                    score += 30.0  # stem match
             if s["canonical"] and group["canonical"] and s["canonical"].lower() == group["canonical"].lower():
-                score += 20.0
+                score += 25.0
             if same_cue:
-                score += 30.0
-            score -= time_diff * 5.0
+                score += 15.0
+            score -= time_diff * 10.0
             match_candidates.append((score, n_idx, s_idx))
 
     match_candidates.sort(key=lambda x: -x[0])
@@ -152,35 +205,42 @@ def migrate_review_session(saved_session: Dict[str, Any], new_proposal: Dict[str
             and s["canonical"].strip().lower() != group["canonical"].strip().lower()
         )
 
-        # 1. Previously rejected occurrences must remain rejected
-        if s_occ.get("state") == "rejected":
-            occ["state"] = "rejected"
-            preserved_decisions_count += 1
-        # 2. Previously approved occurrences:
-        #    - If reassigned to a different canonical concept, must require renewed approval (pending)
-        #    - If staying in the same concept, remain confirmed
-        elif s_occ.get("state") == "confirmed":
-            if is_reassigned:
-                occ["state"] = "pending"
-                occ["reapproval_required"] = True
-            else:
-                occ["state"] = "confirmed"
-                preserved_decisions_count += 1
-
-        # 3. Notes must survive
-        if s_occ.get("notes"):
-            occ["notes"] = s_occ["notes"]
-
         if is_reassigned:
             occ["migrated_from"] = s["canonical"]
             occ["reassigned"] = True
+            occ["reapproval_required"] = True
+            occ["state"] = "pending"  # Always requires fresh decision on new association!
             remapped_count += 1
+
+            if s_occ.get("state") == "rejected":
+                occ["previously_rejected_under"] = s["canonical"]
+                hist_note = f"Previously rejected under '{s['canonical']}' (requires fresh decision for '{group['canonical']}')."
+                if s_occ.get("notes"):
+                    occ["notes"] = f"{s_occ['notes']} [{hist_note}]"
+                else:
+                    occ["notes"] = hist_note
+            elif s_occ.get("state") == "confirmed":
+                occ["previously_confirmed_under"] = s["canonical"]
+                if s_occ.get("notes"):
+                    occ["notes"] = s_occ["notes"]
+            else:
+                if s_occ.get("notes"):
+                    occ["notes"] = s_occ["notes"]
+
             remapped_details.append({
                 "surface": occ["surface"],
                 "cue": occ["source_cue_id"],
                 "from": s["canonical"],
                 "to": group["canonical"],
+                "previous_state": s_occ.get("state"),
             })
+        else:
+            # Same concept: preserve user decision directly
+            if s_occ.get("state") in ("confirmed", "rejected"):
+                occ["state"] = s_occ["state"]
+                preserved_decisions_count += 1
+            if s_occ.get("notes"):
+                occ["notes"] = s_occ["notes"]
 
     # 4. Carry over manually added items from saved session
     for g in saved_groups:
@@ -220,6 +280,91 @@ def migrate_review_session(saved_session: Dict[str, Any], new_proposal: Dict[str
     }
 
     return migrated_state
+
+
+def bulk_approve_confident(state: Dict[str, Any]) -> int:
+    """Safely bulk approve only unambiguous, confident, non-reassigned pending occurrences.
+
+    NEVER approves an occurrence with reapproval_required, reassigned, migrated_from,
+    previously_rejected_under, or ambiguity flags, regardless of concept confidence flags.
+    """
+    approved_count = 0
+    for g in state.get("term_groups", []):
+        if not g.get("uncertainty_flag") and not g.get("is_cross_script"):
+            for occ in g.get("occurrences", []):
+                is_ambiguous_or_reassigned = bool(
+                    occ.get("reapproval_required")
+                    or occ.get("reassigned")
+                    or occ.get("migrated_from")
+                    or occ.get("previously_rejected_under")
+                    or occ.get("ambiguous")
+                )
+                if occ.get("state") == "pending" and not is_ambiguous_or_reassigned:
+                    occ["state"] = "confirmed"
+                    approved_count += 1
+    return approved_count
+
+
+def export_approved_reference(state: Dict[str, Any], transcript: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """Export benchmark reference C from review state, mirroring the UI exportRef logic."""
+    pending_count = sum(
+        1 for g in state.get("term_groups", []) for o in g.get("occurrences", []) if o.get("state") == "pending"
+    )
+    is_exhaustive = bool(state.get("listened")) and pending_count == 0
+
+    confirmed_groups = [
+        g for g in state.get("term_groups", []) if any(o.get("state") == "confirmed" for o in g.get("occurrences", []))
+    ]
+    terms = sorted(list({g["canonical"] for g in confirmed_groups}))
+
+    confirmed_occs = []
+    for g in confirmed_groups:
+        for o in g.get("occurrences", []):
+            if o.get("state") == "confirmed":
+                confirmed_occs.append({
+                    "term": g["canonical"],
+                    "surface": o.get("surface", g["canonical"]),
+                    "canonical": g["canonical"],
+                    "kind": g.get("kind", "technical_concept"),
+                    "start": o.get("start", 0.0),
+                    "end": o.get("end", 0.0),
+                    "timestamp_precision": o.get("precision", "asr_token_aligned"),
+                    "source_cue_id": o.get("source_cue_id", ""),
+                    "source_models": o.get("sources", []),
+                    "hebrew_morphology": o.get("hebrew_morphology"),
+                    "review_status": "verified",
+                })
+
+    ref_out = {
+        "protocol_layer": "C",
+        "episode_guid": state.get("episode_guid", "0e404ceb-d04b-4818-907d-a74aafa7c155"),
+        "episode_title": state.get("episode_title", "74 - Jev"),
+        "window": state.get("window", "full_episode"),
+        "technical_terms": terms,
+        "reference_text": " ".join(t.get("text", "") for t in transcript.get("turns", [])) if transcript else "",
+        "review_status": "approved" if is_exhaustive else "pending",
+        "terms_exhaustive": is_exhaustive,
+        "verified_occurrences": confirmed_occs,
+        "concept_mentions": [
+            {
+                "id": f"mention-{i+1:04d}",
+                "turn_id": o["source_cue_id"],
+                "start_s": o["start"],
+                "end_s": o["end"],
+                "surface": o["surface"],
+                "canonical": o["canonical"],
+                "kind": o["kind"],
+                "aliases": [],
+                "review_status": "verified",
+                "provenance": {
+                    "models": o["source_models"],
+                    "timestamp_alignment": o["timestamp_precision"],
+                },
+            }
+            for i, o in enumerate(confirmed_occs)
+        ],
+    }
+    return ref_out
 
 
 def build_review_html(proposal: Dict[str, Any], transcript: Dict[str, Any], audio_rel_path: str = "audio.mp3") -> str:
@@ -545,6 +690,44 @@ function migrateReviewSession(savedSession, newProposal){
  const remappedDetails = [];
  function cleanStr(s){ return (s || "").replace(/[^a-zA-Z0-9\u0590-\u05fe]/g, "").toLowerCase(); }
 
+ function areCompatible(sCanon, sSurf, nCanon, nSurf, timeDiff, sameCue = false){
+  const sC = cleanStr(sSurf);
+  const nC = cleanStr(nSurf);
+  const sCanonC = cleanStr(sCanon);
+  const nCanonC = cleanStr(nCanon);
+
+  if(!sC || !nC) return false;
+
+  let surfaceCompat = false;
+  if(sC === nC) surfaceCompat = true;
+  else if(sC.includes(nC) || nC.includes(sC)) surfaceCompat = true;
+  else {
+    const sStem = sC.replace(/^[ובלמשכה]{1,3}-?/, "");
+    const nStem = nC.replace(/^[ובלמשכה]{1,3}-?/, "");
+    if(sStem && nStem && (sStem === nStem || sStem.includes(nStem) || nStem.includes(sStem))){
+      surfaceCompat = true;
+    }
+  }
+
+  let conceptCompat = false;
+  if(sCanonC && nCanonC && sCanonC === nCanonC) conceptCompat = true;
+  else if(sC && nCanonC && (sC.includes(nCanonC) || nCanonC.includes(sC))) conceptCompat = true;
+  else if(nC && sCanonC && (nC.includes(sCanonC) || sCanonC.includes(nC))) conceptCompat = true;
+
+  if(sameCue){
+    if(surfaceCompat) return true;
+    if(conceptCompat && timeDiff <= 1.5) return true;
+    return false;
+  }
+
+  if(!surfaceCompat && !conceptCompat) return false;
+
+  if(timeDiff > 2.5) return false;
+  if(!(sC === nC || (sCanonC && sCanonC === nCanonC)) && timeDiff > 1.2) return false;
+
+  return true;
+ }
+
  const newOccsFlat = [];
  for(const group of newState.term_groups){
   for(const occ of group.occurrences){
@@ -563,18 +746,22 @@ function migrateReviewSession(savedSession, newProposal){
     const sameCue = Boolean(
       s.occ.source_cue_id && n.occ.source_cue_id && s.occ.source_cue_id === n.occ.source_cue_id
     );
-    if(!sameCue && timeDiff > 1.5) continue;
+
+    if(!areCompatible(s.canonical, s.occ.surface, n.group.canonical, n.occ.surface, timeDiff, sameCue)){
+      continue;
+    }
 
     let score = 0.0;
     if(nClean && sClean){
       if(nClean === sClean) score += 100.0;
       else if(nClean.includes(sClean) || sClean.includes(nClean)) score += 50.0;
+      else score += 30.0;
     }
     if(s.canonical && n.group.canonical && s.canonical.toLowerCase() === n.group.canonical.toLowerCase()){
-      score += 20.0;
+      score += 25.0;
     }
-    if(sameCue) score += 30.0;
-    score -= timeDiff * 5.0;
+    if(sameCue) score += 15.0;
+    score -= timeDiff * 10.0;
     matchCandidates.push({ score, nIdx, sIdx });
   }
  }
@@ -598,33 +785,32 @@ function migrateReviewSession(savedSession, newProposal){
     s.canonical.trim().toLowerCase() !== group.canonical.trim().toLowerCase()
   );
 
-  // Migration Rule:
-  // 1. Previously rejected occurrences must remain rejected
-  if(sOcc.state === "rejected"){
-    occ.state = "rejected";
-    preservedDecisionsCount++;
-  }
-  // 2. Previously approved occurrences:
-  //    - If reassigned to a different canonical concept, must require renewed approval (pending)
-  //    - If staying in the same concept, remain confirmed
-  else if(sOcc.state === "confirmed"){
-    if(isReassigned){
-      occ.state = "pending";
-      occ.reapproval_required = true;
-    } else {
-      occ.state = "confirmed";
-      preservedDecisionsCount++;
-    }
-  }
-
-  // 3. Notes must survive
-  if(sOcc.notes) occ.notes = sOcc.notes;
-
   if(isReassigned){
     occ.migrated_from = s.canonical;
     occ.reassigned = true;
+    occ.reapproval_required = true;
+    occ.state = "pending"; // Always require fresh decision on new association
     remappedCount++;
-    remappedDetails.push(`"${occ.surface}" (${occ.source_cue_id}): ${s.canonical} → ${group.canonical}`);
+
+    if(sOcc.state === "rejected"){
+      occ.previously_rejected_under = s.canonical;
+      const histNote = `Previously rejected under '${s.canonical}' (requires fresh decision for '${group.canonical}').`;
+      occ.notes = sOcc.notes ? `${sOcc.notes} [${histNote}]` : histNote;
+    } else if(sOcc.state === "confirmed"){
+      occ.previously_confirmed_under = s.canonical;
+      if(sOcc.notes) occ.notes = sOcc.notes;
+    } else {
+      if(sOcc.notes) occ.notes = sOcc.notes;
+    }
+
+    remappedDetails.push(`"${occ.surface}" (${occ.source_cue_id}): ${s.canonical} → ${group.canonical} [was: ${sOcc.state}]`);
+  } else {
+    // Same concept: preserve user decision directly
+    if(sOcc.state === "confirmed" || sOcc.state === "rejected"){
+      occ.state = sOcc.state;
+      preservedDecisionsCount++;
+    }
+    if(sOcc.notes) occ.notes = sOcc.notes;
   }
  }
 
@@ -856,7 +1042,13 @@ function renderDetail(){
   
   if(occ.migrated_from){
     const migTag = document.createElement("span");
-    if(occ.reassigned && occ.state === "pending"){
+    if(occ.previously_rejected_under){
+      migTag.className = "badge warn";
+      migTag.style.background = "#55311e";
+      migTag.style.color = "#ffd188";
+      migTag.style.borderColor = "#995c2b";
+      migTag.textContent = "⚠️ Prev. Rejected under " + occ.previously_rejected_under + " (Fresh decision required)";
+    } else if(occ.reassigned && occ.state === "pending"){
       migTag.className = "badge warn";
       migTag.textContent = "⚠️ Reassigned from " + occ.migrated_from + " (Approval required)";
     } else if(occ.state === "confirmed"){
@@ -877,6 +1069,19 @@ function renderDetail(){
   ctx.dir = "auto";
   ctx.innerHTML = highlightInContext(occ.context, occ.surface);
 
+  if(occ.previously_rejected_under){
+    const histBox = document.createElement("div");
+    histBox.className = "help-note";
+    histBox.style.margin = "4px 0 6px";
+    histBox.style.padding = "6px 8px";
+    histBox.style.fontSize = "12px";
+    histBox.style.background = "#331c18";
+    histBox.style.borderColor = "#783b2e";
+    histBox.style.color = "#fed7aa";
+    histBox.innerHTML = `⚠️ <strong>Historical Review Evidence:</strong> This occurrence was previously marked <strong>Rejected</strong> under <em>${occ.previously_rejected_under}</em>. A fresh decision is required to determine whether it is valid for <strong>${group.canonical}</strong>.`;
+    ctx.append(histBox);
+  }
+
   if(occ.notes){
     const noteBox = document.createElement("div");
     noteBox.className = "help-note";
@@ -890,7 +1095,7 @@ function renderDetail(){
     ctx.append(noteBox);
   }
 
-  if(occ.state === "rejected" && occ.migrated_from){
+  if(occ.state === "rejected" && occ.migrated_from && !occ.previously_rejected_under){
     const warnBox = document.createElement("div");
     warnBox.className = "help-note";
     warnBox.style.margin = "4px 0 6px";
@@ -961,7 +1166,14 @@ $("bulkApprove").onclick = () => {
  for(const g of state.term_groups){
    if(!g.uncertainty_flag && !g.is_cross_script){
      for(const occ of g.occurrences){
-       if(occ.state === "pending"){
+       const isAmbiguousOrReassigned = Boolean(
+         occ.reapproval_required ||
+         occ.reassigned ||
+         occ.migrated_from ||
+         occ.previously_rejected_under ||
+         occ.ambiguous
+       );
+       if(occ.state === "pending" && !isAmbiguousOrReassigned){
          occ.state = "confirmed";
          count++;
        }
@@ -970,7 +1182,7 @@ $("bulkApprove").onclick = () => {
  }
  saveLocal();
  render();
- status(`Bulk approved ${count} occurrences across unambiguous concepts.`);
+ status(`Bulk approved ${count} occurrences across unambiguous concepts (reassigned / re-approval items excluded).`);
 };
 
 $("approveTerm").onclick = () => {
@@ -1261,6 +1473,14 @@ try{
 }catch(err){
  status("Initialization error: " + err.message);
 }
+
+window.migrateReviewSession = migrateReviewSession;
+window.loadData = loadData;
+window.__reviewEngine = {
+ migrateReviewSession,
+ loadData,
+ getState: () => state
+};
 
 })();
 </script>

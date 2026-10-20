@@ -14,6 +14,7 @@ Covers:
 """
 
 import json
+import subprocess
 import tempfile
 from pathlib import Path
 import unittest
@@ -25,7 +26,12 @@ from langtalks.reference_extraction import (
     _align_term_in_cue,
     LEXICON,
 )
-from langtalks.generate_review_html import build_review_html, migrate_review_session
+from langtalks.generate_review_html import (
+    build_review_html,
+    migrate_review_session,
+    bulk_approve_confident,
+    export_approved_reference,
+)
 
 
 class HeldOutReferenceExtractionTests(unittest.TestCase):
@@ -298,10 +304,12 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
         self.assertEqual(occ_160.get("migrated_from"), "AI agent")
         self.assertTrue(occ_160.get("reassigned"))
 
-        # Check Agentic search remapping with rejected state preserved
+        # Check Agentic search remapping: previously rejected under AI agent -> requires fresh decision on new concept
         agentic = next(g for g in migrated["term_groups"] if g["canonical"] == "Agentic search")
         occ_88 = next(o for o in agentic["occurrences"] if o["source_cue_id"] == "turn-0088")
-        self.assertEqual(occ_88["state"], "rejected")
+        self.assertEqual(occ_88["state"], "pending")
+        self.assertTrue(occ_88.get("reapproval_required"))
+        self.assertEqual(occ_88.get("previously_rejected_under"), "AI agent")
         self.assertEqual(occ_88.get("migrated_from"), "AI agent")
 
         # Check Agent harness remapping: previously approved but reassigned -> must require renewed approval
@@ -498,6 +506,15 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
                             "state": "rejected",
                             "notes": "Rejected by reviewer: casual phrasing",
                         },
+                        {
+                            "id": 7,
+                            "start": 552.47,
+                            "end": 554.0,
+                            "source_cue_id": "turn-0088",
+                            "surface": "האג'נטיק סרצ'",
+                            "state": "rejected",
+                            "notes": "Rejected under AI agent: this is search, not an agent",
+                        },
                     ],
                 },
                 {
@@ -589,7 +606,14 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
         self.assertEqual(occ_162.get("migrated_from"), "AI agent")
         self.assertEqual(occ_162.get("notes"), "Agentic search concept")
 
-        # 5. Agent harness occurrence (reassigned from harness) must require renewed approval
+        # 5. Agentic search occurrence (reassigned from rejected in AI agent) must require fresh decision!
+        occ_88 = next(o for o in agentic_search["occurrences"] if o["source_cue_id"] == "turn-0088")
+        self.assertEqual(occ_88["state"], "pending")
+        self.assertTrue(occ_88.get("reapproval_required"))
+        self.assertEqual(occ_88.get("previously_rejected_under"), "AI agent")
+        self.assertEqual(occ_88.get("migrated_from"), "AI agent")
+
+        # 6. Agent harness occurrence (reassigned from harness) must require renewed approval
         agent_harness = next(g for g in migrated["term_groups"] if g["canonical"] == "Agent harness")
         occ_246 = next(o for o in agent_harness["occurrences"] if o["source_cue_id"] == "turn-0246")
         self.assertEqual(occ_246["state"], "pending")
@@ -597,7 +621,7 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
         self.assertEqual(occ_246.get("migrated_from"), "harness")
         self.assertEqual(occ_246.get("notes"), "Agent harness composite")
 
-        # 6. Non-reassigned approved occurrences must remain confirmed
+        # 7. Non-reassigned approved occurrences must remain confirmed
         ai_agent = next(g for g in migrated["term_groups"] if g["canonical"] == "AI agent")
         occ_89 = next(o for o in ai_agent["occurrences"] if o["source_cue_id"] == "turn-0089")
         self.assertEqual(occ_89["state"], "confirmed")
@@ -610,12 +634,12 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
         self.assertIsNone(occ_4.get("migrated_from"))
         self.assertEqual(occ_4.get("notes"), "Spoken harness loanword")
 
-        # 7. Rejected occurrences must remain rejected
+        # 8. Non-reassigned rejected occurrences must remain rejected
         occ_99 = next(o for o in ai_agent["occurrences"] if o["source_cue_id"] == "turn-0099")
         self.assertEqual(occ_99["state"], "rejected")
         self.assertEqual(occ_99.get("notes"), "Rejected by reviewer: casual phrasing")
 
-        # 8. Manual additions must survive completely
+        # 9. Manual additions must survive completely
         custom_group = next(
             (g for g in migrated["term_groups"] if g["canonical"] == "Custom Manual Concept"), None
         )
@@ -627,6 +651,212 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
         self.assertEqual(manual_occ.get("surface"), "Custom Pattern Expression")
         self.assertEqual(manual_occ.get("notes"), "Identified manually from audio")
         self.assertEqual(manual_occ.get("start"), 450.0)
+
+        # 10. Bulk Approve Confident must NOT approve reassigned or re-approval items
+        approved_count = bulk_approve_confident(migrated)
+        self.assertGreater(approved_count, 0)
+        # Reassigned occurrences must STILL be pending!
+        self.assertEqual(occ_222["state"], "pending")
+        self.assertEqual(occ_223["state"], "pending")
+        self.assertEqual(occ_160["state"], "pending")
+        self.assertEqual(occ_162["state"], "pending")
+        self.assertEqual(occ_88["state"], "pending")
+        self.assertEqual(occ_246["state"], "pending")
+        # Same-concept rejected occurrence must STILL be rejected!
+        self.assertEqual(occ_99["state"], "rejected")
+
+        # 11. Reference Export lifecycle: pending before complete, approved when verified
+        transcript = json.loads((self.eval_dir / "reference_transcript.agent_ready.json").read_text(encoding="utf-8"))
+        ref_pending = export_approved_reference(migrated, transcript)
+        self.assertEqual(ref_pending["review_status"], "pending")
+        self.assertFalse(ref_pending["terms_exhaustive"])
+
+        # Explicitly confirm all remaining pending items and verify approved export
+        for g in migrated["term_groups"]:
+            for o in g["occurrences"]:
+                if o["state"] == "pending":
+                    o["state"] = "confirmed"
+        migrated["listened"] = True
+
+        ref_approved = export_approved_reference(migrated, transcript)
+        self.assertEqual(ref_approved["review_status"], "approved")
+        self.assertTrue(ref_approved["terms_exhaustive"])
+        self.assertGreaterEqual(len(ref_approved["verified_occurrences"]), 300)
+
+    def test_multi_term_cue_isolation_prevents_unrelated_pairing(self):
+        """Migration matching must never pair unrelated terms merely because they share a cue."""
+        # Cue turn-0004 contains: 'RAG', 'SDLC', and 'ההרנס' (harness)
+        # Saved session only reviewed 'RAG' in turn-0004
+        saved_session = {
+            "review_session": True,
+            "listened": False,
+            "term_groups": [
+                {
+                    "canonical": "RAG",
+                    "occurrences": [
+                        {
+                            "start": 21.0,
+                            "source_cue_id": "turn-0004",
+                            "surface": "RAG",
+                            "state": "confirmed",
+                            "notes": "Reviewed RAG in cue 4",
+                        }
+                    ],
+                }
+            ],
+        }
+
+        new_proposal = extract_reference_candidates(
+            self.srt_path, self.hybrid_path, self.glossary_a_path, self.detected_b_path
+        )
+        migrated = migrate_review_session(saved_session, new_proposal)
+
+        # 1. RAG in turn-0004 must be matched and confirmed
+        rag_group = next(g for g in migrated["term_groups"] if g["canonical"] == "RAG")
+        rag_occ = next(o for o in rag_group["occurrences"] if o["source_cue_id"] == "turn-0004")
+        self.assertEqual(rag_occ["state"], "confirmed")
+        self.assertEqual(rag_occ.get("notes"), "Reviewed RAG in cue 4")
+
+        # 2. SDLC in turn-0004 must NOT be paired with RAG; must remain fresh 'pending'
+        sdlc_group = next(g for g in migrated["term_groups"] if g["canonical"] == "SDLC")
+        sdlc_occ = next(o for o in sdlc_group["occurrences"] if o["source_cue_id"] == "turn-0004")
+        self.assertEqual(sdlc_occ["state"], "pending")
+        self.assertIsNone(sdlc_occ.get("migrated_from"))
+        self.assertFalse(sdlc_occ.get("reassigned", False))
+
+        # 3. harness in turn-0004 must NOT be paired with RAG; must remain fresh 'pending'
+        harness_group = next(g for g in migrated["term_groups"] if g["canonical"] == "harness")
+        harness_occ = next(o for o in harness_group["occurrences"] if o["source_cue_id"] == "turn-0004")
+        self.assertEqual(harness_occ["state"], "pending")
+        self.assertIsNone(harness_occ.get("migrated_from"))
+        self.assertFalse(harness_occ.get("reassigned", False))
+
+    def test_browser_js_migration_bulk_approve_and_export_lifecycle(self):
+        """Execute the browser JavaScript review engine in Node.js to verify browser-side fidelity."""
+        proposal = json.loads(self.proposed_c_path.read_text(encoding="utf-8"))
+        transcript = json.loads((self.eval_dir / "reference_transcript.agent_ready.json").read_text(encoding="utf-8"))
+        html = build_review_html(proposal, transcript, "audio.mp3")
+
+        with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False) as f:
+            f.write(html)
+            temp_html_path = f.name
+
+        node_script = f"""
+        const fs = require('fs');
+        const html = fs.readFileSync({json.dumps(temp_html_path)}, 'utf8');
+        
+        // Extract script content
+        const scriptMatch = html.match(/<script>([\\s\\S]*?)<\\/script>/);
+        if(!scriptMatch) throw new Error("No script block found in review HTML");
+        const scriptContent = scriptMatch[1];
+
+        // Mock browser DOM and environment
+        let lastDownloaded = null;
+        global.URL = {{
+            createObjectURL: (blob) => {{
+                lastDownloaded = {{ blob, data: blob?.data }};
+                return "blob:mock";
+            }},
+            revokeObjectURL: () => {{}}
+        }};
+        global.Blob = class {{
+            constructor(parts, opts){{
+                this.parts = parts;
+                this.opts = opts;
+                try {{
+                    this.text = parts.join("");
+                    this.data = JSON.parse(this.text);
+                }} catch(e){{}}
+            }}
+        }};
+        const mockElements = {{}};
+        const $ = id => mockElements[id] || (mockElements[id] = {{ onclick: null, value: "", style: {{}}, checked: false, replaceChildren: ()=>{{}}, append: ()=>{{}} }});
+        const document = {{
+            getElementById: $,
+            createElement: tag => ({{ style: {{}}, setAttribute: ()=>{{}}, append: ()=>{{}}, replaceChildren: ()=>{{}}, click: ()=>{{}} }}),
+            createTextNode: text => ({{ textContent: text }}),
+            addEventListener: ()=>{{}}
+        }};
+        const window = {{}};
+        const localStorage = {{ getItem: ()=>null, setItem: ()=>{{}}, removeItem: ()=>{{}} }};
+        const audio = {{ load: ()=>{{}}, play: ()=>{{}}, pause: ()=>{{}} }};
+        let statusText = "";
+        function status(s){{ statusText = s; }}
+
+        // Evaluate script in context
+        eval(scriptContent);
+
+        // Test saved session import
+        const savedSession = {{
+            review_session: true,
+            listened: true,
+            term_groups: [
+                {{
+                    canonical: "AI agent",
+                    occurrences: [
+                        {{ start: 1424.73, source_cue_id: "turn-0222", surface: "ב-agents MD", state: "confirmed", notes: "Note agents.md" }},
+                        {{ start: 552.47, source_cue_id: "turn-0088", surface: "האג'נטיק סרצ'", state: "rejected", notes: "Search not agent" }},
+                        {{ start: 557.43, source_cue_id: "turn-0089", surface: "לאג'נט", state: "confirmed", notes: "Core agent" }}
+                    ]
+                }}
+            ]
+        }};
+
+        const migrated = window.migrateReviewSession(savedSession, window.__localReviewProposal);
+        
+        // Check reassigned approved -> pending
+        const agentsMd = migrated.term_groups.find(g => g.canonical === "AGENTS.md");
+        const occ222 = agentsMd.occurrences.find(o => o.source_cue_id === "turn-0222");
+        if(occ222.state !== "pending") throw new Error("JS error: occ222 should be pending, got " + occ222.state);
+        if(!occ222.reapproval_required) throw new Error("JS error: occ222 reapproval_required missing");
+
+        // Check reassigned rejected -> pending with previously_rejected_under
+        const agenticSearch = migrated.term_groups.find(g => g.canonical === "Agentic search");
+        const occ88 = agenticSearch.occurrences.find(o => o.source_cue_id === "turn-0088");
+        if(occ88.state !== "pending") throw new Error("JS error: occ88 should be pending, got " + occ88.state);
+        if(occ88.previously_rejected_under !== "AI agent") throw new Error("JS error: occ88 previously_rejected_under missing");
+
+        // Check same concept confirmed -> confirmed
+        const aiAgent = migrated.term_groups.find(g => g.canonical === "AI agent");
+        const occ89 = aiAgent.occurrences.find(o => o.source_cue_id === "turn-0089");
+        if(occ89.state !== "confirmed") throw new Error("JS error: occ89 should be confirmed, got " + occ89.state);
+
+        // Test bulk approve safeguard in JS: loadData and trigger bulkApprove
+        window.loadData(migrated);
+        mockElements["bulkApprove"].onclick();
+
+        // Verify bulk approve did NOT touch reassigned items
+        if(occ222.state !== "pending") throw new Error("JS safeguard failed: occ222 was bulk approved!");
+        if(occ88.state !== "pending") throw new Error("JS safeguard failed: occ88 was bulk approved!");
+
+        // Test reference export in JS: when pending exist
+        mockElements["listened"].checked = false;
+        mockElements["exportRef"].onclick();
+        if(!lastDownloaded || lastDownloaded.data.review_status !== "pending"){{
+            throw new Error("JS export status should be pending when listened is unchecked and pending exist");
+        }}
+
+        // Approve all remaining pending occurrences and check listened:
+        for(const g of migrated.term_groups){{
+            for(const o of g.occurrences){{
+                if(o.state === "pending") o.state = "confirmed";
+            }}
+        }}
+        mockElements["listened"].checked = true;
+        mockElements["exportRef"].onclick();
+        if(!lastDownloaded || lastDownloaded.data.review_status !== "approved"){{
+            throw new Error("JS export status should be approved when all decided and listened checked");
+        }}
+
+        console.log("NODE_JS_VERIFICATION_SUCCESS");
+        """
+
+        try:
+            res = subprocess.run(["node"], input=node_script, capture_output=True, text=True)
+            self.assertEqual(res.returncode, 0, f"Node script failed: {res.stderr}\nSTDOUT: {res.stdout}")
+            self.assertIn("NODE_JS_VERIFICATION_SUCCESS", res.stdout)
+        finally:
+            Path(temp_html_path).unlink(missing_ok=True)
 
 
 if __name__ == "__main__":
