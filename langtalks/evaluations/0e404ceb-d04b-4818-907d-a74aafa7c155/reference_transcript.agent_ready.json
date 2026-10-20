@@ -1,0 +1,2612 @@
+{
+  "schema_version": "1.0",
+  "kind": "bilingual_technical_transcript",
+  "episode": {
+    "id": "0e404ceb-d04b-4818-907d-a74aafa7c155",
+    "title": "74 - Jev",
+    "languages": [
+      "he",
+      "en"
+    ],
+    "source_urls": {}
+  },
+  "status": "human_reviewed",
+  "provenance": {
+    "transcript_model": "hybrid_modal_ivrit_l4_soniox",
+    "source": "full",
+    "source_time_offset_s": 0.0,
+    "editorial_review": "transcript_audio_verified_only",
+    "original_draft_hash": "9f1f8da084bac3387f27ce6e781d4d77d2ac772ad96dff94ccfc2ce1dc8e2238",
+    "review_format": "SRT",
+    "review_window_offset_s": 0.0,
+    "transcript_review": "entire_audio_window_verified_by_listener"
+  },
+  "turns": [
+    {
+      "id": "turn-0001",
+      "start_s": 0.21,
+      "end_s": 5.95,
+      "speaker_id": null,
+      "text": "ברוכים הבאים לעוד פרק של LangTalks. היום אנחנו נדבר על Jev, המודל שאולי,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0002",
+      "start_s": 5.95,
+      "end_s": 11.15,
+      "speaker_id": null,
+      "text": "או אולי לא, הולך להחליף את ה-LLM שלנו. נפרק את ההייפ הזה לארכיטקטורה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0003",
+      "start_s": 12.11,
+      "end_s": 17.41,
+      "speaker_id": null,
+      "text": "איך הוא באמת שונה, מתי צריך להשתמש בJev, מתי לא צריך להשתמש בJev,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0004",
+      "start_s": 17.41,
+      "end_s": 24.49,
+      "speaker_id": null,
+      "text": "אולי ה-Use Cases שהוא מעולה, כמו RAG או בתוך ה-SDLC או מחליף לכם בכלל את כל ההרנס",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0005",
+      "start_s": 24.49,
+      "end_s": 30.13,
+      "speaker_id": null,
+      "text": "שלכם, ל-Use Cases שאתם צריכים להתרחק וקצת לפוצץ את ההייפ שנוצר.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0006",
+      "start_s": 30.47,
+      "end_s": 33.09,
+      "speaker_id": null,
+      "text": "אז יאללה בואו נתחיל טוב",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0007",
+      "start_s": 39.49,
+      "end_s": 46.59,
+      "speaker_id": null,
+      "text": "אז Jev בואו נדבר על מה זה בכלל ואיך זה שונה מLLM אוקיי אז דבר ראשון זה מודל קלסיפיקציה אוקיי",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0008",
+      "start_s": 46.59,
+      "end_s": 53.73,
+      "speaker_id": null,
+      "text": "אז המשימה היא משימה שונה מ-LLM אם LLM מג'נרט טקסט פה אנחנו רוצים לעשות קלסיפיקציה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0009",
+      "start_s": 53.73,
+      "end_s": 55.05,
+      "speaker_id": null,
+      "text": "לשאלות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0010",
+      "start_s": 56.41,
+      "end_s": 65.09,
+      "speaker_id": null,
+      "text": "אז בעצם מה יש לנו בJev יש לנו את הסטייט שהסטייט הוא די דומה ל-system prompt שלכם או לקונטקסט ווינדוס שלכם ובסטייט",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0011",
+      "start_s": 65.09,
+      "end_s": 70.65,
+      "speaker_id": null,
+      "text": "יש את כל המידע שעל בסיסו אנחנו בעצם נעשה את הקלסיפיקציה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0012",
+      "start_s": 71.46,
+      "end_s": 77.67,
+      "speaker_id": null,
+      "text": "חוץ מהסטייט יש את ה-Questions, עכשיו הם קוראים לזה Type-safe, כי אנחנו באמת מגדירים סוג של טייפים.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0013",
+      "start_s": 78.06,
+      "end_s": 84.41,
+      "speaker_id": null,
+      "text": "כל question או כל שאלה יש לה טייפ. יש למשל שאלה שהתשובה עליה היא בוליאן,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0014",
+      "start_s": 84.61,
+      "end_s": 90.05,
+      "speaker_id": null,
+      "text": "אז הטייפ שלה היא בוליאן, true false. יש שאלות שהן כמה אופציות,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0015",
+      "start_s": 90.25,
+      "end_s": 95.25,
+      "speaker_id": null,
+      "text": "ואז בעצם זה יהיה אחרת, אתם תצטרכו להגדיר את האופציות שלכם כלייבלים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0016",
+      "start_s": 97.01,
+      "end_s": 103.13,
+      "speaker_id": null,
+      "text": "ולא משנה איזה טייפ אתם מגדירים לשאלה, תמיד יש instruction, איך באמת להעריך את השאלה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0017",
+      "start_s": 103.21,
+      "end_s": 108.31,
+      "speaker_id": null,
+      "text": "אוקיי, אז נגיד, ניתן דוגמה, יש לנו את הקונטקסט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0018",
+      "start_s": 108.57,
+      "end_s": 115.25,
+      "speaker_id": null,
+      "text": "נגיד, זה יכול להיות איזשהו PR, והשאלה, ה-instruction, יהיה האם ה-PR הזה safe to merge או לא.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0019",
+      "start_s": 115.73,
+      "end_s": 120.27,
+      "speaker_id": null,
+      "text": "ובעצם הטייפ יכול להיות בוליאן, יכול להיות false, true, false, ואתם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0020",
+      "start_s": 120.27,
+      "end_s": 125.03,
+      "speaker_id": null,
+      "text": "על בסיס הדבר הזה תבינו, אוקיי, הוא סייף, תקבלו גם confidence,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0021",
+      "start_s": 125.93,
+      "end_s": 134.75,
+      "speaker_id": null,
+      "text": "כמה הוא חושב שבאמת התשובה היא הולכת לטרו או פולס, וככה תוכלו בעצם לפעול בספייס",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0022",
+      "start_s": 134.75,
+      "end_s": 140.53,
+      "speaker_id": null,
+      "text": "האג'נטי שלכם, בפתרון האג'נטי שלכם. כן, אז classifier זאת חיה שאנחנו כבר מכירים הרבה זמן.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0023",
+      "start_s": 140.69,
+      "end_s": 143.75,
+      "speaker_id": null,
+      "text": "ההבדל ב-Jev ספציפית זה אחד,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0024",
+      "start_s": 145.13,
+      "end_s": 149.81,
+      "speaker_id": null,
+      "text": "שהלייבלים עצמם, האופצ'נס, הם לא חלק מהמודל עצמו, כלומר,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0025",
+      "start_s": 149.91,
+      "end_s": 157.63,
+      "speaker_id": null,
+      "text": "אפשר לשחק איתם עם פרי-טקסט כזה. דבר שני, המודל הזה מאומן לא רק להגיד",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0026",
+      "start_s": 157.63,
+      "end_s": 164.71,
+      "speaker_id": null,
+      "text": "את התשובה הנכונה, אלא גם להיות יחסית מדויק ביכולת שלו להעריך את הרמת ביטחון שלו.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0027",
+      "start_s": 165.15,
+      "end_s": 169.81,
+      "speaker_id": null,
+      "text": "נניח כשהמודל אומר סבירות של 20%,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0028",
+      "start_s": 170.55,
+      "end_s": 175.23,
+      "speaker_id": null,
+      "text": "אז הדבר הזה, הסבירות הזאת יקרה באמת ב-20% מהמקרים.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0029",
+      "start_s": 175.37,
+      "end_s": 181.87,
+      "speaker_id": null,
+      "text": "בשונה מ-LLM שיכול להגיד, כן, זה 20%, ובפועל כשמריצים את אותה שאלה על הרבה מקרים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0030",
+      "start_s": 181.89,
+      "end_s": 187.39,
+      "speaker_id": null,
+      "text": "אז רואים שה-20% מופיע 50% מהמקרים. אז הוא יותר calibrated מהבחינה הזאת.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0031",
+      "start_s": 187.59,
+      "end_s": 194.89,
+      "speaker_id": null,
+      "text": "והדבר אחרון זה שיש לו יתרון שהוא יודע להריץ מספר רב של קלסיפיקציות בפס אחד",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0032",
+      "start_s": 194.89,
+      "end_s": 201.91,
+      "speaker_id": null,
+      "text": "עם קונטקסט שהוא משותף, ואז בעצם באותו זמן ריצה אפשר",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0033",
+      "start_s": 201.91,
+      "end_s": 209.23,
+      "speaker_id": null,
+      "text": "להריץ סוג של batch, וזה פותח בעצם בעיניי את היוזקיסים המרכזיים שאליהם",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0034",
+      "start_s": 209.23,
+      "end_s": 214.39,
+      "speaker_id": null,
+      "text": "הוא בכלל רלוונטי. אז בואו נקפוץ ישר לתוך זה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0035",
+      "start_s": 214.45,
+      "end_s": 221.57,
+      "speaker_id": null,
+      "text": "כן? אני חושב שדבר ראשון, ההייפ הוא קצת מוגזם. אין פה איזה משהו חדשני ומטורף,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0036",
+      "start_s": 221.63,
+      "end_s": 228.21,
+      "speaker_id": null,
+      "text": "וזה בסך הכל מודל קלסיפיקציה. יכלנו לממש אותו עם LLMים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0037",
+      "start_s": 228.41,
+      "end_s": 234.65,
+      "speaker_id": null,
+      "text": "פשוט לקחת איזה מודל רזה, איזה ג'מיני Flash, ולעשות את הקלסיפיקציה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0038",
+      "start_s": 234.67,
+      "end_s": 241.69,
+      "speaker_id": null,
+      "text": "ואם אנחנו רוצים להריץ באץ', אז גם לעשות את זה במקביל, כאילו מימוש אלטרנטיבי יכול להיות עם",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0039",
+      "start_s": 241.69,
+      "end_s": 247.69,
+      "speaker_id": null,
+      "text": "LLM'ים, שאני לוקח בעצם את ה-State, שזה כמו ה-System prompt בעצם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0040",
+      "start_s": 247.89,
+      "end_s": 254.93,
+      "speaker_id": null,
+      "text": "עושה קריאת LLM אחת, מניח אותה כדי שיהיה לי עכשיו יכולת לעשות קאש,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0041",
+      "start_s": 255.09,
+      "end_s": 262.33,
+      "speaker_id": null,
+      "text": "כאילו לקבל קאש היט ולחסוך בעלויות, ועכשיו בקריאת LLM השנייה אני בעצם עושה אפילו אלף",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0042",
+      "start_s": 262.33,
+      "end_s": 269.23,
+      "speaker_id": null,
+      "text": "קריאות כאלה במקביל, שבכולם אני שם את אותו system prompt, פלוס את השאלה שאני רוצה לשאול,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0043",
+      "start_s": 269.37,
+      "end_s": 274.17,
+      "speaker_id": null,
+      "text": "וככה בעצם אני מריץ במקביל, ה-Latency הוא כמו שתי ריצות,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0044",
+      "start_s": 274.41,
+      "end_s": 281.41,
+      "speaker_id": null,
+      "text": "ויחסית מהיר, וגם העלויות יחסית נמוכות, אז על פניו יש פה פתרון אלטרנטיבי די פשוט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0045",
+      "start_s": 281.45,
+      "end_s": 286.23,
+      "speaker_id": null,
+      "text": "שאפשר היה לממש עם LLM'ים שאנחנו כבר מכירים. כן, יותר מזה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0046",
+      "start_s": 286.29,
+      "end_s": 293.17,
+      "speaker_id": null,
+      "text": "דרך אגב, היום קיימים Zero-shot classifiers, שבעצם הם לא מבוססים LLM'ים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0047",
+      "start_s": 293.17,
+      "end_s": 300.55,
+      "speaker_id": null,
+      "text": "יכולים היום ללכת ותבקשו מ-ChatGPT שיביא לכם ליסט של כל ה-best in Class Zero-shot Classifiers",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0048",
+      "start_s": 300.55,
+      "end_s": 305.69,
+      "speaker_id": null,
+      "text": "ויביא מהגיד פייס, הוא יביא לכם ספייסים. תסתכלו על הספייסים האלה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0049",
+      "start_s": 306.27,
+      "end_s": 312.53,
+      "speaker_id": null,
+      "text": "תראו שזה די דומה, די דומה למה שJev עושה. אז השאלה היא בעצם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0050",
+      "start_s": 312.63,
+      "end_s": 318.11,
+      "speaker_id": null,
+      "text": "מה כן שונה? מה כן הנוולטי במודל הזה ספציפית?",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0051",
+      "start_s": 318.59,
+      "end_s": 323.79,
+      "speaker_id": null,
+      "text": "ואני חושב שזה נובע מכנראה שהם לקחו דאטה שנראה אחרת,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0052",
+      "start_s": 324.05,
+      "end_s": 326.77,
+      "speaker_id": null,
+      "text": "דאטה שבעצם הוא כנראה הרבה שיחות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0053",
+      "start_s": 329.11,
+      "end_s": 336.15,
+      "speaker_id": null,
+      "text": "ובדיוק המקומות האלה בשיחה שה-LLM עושה איזושהי החלטה ומג'נרט טקסט",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0054",
+      "start_s": 336.15,
+      "end_s": 341.13,
+      "speaker_id": null,
+      "text": "אחרי ההחלטה, הם בעצם פירקו את זה ובעצם לקחו מודל,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0055",
+      "start_s": 341.13,
+      "end_s": 348.27,
+      "speaker_id": null,
+      "text": "לפי מה שהם אומרים הוא לא אוטו-רגרסיב זאת אומרת הוא לא מג'נרט טוקן ביי טוקן זה די ברור כי בעצם הוא",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0056",
+      "start_s": 348.27,
+      "end_s": 355.49,
+      "speaker_id": null,
+      "text": "classifier הוא לא באמת צריך לג'נרט שום טוקנים אז די ברור שהוא לא באמת יש לו טיימסטפים כאלה מוגדרים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0057",
+      "start_s": 355.67,
+      "end_s": 362.55,
+      "speaker_id": null,
+      "text": "אלא הוא לוקח את כל האינפוט ופשוט נותן לכם בבת אחת את כל הקלאסיפיקציה של כל השאלות ששאלתם.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0058",
+      "start_s": 363.39,
+      "end_s": 368.09,
+      "speaker_id": null,
+      "text": "ודרך אגב, זה מה שזירושוט קלאסיפיירס כבר עושים היום.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0059",
+      "start_s": 368.59,
+      "end_s": 373.45,
+      "speaker_id": null,
+      "text": "אז פה אין איזה משהו שהוא מדהים, למרות שאנשים הרבה מציינים את זה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0060",
+      "start_s": 373.51,
+      "end_s": 380.77,
+      "speaker_id": null,
+      "text": "שהוא לא autoregressive, אבל מה שכן שונה אולי זה שהם אמרו שהם כן מימשו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0061",
+      "start_s": 380.77,
+      "end_s": 387.83,
+      "speaker_id": null,
+      "text": "בעצם את הלוס פונקשן ואיך בעצם האימון מתבצע בעזרת reinforcement learning שיותר קשור",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0062",
+      "start_s": 387.83,
+      "end_s": 392.69,
+      "speaker_id": null,
+      "text": "לעולם הזה של החלטות בעצם, יש לנו מלא טקסט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0063",
+      "start_s": 392.71,
+      "end_s": 398.05,
+      "speaker_id": null,
+      "text": "יש איזושהי שיחה ובדיוק בצומת החלטה אנחנו רוצים להבין ימין או שמאלה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0064",
+      "start_s": 398.15,
+      "end_s": 404.91,
+      "speaker_id": null,
+      "text": "הזירושוט קלאסיפיירים שקיימים היום הם לא מאומנים לדבר הזה, הם מאומנים לעשות קלאסיפיקציה לטקסט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0065",
+      "start_s": 404.93,
+      "end_s": 409.87,
+      "speaker_id": null,
+      "text": "הטקסט חיובי, הטקסט קשור לפוליטיקה, הטקסט קשור למשהו אחר,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0066",
+      "start_s": 410.15,
+      "end_s": 416.07,
+      "speaker_id": null,
+      "text": "הם לא באמת מאומנים לעשות החלטות האם הם צריכים לפנות ימינה או שמאלה במהלך שיחה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0067",
+      "start_s": 416.85,
+      "end_s": 423.95,
+      "speaker_id": null,
+      "text": "כן, אני חושב רגע, למה בכלל, כאילו, האם אפשר להשתמש במודל הזה בבעיות שאנחנו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0068",
+      "start_s": 423.95,
+      "end_s": 430.99,
+      "speaker_id": null,
+      "text": "כבר מכירים, והנה אפשר לפתור אותם עכשיו עם מודל שיודע לעשות קלסיפיקציה? תמיד אני אוהב לתת את הדוגמה של נהיגה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0069",
+      "start_s": 430.99,
+      "end_s": 436.55,
+      "speaker_id": null,
+      "text": "אוטונומית. בסוף, מה זה לנהיגה אוטונומית? זה נגיד כל עשר מילי שניות,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0070",
+      "start_s": 436.63,
+      "end_s": 441.39,
+      "speaker_id": null,
+      "text": "לא משנה, להחליט האם לסובב את ההגה, ואם כן, בכמה ולאיזה כיוון,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0071",
+      "start_s": 441.55,
+      "end_s": 447.97,
+      "speaker_id": null,
+      "text": "והאם ללחוץ על הגז או הברקס, ואם כן, בכמה, כאילו, כמה, כזה משהו רציף נגיד,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0072",
+      "start_s": 448.07,
+      "end_s": 454.11,
+      "speaker_id": null,
+      "text": "בין 0 ל-1. אז כן, אז אפשר לפתור את בעיית הנהיגה האוטונומית עם Jev, פשוט ניתן לו את הקונטקסט של,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0073",
+      "start_s": 454.41,
+      "end_s": 459.61,
+      "speaker_id": null,
+      "text": "לא יודע, מה רואים מהחלון, והוא יחליט מה לעשות. וזאת בדיוק הבעיה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0074",
+      "start_s": 459.67,
+      "end_s": 464.49,
+      "speaker_id": null,
+      "text": "כי ברור שזה לא יעבוד, כי היכולת של מודלים טיפשים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0075",
+      "start_s": 464.87,
+      "end_s": 471.93,
+      "speaker_id": null,
+      "text": "כן, ברמה הפשטנית לקבל החלטה כל כך כל כך כל כך מורכבת זה עדיין לא שם יכול",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0076",
+      "start_s": 471.93,
+      "end_s": 479.01,
+      "speaker_id": null,
+      "text": "להיות שזה מתישהו יגיע והמודלים יהיו כמו כאילו האינטואיציה שלהם תהיה מספיק חזקה והם יוכלו לקבל החלטות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0077",
+      "start_s": 479.01,
+      "end_s": 487.03,
+      "speaker_id": null,
+      "text": "כאלה גם בצורה טובה אבל אנחנו עוד רחוקים משם ולכן Jev לא יכול לעשות את הדברים האלה וניסינו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0078",
+      "start_s": 487.03,
+      "end_s": 494.95,
+      "speaker_id": null,
+      "text": "לחשוב ככה אני וגל על איזה use case אם זה כן יכולים להתאים ואני חושב שה use case שהכי בלט בתור",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0079",
+      "start_s": 494.95,
+      "end_s": 502.39,
+      "speaker_id": null,
+      "text": "קנדידט רלוונטי הוא RAG. אז מה זה אומר בעצם איך Jev יכול להשתלב ב-RAG?",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0080",
+      "start_s": 502.45,
+      "end_s": 508.53,
+      "speaker_id": null,
+      "text": "תחשבו רגע איך נראה pipeline של אייג'נט שאתם בונים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0081",
+      "start_s": 509.41,
+      "end_s": 515.23,
+      "speaker_id": null,
+      "text": "שהאייג'נט אמור עכשיו נניח לבחור את הריפו הרלוונטי מתוך אלף ריפוים שיש לכם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0082",
+      "start_s": 515.96,
+      "end_s": 521.89,
+      "speaker_id": null,
+      "text": "או לחלופין אמור למצוא איזה עמוד ב-Notion שיש לכם עשרת אלפים עמודים ב-Notion.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0083",
+      "start_s": 522.48,
+      "end_s": 528.07,
+      "speaker_id": null,
+      "text": "איך אתם עושים את זה? אז מה היו האפשרויות עד היום? לפני שנתיים-שלוש הדיבור היה לעשות RAG,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0084",
+      "start_s": 528.17,
+      "end_s": 532.77,
+      "speaker_id": null,
+      "text": "לקחת את המידע הזה, להכניס אותו ל-vector database, לחלץ אמבדינגס,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0085",
+      "start_s": 533.31,
+      "end_s": 538.55,
+      "speaker_id": null,
+      "text": "לעשות צ'אנקינג, לעשות חילוץ של פיצ'רים מתוך הטקסט, פיצ'רים טקסטואליים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0086",
+      "start_s": 538.59,
+      "end_s": 544.67,
+      "speaker_id": null,
+      "text": "עליהם לעשות את האמבדינגס, לעשות חישובים מורכבים וכולי, לעשות חילוץ של שאלות,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0087",
+      "start_s": 544.69,
+      "end_s": 549.25,
+      "speaker_id": null,
+      "text": "כל הדברים האלה שדיברנו עליהם. היה פה עבודה אינג'ינירית מטורפת, זה אחד.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0088",
+      "start_s": 549.97,
+      "end_s": 557.19,
+      "speaker_id": null,
+      "text": "אופציה שנייה שהיא הרבה יותר פופולרית היום זה האג'נטיק סרצ' בעצם להגיד טוב אני בונה פה מערכת שאני",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0089",
+      "start_s": 557.19,
+      "end_s": 564.29,
+      "speaker_id": null,
+      "text": "נותן לאג'נט לחפש אני נותן לו נגיד רק את הכותרות של העמודים האלה ב-Notion ואז הוא מחליט לאן על",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0090",
+      "start_s": 564.29,
+      "end_s": 571.39,
+      "speaker_id": null,
+      "text": "מה הוא רוצה להסתכל לעשות  double down ואז הוא פותח במרכאות את הדף מסתכל עליו קצת יותר מבין אם הוא רלוונטי או לא",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0091",
+      "start_s": 571.39,
+      "end_s": 578.73,
+      "speaker_id": null,
+      "text": "וכל הדברים הוא יכול לעשות את זה אולי גם קצת במקביל אבל זה ריצה אג'נטית עם LLM עם חשיבה וזה עולה ים",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0092",
+      "start_s": 578.73,
+      "end_s": 583.35,
+      "speaker_id": null,
+      "text": "כסף. וגם בדרך כלל לוקח הרבה זמן. אז אם מדברים על אלף,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0093",
+      "start_s": 583.49,
+      "end_s": 589.49,
+      "speaker_id": null,
+      "text": "עשרת אלפים עמודים, הרבה פעמים גם משתמשים בכל מיני טכניקות של gradual discovery,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0094",
+      "start_s": 589.93,
+      "end_s": 594.73,
+      "speaker_id": null,
+      "text": "ועושים כל מיני אינדקסים של אינדקסים וכולי. ופתאום מגיע Jev,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0095",
+      "start_s": 594.89,
+      "end_s": 602.19,
+      "speaker_id": null,
+      "text": "ואיך שאפשר להשתמש בו זה להגיד, אוקיי, אני לוקח את כל ה-repos עם ה-description שלהם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0096",
+      "start_s": 602.35,
+      "end_s": 606.93,
+      "speaker_id": null,
+      "text": "ואני על כל אחד מהם מנסה להגיד האם הוא רלוונטי או לא, ובכמה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0097",
+      "start_s": 608.15,
+      "end_s": 614.79,
+      "speaker_id": null,
+      "text": "ועכשיו יש לי בעצם משהו שיכול לעשות את זה מאוד מאוד מהר על כל האלף ריפואים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0098",
+      "start_s": 614.95,
+      "end_s": 621.59,
+      "speaker_id": null,
+      "text": "וגם אם הוא לא יהיה מדויק במאה אחוז, זה יכול להיות good enough בתור סינון ראשוני,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0099",
+      "start_s": 621.63,
+      "end_s": 628.89,
+      "speaker_id": null,
+      "text": "שרק עכשיו האג'נט שלי ייקח את זה. ובמקום להתמודד עם אלף ריפואים, הוא יתמודד עם חמישים ריפואים או עשרים ריפואים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0100",
+      "start_s": 629.01,
+      "end_s": 634.23,
+      "speaker_id": null,
+      "text": "וזה יחסוך לנו הרבה מהזמן, בדיוק כמו הפרומיס שיש ל-RAG. כן,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0101",
+      "start_s": 634.35,
+      "end_s": 642.47,
+      "speaker_id": null,
+      "text": "אז אולי אם נכליל את זה, RAG בגדול במהות שלו הוא פילטור של הרבה הרבה דאטה ולתת",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0102",
+      "start_s": 642.47,
+      "end_s": 647.13,
+      "speaker_id": null,
+      "text": "ל-LLM רק את הדברים שהוא צריך להתמקד עליהם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0103",
+      "start_s": 647.25,
+      "end_s": 654.29,
+      "speaker_id": null,
+      "text": "אוקיי? זה בעצם במקום להשתמש ב-LLM שיש לו את בעיית הקונטקסט ויש לו את בעיית",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0104",
+      "start_s": 654.29,
+      "end_s": 660.57,
+      "speaker_id": null,
+      "text": "ה-lost in the middle ואת כל הדבר הזה, להשתמש באיזשהו רכיב שיודע לעשות פילטור בצורה טובה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0105",
+      "start_s": 660.67,
+      "end_s": 666.37,
+      "speaker_id": null,
+      "text": "אני לא חושב שזה רלוונטי רק בעולם ה-RAG, זה קשור לעולם שאתה צריך לעשות פילטור בכללי.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0106",
+      "start_s": 666.45,
+      "end_s": 673.67,
+      "speaker_id": null,
+      "text": "למשל, האם אתם עכשיו רוצים לעשות איזה provision למכונה? אז אתם רוצים בעצם איזשהו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0107",
+      "start_s": 673.67,
+      "end_s": 678.79,
+      "speaker_id": null,
+      "text": "מודל החלטה, שאם הוא אומר לכם ימינה, אז אתם עושים provision למכונה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0108",
+      "start_s": 678.93,
+      "end_s": 684.17,
+      "speaker_id": null,
+      "text": "ואם הוא אומר לכם שמאלה, אתם לא עושים provision למכונה. אין מה להשתמש ב-LLM בשביל זה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0109",
+      "start_s": 684.25,
+      "end_s": 691.61,
+      "speaker_id": null,
+      "text": "כי זה לא בעיה בעצם ג'נרטיבית, זה בעיה שיש לנו החלטה, וה-action אחרי ההחלטה היא משהו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0110",
+      "start_s": 691.61,
+      "end_s": 699.49,
+      "speaker_id": null,
+      "text": "שהוא דטרמיניסטי. אוקיי? זה משהו שהוא אפילו מוגדר באיזשהו ספייס סגור של החלטות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0111",
+      "start_s": 699.49,
+      "end_s": 706.67,
+      "speaker_id": null,
+      "text": "שיכולות לקרות. אז שם אתם באמת רוצים לעשות את זה עם מודל",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0112",
+      "start_s": 706.67,
+      "end_s": 713.83,
+      "speaker_id": null,
+      "text": "כזה במקום עם LLM. עוד איזשהו כזה משהו שאני אזרוק שיותר ידבר",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0113",
+      "start_s": 713.83,
+      "end_s": 720.93,
+      "speaker_id": null,
+      "text": "לעולם של ה-SDLC זה PR Score או משהו שהוא כזה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0114",
+      "start_s": 720.93,
+      "end_s": 727.65,
+      "speaker_id": null,
+      "text": "אומר איזשהו טווח של ריסק. אוקיי? האם זה low medium high risk של PR.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0115",
+      "start_s": 728.47,
+      "end_s": 733.43,
+      "speaker_id": null,
+      "text": "אין מה להשתמש ב-LLM בשביל זה. LLM הם גם לא טובים בלתת לנו מספרים.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0116",
+      "start_s": 733.73,
+      "end_s": 741.23,
+      "speaker_id": null,
+      "text": "הם לא אומנו לזה. מודל הזה אומן בדיוק לתת את ה-confident הכי טוב שהוא יכול בשביל",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0117",
+      "start_s": 741.23,
+      "end_s": 748.45,
+      "speaker_id": null,
+      "text": "לעשות קלסיפיקציה. אז דברים כאלה, כמו של דברים שיותר קרובים לעולם של ה-confidence וה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0118",
+      "start_s": 748.45,
+      "end_s": 753.51,
+      "speaker_id": null,
+      "text": "-pobability של שאלה, עדיף לכם להשתמש במודל כזה מאשר ב-LLM.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0119",
+      "start_s": 754.41,
+      "end_s": 761.53,
+      "speaker_id": null,
+      "text": "עכשיו איפה הבעיות נגיד עם המודל הזה? אז אני חושב שהבעיה הכי מרכזית הראשונה שעולה היא",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0120",
+      "start_s": 761.53,
+      "end_s": 768.63,
+      "speaker_id": null,
+      "text": "כמו כל מודל שהוא לא מבוסס ריזנינג, שהוא לא LLM בעצם, זה שכשהוא טועה מאוד מאוד קשה לדעת",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0121",
+      "start_s": 768.63,
+      "end_s": 776.21,
+      "speaker_id": null,
+      "text": "שהוא טועה ואין לו באמת יכולת להגיד כאילו משהו שייתן לנו אינדיקציה שהוא טועה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0122",
+      "start_s": 776.21,
+      "end_s": 783.21,
+      "speaker_id": null,
+      "text": "בעצם. וגם אין לו יכולת דינמית נגיד להשתמש בכלים בשביל להגדיל לעצמו את הסיכוי להיות צודק.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0123",
+      "start_s": 783.65,
+      "end_s": 790.33,
+      "speaker_id": null,
+      "text": "או לחלופין להתריע על שאלה מסוימת שאין לו יכולת לענות עליה בצורה מדויקת.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0124",
+      "start_s": 790.39,
+      "end_s": 797.83,
+      "speaker_id": null,
+      "text": "אז נגיד שזו דוגמה שרצה באינטרנט, שלוקחים Jev ונותנים לו את",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0125",
+      "start_s": 797.83,
+      "end_s": 805.11,
+      "speaker_id": null,
+      "text": "הסטייט הבא, אומרים לו, ה-19.9.2026 באמת היה יום שבת,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0126",
+      "start_s": 805.19,
+      "end_s": 810.19,
+      "speaker_id": null,
+      "text": "ככה כתוב בסטייט. עכשיו, זה גם באמת נכון, והשאלה שנותנים לו זה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0127",
+      "start_s": 810.33,
+      "end_s": 815.23,
+      "speaker_id": null,
+      "text": "האם ה-19.9.2026 היה יום שבת? והוא אומר שלא,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0128",
+      "start_s": 815.51,
+      "end_s": 820.79,
+      "speaker_id": null,
+      "text": "כאילו, הוא נותן פרובביליטי שזה נכון, 0.17, שעל פניו,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0129",
+      "start_s": 820.83,
+      "end_s": 826.03,
+      "speaker_id": null,
+      "text": "אוקיי, אז כנראה שזה לא היה, אבל למה הוא עושה את זה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0130",
+      "start_s": 826.29,
+      "end_s": 830.93,
+      "speaker_id": null,
+      "text": "נכון? זה לא ברור, כאילו. אני גם עכשיו, אותו מפתח, רואה את ה-use case הזה, אני אומר, בואנה, אני,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0131",
+      "start_s": 831.07,
+      "end_s": 836.17,
+      "speaker_id": null,
+      "text": "כאילו, איך אני משפר את זה? אם זה היה LLM, הייתי עכשיו בונה איזה סקיל של איך הוא יכול,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0132",
+      "start_s": 836.47,
+      "end_s": 843.59,
+      "speaker_id": null,
+      "text": "או איך הוא אמור, להעריך את התשובה שלו, או איך הוא יכול לטפל בתאריכים",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0133",
+      "start_s": 843.59,
+      "end_s": 848.47,
+      "speaker_id": null,
+      "text": "שהוא צריך לבדוק אותם, ופה פשוט אין לי אפשרות, זה איזשהו black box.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0134",
+      "start_s": 849.01,
+      "end_s": 854.83,
+      "speaker_id": null,
+      "text": "אז זה נגיד משהו שהסוג מודל הזה נופל בו די הרבה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0135",
+      "start_s": 856.27,
+      "end_s": 862.73,
+      "speaker_id": null,
+      "text": "כן, גם אני חושב שהיכולת האג'נטיות פה חסרות, ואני אגיד יותר מזה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0136",
+      "start_s": 863.01,
+      "end_s": 868.85,
+      "speaker_id": null,
+      "text": "אל תיקחו עכשיו את כל הפתרונות הכן קונברסייאנטיים, כן שיחתיים שלכם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0137",
+      "start_s": 868.97,
+      "end_s": 874.47,
+      "speaker_id": null,
+      "text": "כן אג'נטיים, ותפרקו אותם להחלטה של Jev ואז לתת את זה ל-LLM.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0138",
+      "start_s": 874.55,
+      "end_s": 880.15,
+      "speaker_id": null,
+      "text": "כי זה פשוט לא, זה לא אפקטיבי, זה לא יעבוד, אני אתן דוגמה קונקרטית,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0139",
+      "start_s": 880.19,
+      "end_s": 884.69,
+      "speaker_id": null,
+      "text": "נגיד יש אצלנו איזשהו use case SDLC שאנחנו רוצים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0140",
+      "start_s": 886.75,
+      "end_s": 893.45,
+      "speaker_id": null,
+      "text": "בהינתן שאיזשהו סשן הסתיים, אנחנו רוצים להבין האם הסשן הזה היה לפי איזשהו policy,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0141",
+      "start_s": 893.97,
+      "end_s": 898.87,
+      "speaker_id": null,
+      "text": "ואם כן, אנחנו רוצים לתת איזו הודעה לבן אדם, להגיד לו,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0142",
+      "start_s": 898.87,
+      "end_s": 904.31,
+      "speaker_id": null,
+      "text": "שמע, הסשן הסתיים, הנה הארטיפקט שצריך לבדוק וככה אתה הולך לבדוק אותו.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0143",
+      "start_s": 904.47,
+      "end_s": 911.59,
+      "speaker_id": null,
+      "text": "אז יש פה אלמנט שיחתי, אני כן צריך בעצם, אחרי שהבנתי שהאקשן צריך לפנות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0144",
+      "start_s": 911.59,
+      "end_s": 918.87,
+      "speaker_id": null,
+      "text": "ימינה אליו, כן יש איזשהו אלמנט שיחתי ולכן לפרק את זה להחלטה של Jev ואז",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0145",
+      "start_s": 918.87,
+      "end_s": 924.55,
+      "speaker_id": null,
+      "text": "LLM שיג'נרט את הקונטקסט, זה בעצם פירוק שהוא לא אפקטיבי,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0146",
+      "start_s": 924.69,
+      "end_s": 928.31,
+      "speaker_id": null,
+      "text": "כי ה-LLM יודע לעשות החלטות, זה לא הבעיה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0147",
+      "start_s": 930.15,
+      "end_s": 937.83,
+      "speaker_id": null,
+      "text": "הבעיה היא שכשזה יקר, אז אתה יכול בעצם להביא את Jev ולהוריד חלק מהעלות לאיזושהי",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0148",
+      "start_s": 937.83,
+      "end_s": 942.65,
+      "speaker_id": null,
+      "text": "החלטה שJev ייקח, במקום לג'נרט טוקנים. אבל אם גם ככה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0149",
+      "start_s": 942.71,
+      "end_s": 949.95,
+      "speaker_id": null,
+      "text": "אחרי שהחלטת את ההחלטה, אני אסתיים הסשן, אני צריך ללכת לבן אדם ולהגיד",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0150",
+      "start_s": 949.95,
+      "end_s": 954.91,
+      "speaker_id": null,
+      "text": "לו משהו. אחרי שעשית את ההחלטה הזאת, אתה צריך לג'נרט טקסט, אז לא חסכת פה כלום,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0151",
+      "start_s": 954.91,
+      "end_s": 960.19,
+      "speaker_id": null,
+      "text": "כי בעצם אתה יצטרך להביא את כל הקונטקסט שהבאת לJev גם ל-LLM,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0152",
+      "start_s": 960.65,
+      "end_s": 968.11,
+      "speaker_id": null,
+      "text": "ואז ה-LLM אולי הוא לא יעשה את ההחלטה, אבל הוא יג'נר את הטקסט. וזה בעצם החלק האיטי והיקר",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0153",
+      "start_s": 968.11,
+      "end_s": 975.53,
+      "speaker_id": null,
+      "text": "בכל התהליך. אז אל תפרקו עכשיו את כל",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0154",
+      "start_s": 975.53,
+      "end_s": 981.47,
+      "speaker_id": null,
+      "text": "הא'נטים שלכם לסוג של עץ החלטות, כי זה איך שבנינו פעם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0155",
+      "start_s": 981.71,
+      "end_s": 987.39,
+      "speaker_id": null,
+      "text": "זה מאוד אינג'נירי לבנות את הפתרונות האג'נטיים שלנו ככה, והם יישברו.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0156",
+      "start_s": 987.49,
+      "end_s": 994.57,
+      "speaker_id": null,
+      "text": "הם יישברו פשוט כי אנחנו מנסים למדל את העולם בצורה דיכוטומית, והעולם השיחתי הוא לא דיכוטומי,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0157",
+      "start_s": 994.65,
+      "end_s": 1002.01,
+      "speaker_id": null,
+      "text": "הוא מאוד גמיש ויכול לזוז. וגם עלתה איזו שאלה מהקהילה של האם אפשר להשתמש בJev בתור",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0158",
+      "start_s": 1002.01,
+      "end_s": 1006.75,
+      "speaker_id": null,
+      "text": "טול לאייג'נט, שזה באמת רעיון מעניין.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0159",
+      "start_s": 1007.87,
+      "end_s": 1012.43,
+      "speaker_id": null,
+      "text": "אני אגיד ששוב, כמו כשאני עכשיו מוציא, נגיד,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0160",
+      "start_s": 1012.61,
+      "end_s": 1019.65,
+      "speaker_id": null,
+      "text": "סאב אייג'נט שהמטרה שלו זה לחפש איזה חתיכת קונטקסט איפשהו, אז אולי הייתי פשוט רוצה שהוא יוכל להשתמש בJev בשביל",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0161",
+      "start_s": 1019.65,
+      "end_s": 1026.91,
+      "speaker_id": null,
+      "text": "לעשות את החיפוש הזה, אבל בדיוק באותה מידה, כלומר, אם יש לי סקיל של איך לעשות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0162",
+      "start_s": 1026.91,
+      "end_s": 1034.15,
+      "speaker_id": null,
+      "text": "איג'נטיק סארץ', אז הייתי נותן גם לJev איזשהו סקיל של איך עושים בעזרתו איג'נטיק סארץ',",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0163",
+      "start_s": 1034.15,
+      "end_s": 1040.25,
+      "speaker_id": null,
+      "text": "זה כן. חוץ מזה, בכנות, רגע, אני גם אסכם את כל הדברים שאמרנו עד עכשיו.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0164",
+      "start_s": 1041.05,
+      "end_s": 1049.15,
+      "speaker_id": null,
+      "text": "לא מצאנו לזה איזשהו שימוש אמיתי, רלוונטי, שהוא מעבר לבאלק",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0165",
+      "start_s": 1049.15,
+      "end_s": 1056.49,
+      "speaker_id": null,
+      "text": "אופריישנס כמו מה שאמרנו נגיד סביב RAG או סביב קלאסיפיקיישן של כמות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0166",
+      "start_s": 1056.49,
+      "end_s": 1061.27,
+      "speaker_id": null,
+      "text": "מאוד מאוד גדולה של דאטה. עוד יוז קייס אגב הוא למשל כשאתם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0167",
+      "start_s": 1061.39,
+      "end_s": 1066.51,
+      "speaker_id": null,
+      "text": "כשיש לכם אייג'נט שרואה את כל ההודעות בסלק, כל הודעה בסלק נותנת לו איבנט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0168",
+      "start_s": 1066.51,
+      "end_s": 1074.57,
+      "speaker_id": null,
+      "text": "והוא צריך עכשיו להחליט האם הוא מגיב או לא. זה פשוט כמות מטורפת של דאטה, ולעשות גם קלסיפיקציה שהיא יחסית זולה עם",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0169",
+      "start_s": 1074.57,
+      "end_s": 1080.11,
+      "speaker_id": null,
+      "text": "LLM'ים, עדיין זה כאב ראש, וזה להרים כאילו סביבה יחסית כבדה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0170",
+      "start_s": 1080.17,
+      "end_s": 1086.95,
+      "speaker_id": null,
+      "text": "כדי שהוא יוכל לעשות חשיבה ולבדוק דברים וזה, וכאילו חבל על הזמן. אז Jev יכול להיות רלוונטי שם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0171",
+      "start_s": 1087.25,
+      "end_s": 1094.61,
+      "speaker_id": null,
+      "text": "אבל אוברול, אנחנו לא חושבים שיש לכם איך באמת להשתמש בזה היום,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0172",
+      "start_s": 1094.61,
+      "end_s": 1101.81,
+      "speaker_id": null,
+      "text": "מעבר ליוז קייסים האלה שתיארנו. איזה כן עוד דברים יש באספקט של המחיר שאני רוצה לדבר",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0173",
+      "start_s": 1101.81,
+      "end_s": 1108.91,
+      "speaker_id": null,
+      "text": "עליהם? אז תמיד נגיד, אני בראש יש לי שג'מיני Flash זה המודל עם הווליו פור מניה הכי מטורף כי",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0174",
+      "start_s": 1108.91,
+      "end_s": 1115.99,
+      "speaker_id": null,
+      "text": "הוא יחסית זול. אז רגע, רק בשביל לישר לסבר את האוזן, ג'מיני 3.8 Flash",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0175",
+      "start_s": 1115.99,
+      "end_s": 1123.25,
+      "speaker_id": null,
+      "text": "האינפוט token שלו למיליון טוקנים עולה 75 סנט ולאאוטפוט",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0176",
+      "start_s": 1123.25,
+      "end_s": 1130.87,
+      "speaker_id": null,
+      "text": "טוקנס עולה 3.75 דולר. לעומת זאת Jev זה 4 סנט לאינפוט",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0177",
+      "start_s": 1130.87,
+      "end_s": 1136.23,
+      "speaker_id": null,
+      "text": "ובחינם לגמרי לאאוטפוט. עכשיו עוד פעם, בחינם לגמרי לאאוטפוט זה נשמע טוב,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0178",
+      "start_s": 1136.33,
+      "end_s": 1143.35,
+      "speaker_id": null,
+      "text": "אבל בפועל הוא מוציא טוקן אחד, כן? אז זה לא איזה משהו מטורף. אבל באינפוט הוא כן אפקטיבית איזה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0179",
+      "start_s": 1143.35,
+      "end_s": 1145.85,
+      "speaker_id": null,
+      "text": "לא יודע מה, פי 20 זול יותר.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0180",
+      "start_s": 1147.29,
+      "end_s": 1154.97,
+      "speaker_id": null,
+      "text": "וזה גם עלות שהיא, כשלוקחים בעצם query ספציפי",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0181",
+      "start_s": 1154.97,
+      "end_s": 1160.79,
+      "speaker_id": null,
+      "text": "ורואים כמה הוא עולה, אז צריך גם להתחשב בזה שבJev אין thinking,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0182",
+      "start_s": 1161.11,
+      "end_s": 1167.23,
+      "speaker_id": null,
+      "text": "כלומר אין את ה-thinking tokens שאנחנו רגילים לשלם עליהם בכל המודלים האחרים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0183",
+      "start_s": 1167.45,
+      "end_s": 1174.51,
+      "speaker_id": null,
+      "text": "אז אפקטיבית ריצה ממוצעת עם ג'מיני Flash מכמה ניסיונות שאני הרצתי אצלי",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0184",
+      "start_s": 1174.51,
+      "end_s": 1181.59,
+      "speaker_id": null,
+      "text": "עם כמה use cases, יוצא בין פי 30 לפי 100 יותר זול להשתמש בJev,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0185",
+      "start_s": 1181.59,
+      "end_s": 1187.99,
+      "speaker_id": null,
+      "text": "לעומת להשתמש בג'מיני Flash, אז זה די משמעותי הייתי אומר.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0186",
+      "start_s": 1189.05,
+      "end_s": 1196.41,
+      "speaker_id": null,
+      "text": "כן, אני אגיד שוב, זה קצת השוואה לא פיירית, כי זה לא פשוט לא אותם",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0187",
+      "start_s": 1196.41,
+      "end_s": 1197.35,
+      "speaker_id": null,
+      "text": "יצורים.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0188",
+      "start_s": 1198.59,
+      "end_s": 1203.17,
+      "speaker_id": null,
+      "text": "פה יש לך LLM שיודע לג'נרט טוקנים, ושם יש לך בעצם classifier.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0189",
+      "start_s": 1203.55,
+      "end_s": 1208.33,
+      "speaker_id": null,
+      "text": "אנחנו מכירים קלאסיפיירים אחרים, שהם רוברטה, דיברט,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0190",
+      "start_s": 1208.53,
+      "end_s": 1216.07,
+      "speaker_id": null,
+      "text": "כל מיני מודלים שהיו לפני ה-LLM. מה לעשות שה-LLM אכלו לנו את החיים, וחושבים שזה המודלים היחידים",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0191",
+      "start_s": 1216.07,
+      "end_s": 1223.19,
+      "speaker_id": null,
+      "text": "שקיימים בעולם, אבל לפני שהיו LLMים היו קלאסיפיירים, והיה שווה אם היינו עושים איזושהי השוואה לקלאסיפיירים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0192",
+      "start_s": 1224.11,
+      "end_s": 1231.33,
+      "speaker_id": null,
+      "text": "ומבינים כאילו איך הוא עומד. עכשיו, אני חושב שבאמת מה שקורה, כשיש לנו בעיית קלאסיפיקציה ואנחנו עושים את זה עם LLM,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0193",
+      "start_s": 1231.76,
+      "end_s": 1238.07,
+      "speaker_id": null,
+      "text": "שזה ברור ש-LLM לא נועד לעשות קלסיפיקציה, אבל בגלל שיש לו את תהליך הפרי-טריין,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0194",
+      "start_s": 1238.15,
+      "end_s": 1242.67,
+      "speaker_id": null,
+      "text": "הוא מאוד טוב מבין את עולם האינפוט. זאת אומרת, הוא מבין שיחות,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0195",
+      "start_s": 1242.93,
+      "end_s": 1249.09,
+      "speaker_id": null,
+      "text": "הוא מבין לעומת קלאסיפיירים שלא כל כך מבינים שיחות, ולא כל כך מבינים את הנקודות האלה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0196",
+      "start_s": 1249.19,
+      "end_s": 1254.77,
+      "speaker_id": null,
+      "text": "אני חושב שפה בדיוק הבודל הזה, Jev, בא לידי ביטוי שהוא אומן על שיחות,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0197",
+      "start_s": 1254.89,
+      "end_s": 1261.91,
+      "speaker_id": null,
+      "text": "והוא מאופתם לקלסיפיקציה של דיסיז'נס, ותמיד כשאנחנו משתמשים ב-LLM לעשות",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0198",
+      "start_s": 1261.91,
+      "end_s": 1269.13,
+      "speaker_id": null,
+      "text": "קלסיפיקציה, אנחנו בסקייל, למשל הדוגמה הזאת שהבאת בסלק, אנחנו כאילו יורדים למודלים של ג'מיני",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0199",
+      "start_s": 1269.13,
+      "end_s": 1274.59,
+      "speaker_id": null,
+      "text": "Flash, של כל מיני מודלים כאלה רזים ומהירים, ושם בדיוק הנקודה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0200",
+      "start_s": 1275.06,
+      "end_s": 1283.11,
+      "speaker_id": null,
+      "text": "אני חושב שזה בדיוק ה-sweet spot שלו, כי הוא לא יכול להתחרות עם gpt 5.6 או",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0201",
+      "start_s": 1283.11,
+      "end_s": 1290.19,
+      "speaker_id": null,
+      "text": "6 אפילו, אבל הוא כן יכול להתחרות כנראה, צריך לעשות איזה בנצ'מארקים ואל תחליפו ישר בגלל הייפ",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0202",
+      "start_s": 1290.19,
+      "end_s": 1297.27,
+      "speaker_id": null,
+      "text": "אלא תעשו בנצ'מארקים ותמדדו את הפתרון שלכם. כנראה שהוא יכול ביוסקייסים האלה של קלסיפיקציה של",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0203",
+      "start_s": 1297.27,
+      "end_s": 1304.71,
+      "speaker_id": null,
+      "text": "המון דאטה בשביל פילטור להתחרות במודלים של גם ככה אתם צריכים לרדת להייקו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0204",
+      "start_s": 1304.71,
+      "end_s": 1312.33,
+      "speaker_id": null,
+      "text": "וג'מיני יכול להיות שהוא יכול להתחרות בהם. גם על לייטנסיה אגב לא דיברנו אבל גם זה ג'מיני",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0205",
+      "start_s": 1312.33,
+      "end_s": 1319.35,
+      "speaker_id": null,
+      "text": "עוד פעם אם מנסים להכווין אותו לקלסיפיקציה עם thinking או בלי thinking זה בין שוב הממוצע על הכמה use cases",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0206",
+      "start_s": 1319.35,
+      "end_s": 1326.43,
+      "speaker_id": null,
+      "text": "שניסיתי בין שתי שניות לתשע שניות שJev רבע שנייה אז גם משמעותית יותר",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0207",
+      "start_s": 1326.43,
+      "end_s": 1333.49,
+      "speaker_id": null,
+      "text": "מהיר אני הולך לזרוק פה עוד כמה use cases שראינו שאפשר להשתמש בהם בJev אז",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0208",
+      "start_s": 1333.49,
+      "end_s": 1340.61,
+      "speaker_id": null,
+      "text": "אחד דיברנו עליו כבר RAG שתיים זה למשל שעושים browser use או computer",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0209",
+      "start_s": 1340.61,
+      "end_s": 1346.71,
+      "speaker_id": null,
+      "text": "use ונגיד יש לנו בבראוזר DOM elements כן כזה את כל האלמנטים שיש ב-HTML כרגע.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0210",
+      "start_s": 1346.85,
+      "end_s": 1352.37,
+      "speaker_id": null,
+      "text": "אז איך שעושים את זה היום כשנותנים את זה ל-agent,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0211",
+      "start_s": 1352.41,
+      "end_s": 1358.15,
+      "speaker_id": null,
+      "text": "אז נותנים לו את כל ה-DOM ואומרים לו יאללה תבחר איזה אלמנט אתה רוצה ללחוץ. אני לא מדבר על תמונות וכאלה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0212",
+      "start_s": 1358.21,
+      "end_s": 1365.45,
+      "speaker_id": null,
+      "text": "אני מדבר ממש על ה-HTML עצמו. אז כאילו אפשר לעשות סוג של judging עם Jev",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0213",
+      "start_s": 1365.45,
+      "end_s": 1372.71,
+      "speaker_id": null,
+      "text": "על כל אחד מהאלמנטים מראש ולראות מי מהם בכלל רלוונטי לפעולה שאנחנו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0214",
+      "start_s": 1372.71,
+      "end_s": 1379.89,
+      "speaker_id": null,
+      "text": "מנסים לעשות או למטרה שאנחנו מנסים להשיג וככה בעצם לתת דירוג לכל קומפוננטה ומשהו שכנראה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0215",
+      "start_s": 1379.89,
+      "end_s": 1385.49,
+      "speaker_id": null,
+      "text": "לא היינו עושים כשהיינו רצים עם agent וזה יכול פוטנציאלית לחסוך כסף.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0216",
+      "start_s": 1385.96,
+      "end_s": 1393.33,
+      "speaker_id": null,
+      "text": "עוד דבר זה לבדוק את ה-tool calling שאייג'נט עושה, היום נגיד יש גארד רייל ל-Claude Code",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0217",
+      "start_s": 1393.33,
+      "end_s": 1400.41,
+      "speaker_id": null,
+      "text": "למשל באוטו מוד שכל tool call שהאייג'נט מנסה לעשות עובר איזה שהוא כמו judge",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0218",
+      "start_s": 1400.41,
+      "end_s": 1406.61,
+      "speaker_id": null,
+      "text": "כזה קטן שבודק האם הפעולה הזאת היא מסוכנת או האם היא צריכה אישור של בן אדם.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0219",
+      "start_s": 1406.73,
+      "end_s": 1411.45,
+      "speaker_id": null,
+      "text": "אז גם פה, תחשבו שאנחנו יכולים לחסוך המון מהזמן וגם מעלויות טוקנים.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0220",
+      "start_s": 1412.15,
+      "end_s": 1413.35,
+      "speaker_id": null,
+      "text": "זה יכול להיות אחלה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0221",
+      "start_s": 1415.05,
+      "end_s": 1422.39,
+      "speaker_id": null,
+      "text": "עוד דבר זה לבדוק האם בתשובה של agent, האם הוא בעצם התעלם",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0222",
+      "start_s": 1422.39,
+      "end_s": 1429.45,
+      "speaker_id": null,
+      "text": "ממשהו שכתוב ב-agents MD. אז תחשבו, בסטייט אני נותן את התשובה של האג'נט או",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0223",
+      "start_s": 1429.45,
+      "end_s": 1437.23,
+      "speaker_id": null,
+      "text": "את התהליך השיבה שלו ואת האג'נטס MD ואני שואל שאלה האם הוא יתעלם ממשהו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0224",
+      "start_s": 1437.23,
+      "end_s": 1444.55,
+      "speaker_id": null,
+      "text": "שכתוב באג'נטס MD, כן או לא, והוא נותן לי כזה סיכוי וזה נחמד לדעת שכאילו לתפוס במרכאות את האג'נט",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0225",
+      "start_s": 1444.55,
+      "end_s": 1450.63,
+      "speaker_id": null,
+      "text": "על חם ולתת לו את זה כפידבק ואז בעצם אני יכול להכניס את זה כאיזשהו הוק בארנס שלי.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0226",
+      "start_s": 1452.81,
+      "end_s": 1460.33,
+      "speaker_id": null,
+      "text": "זהו אלה היוז קייסים ככה המרכזיים שראינו בנוסף, ואפשר לעבור גם לעוד כמה שאלות שקיבלנו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0227",
+      "start_s": 1460.33,
+      "end_s": 1465.75,
+      "speaker_id": null,
+      "text": "מהקהילה. כן, אז האם זה מתאים לפרודקשן?",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0228",
+      "start_s": 1465.89,
+      "end_s": 1472.97,
+      "speaker_id": null,
+      "text": "הייתי מחלק את השאלה הזאת לשתיים. אחד, יש את האם מבחינת קואליטי של הדבר",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0229",
+      "start_s": 1472.97,
+      "end_s": 1479.27,
+      "speaker_id": null,
+      "text": "הזה מתאים לפרודקשן, ושתיים, האם באמת בפונקציונליות של הדבר הזה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0230",
+      "start_s": 1479.33,
+      "end_s": 1485.67,
+      "speaker_id": null,
+      "text": "להסתמך על זה כמשהו רלבילי לפרודקשן, זה משהו שאפשר לעשות היום.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0231",
+      "start_s": 1486.19,
+      "end_s": 1492.25,
+      "speaker_id": null,
+      "text": "אז אני חושב שמבחינת quality, אני חושב שזה עדיין, בגלל שכל הדבר זה closed source,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0232",
+      "start_s": 1492.55,
+      "end_s": 1497.57,
+      "speaker_id": null,
+      "text": "אנחנו כן רואים ביצועים יותר טובים ב-use cases ספציפיים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0233",
+      "start_s": 1497.63,
+      "end_s": 1502.41,
+      "speaker_id": null,
+      "text": "יש המון דמוים שאנשים עושים ביוטיוב על כל מיני use cases ספציפיים.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0234",
+      "start_s": 1502.47,
+      "end_s": 1507.89,
+      "speaker_id": null,
+      "text": "אני חושב שכל חברה שווה שהיא תיקח בגלל שהיא משתמשת בdomain,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0235",
+      "start_s": 1507.97,
+      "end_s": 1513.63,
+      "speaker_id": null,
+      "text": "יש בעצם חברות שמתעסקות ב-health care, יש חברות שמתעסקות בlaw,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0236",
+      "start_s": 1513.83,
+      "end_s": 1520.89,
+      "speaker_id": null,
+      "text": "יש חברות, כל העולם. אני חושב ששווה שתיקחו בנצ'מארק ספציפי של איזושהי קלסיפיקציה שספציפית שאתם",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0237",
+      "start_s": 1520.89,
+      "end_s": 1527.21,
+      "speaker_id": null,
+      "text": "עושים, ובעצם היום זה כל כך פשוט לבנות בנצ'מארק, בהנתן שיש את הדאטה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0238",
+      "start_s": 1527.87,
+      "end_s": 1533.27,
+      "speaker_id": null,
+      "text": "ולעשות סוג של A-B טסטינג על הפתרון הקיים שלכם היום לעומת פתרון שאתם מוסיפים את Jev.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0239",
+      "start_s": 1533.75,
+      "end_s": 1539.89,
+      "speaker_id": null,
+      "text": "תעשו את זה, פשוט תעשו את זה ותבינו האם הוא שווה את האפורט של ההחלפה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0240",
+      "start_s": 1540.61,
+      "end_s": 1548.07,
+      "speaker_id": null,
+      "text": "מבחינת פרודקשן אני לא הייתי שם אותו כרכיב קריטי במערכת ורוב הרכיבים",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0241",
+      "start_s": 1548.07,
+      "end_s": 1555.57,
+      "speaker_id": null,
+      "text": "שהם קלסיפיקציה הם רכיבים קריטיים כי בעצם אנחנו עושים איזשהו אקשן ואם פתאום המודל הזה לא",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0242",
+      "start_s": 1555.57,
+      "end_s": 1562.75,
+      "speaker_id": null,
+      "text": "מגיב בגלל שזו חברה חדשה והאינפרה שלהם עדיין לא מוכח ואני",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0243",
+      "start_s": 1562.75,
+      "end_s": 1570.65,
+      "speaker_id": null,
+      "text": "לא יודע אם יש להם SLA SLA, אז כאילו תעשו פולבקים, תעשו פולבקים לפתרון ה-LLMי הטרדישיונל",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0244",
+      "start_s": 1570.65,
+      "end_s": 1577.75,
+      "speaker_id": null,
+      "text": "וגם אם אתם החלטתם לעשות אינטגרציה לJev תמיד יהיה לו איזשהו פולבק שאם ה-endpoint לא",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0245",
+      "start_s": 1577.75,
+      "end_s": 1585.19,
+      "speaker_id": null,
+      "text": "עובד הוא הולך ל-LLM הרגיל. עוד שאלה שהרבה שאלו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0246",
+      "start_s": 1585.19,
+      "end_s": 1590.79,
+      "speaker_id": null,
+      "text": "זה בעצם האם אפשר לבנות agent harness שלם רק על בסיס Jev?",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0247",
+      "start_s": 1591.39,
+      "end_s": 1598.51,
+      "speaker_id": null,
+      "text": "אז אני חושב שהתשובה היא די ברור שלא, כי צריך משהו שיג'נרט",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0248",
+      "start_s": 1598.51,
+      "end_s": 1603.75,
+      "speaker_id": null,
+      "text": "במרכאות את ה-next step כזה בכל פעם. אפשר להגיד,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0249",
+      "start_s": 1603.99,
+      "end_s": 1611.85,
+      "speaker_id": null,
+      "text": "טוב, בוא נעשה LLM שרק מציע next steps וJev רק מחליט על איזה מה-next steps אנחנו עושים",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0250",
+      "start_s": 1611.85,
+      "end_s": 1618.51,
+      "speaker_id": null,
+      "text": "ומדרג אותם. זה נשמע לי די אזוטרי ולא פרקטי מהסיבות שדיברנו עליהם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0251",
+      "start_s": 1618.57,
+      "end_s": 1623.77,
+      "speaker_id": null,
+      "text": "וגם גל, מה שהסברת על הנושא של כאילו צריך את הריזנינג וכולי, אז זה לא נשמע לי רלוונטי.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0252",
+      "start_s": 1624.57,
+      "end_s": 1630.39,
+      "speaker_id": null,
+      "text": "מה הדבר הכי מגניב שראינו שבנו עם זה. אז האמת שראיתי משהו נחמד,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0253",
+      "start_s": 1631.01,
+      "end_s": 1635.07,
+      "speaker_id": null,
+      "text": "שבעצם מישהו בנה פרויקט שנקרא Jev Piano, בעצם נתן לו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0254",
+      "start_s": 1636.29,
+      "end_s": 1641.17,
+      "speaker_id": null,
+      "text": "סוג של פסנתר, ונתן לו כמו, תחשבו על זה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0255",
+      "start_s": 1641.23,
+      "end_s": 1645.95,
+      "speaker_id": null,
+      "text": "כמו סכמה לפסנתר, כזה איזה אוקטבה ואיזה, אני לא מנגן אז אני לא מכיר,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0256",
+      "start_s": 1646.07,
+      "end_s": 1650.71,
+      "speaker_id": null,
+      "text": "אבל איזה אוקטבה ואיזה אקורד ואיזה, לא יודע,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0257",
+      "start_s": 1650.71,
+      "end_s": 1655.31,
+      "speaker_id": null,
+      "text": "כל מיני פרמטרים שם ואיזה טמפו אתה רוצה לשים, כמה כאלה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0258",
+      "start_s": 1655.37,
+      "end_s": 1662.55,
+      "speaker_id": null,
+      "text": "ובעצם נתן למודל כל פעם לבחור את הקונפיגורציה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0259",
+      "start_s": 1662.55,
+      "end_s": 1668.15,
+      "speaker_id": null,
+      "text": "לbatch שבא, ואז הזין את זה בתור אינפוט לקריאה הבאה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0260",
+      "start_s": 1668.19,
+      "end_s": 1675.21,
+      "speaker_id": null,
+      "text": "ואז יצר בעצם כמו איזה time series, ועכשיו בזכות זה שהמודל יחסית מהיר, אז כאילו אפשר היה לעשות פה משהו שהוא",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0261",
+      "start_s": 1675.21,
+      "end_s": 1680.01,
+      "speaker_id": null,
+      "text": "די אוטו-רגרסי באופי שלו, כלומר לוקח את האאוטפוט של הסטפ הראשון,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0262",
+      "start_s": 1680.01,
+      "end_s": 1686.63,
+      "speaker_id": null,
+      "text": "מזין אותו כאינפוט לסטאפ השני. על האם זה פרודקשן דיברנו,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0263",
+      "start_s": 1686.73,
+      "end_s": 1691.61,
+      "speaker_id": null,
+      "text": "ועוד שאלה שעלתה, האם זה התחלה של סדרה חדשה של מודלים?",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0264",
+      "start_s": 1692.17,
+      "end_s": 1699.65,
+      "speaker_id": null,
+      "text": "גם פה, יכול להיות שכן. אני חושב שה-Use Case הזה שנקרא קלאסיפיקציה הוא באמת מאוד פופולרי",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0265",
+      "start_s": 1699.65,
+      "end_s": 1706.85,
+      "speaker_id": null,
+      "text": "והוא חוזר בהרבה מקומות, אבל אני עדיין מרגיש שקצת כמו RAG זה",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0266",
+      "start_s": 1706.85,
+      "end_s": 1708.83,
+      "speaker_id": null,
+      "text": "לא בהכרח שווה את האינג'ינירינג.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0267",
+      "start_s": 1711.85,
+      "end_s": 1718.39,
+      "speaker_id": null,
+      "text": "בשביל האפליפט שתקבלו, וגם הוא נראה ככה, לפחות כשמסתכלים על RAG היסטורית,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0268",
+      "start_s": 1718.91,
+      "end_s": 1725.59,
+      "speaker_id": null,
+      "text": "לא שווה את זה, כי הוא חולף, ואיכשהו אג'נטים מצליחים להדביק את הפער ולהיות מספיק מהירים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0269",
+      "start_s": 1725.65,
+      "end_s": 1733.03,
+      "speaker_id": null,
+      "text": "מספיק אפקטיביים, מספיק מדויקים, ואז האופציה השנייה שעבדנו הרבה בשביל לגרום לה לעבוד כמו שאנחנו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0270",
+      "start_s": 1733.03,
+      "end_s": 1740.17,
+      "speaker_id": null,
+      "text": "רוצים, ועשינו אותה דטרמיניסטית ובנינו workflow סביבה, פתאום מרגישה איזה קטע תקוע",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0271",
+      "start_s": 1740.17,
+      "end_s": 1745.13,
+      "speaker_id": null,
+      "text": "כזה, קופסה כזאת קלנקית באמצע של Workflow האיג'נטי טבעי,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0272",
+      "start_s": 1747.37,
+      "end_s": 1752.47,
+      "speaker_id": null,
+      "text": "שבעצם רק מעכבת אותנו. כן, אני האמת למדתי את הלקח הזה over and over again,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0273",
+      "start_s": 1752.57,
+      "end_s": 1759.73,
+      "speaker_id": null,
+      "text": "לנסות לעשות סוג של engineering לעולם השיחתי ולפרק אותו",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0274",
+      "start_s": 1759.73,
+      "end_s": 1766.81,
+      "speaker_id": null,
+      "text": "ל-Workflows, אף פעם לא מחזיק מים בלונג ראן, באמת ה-LLMים משתפרים ואתה מוצא",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0275",
+      "start_s": 1766.81,
+      "end_s": 1771.39,
+      "speaker_id": null,
+      "text": "את עצמך עם ארכיטקטורה ישנה שאתה צריך לעשות ל-reven-play כל ה... טוב,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0276",
+      "start_s": 1771.51,
+      "end_s": 1777.99,
+      "speaker_id": null,
+      "text": "אז דבר ראשון, take away. אנחנו חושבים שכן, יש פה משהו, הוא אמנם overhyped,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0277",
+      "start_s": 1779.49,
+      "end_s": 1784.17,
+      "speaker_id": null,
+      "text": "אבל הצטרפו לקבוצה שלנו, יש שם אנשים שמדברים, מוציאים use cases,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0278",
+      "start_s": 1785.49,
+      "end_s": 1788.33,
+      "speaker_id": null,
+      "text": "חוקרים עוד מעבר למה שדיברנו אפילו פה,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0279",
+      "start_s": 1790.19,
+      "end_s": 1794.87,
+      "speaker_id": null,
+      "text": "וכנראה שדברים עוד השתנו והתפתחו. כמו כל דבר,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0280",
+      "start_s": 1794.91,
+      "end_s": 1801.41,
+      "speaker_id": null,
+      "text": "זה מאוד דינאמי. אם אתם רוצים שנדבר ספציפית על עוד משהו שראיתם,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0281",
+      "start_s": 1801.55,
+      "end_s": 1808.11,
+      "speaker_id": null,
+      "text": "עוד איזשהו מודל חדש, או אפילו על Jev עצמו, משהו שעדיין לא עשינו קאבר אליו,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0282",
+      "start_s": 1809.09,
+      "end_s": 1814.11,
+      "speaker_id": null,
+      "text": "כנסו ל-LankTox.AI, הצטרפו לקבוצה ופשוט הצטרפו לקהילה.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0283",
+      "start_s": 1814.21,
+      "end_s": 1819.61,
+      "speaker_id": null,
+      "text": "בשביל לקבל עוד מידע על איבנטים ופרקים שמתפרסמים,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0284",
+      "start_s": 1819.61,
+      "end_s": 1823.25,
+      "speaker_id": null,
+      "text": "אתם יכולים גם בלנקדורס.אייל להיכנס לניוזלטר.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0285",
+      "start_s": 1825.25,
+      "end_s": 1831.45,
+      "speaker_id": null,
+      "text": "אז אוברול, אני חושב שיש לו את היוז קייסים הנכונים, צריך לדעת מתי להשתמש בו,",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0286",
+      "start_s": 1832.27,
+      "end_s": 1837.07,
+      "speaker_id": null,
+      "text": "אבל הוא לא סילבר בולט, כמו כל דבר בעולם שלנו.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    },
+    {
+      "id": "turn-0287",
+      "start_s": 1837.55,
+      "end_s": 1839.25,
+      "speaker_id": null,
+      "text": "אז עד הפרק הבא.",
+      "timestamp_precision": "human_reviewed_cues",
+      "review_status": "verified"
+    }
+  ],
+  "topics": [],
+  "concept_mentions": [],
+  "transcript_uncertainties": []
+}
