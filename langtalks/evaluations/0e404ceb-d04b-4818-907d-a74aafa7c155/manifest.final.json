@@ -1,0 +1,90 @@
+{
+  "protocol": "Held-out full-episode transcription evaluation protocol (v1.1)",
+  "phase": "Phase 4 completed (Full Held-Out Evaluation Finalized)",
+  "timestamp": "2026-10-21T00:20:00+03:00",
+  "episode": {
+    "number": 74,
+    "title": "74 - Jev",
+    "guid": "0e404ceb-d04b-4818-907d-a74aafa7c155",
+    "duration_seconds": 1848.89,
+    "spoken_speech_range_s": [
+      0.21,
+      1839.25
+    ]
+  },
+  "evaluation_summary": {
+    "guardrails_passed": true,
+    "base_wer": 0.042,
+    "hybrid_wer": 0.0239,
+    "base_occurrence_recall": 0.7465,
+    "hybrid_occurrence_recall": 0.8635,
+    "fusion_fixed_errors_count": 44,
+    "fusion_introduced_errors_count": 0
+  },
+  "artifacts": {
+    "engine_glossary.original.json": {
+      "size_bytes": 8769,
+      "sha256": "1e29398897ac89ca11441dd33534aeb61cf642b48d55d4b790718380f3e15ad1"
+    },
+    "engine_terms_detected.original.json": {
+      "size_bytes": 366637,
+      "sha256": "75a99259dce328af1fba980503ca3cd71d30e8a360ef12fbe83b79861094cf8d"
+    },
+    "provider_ivrit.original.json": {
+      "size_bytes": 558808,
+      "sha256": "8801c9246b9b6587b0a236bec1093538e70f9d14affd553ff2fcaa4ff98d319f"
+    },
+    "provider_soniox.original.json": {
+      "size_bytes": 1382546,
+      "sha256": "1ac146b156b921415b0d06e701f37a9a3abf07df71b545ece0e8c9dab3952f72"
+    },
+    "hybrid_revised.original.json": {
+      "size_bytes": 613119,
+      "sha256": "ad4418662fcc7e2d5ee1642d1f9dbb5440812ef2e0aee25474845b4151570be8"
+    },
+    "hybrid_draft.srt": {
+      "size_bytes": 44141,
+      "sha256": "94b1adcecc3dea095ad0b37e05aac56bae5c14ee4769c3b0d33e9241d84fc130"
+    },
+    "fusion_edits.original.json": {
+      "size_bytes": 24256,
+      "sha256": "3a7573dc7ae2616c5c7a0b2ba0a27976779c1621d0fd7a533a657447c6eabfff"
+    },
+    "reference_user_corrected.original.srt": {
+      "size_bytes": 45204,
+      "sha256": "e5e2245dc8126bfc1fd6394cb6f4bfceeff06851ce1471fcb583cdd1365a5d53"
+    },
+    "reference_transcript.agent_ready.json": {
+      "size_bytes": 96831,
+      "sha256": "93445a3a64aea755ea4e14c0e841fd67ffb9a3660e06752cc2e6b31530328bb7"
+    },
+    "reference_transcript.agent_ready.md": {
+      "size_bytes": 52309,
+      "sha256": "adb1b770ac2b5a2bafbc299e06c8329087c8e9c47e392e32f95c6e2bf5745e4e"
+    },
+    "reference_terms.proposed.json": {
+      "size_bytes": 272676,
+      "sha256": "37e7b712c3251f5b0bf42938fed1e95a9b6f4d8b49ffe5192d4b470cad2491c7"
+    },
+    "reference_terms.approved.json": {
+      "size_bytes": 777850,
+      "sha256": "128d1e55f31d452b72f8483c32c8116ec28b6313496d4695e7ec955da77dfd69"
+    },
+    "reference_validation_report.md": {
+      "size_bytes": 8421,
+      "sha256": "8b664e03a82100260ddb2f4f334ecb57ad10db11f55fd5defeae205fd253b615"
+    },
+    "evaluations.frozen.json": {
+      "size_bytes": 65884,
+      "sha256": "02cee096aeb54b30c7cc78773395b4ffd9bd4898f449f939167cf2e1fd46357b"
+    },
+    "diffs.json": {
+      "size_bytes": 31044,
+      "sha256": "69e6fa564af5a38739f90b8f1349c224a4e10c88543a9f2f1553dd3971da125c"
+    },
+    "report.md": {
+      "size_bytes": 7649,
+      "sha256": "ffe592d098b675c79049bc34110d01ee741c61769896ddf84d79296aca24a391"
+    }
+  }
+}

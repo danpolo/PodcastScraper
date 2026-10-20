@@ -1,0 +1,2138 @@
+{
+  "protocol_version": "1.1",
+  "evaluation_timestamp": "2026-10-21T00:20:00+03:00",
+  "episode_guid": "0e404ceb-d04b-4818-907d-a74aafa7c155",
+  "episode_title": "74 - Jev",
+  "guardrails_passed": true,
+  "guardrail_checks": {
+    "wer_no_regression": true,
+    "hebrew_accuracy_no_regression": true,
+    "occurrence_recall_no_regression": true,
+    "no_severe_fusion_errors": true
+  },
+  "systems": {
+    "base_provider": {
+      "system_name": "modal_ivrit_l4 (Base)",
+      "transcript_accuracy": {
+        "word_error_rate": 0.042,
+        "wer_distance": 163,
+        "reference_words_count": 3885,
+        "character_error_rate": 0.0244,
+        "cer_distance": 472,
+        "reference_chars_count": 19374,
+        "hebrew_only_accuracy": 0.9753,
+        "hebrew_errors_count": 351,
+        "reference_hebrew_chars_count": 14183
+      },
+      "unique_concepts": {
+        "total_concepts": 110,
+        "found_count": 94,
+        "missed_count": 16,
+        "recall": 0.8545,
+        "tp_concepts": [
+          "A/B testing",
+          "AGENTS.md",
+          "AI agent",
+          "Agent harness",
+          "Agentic behavior",
+          "Agentic search",
+          "Autonomous driving",
+          "Boolean literal",
+          "Browser use",
+          "Bulk operations",
+          "Chunking",
+          "Claude Haiku",
+          "Closed source",
+          "Computer use",
+          "Configuration",
+          "DeBERTa",
+          "Event",
+          "Fallback",
+          "Feature extraction",
+          "Feedback",
+          "Filtering",
+          "GPT-5.6",
+          "Gemini",
+          "HTML",
+          "Hook",
+          "Hugging Face",
+          "Hugging Face Spaces",
+          "Input",
+          "Jev",
+          "LLM",
+          "LangTalks",
+          "Lost in the Middle",
+          "Model-based judging",
+          "Output",
+          "PR Score",
+          "Parameters",
+          "Pre-training",
+          "Probability",
+          "Questions",
+          "Reasoning",
+          "RoBERTa",
+          "SDLC",
+          "SLA",
+          "Safe to merge",
+          "Schema",
+          "Skill",
+          "Slack",
+          "Subagent",
+          "Text features",
+          "Thinking / reasoning mode",
+          "Timestamps",
+          "Zero-shot classifier",
+          "action",
+          "architecture",
+          "autoregressive",
+          "batch",
+          "benchmark",
+          "black box",
+          "boolean",
+          "browser",
+          "cache",
+          "calibrated",
+          "classification",
+          "classification model",
+          "classifier",
+          "confidence",
+          "context",
+          "context window",
+          "deterministic",
+          "embeddings",
+          "endpoint",
+          "gradual discovery",
+          "guardrails",
+          "harness",
+          "healthcare",
+          "instruction",
+          "integration",
+          "labels",
+          "latency",
+          "next steps",
+          "policy",
+          "production",
+          "provision",
+          "pull request",
+          "query",
+          "reinforcement learning",
+          "reliable / reliability",
+          "repository",
+          "state",
+          "system prompt",
+          "thinking tokens",
+          "token",
+          "use case",
+          "workflow"
+        ],
+        "fn_concepts": [
+          "ChatGPT",
+          "Claude Code",
+          "DOM",
+          "Gemini 3.8 Flash",
+          "Gemini Flash",
+          "Jev Piano",
+          "Law",
+          "Notion",
+          "RAG",
+          "TypeSafe",
+          "domain",
+          "loss function",
+          "pipeline",
+          "time series",
+          "tool calling",
+          "vector database"
+        ]
+      },
+      "timed_occurrences_strict_surface": {
+        "recall": 0.7465,
+        "precision": 0.8048,
+        "matched_count": 268,
+        "total_expected": 359,
+        "total_emitted": 333,
+        "unmatched_emissions_count": 65,
+        "missed_occurrences_count": 91,
+        "misses_sample": [
+          {
+            "term": "LangTalks",
+            "surface": "LangTalks",
+            "cue": "turn-0001",
+            "start": 2.2
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 14.96
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 17.0
+          },
+          {
+            "term": "RAG",
+            "surface": "RAG",
+            "cue": "turn-0004",
+            "start": 20.29
+          },
+          {
+            "term": "SDLC",
+            "surface": "SDLC",
+            "cue": "turn-0004",
+            "start": 21.52
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0007",
+            "start": 39.72
+          },
+          {
+            "term": "LLM",
+            "surface": "מLLM",
+            "cue": "turn-0007",
+            "start": 42.89
+          },
+          {
+            "term": "LLM",
+            "surface": "מ-LLM",
+            "cue": "turn-0008",
+            "start": 48.85
+          },
+          {
+            "term": "LLM",
+            "surface": "LLM",
+            "cue": "turn-0008",
+            "start": 49.51
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0010",
+            "start": 57.79
+          },
+          {
+            "term": "system prompt",
+            "surface": "ל-system prompt",
+            "cue": "turn-0010",
+            "start": 61.02
+          },
+          {
+            "term": "TypeSafe",
+            "surface": "Type-safe",
+            "cue": "turn-0012",
+            "start": 74.69
+          },
+          {
+            "term": "Boolean literal",
+            "surface": "true",
+            "cue": "turn-0014",
+            "start": 86.43
+          },
+          {
+            "term": "classifier",
+            "surface": "classifier",
+            "cue": "turn-0022",
+            "start": 137.39
+          },
+          {
+            "term": "Jev",
+            "surface": "ב-Jev",
+            "cue": "turn-0023",
+            "start": 141.33
+          },
+          {
+            "term": "labels",
+            "surface": "הלייבלים",
+            "cue": "turn-0024",
+            "start": 145.22
+          },
+          {
+            "term": "use case",
+            "surface": "יוזקיסים",
+            "cue": "turn-0033",
+            "start": 206.68
+          },
+          {
+            "term": "Gemini Flash",
+            "surface": "ג'מיני Flash",
+            "cue": "turn-0037",
+            "start": 230.95
+          },
+          {
+            "term": "system prompt",
+            "surface": "system prompt",
+            "cue": "turn-0042",
+            "start": 265.49
+          },
+          {
+            "term": "ChatGPT",
+            "surface": "מ-ChatGPT",
+            "cue": "turn-0047",
+            "start": 295.1
+          },
+          {
+            "term": "Jev",
+            "surface": "שJev",
+            "cue": "turn-0049",
+            "start": 309.45
+          },
+          {
+            "term": "classifier",
+            "surface": "classifier",
+            "cue": "turn-0056",
+            "start": 348.27
+          },
+          {
+            "term": "autoregressive",
+            "surface": "autoregressive",
+            "cue": "turn-0060",
+            "start": 374.35
+          },
+          {
+            "term": "loss function",
+            "surface": "הלוס פונקשן",
+            "cue": "turn-0061",
+            "start": 381.46
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0072",
+            "start": 452.01
+          }
+        ]
+      },
+      "timed_occurrences_canonical_concept": {
+        "recall": 0.7465,
+        "precision": 0.8048,
+        "matched_count": 268,
+        "total_expected": 359,
+        "total_emitted": 333,
+        "unmatched_emissions_count": 65,
+        "missed_occurrences_count": 91,
+        "misses_sample": [
+          {
+            "term": "LangTalks",
+            "surface": "LangTalks",
+            "cue": "turn-0001",
+            "start": 2.2
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 14.96
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 17.0
+          },
+          {
+            "term": "RAG",
+            "surface": "RAG",
+            "cue": "turn-0004",
+            "start": 20.29
+          },
+          {
+            "term": "SDLC",
+            "surface": "SDLC",
+            "cue": "turn-0004",
+            "start": 21.52
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0007",
+            "start": 39.72
+          },
+          {
+            "term": "LLM",
+            "surface": "מLLM",
+            "cue": "turn-0007",
+            "start": 42.89
+          },
+          {
+            "term": "LLM",
+            "surface": "מ-LLM",
+            "cue": "turn-0008",
+            "start": 48.85
+          },
+          {
+            "term": "LLM",
+            "surface": "LLM",
+            "cue": "turn-0008",
+            "start": 49.51
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0010",
+            "start": 57.79
+          },
+          {
+            "term": "system prompt",
+            "surface": "ל-system prompt",
+            "cue": "turn-0010",
+            "start": 61.02
+          },
+          {
+            "term": "TypeSafe",
+            "surface": "Type-safe",
+            "cue": "turn-0012",
+            "start": 74.69
+          },
+          {
+            "term": "Boolean literal",
+            "surface": "true",
+            "cue": "turn-0014",
+            "start": 86.43
+          },
+          {
+            "term": "classifier",
+            "surface": "classifier",
+            "cue": "turn-0022",
+            "start": 137.39
+          },
+          {
+            "term": "Jev",
+            "surface": "ב-Jev",
+            "cue": "turn-0023",
+            "start": 141.33
+          },
+          {
+            "term": "labels",
+            "surface": "הלייבלים",
+            "cue": "turn-0024",
+            "start": 145.22
+          },
+          {
+            "term": "use case",
+            "surface": "יוזקיסים",
+            "cue": "turn-0033",
+            "start": 206.68
+          },
+          {
+            "term": "Gemini Flash",
+            "surface": "ג'מיני Flash",
+            "cue": "turn-0037",
+            "start": 230.95
+          },
+          {
+            "term": "system prompt",
+            "surface": "system prompt",
+            "cue": "turn-0042",
+            "start": 265.49
+          },
+          {
+            "term": "ChatGPT",
+            "surface": "מ-ChatGPT",
+            "cue": "turn-0047",
+            "start": 295.1
+          },
+          {
+            "term": "Jev",
+            "surface": "שJev",
+            "cue": "turn-0049",
+            "start": 309.45
+          },
+          {
+            "term": "classifier",
+            "surface": "classifier",
+            "cue": "turn-0056",
+            "start": 348.27
+          },
+          {
+            "term": "autoregressive",
+            "surface": "autoregressive",
+            "cue": "turn-0060",
+            "start": 374.35
+          },
+          {
+            "term": "loss function",
+            "surface": "הלוס פונקשן",
+            "cue": "turn-0061",
+            "start": 381.46
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0072",
+            "start": 452.01
+          }
+        ]
+      },
+      "cross_script_breakdown": {
+        "hebrew_script_surfaces": {
+          "total": 166,
+          "strict_surface_recall": 0.9639,
+          "strict_surface_matched": 160,
+          "canonical_concept_recall": 0.9639,
+          "canonical_concept_matched": 160
+        },
+        "latin_script_surfaces": {
+          "total": 126,
+          "strict_surface_recall": 0.619,
+          "strict_surface_matched": 78
+        },
+        "mixed_script_surfaces": {
+          "total": 67,
+          "strict_surface_recall": 0.4478,
+          "strict_surface_matched": 30
+        }
+      }
+    },
+    "donor_provider": {
+      "system_name": "soniox (Donor)",
+      "transcript_accuracy": {
+        "word_error_rate": 0.1243,
+        "wer_distance": 483,
+        "reference_words_count": 3885,
+        "character_error_rate": 0.0789,
+        "cer_distance": 1528,
+        "reference_chars_count": 19374,
+        "hebrew_only_accuracy": 0.9146,
+        "hebrew_errors_count": 1211,
+        "reference_hebrew_chars_count": 14183
+      },
+      "unique_concepts": {
+        "total_concepts": 110,
+        "found_count": 98,
+        "missed_count": 12,
+        "recall": 0.8909,
+        "tp_concepts": [
+          "A/B testing",
+          "AI agent",
+          "Agent harness",
+          "Agentic behavior",
+          "Agentic search",
+          "Autonomous driving",
+          "Boolean literal",
+          "Browser use",
+          "Bulk operations",
+          "ChatGPT",
+          "Chunking",
+          "Claude Code",
+          "Closed source",
+          "Computer use",
+          "Configuration",
+          "DOM",
+          "DeBERTa",
+          "Event",
+          "Fallback",
+          "Feature extraction",
+          "Feedback",
+          "Filtering",
+          "GPT-5.6",
+          "Gemini",
+          "Gemini 3.8 Flash",
+          "Gemini Flash",
+          "HTML",
+          "Hook",
+          "Hugging Face",
+          "Input",
+          "Jev",
+          "Jev Piano",
+          "LLM",
+          "LangTalks",
+          "Lost in the Middle",
+          "Model-based judging",
+          "Notion",
+          "Output",
+          "PR Score",
+          "Parameters",
+          "Probability",
+          "Questions",
+          "RAG",
+          "Reasoning",
+          "RoBERTa",
+          "SDLC",
+          "SLA",
+          "Safe to merge",
+          "Schema",
+          "Skill",
+          "Text features",
+          "Thinking / reasoning mode",
+          "TypeSafe",
+          "Zero-shot classifier",
+          "action",
+          "architecture",
+          "autoregressive",
+          "batch",
+          "benchmark",
+          "black box",
+          "boolean",
+          "browser",
+          "cache",
+          "calibrated",
+          "classification",
+          "classifier",
+          "confidence",
+          "context",
+          "context window",
+          "deterministic",
+          "embeddings",
+          "endpoint",
+          "gradual discovery",
+          "harness",
+          "healthcare",
+          "instruction",
+          "integration",
+          "labels",
+          "latency",
+          "loss function",
+          "next steps",
+          "pipeline",
+          "policy",
+          "production",
+          "provision",
+          "pull request",
+          "query",
+          "reinforcement learning",
+          "repository",
+          "state",
+          "system prompt",
+          "thinking tokens",
+          "time series",
+          "token",
+          "tool calling",
+          "use case",
+          "vector database",
+          "workflow"
+        ],
+        "fn_concepts": [
+          "AGENTS.md",
+          "Claude Haiku",
+          "Hugging Face Spaces",
+          "Law",
+          "Pre-training",
+          "Slack",
+          "Subagent",
+          "Timestamps",
+          "classification model",
+          "domain",
+          "guardrails",
+          "reliable / reliability"
+        ]
+      },
+      "timed_occurrences_strict_surface": {
+        "recall": 0.5292,
+        "precision": 0.4897,
+        "matched_count": 190,
+        "total_expected": 359,
+        "total_emitted": 388,
+        "unmatched_emissions_count": 198,
+        "missed_occurrences_count": 169,
+        "misses_sample": [
+          {
+            "term": "LLM",
+            "surface": "LLM",
+            "cue": "turn-0002",
+            "start": 7.79
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 14.96
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 17.0
+          },
+          {
+            "term": "use case",
+            "surface": "Use Cases",
+            "cue": "turn-0004",
+            "start": 17.91
+          },
+          {
+            "term": "harness",
+            "surface": "ההרנס",
+            "cue": "turn-0004",
+            "start": 24.13
+          },
+          {
+            "term": "use case",
+            "surface": "ל-Use Cases",
+            "cue": "turn-0005",
+            "start": 25.51
+          },
+          {
+            "term": "LLM",
+            "surface": "מLLM",
+            "cue": "turn-0007",
+            "start": 42.89
+          },
+          {
+            "term": "classification model",
+            "surface": "מודל קלסיפיקציה",
+            "cue": "turn-0007",
+            "start": 44.77
+          },
+          {
+            "term": "classification",
+            "surface": "קלסיפיקציה",
+            "cue": "turn-0008",
+            "start": 52.71
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0010",
+            "start": 57.79
+          },
+          {
+            "term": "state",
+            "surface": "הסטייט",
+            "cue": "turn-0010",
+            "start": 58.53
+          },
+          {
+            "term": "state",
+            "surface": "שהסטייט",
+            "cue": "turn-0010",
+            "start": 59.05
+          },
+          {
+            "term": "context window",
+            "surface": "לקונטקסט ווינדוס",
+            "cue": "turn-0010",
+            "start": 62.13
+          },
+          {
+            "term": "state",
+            "surface": "ובסטייט",
+            "cue": "turn-0010",
+            "start": 64.43
+          },
+          {
+            "term": "classification",
+            "surface": "הקלסיפיקציה",
+            "cue": "turn-0011",
+            "start": 69.81
+          },
+          {
+            "term": "state",
+            "surface": "מהסטייט",
+            "cue": "turn-0012",
+            "start": 71.79
+          },
+          {
+            "term": "TypeSafe",
+            "surface": "Type-safe",
+            "cue": "turn-0012",
+            "start": 74.69
+          },
+          {
+            "term": "boolean",
+            "surface": "בוליאן",
+            "cue": "turn-0013",
+            "start": 84.03
+          },
+          {
+            "term": "boolean",
+            "surface": "בוליאן",
+            "cue": "turn-0014",
+            "start": 85.75
+          },
+          {
+            "term": "context",
+            "surface": "הקונטקסט",
+            "cue": "turn-0017",
+            "start": 107.53
+          },
+          {
+            "term": "boolean",
+            "surface": "בוליאן",
+            "cue": "turn-0019",
+            "start": 117.13
+          },
+          {
+            "term": "Agentic behavior",
+            "surface": "האג'נטי",
+            "cue": "turn-0022",
+            "start": 134.75
+          },
+          {
+            "term": "Agentic behavior",
+            "surface": "האג'נטי",
+            "cue": "turn-0022",
+            "start": 135.95
+          },
+          {
+            "term": "labels",
+            "surface": "הלייבלים",
+            "cue": "turn-0024",
+            "start": 145.22
+          },
+          {
+            "term": "classification",
+            "surface": "קלסיפיקציות",
+            "cue": "turn-0031",
+            "start": 193.07
+          }
+        ]
+      },
+      "timed_occurrences_canonical_concept": {
+        "recall": 0.7465,
+        "precision": 0.6907,
+        "matched_count": 268,
+        "total_expected": 359,
+        "total_emitted": 388,
+        "unmatched_emissions_count": 120,
+        "missed_occurrences_count": 91,
+        "misses_sample": [
+          {
+            "term": "LLM",
+            "surface": "LLM",
+            "cue": "turn-0002",
+            "start": 7.79
+          },
+          {
+            "term": "use case",
+            "surface": "Use Cases",
+            "cue": "turn-0004",
+            "start": 17.91
+          },
+          {
+            "term": "use case",
+            "surface": "ל-Use Cases",
+            "cue": "turn-0005",
+            "start": 25.51
+          },
+          {
+            "term": "LLM",
+            "surface": "מLLM",
+            "cue": "turn-0007",
+            "start": 42.89
+          },
+          {
+            "term": "classification model",
+            "surface": "מודל קלסיפיקציה",
+            "cue": "turn-0007",
+            "start": 44.77
+          },
+          {
+            "term": "classification",
+            "surface": "קלסיפיקציה",
+            "cue": "turn-0008",
+            "start": 52.71
+          },
+          {
+            "term": "classification",
+            "surface": "הקלסיפיקציה",
+            "cue": "turn-0011",
+            "start": 69.81
+          },
+          {
+            "term": "Agentic behavior",
+            "surface": "האג'נטי",
+            "cue": "turn-0022",
+            "start": 134.75
+          },
+          {
+            "term": "Agentic behavior",
+            "surface": "האג'נטי",
+            "cue": "turn-0022",
+            "start": 135.95
+          },
+          {
+            "term": "labels",
+            "surface": "הלייבלים",
+            "cue": "turn-0024",
+            "start": 145.22
+          },
+          {
+            "term": "classification",
+            "surface": "קלסיפיקציות",
+            "cue": "turn-0031",
+            "start": 193.07
+          },
+          {
+            "term": "use case",
+            "surface": "יוזקיסים",
+            "cue": "turn-0033",
+            "start": 206.68
+          },
+          {
+            "term": "classification model",
+            "surface": "מודל קלסיפיקציה",
+            "cue": "turn-0036",
+            "start": 222.51
+          },
+          {
+            "term": "classification",
+            "surface": "הקלסיפיקציה",
+            "cue": "turn-0037",
+            "start": 233.77
+          },
+          {
+            "term": "LLM",
+            "surface": "LLM'ים",
+            "cue": "turn-0039",
+            "start": 241.69
+          },
+          {
+            "term": "state",
+            "surface": "State",
+            "cue": "turn-0039",
+            "start": 245.23
+          },
+          {
+            "term": "LLM",
+            "surface": "LLM'ים",
+            "cue": "turn-0045",
+            "start": 283.41
+          },
+          {
+            "term": "LLM",
+            "surface": "LLM'ים",
+            "cue": "turn-0046",
+            "start": 292.37
+          },
+          {
+            "term": "Hugging Face Spaces",
+            "surface": "ספייסים",
+            "cue": "turn-0048",
+            "start": 302.45
+          },
+          {
+            "term": "Hugging Face Spaces",
+            "surface": "הספייסים",
+            "cue": "turn-0048",
+            "start": 304.65
+          },
+          {
+            "term": "autoregressive",
+            "surface": "אוטו-רגרסיב",
+            "cue": "turn-0055",
+            "start": 343.09
+          },
+          {
+            "term": "Timestamps",
+            "surface": "טיימסטפים",
+            "cue": "turn-0056",
+            "start": 353.47
+          },
+          {
+            "term": "Zero-shot classifier",
+            "surface": "שזירושוט קלאסיפיירס",
+            "cue": "turn-0058",
+            "start": 364.97
+          },
+          {
+            "term": "autoregressive",
+            "surface": "autoregressive",
+            "cue": "turn-0060",
+            "start": 374.35
+          },
+          {
+            "term": "Zero-shot classifier",
+            "surface": "הזירושוט קלאסיפיירים",
+            "cue": "turn-0064",
+            "start": 398.15
+          }
+        ]
+      },
+      "cross_script_breakdown": {
+        "hebrew_script_surfaces": {
+          "total": 166,
+          "strict_surface_recall": 0.2892,
+          "strict_surface_matched": 48,
+          "canonical_concept_recall": 0.6205,
+          "canonical_concept_matched": 103
+        },
+        "latin_script_surfaces": {
+          "total": 126,
+          "strict_surface_recall": 0.8889,
+          "strict_surface_matched": 112
+        },
+        "mixed_script_surfaces": {
+          "total": 67,
+          "strict_surface_recall": 0.4478,
+          "strict_surface_matched": 30
+        }
+      }
+    },
+    "revised_hybrid": {
+      "system_name": "hybrid_modal_ivrit_l4_soniox (Revised Hybrid)",
+      "transcript_accuracy": {
+        "word_error_rate": 0.0239,
+        "wer_distance": 93,
+        "reference_words_count": 3885,
+        "character_error_rate": 0.0102,
+        "cer_distance": 197,
+        "reference_chars_count": 19374,
+        "hebrew_only_accuracy": 0.9912,
+        "hebrew_errors_count": 125,
+        "reference_hebrew_chars_count": 14183
+      },
+      "unique_concepts": {
+        "total_concepts": 110,
+        "found_count": 104,
+        "missed_count": 6,
+        "recall": 0.9455,
+        "tp_concepts": [
+          "A/B testing",
+          "AGENTS.md",
+          "AI agent",
+          "Agent harness",
+          "Agentic behavior",
+          "Agentic search",
+          "Autonomous driving",
+          "Boolean literal",
+          "Browser use",
+          "Bulk operations",
+          "Chunking",
+          "Claude Code",
+          "Claude Haiku",
+          "Closed source",
+          "Computer use",
+          "Configuration",
+          "DOM",
+          "DeBERTa",
+          "Event",
+          "Fallback",
+          "Feature extraction",
+          "Feedback",
+          "Filtering",
+          "GPT-5.6",
+          "Gemini",
+          "Gemini 3.8 Flash",
+          "Gemini Flash",
+          "HTML",
+          "Hook",
+          "Hugging Face",
+          "Hugging Face Spaces",
+          "Input",
+          "Jev",
+          "LLM",
+          "LangTalks",
+          "Lost in the Middle",
+          "Model-based judging",
+          "Notion",
+          "Output",
+          "PR Score",
+          "Parameters",
+          "Pre-training",
+          "Probability",
+          "Questions",
+          "RAG",
+          "Reasoning",
+          "RoBERTa",
+          "SDLC",
+          "SLA",
+          "Safe to merge",
+          "Schema",
+          "Skill",
+          "Slack",
+          "Subagent",
+          "Text features",
+          "Thinking / reasoning mode",
+          "Timestamps",
+          "Zero-shot classifier",
+          "action",
+          "architecture",
+          "autoregressive",
+          "batch",
+          "benchmark",
+          "black box",
+          "boolean",
+          "browser",
+          "cache",
+          "calibrated",
+          "classification",
+          "classification model",
+          "classifier",
+          "confidence",
+          "context",
+          "context window",
+          "deterministic",
+          "embeddings",
+          "endpoint",
+          "gradual discovery",
+          "guardrails",
+          "harness",
+          "healthcare",
+          "instruction",
+          "integration",
+          "labels",
+          "latency",
+          "next steps",
+          "pipeline",
+          "policy",
+          "production",
+          "provision",
+          "pull request",
+          "query",
+          "reinforcement learning",
+          "reliable / reliability",
+          "repository",
+          "state",
+          "system prompt",
+          "thinking tokens",
+          "time series",
+          "token",
+          "tool calling",
+          "use case",
+          "vector database",
+          "workflow"
+        ],
+        "fn_concepts": [
+          "ChatGPT",
+          "Jev Piano",
+          "Law",
+          "TypeSafe",
+          "domain",
+          "loss function"
+        ]
+      },
+      "timed_occurrences_strict_surface": {
+        "recall": 0.8635,
+        "precision": 0.8073,
+        "matched_count": 310,
+        "total_expected": 359,
+        "total_emitted": 384,
+        "unmatched_emissions_count": 74,
+        "missed_occurrences_count": 49,
+        "misses_sample": [
+          {
+            "term": "LangTalks",
+            "surface": "LangTalks",
+            "cue": "turn-0001",
+            "start": 2.2
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 14.96
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 17.0
+          },
+          {
+            "term": "RAG",
+            "surface": "RAG",
+            "cue": "turn-0004",
+            "start": 20.29
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0007",
+            "start": 39.72
+          },
+          {
+            "term": "LLM",
+            "surface": "מLLM",
+            "cue": "turn-0007",
+            "start": 42.89
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0010",
+            "start": 57.79
+          },
+          {
+            "term": "system prompt",
+            "surface": "ל-system prompt",
+            "cue": "turn-0010",
+            "start": 61.02
+          },
+          {
+            "term": "TypeSafe",
+            "surface": "Type-safe",
+            "cue": "turn-0012",
+            "start": 74.69
+          },
+          {
+            "term": "Boolean literal",
+            "surface": "true",
+            "cue": "turn-0014",
+            "start": 86.43
+          },
+          {
+            "term": "labels",
+            "surface": "הלייבלים",
+            "cue": "turn-0024",
+            "start": 145.22
+          },
+          {
+            "term": "use case",
+            "surface": "יוזקיסים",
+            "cue": "turn-0033",
+            "start": 206.68
+          },
+          {
+            "term": "ChatGPT",
+            "surface": "מ-ChatGPT",
+            "cue": "turn-0047",
+            "start": 295.1
+          },
+          {
+            "term": "Jev",
+            "surface": "שJev",
+            "cue": "turn-0049",
+            "start": 309.45
+          },
+          {
+            "term": "autoregressive",
+            "surface": "autoregressive",
+            "cue": "turn-0060",
+            "start": 374.35
+          },
+          {
+            "term": "loss function",
+            "surface": "הלוס פונקשן",
+            "cue": "turn-0061",
+            "start": 381.46
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0072",
+            "start": 452.01
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0077",
+            "start": 483.43
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0079",
+            "start": 500.02
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0094",
+            "start": 594.4
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0124",
+            "start": 795.65
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0137",
+            "start": 872.23
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0144",
+            "start": 918.14
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0147",
+            "start": 934.78
+          },
+          {
+            "term": "Jev",
+            "surface": "שJev",
+            "cue": "turn-0148",
+            "start": 938.39
+          }
+        ]
+      },
+      "timed_occurrences_canonical_concept": {
+        "recall": 0.8635,
+        "precision": 0.8073,
+        "matched_count": 310,
+        "total_expected": 359,
+        "total_emitted": 384,
+        "unmatched_emissions_count": 74,
+        "missed_occurrences_count": 49,
+        "misses_sample": [
+          {
+            "term": "LangTalks",
+            "surface": "LangTalks",
+            "cue": "turn-0001",
+            "start": 2.2
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 14.96
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0003",
+            "start": 17.0
+          },
+          {
+            "term": "RAG",
+            "surface": "RAG",
+            "cue": "turn-0004",
+            "start": 20.29
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0007",
+            "start": 39.72
+          },
+          {
+            "term": "LLM",
+            "surface": "מLLM",
+            "cue": "turn-0007",
+            "start": 42.89
+          },
+          {
+            "term": "Jev",
+            "surface": "בJev",
+            "cue": "turn-0010",
+            "start": 57.79
+          },
+          {
+            "term": "system prompt",
+            "surface": "ל-system prompt",
+            "cue": "turn-0010",
+            "start": 61.02
+          },
+          {
+            "term": "TypeSafe",
+            "surface": "Type-safe",
+            "cue": "turn-0012",
+            "start": 74.69
+          },
+          {
+            "term": "Boolean literal",
+            "surface": "true",
+            "cue": "turn-0014",
+            "start": 86.43
+          },
+          {
+            "term": "labels",
+            "surface": "הלייבלים",
+            "cue": "turn-0024",
+            "start": 145.22
+          },
+          {
+            "term": "use case",
+            "surface": "יוזקיסים",
+            "cue": "turn-0033",
+            "start": 206.68
+          },
+          {
+            "term": "ChatGPT",
+            "surface": "מ-ChatGPT",
+            "cue": "turn-0047",
+            "start": 295.1
+          },
+          {
+            "term": "Jev",
+            "surface": "שJev",
+            "cue": "turn-0049",
+            "start": 309.45
+          },
+          {
+            "term": "autoregressive",
+            "surface": "autoregressive",
+            "cue": "turn-0060",
+            "start": 374.35
+          },
+          {
+            "term": "loss function",
+            "surface": "הלוס פונקשן",
+            "cue": "turn-0061",
+            "start": 381.46
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0072",
+            "start": 452.01
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0077",
+            "start": 483.43
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0079",
+            "start": 500.02
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0094",
+            "start": 594.4
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0124",
+            "start": 795.65
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0137",
+            "start": 872.23
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0144",
+            "start": 918.14
+          },
+          {
+            "term": "Jev",
+            "surface": "Jev",
+            "cue": "turn-0147",
+            "start": 934.78
+          },
+          {
+            "term": "Jev",
+            "surface": "שJev",
+            "cue": "turn-0148",
+            "start": 938.39
+          }
+        ]
+      },
+      "cross_script_breakdown": {
+        "hebrew_script_surfaces": {
+          "total": 166,
+          "strict_surface_recall": 0.9639,
+          "strict_surface_matched": 160,
+          "canonical_concept_recall": 0.9639,
+          "canonical_concept_matched": 160
+        },
+        "latin_script_surfaces": {
+          "total": 126,
+          "strict_surface_recall": 0.8175,
+          "strict_surface_matched": 103
+        },
+        "mixed_script_surfaces": {
+          "total": 67,
+          "strict_surface_recall": 0.7015,
+          "strict_surface_matched": 47
+        }
+      }
+    },
+    "previous_hybrid": {
+      "status": "unavailable",
+      "reason": "Previous hybrid (v1) was not cached for Episode 74; engine was frozen directly at revised fusion (v2) in Phase 1. Protocol prohibits imputing missing results."
+    }
+  },
+  "terminology_layers": {
+    "layer_a_vs_c": {
+      "total_a_terms": 132,
+      "literal_coverage_count": 25,
+      "literal_coverage_rate": 0.2273,
+      "alias_coverage_count": 29,
+      "alias_coverage_rate": 0.2636,
+      "anticipation_misses_count": 81,
+      "anticipation_misses_sample": [
+        "A/B testing",
+        "AGENTS.md",
+        "Agentic behavior",
+        "Agentic search",
+        "Autonomous driving",
+        "Boolean literal",
+        "Browser use",
+        "Bulk operations",
+        "Claude Haiku",
+        "Closed source",
+        "Computer use",
+        "Configuration",
+        "DOM",
+        "DeBERTa",
+        "Event",
+        "Fallback",
+        "Feature extraction",
+        "Feedback",
+        "Filtering",
+        "GPT-5.6"
+      ],
+      "unspoken_prior_terms_count": 103,
+      "unspoken_prior_terms_sample": [
+        "API",
+        "Anthropic",
+        "CD",
+        "CI",
+        "CI/CD",
+        "Claude",
+        "Codex",
+        "Copilot",
+        "Cursor",
+        "DeepSeek",
+        "Docker",
+        "GPT",
+        "Git",
+        "GitHub",
+        "Gmail",
+        "Google Calendar",
+        "Google Drive",
+        "Google Workspace",
+        "GraphQL",
+        "HTTP"
+      ]
+    },
+    "layer_b_vs_c": {
+      "total_b_concepts": 186,
+      "true_positive_detections_count": 65,
+      "false_positive_detections_count": 121,
+      "missed_reference_concepts_count": 48,
+      "precision": 0.3495,
+      "recall": 0.5636,
+      "tp_sample": [
+        "ChatGPT",
+        "Claude Code",
+        "DOM",
+        "DOM elements",
+        "Gemini",
+        "Jev",
+        "LLM",
+        "LangTalks",
+        "Latency",
+        "Notion",
+        "PR",
+        "PR Score",
+        "Questions",
+        "RAG",
+        "SDLC",
+        "SLA",
+        "State",
+        "TypeSafe",
+        "Zero-shot classifiers",
+        "action"
+      ],
+      "fp_sample": [
+        "A-B",
+        "Bessing",
+        "Cases",
+        "Class",
+        "Class Zero-shot",
+        "Class Zero-shot Classifiers",
+        "Claude",
+        "Code",
+        "Face",
+        "Flash",
+        "Gev",
+        "Haiku",
+        "Hugging",
+        "JetGPT",
+        "Jew",
+        "Kin",
+        "LankTox.AI",
+        "MD",
+        "Piano",
+        "RAC"
+      ],
+      "fn_sample": [
+        "A/B testing",
+        "AGENTS.md",
+        "Agentic behavior",
+        "Agentic search",
+        "Autonomous driving",
+        "Browser use",
+        "Bulk operations",
+        "Claude Haiku",
+        "Computer use",
+        "Configuration",
+        "DeBERTa",
+        "Feature extraction",
+        "Feedback",
+        "Filtering",
+        "GPT-5.6",
+        "Gemini 3.8 Flash",
+        "Gemini Flash",
+        "HTML",
+        "Hugging Face",
+        "Hugging Face Spaces"
+      ]
+    }
+  },
+  "fusion_audit": {
+    "total_edits": 46,
+    "categories_count": {
+      "fixed_error": 44,
+      "introduced_error": 0,
+      "neutral": 2,
+      "unscorable": 0
+    },
+    "severe_issues_count": 0,
+    "severe_issues": [],
+    "edits_detail": [
+      {
+        "index": 1,
+        "start_s": 724.45,
+        "end_s": 726.57,
+        "original_text": " לואו, מידיום, היי, ריסק",
+        "replacement_text": " low medium high risk",
+        "donor_confidence": 0.9989,
+        "donor_min_subword_confidence": 0.998,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'low medium high risk' restoring approved bilingual term over base 'לואו, מידיום, היי, ריסק'.",
+        "cue_context": "אומר איזשהו טווח של ריסק. אוקיי? האם זה low medium high risk של PR."
+      },
+      {
+        "index": 2,
+        "start_s": 882.57,
+        "end_s": 883.59,
+        "original_text": " use case ב-SDLC",
+        "replacement_text": " use case SDLC",
+        "donor_confidence": 0.9981,
+        "donor_min_subword_confidence": 0.9981,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'use case SDLC' restoring approved bilingual term over base 'use case ב-SDLC'.",
+        "cue_context": "נגיד יש אצלנו איזשהו use case SDLC שאנחנו רוצים,"
+      },
+      {
+        "index": 3,
+        "start_s": 265.49,
+        "end_s": 266.31,
+        "original_text": " סיסטם פרומפט,",
+        "replacement_text": " system prompt,",
+        "donor_confidence": 0.9979,
+        "donor_min_subword_confidence": 0.9968,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'system prompt,' restoring approved bilingual term over base 'סיסטם פרומפט,'.",
+        "cue_context": "קריאות כאלה במקביל, שבכולם אני שם את אותו system prompt, פלוס את השאלה שאני רוצה לשאול,"
+      },
+      {
+        "index": 4,
+        "start_s": 530.31,
+        "end_s": 531.47,
+        "original_text": " לווקטור דאטאבייס,",
+        "replacement_text": " ל-vector database,",
+        "donor_confidence": 0.993,
+        "donor_min_subword_confidence": 0.9855,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ל-vector database,' restoring approved bilingual term over base 'לווקטור דאטאבייס,'.",
+        "cue_context": "לקחת את המידע הזה, להכניס אותו ל-vector database, לחלץ אמבדינגס,"
+      },
+      {
+        "index": 5,
+        "start_s": 1276.19,
+        "end_s": 1277.25,
+        "original_text": " הסוויט ספוט",
+        "replacement_text": " ה-sweet spot",
+        "donor_confidence": 0.9736,
+        "donor_min_subword_confidence": 0.9019,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ה-sweet spot' restoring approved bilingual term over base 'הסוויט ספוט'.",
+        "cue_context": "אני חושב שזה בדיוק ה-sweet spot שלו, כי הוא לא יכול להתחרות עם gpt 5.6 או"
+      },
+      {
+        "index": 6,
+        "start_s": 1342.59,
+        "end_s": 1343.59,
+        "original_text": " דום אלמנטס",
+        "replacement_text": " DOM elements",
+        "donor_confidence": 0.973,
+        "donor_min_subword_confidence": 0.92,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'DOM elements' restoring approved bilingual term over base 'דום אלמנטס'.",
+        "cue_context": "use ונגיד יש לנו בבראוזר DOM elements כן כזה את כל האלמנטים שיש ב-HTML כרגע."
+      },
+      {
+        "index": 7,
+        "start_s": 1387.93,
+        "end_s": 1388.71,
+        "original_text": " הטול קולינג",
+        "replacement_text": " ה-tool calling",
+        "donor_confidence": 0.9917,
+        "donor_min_subword_confidence": 0.9688,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ה-tool calling' restoring approved bilingual term over base 'הטול קולינג'.",
+        "cue_context": "עוד דבר זה לבדוק את ה-tool calling שאייג'נט עושה, היום נגיד יש גארד רייל ל-Claude Code"
+      },
+      {
+        "index": 8,
+        "start_s": 1391.73,
+        "end_s": 1393.33,
+        "original_text": " לקלוד קוד",
+        "replacement_text": " ל-Claude Code",
+        "donor_confidence": 0.8761,
+        "donor_min_subword_confidence": 0.7549,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ל-Claude Code' restoring approved bilingual term over base 'לקלוד קוד'.",
+        "cue_context": "עוד דבר זה לבדוק את ה-tool calling שאייג'נט עושה, היום נגיד יש גארד רייל ל-Claude Code למש"
+      },
+      {
+        "index": 9,
+        "start_s": 1395.75,
+        "end_s": 1396.23,
+        "original_text": " טול קול",
+        "replacement_text": " tool call",
+        "donor_confidence": 0.9959,
+        "donor_min_subword_confidence": 0.9924,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'tool call' restoring approved bilingual term over base 'טול קול'.",
+        "cue_context": "למשל באוטו מוד שכל tool call שהאייג'נט מנסה לעשות עובר איזה שהוא כמו judge"
+      },
+      {
+        "index": 10,
+        "start_s": 1669.31,
+        "end_s": 1669.99,
+        "original_text": " טיים סירייס,",
+        "replacement_text": " time series,",
+        "donor_confidence": 0.9677,
+        "donor_min_subword_confidence": 0.9375,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'time series,' restoring approved bilingual term over base 'טיים סירייס,'.",
+        "cue_context": "ואז יצר בעצם כמו איזה time series, ועכשיו בזכות זה שהמודל יחסית מהיר, אז כאילו אפשר היה לע"
+      },
+      {
+        "index": 11,
+        "start_s": 21.17,
+        "end_s": 21.81,
+        "original_text": " ה-SDRC",
+        "replacement_text": " ה-SDLC",
+        "donor_confidence": 0.994,
+        "donor_min_subword_confidence": 0.9724,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ה-SDLC' restoring approved bilingual term over base 'ה-SDRC'.",
+        "cue_context": "אולי ה-Use Cases שהוא מעולה, כמו RAG או בתוך ה-SDLC או מחליף לכם בכלל את כל ההרנס"
+      },
+      {
+        "index": 12,
+        "start_s": 48.85,
+        "end_s": 49.37,
+        "original_text": " מללם",
+        "replacement_text": " מ-LLM",
+        "donor_confidence": 0.9779,
+        "donor_min_subword_confidence": 0.9147,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'מ-LLM' restoring approved bilingual term over base 'מללם'.",
+        "cue_context": "אז המשימה היא משימה שונה מ-LLM אם LLM מג'נרט טקסט פה אנחנו רוצים לעשות קלסיפיקציה"
+      },
+      {
+        "index": 13,
+        "start_s": 49.51,
+        "end_s": 49.93,
+        "original_text": " ללם",
+        "replacement_text": " LLM",
+        "donor_confidence": 0.9978,
+        "donor_min_subword_confidence": 0.9939,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'LLM' restoring approved bilingual term over base 'ללם'.",
+        "cue_context": "אז המשימה היא משימה שונה מ-LLM אם LLM מג'נרט טקסט פה אנחנו רוצים לעשות קלסיפיקציה"
+      },
+      {
+        "index": 14,
+        "start_s": 137.39,
+        "end_s": 138.07,
+        "original_text": " קלאסיפייר",
+        "replacement_text": " classifier",
+        "donor_confidence": 0.9684,
+        "donor_min_subword_confidence": 0.9079,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'classifier' restoring approved bilingual term over base 'קלאסיפייר'.",
+        "cue_context": "האג'נטי שלכם, בפתרון האג'נטי שלכם. כן, אז classifier זאת חיה שאנחנו כבר מכירים הרבה זמן."
+      },
+      {
+        "index": 15,
+        "start_s": 141.33,
+        "end_s": 141.87,
+        "original_text": " ב-Jew",
+        "replacement_text": " ב-Jev",
+        "donor_confidence": 0.9994,
+        "donor_min_subword_confidence": 0.9989,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ב-Jev' restoring approved bilingual term over base 'ב-Jew'.",
+        "cue_context": "האג'נטי שלכם, בפתרון האג'נטי שלכם. כן, אז classifier זאת חיה שאנחנו כבר מכירים הרבה זמן. ה"
+      },
+      {
+        "index": 16,
+        "start_s": 231.37,
+        "end_s": 231.99,
+        "original_text": " פלאש,",
+        "replacement_text": " Flash,",
+        "donor_confidence": 0.8886,
+        "donor_min_subword_confidence": 0.6789,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'Flash,' restoring approved bilingual term over base 'פלאש,'.",
+        "cue_context": "פשוט לקחת איזה מודל רזה, איזה ג'מיני Flash, ולעשות את הקלסיפיקציה,"
+      },
+      {
+        "index": 17,
+        "start_s": 348.27,
+        "end_s": 348.75,
+        "original_text": " קלאסיפייר",
+        "replacement_text": " classifier",
+        "donor_confidence": 0.9987,
+        "donor_min_subword_confidence": 0.9962,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'classifier' restoring approved bilingual term over base 'קלאסיפייר'.",
+        "cue_context": "לפי מה שהם אומרים הוא לא אוטו-רגרסיב זאת אומרת הוא לא מג'נרט טוקן ביי טוקן זה די ברור כי ב"
+      },
+      {
+        "index": 18,
+        "start_s": 497.61,
+        "end_s": 498.05,
+        "original_text": " ראג.",
+        "replacement_text": " RAG.",
+        "donor_confidence": 0.9989,
+        "donor_min_subword_confidence": 0.9981,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'RAG.' restoring approved bilingual term over base 'ראג.'.",
+        "cue_context": "קנדידט רלוונטי הוא RAG. אז מה זה אומר בעצם איך Jev יכול להשתלב ב-RAG?"
+      },
+      {
+        "index": 19,
+        "start_s": 501.95,
+        "end_s": 502.39,
+        "original_text": " בראג?",
+        "replacement_text": " ב-RAG?",
+        "donor_confidence": 0.9994,
+        "donor_min_subword_confidence": 0.9975,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ב-RAG?' restoring approved bilingual term over base 'בראג?'.",
+        "cue_context": "קנדידט רלוונטי הוא RAG. אז מה זה אומר בעצם איך Jev יכול להשתלב ב-RAG? תחשבו רגע איך נראה p"
+      },
+      {
+        "index": 20,
+        "start_s": 504.47,
+        "end_s": 506.01,
+        "original_text": " פייפליין",
+        "replacement_text": " pipeline",
+        "donor_confidence": 0.993,
+        "donor_min_subword_confidence": 0.9722,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'pipeline' restoring approved bilingual term over base 'פייפליין'.",
+        "cue_context": "תחשבו רגע איך נראה pipeline של אייג'נט שאתם בונים,"
+      },
+      {
+        "index": 21,
+        "start_s": 518.69,
+        "end_s": 519.41,
+        "original_text": " בנושן",
+        "replacement_text": " ב-Notion",
+        "donor_confidence": 0.9947,
+        "donor_min_subword_confidence": 0.9895,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ב-Notion' restoring approved bilingual term over base 'בנושן'.",
+        "cue_context": "או לחלופין אמור למצוא איזה עמוד ב-Notion שיש לכם עשרת אלפים עמודים ב-Notion."
+      },
+      {
+        "index": 22,
+        "start_s": 521.33,
+        "end_s": 521.89,
+        "original_text": " בנושן.",
+        "replacement_text": " ב-Notion.",
+        "donor_confidence": 0.9996,
+        "donor_min_subword_confidence": 0.9994,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ב-Notion.' restoring approved bilingual term over base 'בנושן.'.",
+        "cue_context": "או לחלופין אמור למצוא איזה עמוד ב-Notion שיש לכם עשרת אלפים עמודים ב-Notion. איך אתם עושים"
+      },
+      {
+        "index": 23,
+        "start_s": 527.79,
+        "end_s": 528.07,
+        "original_text": " ראג,",
+        "replacement_text": " RAG,",
+        "donor_confidence": 0.9997,
+        "donor_min_subword_confidence": 0.9991,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'RAG,' restoring approved bilingual term over base 'ראג,'.",
+        "cue_context": "איך אתם עושים את זה? אז מה היו האפשרויות עד היום? לפני שנתיים-שלוש הדיבור היה לעשות RAG, ל"
+      },
+      {
+        "index": 24,
+        "start_s": 562.15,
+        "end_s": 562.71,
+        "original_text": " בנושן",
+        "replacement_text": " ב-Notion",
+        "donor_confidence": 0.9986,
+        "donor_min_subword_confidence": 0.998,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ב-Notion' restoring approved bilingual term over base 'בנושן'.",
+        "cue_context": "נותן לאג'נט לחפש אני נותן לו נגיד רק את הכותרות של העמודים האלה ב-Notion ואז הוא מחליט לאן"
+      },
+      {
+        "index": 25,
+        "start_s": 599.29,
+        "end_s": 600.87,
+        "original_text": "-repeos",
+        "replacement_text": "-repos",
+        "donor_confidence": 0.9536,
+        "donor_min_subword_confidence": 0.9398,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided '-repos' restoring approved bilingual term over base '-repeos'.",
+        "cue_context": "ואיך שאפשר להשתמש בו זה להגיד, אוקיי, אני לוקח את כל ה-repos עם ה-description שלהם,"
+      },
+      {
+        "index": 26,
+        "start_s": 632.65,
+        "end_s": 633.15,
+        "original_text": " לרג.",
+        "replacement_text": " ל-RAG.",
+        "donor_confidence": 0.9997,
+        "donor_min_subword_confidence": 0.9989,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ל-RAG.' restoring approved bilingual term over base 'לרג.'.",
+        "cue_context": "וזה יחסוך לנו הרבה מהזמן, בדיוק כמו הפרומיס שיש ל-RAG. כן,"
+      },
+      {
+        "index": 27,
+        "start_s": 635.87,
+        "end_s": 636.81,
+        "original_text": " ראג",
+        "replacement_text": " RAG",
+        "donor_confidence": 0.9999,
+        "donor_min_subword_confidence": 0.9998,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'RAG' restoring approved bilingual term over base 'ראג'.",
+        "cue_context": "אז אולי אם נכליל את זה, RAG בגדול במהות שלו הוא פילטור של הרבה הרבה דאטה ולתת"
+      },
+      {
+        "index": 28,
+        "start_s": 663.35,
+        "end_s": 663.65,
+        "original_text": " הראג,",
+        "replacement_text": " ה-RAG,",
+        "donor_confidence": 0.9991,
+        "donor_min_subword_confidence": 0.9972,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ה-RAG,' restoring approved bilingual term over base 'הראג,'.",
+        "cue_context": "אני לא חושב שזה רלוונטי רק בעולם ה-RAG, זה קשור לעולם שאתה צריך לעשות פילטור בכללי."
+      },
+      {
+        "index": 29,
+        "start_s": 726.95,
+        "end_s": 727.65,
+        "original_text": " פי-אר.",
+        "replacement_text": " PR.",
+        "donor_confidence": 0.9681,
+        "donor_min_subword_confidence": 0.9046,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'PR.' restoring approved bilingual term over base 'פי-אר.'.",
+        "cue_context": "אומר איזשהו טווח של ריסק. אוקיי? האם זה low medium high risk של PR. אין מה להשתמש ב-LLM בש"
+      },
+      {
+        "index": 30,
+        "start_s": 747.53,
+        "end_s": 748.11,
+        "original_text": " ה-confident",
+        "replacement_text": " ה-confidence",
+        "donor_confidence": 0.9998,
+        "donor_min_subword_confidence": 0.9991,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ה-confidence' restoring approved bilingual term over base 'ה-confident'.",
+        "cue_context": "לעשות קלסיפיקציה. אז דברים כאלה, כמו של דברים שיותר קרובים לעולם של ה-confidence וה -pobab"
+      },
+      {
+        "index": 31,
+        "start_s": 1053.21,
+        "end_s": 1053.69,
+        "original_text": " ראג",
+        "replacement_text": " RAG",
+        "donor_confidence": 0.9969,
+        "donor_min_subword_confidence": 0.9907,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'RAG' restoring approved bilingual term over base 'ראג'.",
+        "cue_context": "אופריישנס כמו מה שאמרנו נגיד סביב RAG או סביב קלאסיפיקיישן של כמות"
+      },
+      {
+        "index": 32,
+        "start_s": 1106.51,
+        "end_s": 1106.81,
+        "original_text": " פלאש",
+        "replacement_text": " Flash",
+        "donor_confidence": 0.9702,
+        "donor_min_subword_confidence": 0.9644,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'Flash' restoring approved bilingual term over base 'פלאש'.",
+        "cue_context": "עליהם? אז תמיד נגיד, אני בראש יש לי שג'מיני Flash זה המודל עם הווליו פור מניה הכי מטורף כי"
+      },
+      {
+        "index": 33,
+        "start_s": 1115.55,
+        "end_s": 1115.99,
+        "original_text": " פלאש",
+        "replacement_text": " Flash",
+        "donor_confidence": 0.9972,
+        "donor_min_subword_confidence": 0.9929,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'Flash' restoring approved bilingual term over base 'פלאש'.",
+        "cue_context": "הוא יחסית זול. אז רגע, רק בשביל לישר לסבר את האוזן, ג'מיני 3.8 Flash האינפוט token שלו למי"
+      },
+      {
+        "index": 34,
+        "start_s": 1117.33,
+        "end_s": 1117.69,
+        "original_text": " טוקן",
+        "replacement_text": " token",
+        "donor_confidence": 0.9997,
+        "donor_min_subword_confidence": 0.9997,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'token' restoring approved bilingual term over base 'טוקן'.",
+        "cue_context": "האינפוט token שלו למיליון טוקנים עולה 75 סנט ולאאוטפוט"
+      },
+      {
+        "index": 35,
+        "start_s": 1172.01,
+        "end_s": 1172.35,
+        "original_text": " פלאש",
+        "replacement_text": " Flash",
+        "donor_confidence": 0.8638,
+        "donor_min_subword_confidence": 0.5922,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'Flash' restoring approved bilingual term over base 'פלאש'.",
+        "cue_context": "אז אפקטיבית ריצה ממוצעת עם ג'מיני Flash מכמה ניסיונות שאני הרצתי אצלי"
+      },
+      {
+        "index": 36,
+        "start_s": 1185.15,
+        "end_s": 1185.59,
+        "original_text": " פלאש,",
+        "replacement_text": " Flash,",
+        "donor_confidence": 0.997,
+        "donor_min_subword_confidence": 0.9914,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'Flash,' restoring approved bilingual term over base 'פלאש,'.",
+        "cue_context": "לעומת להשתמש בג'מיני Flash, אז זה די משמעותי הייתי אומר."
+      },
+      {
+        "index": 37,
+        "start_s": 1202.63,
+        "end_s": 1203.17,
+        "original_text": " קלאסיפייר.",
+        "replacement_text": " classifier.",
+        "donor_confidence": 0.9549,
+        "donor_min_subword_confidence": 0.8204,
+        "verdict": "neutral",
+        "rationale": "Both base and donor spellings are compatible with context.",
+        "cue_context": "פה יש לך LLM שיודע לג'נרט טוקנים, ושם יש לך בעצם classifier. אנחנו מכירים קלאסיפיירים אחרי"
+      },
+      {
+        "index": 38,
+        "start_s": 1269.13,
+        "end_s": 1269.79,
+        "original_text": " פלאש,",
+        "replacement_text": " Flash,",
+        "donor_confidence": 0.9995,
+        "donor_min_subword_confidence": 0.9987,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'Flash,' restoring approved bilingual term over base 'פלאש,'.",
+        "cue_context": "קלסיפיקציה, אנחנו בסקייל, למשל הדוגמה הזאת שהבאת בסלק, אנחנו כאילו יורדים למודלים של ג'מינ"
+      },
+      {
+        "index": 39,
+        "start_s": 1335.51,
+        "end_s": 1336.07,
+        "original_text": " רג",
+        "replacement_text": " RAG",
+        "donor_confidence": 0.9288,
+        "donor_min_subword_confidence": 0.717,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'RAG' restoring approved bilingual term over base 'רג'.",
+        "cue_context": "אחד דיברנו עליו כבר RAG שתיים זה למשל שעושים browser use או computer"
+      },
+      {
+        "index": 40,
+        "start_s": 1353.15,
+        "end_s": 1353.49,
+        "original_text": " הדום",
+        "replacement_text": " ה-DOM",
+        "donor_confidence": 0.9582,
+        "donor_min_subword_confidence": 0.8669,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'ה-DOM' restoring approved bilingual term over base 'הדום'.",
+        "cue_context": "אז איך שעושים את זה היום כשנותנים את זה ל-agent, אז נותנים לו את כל ה-DOM ואומרים לו יאללה"
+      },
+      {
+        "index": 41,
+        "start_s": 1433.07,
+        "end_s": 1433.39,
+        "original_text": " אמדי",
+        "replacement_text": " MD",
+        "donor_confidence": 0.9982,
+        "donor_min_subword_confidence": 0.9948,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'MD' restoring approved bilingual term over base 'אמדי'.",
+        "cue_context": "את התהליך השיבה שלו ואת האג'נטס MD ואני שואל שאלה האם הוא יתעלם ממשהו"
+      },
+      {
+        "index": 42,
+        "start_s": 1438.07,
+        "end_s": 1438.29,
+        "original_text": " אמדי,",
+        "replacement_text": " MD,",
+        "donor_confidence": 0.9993,
+        "donor_min_subword_confidence": 0.9979,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'MD,' restoring approved bilingual term over base 'אמדי,'.",
+        "cue_context": "את התהליך השיבה שלו ואת האג'נטס MD ואני שואל שאלה האם הוא יתעלם ממשהו שכתוב באג'נטס MD, כן"
+      },
+      {
+        "index": 43,
+        "start_s": 1563.63,
+        "end_s": 1564.07,
+        "original_text": " אפילו,",
+        "replacement_text": " SLA,",
+        "donor_confidence": 0.9991,
+        "donor_min_subword_confidence": 0.9985,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'SLA,' restoring approved bilingual term over base 'אפילו,'.",
+        "cue_context": "מגיב בגלל שזו חברה חדשה והאינפרה שלהם עדיין לא מוכח ואני לא יודע אם יש להם SLA SLA, אז כאי"
+      },
+      {
+        "index": 44,
+        "start_s": 1633.79,
+        "end_s": 1634.25,
+        "original_text": " פיאנו,",
+        "replacement_text": " Piano,",
+        "donor_confidence": 0.9131,
+        "donor_min_subword_confidence": 0.74,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'Piano,' restoring approved bilingual term over base 'פיאנו,'.",
+        "cue_context": "שבעצם מישהו בנה פרויקט שנקרא Jev Piano, בעצם נתן לו"
+      },
+      {
+        "index": 45,
+        "start_s": 1706.09,
+        "end_s": 1706.43,
+        "original_text": " רג",
+        "replacement_text": " RAG",
+        "donor_confidence": 0.882,
+        "donor_min_subword_confidence": 0.6255,
+        "verdict": "neutral",
+        "rationale": "Both base and donor spellings are compatible with context.",
+        "cue_context": "והוא חוזר בהרבה מקומות, אבל אני עדיין מרגיש שקצת כמו RAG זה לא בהכרח שווה את האינג'ינירינג"
+      },
+      {
+        "index": 46,
+        "start_s": 1717.35,
+        "end_s": 1717.63,
+        "original_text": " ראג",
+        "replacement_text": " RAG",
+        "donor_confidence": 0.9984,
+        "donor_min_subword_confidence": 0.9952,
+        "verdict": "fixed_error",
+        "rationale": "Donor provided 'RAG' restoring approved bilingual term over base 'ראג'.",
+        "cue_context": "בשביל האפליפט שתקבלו, וגם הוא נראה ככה, לפחות כשמסתכלים על RAG היסטורית,"
+      }
+    ]
+  }
+}
