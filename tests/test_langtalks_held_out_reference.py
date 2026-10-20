@@ -30,6 +30,7 @@ from langtalks.generate_review_html import (
     build_review_html,
     migrate_review_session,
     bulk_approve_confident,
+    reset_reviewed_occurrences,
     export_approved_reference,
 )
 
@@ -752,6 +753,7 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
 
         // Mock browser DOM and environment
         let lastDownloaded = null;
+        global.confirm = () => true;
         global.URL = {{
             createObjectURL: (blob) => {{
                 lastDownloaded = {{ blob, data: blob?.data }};
@@ -848,6 +850,22 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
             throw new Error("JS export status should be approved when all decided and listened checked");
         }}
 
+        // Test Reset Reviewed Occurrences button in JS
+        mockElements["resetOccurrences"].onclick();
+        const nonPendingOccs = migrated.term_groups.flatMap(g => g.occurrences).filter(o => o.state !== "pending");
+        if(nonPendingOccs.length > 0){{
+            throw new Error("JS resetOccurrences failed: found " + nonPendingOccs.length + " non-pending occurrences after reset!");
+        }}
+        if(mockElements["listened"].checked){{
+            throw new Error("JS resetOccurrences failed: listened should be unchecked after reset");
+        }}
+
+        // Re-export and verify status returned to pending
+        mockElements["exportRef"].onclick();
+        if(!lastDownloaded || lastDownloaded.data.review_status !== "pending"){{
+            throw new Error("JS export status should be pending after resetting occurrences");
+        }}
+
         console.log("NODE_JS_VERIFICATION_SUCCESS");
         """
 
@@ -857,6 +875,35 @@ class HeldOutReferenceExtractionTests(unittest.TestCase):
             self.assertIn("NODE_JS_VERIFICATION_SUCCESS", res.stdout)
         finally:
             Path(temp_html_path).unlink(missing_ok=True)
+
+    def test_reset_reviewed_occurrences_python_helper(self):
+        """Verify reset_reviewed_occurrences resets all confirmed and rejected items to pending."""
+        test_state = {
+            "listened": True,
+            "term_groups": [
+                {
+                    "canonical": "Concept A",
+                    "occurrences": [
+                        {"id": 1, "surface": "A1", "state": "confirmed"},
+                        {"id": 2, "surface": "A2", "state": "rejected"},
+                        {"id": 3, "surface": "A3", "state": "pending"},
+                    ],
+                },
+                {
+                    "canonical": "Concept B",
+                    "occurrences": [
+                        {"id": 4, "surface": "B1", "state": "confirmed"},
+                    ],
+                },
+            ],
+        }
+
+        count = reset_reviewed_occurrences(test_state)
+        self.assertEqual(count, 3)
+        self.assertFalse(test_state["listened"])
+        for g in test_state["term_groups"]:
+            for o in g["occurrences"]:
+                self.assertEqual(o["state"], "pending")
 
 
 if __name__ == "__main__":

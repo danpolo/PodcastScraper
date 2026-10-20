@@ -305,6 +305,18 @@ def bulk_approve_confident(state: Dict[str, Any]) -> int:
     return approved_count
 
 
+def reset_reviewed_occurrences(state: Dict[str, Any]) -> int:
+    """Reset all confirmed or rejected occurrences back to pending, mirroring UI resetOccurrences."""
+    reset_count = 0
+    for g in state.get("term_groups", []):
+        for occ in g.get("occurrences", []):
+            if occ.get("state") in ("confirmed", "rejected"):
+                occ["state"] = "pending"
+                reset_count += 1
+    state["listened"] = False
+    return reset_count
+
+
 def export_approved_reference(state: Dict[str, Any], transcript: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """Export benchmark reference C from review state, mirroring the UI exportRef logic."""
     pending_count = sum(
@@ -456,6 +468,7 @@ legend{padding:0 6px;color:var(--accent);font-size:13px;font-weight:600}
    <p>LangTalks #74 (Jev) · Cross-Script Hebrew / English Linking · Offline Validation</p>
   </div>
   <div class="row">
+   <button id="resetOccurrences" class="flat danger" title="Reset all reviewed occurrences back to pending">Reset Reviewed Occurrences</button>
    <button id="resetSession" class="flat danger" title="Discard cached session and reload clean AI proposals">Reset to Fresh Proposals</button>
    <button id="exportSession" title="Save current progress to JSON file">Save Session JSON</button>
    <button id="exportRef" class="primary" title="Export final approved benchmark reference">Export Approved Reference</button>
@@ -493,6 +506,7 @@ legend{padding:0 6px;color:var(--accent);font-size:13px;font-weight:600}
    <button id="filterMigrated" class="warn-btn" title="Show concepts with occurrences migrated/reassigned from broad groups">Migrated & Reassigned</button>
    <button id="filterPending">Pending</button>
    <button id="bulkApprove" title="Bulk approve all high-confidence unambiguous terms">Bulk Approve Confident</button>
+   <button id="resetAllOccurrences" class="flat danger" title="Reset all reviewed occurrences back to pending">Reset Reviewed Occurrences</button>
   </div>
   
   <div class="row" style="margin-top:8px">
@@ -515,6 +529,7 @@ legend{padding:0 6px;color:var(--accent);font-size:13px;font-weight:600}
     <div class="row">
      <button id="approveTerm" class="primary" title="Confirm all occurrences [Key: a]">Approve Concept ✓</button>
      <button id="rejectTerm" class="danger" title="Reject all occurrences [Key: r]">Reject All ✕</button>
+     <button id="resetTerm" class="flat" title="Reset occurrences of this concept back to pending [Key: u]">Reset Concept</button>
     </div>
    </div>
    
@@ -1185,6 +1200,33 @@ $("bulkApprove").onclick = () => {
  status(`Bulk approved ${count} occurrences across unambiguous concepts (reassigned / re-approval items excluded).`);
 };
 
+function resetAllReviewedOccurrences(){
+ if(!state) return;
+ const reviewed = state.term_groups.flatMap(g => g.occurrences).filter(o => o.state === "confirmed" || o.state === "rejected").length;
+ if(reviewed === 0){
+   status("No reviewed occurrences to reset; all occurrences are already pending.");
+   return;
+ }
+ if(typeof confirm === "function" && !confirm(`Reset all ${reviewed} reviewed occurrence(s) across all concepts back to pending?`)){
+   return;
+ }
+ for(const g of state.term_groups){
+   for(const occ of g.occurrences){
+     if(occ.state === "confirmed" || occ.state === "rejected"){
+       occ.state = "pending";
+     }
+   }
+ }
+ state.listened = false;
+ if($("listened")) $("listened").checked = false;
+ saveLocal();
+ render();
+ status(`Reset ${reviewed} occurrence(s) to pending.`);
+}
+
+$("resetOccurrences").onclick = resetAllReviewedOccurrences;
+if($("resetAllOccurrences")) $("resetAllOccurrences").onclick = resetAllReviewedOccurrences;
+
 $("approveTerm").onclick = () => {
  if(!state) return;
  const g = state.term_groups.find(x => x.id === selected);
@@ -1203,6 +1245,23 @@ $("rejectTerm").onclick = () => {
  saveLocal();
  render();
  status(`All occurrences of '${g.canonical}' rejected.`);
+};
+
+$("resetTerm").onclick = () => {
+ if(!state) return;
+ const g = state.term_groups.find(x => x.id === selected);
+ if(!g) return;
+ const reviewed = g.occurrences.filter(o => o.state === "confirmed" || o.state === "rejected").length;
+ if(reviewed === 0){
+   status(`No reviewed occurrences to reset for '${g.canonical}'.`);
+   return;
+ }
+ g.occurrences.forEach(o => o.state = "pending");
+ state.listened = false;
+ if($("listened")) $("listened").checked = false;
+ saveLocal();
+ render();
+ status(`Reset ${reviewed} occurrence(s) of '${g.canonical}' to pending.`);
 };
 
 $("applyTerm").onclick = () => {
@@ -1400,6 +1459,9 @@ document.addEventListener("keydown", e => {
  } else if(e.key === "r"){
    $("rejectTerm").click();
    e.preventDefault();
+ } else if(e.key === "u"){
+   if($("resetTerm")) $("resetTerm").click();
+   e.preventDefault();
  }
 });
 
@@ -1479,7 +1541,9 @@ window.loadData = loadData;
 window.__reviewEngine = {
  migrateReviewSession,
  loadData,
- getState: () => state
+ getState: () => state,
+ bulkApprove: () => $("bulkApprove").onclick(),
+ resetReviewedOccurrences: resetAllReviewedOccurrences
 };
 
 })();
